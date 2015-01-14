@@ -1,0 +1,66 @@
+#cpp
+#mangle String UrString
+#mangle Object UrObject
+
+#header
+#skipcomments
+#nep1
+
+
+#def OBJECT(typeName) \
+    public: \
+        virtual Urho3D::StringHash GetType() const; \
+        virtual Urho3D::StringHash GetBaseType() const; \
+        virtual const Urho3D::String& GetTypeName() const; \
+        static Urho3D::StringHash GetTypeStatic(); \
+        static const Urho3D::String& GetTypeNameStatic();
+
+#def BASEOBJECT(typeName) \
+    public: \
+        static Urho3D::StringHash GetBaseTypeStatic();
+
+#def EVENT(eventID, eventName) static const Urho3D::StringHash eventID = #eventName; namespace eventName
+#def PARAM(paramID, paramName) static const Urho3D::StringHash paramID= #paramName
+#def HANDLER(className, function) (new Urho3D::EventHandlerImpl<className>(this, &className::function))
+#def HANDLER_USERDATA(className, function, userData) (new Urho3D::EventHandlerImpl<className>(this, &className::function, userData))
+
+#def URHO3D_API
+#def URHO3D_NO_EXPORT
+
+
+// Urho 3D needs various ways of creating 'WinMain' etc. We don't need these
+// since Nim does that work for us. So instead of producing a 'WinMain' we
+// produce something different:
+
+// MSVC debug mode: use memory leak reporting
+#def DEFINE_MAIN(function) \
+int urMain(void) \
+{ \
+    Urho3D::ParseArguments(GetCommandLineW()); \
+    return function; \
+}
+
+// Macro for defining a main function which creates a Context and the 
+// application, then runs it
+#def DEFINE_APPLICATION_MAIN(className) \
+int RunApplication() \
+{ \
+    Urho3D::SharedPtr<Urho3D::Context> context(new Urho3D::Context()); \
+    Urho3D::SharedPtr<className> application(new className(context)); \
+    return application->Run(); \
+} \
+DEFINE_MAIN(RunApplication());
+
+/* for IOS:
+#else
+// On iOS we will let this function exit, so do not hold the context and application in SharedPtr's
+#define DEFINE_APPLICATION_MAIN(className) \
+int RunApplication() \
+{ \
+    Urho3D::Context* context = new Urho3D::Context(); \
+    className* application = new className(context); \
+    return application->Run(); \
+} \
+DEFINE_MAIN(RunApplication());
+#endif
+*/
