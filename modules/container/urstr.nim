@@ -1,7 +1,7 @@
 
 
 import 
-  vector
+  vector, vectorbase
 
 var CONVERSION_BUFFER_LENGTH* {.importc: "CONVERSION_BUFFER_LENGTH", 
                                 header: "Str.h".}: cint = 128
@@ -17,53 +17,47 @@ type
     buffer* {.importc: "buffer_".}: cstring
 
 
-  type 
-    Iterator* = RandomAccessIterator[char]
-    ConstIterator* = RandomAccessConstIterator[char]
+type 
+  StrIterator* {.importc: "Urho3D::String::Iterator", header: "Str.h".} = RandomAccessIterator[char]
+  ConstStrIterator* {.importc: "Urho3D::String::ConstIterator", header: "Str.h".} = RandomAccessConstIterator[char]
 proc constructString*(): UrString {.importcpp: "Urho3D::String(@)", 
                                     header: "Str.h".}
 proc constructString*(str: UrString): UrString {.importcpp: "Urho3D::String(@)", 
     header: "Str.h".}
 proc constructString*(str: cstring): UrString {.importcpp: "Urho3D::String(@)", 
     header: "Str.h".}
-proc constructString*(str: cstring): UrString {.importcpp: "Urho3D::String(@)", 
-    header: "Str.h".}
 proc constructString*(str: cstring; length: cuint): UrString {.
     importcpp: "Urho3D::String(@)", header: "Str.h".}
-proc constructString*(str: ptr WcharT): UrString {.
-    importcpp: "Urho3D::String(@)", header: "Str.h".}
-proc constructString*(str: ptr WcharT): UrString {.
-    importcpp: "Urho3D::String(@)", header: "Str.h".}
-proc constructString*(str: WString): UrString {.importcpp: "Urho3D::String(@)", 
-    header: "Str.h".}
-proc constructString*(value: cint): UrString {.importcpp: "Urho3D::String(@)", 
-    header: "Str.h".}
-proc constructString*(value: cshort): UrString {.importcpp: "Urho3D::String(@)", 
-    header: "Str.h".}
-proc constructString*(value: clong): UrString {.importcpp: "Urho3D::String(@)", 
-    header: "Str.h".}
-proc constructString*(value: clonglong): UrString {.
-    importcpp: "Urho3D::String(@)", header: "Str.h".}
-proc constructString*(value: cuint): UrString {.importcpp: "Urho3D::String(@)", 
-    header: "Str.h".}
-proc constructString*(value: cushort): UrString {.
-    importcpp: "Urho3D::String(@)", header: "Str.h".}
-proc constructString*(value: culong): UrString {.importcpp: "Urho3D::String(@)", 
-    header: "Str.h".}
-proc constructString*(value: culonglong): UrString {.
-    importcpp: "Urho3D::String(@)", header: "Str.h".}
-proc constructString*(value: cfloat): UrString {.importcpp: "Urho3D::String(@)", 
-    header: "Str.h".}
-proc constructString*(value: cdouble): UrString {.
-    importcpp: "Urho3D::String(@)", header: "Str.h".}
-proc constructString*(value: bool): UrString {.importcpp: "Urho3D::String(@)", 
-    header: "Str.h".}
-proc constructString*(value: char): UrString {.importcpp: "Urho3D::String(@)", 
-    header: "Str.h".}
-proc constructString*(value: char; length: cuint): UrString {.
-    importcpp: "Urho3D::String(@)", header: "Str.h".}
-proc constructString*[T](value: T): UrString {.importcpp: "Urho3D::String(@)", 
-    header: "Str.h".}
+
+when false:
+  proc constructString*(value: cint): UrString {.importcpp: "Urho3D::String(@)", 
+      header: "Str.h".}
+  proc constructString*(value: cshort): UrString {.importcpp: "Urho3D::String(@)", 
+      header: "Str.h".}
+  proc constructString*(value: clong): UrString {.importcpp: "Urho3D::String(@)", 
+      header: "Str.h".}
+  proc constructString*(value: clonglong): UrString {.
+      importcpp: "Urho3D::String(@)", header: "Str.h".}
+  proc constructString*(value: cuint): UrString {.importcpp: "Urho3D::String(@)", 
+      header: "Str.h".}
+  proc constructString*(value: cushort): UrString {.
+      importcpp: "Urho3D::String(@)", header: "Str.h".}
+  proc constructString*(value: culong): UrString {.importcpp: "Urho3D::String(@)", 
+      header: "Str.h".}
+  proc constructString*(value: culonglong): UrString {.
+      importcpp: "Urho3D::String(@)", header: "Str.h".}
+  proc constructString*(value: cfloat): UrString {.importcpp: "Urho3D::String(@)", 
+      header: "Str.h".}
+  proc constructString*(value: cdouble): UrString {.
+      importcpp: "Urho3D::String(@)", header: "Str.h".}
+  proc constructString*(value: bool): UrString {.importcpp: "Urho3D::String(@)", 
+      header: "Str.h".}
+  proc constructString*(value: char): UrString {.importcpp: "Urho3D::String(@)", 
+      header: "Str.h".}
+  proc constructString*(value: char; length: cuint): UrString {.
+      importcpp: "Urho3D::String(@)", header: "Str.h".}
+  proc constructString*[T](value: T): UrString {.importcpp: "Urho3D::String(@)", 
+      header: "Str.h".}
 proc destroyString*(this: var UrString) {.importcpp: "#.~String()", 
     header: "Str.h".}
 proc `+=`*(this: var UrString; rhs: UrString) {.importcpp: "# += #", 
@@ -114,8 +108,8 @@ proc replace*(this: var UrString; pos: cuint; length: cuint;
               replaceWith: UrString) {.importcpp: "Replace", header: "Str.h".}
 proc replace*(this: var UrString; pos: cuint; length: cuint; 
               replaceWith: cstring) {.importcpp: "Replace", header: "Str.h".}
-proc replace*(this: var UrString; start: Iterator; `end`: Iterator; 
-              replaceWith: UrString): Iterator {.importcpp: "Replace", 
+proc replace*(this: var UrString; start: StrIterator; `end`: StrIterator; 
+              replaceWith: UrString): StrIterator {.importcpp: "Replace", 
     header: "Str.h".}
 proc replaced*(this: UrString; replaceThis: char; replaceWith: char; 
                caseSensitive: bool = true): UrString {.noSideEffect, 
@@ -135,17 +129,17 @@ proc insert*(this: var UrString; pos: cuint; str: UrString) {.
     importcpp: "Insert", header: "Str.h".}
 proc insert*(this: var UrString; pos: cuint; c: char) {.importcpp: "Insert", 
     header: "Str.h".}
-proc insert*(this: var UrString; dest: Iterator; str: UrString): Iterator {.
+proc insert*(this: var UrString; dest: StrIterator; str: UrString): StrIterator {.
     importcpp: "Insert", header: "Str.h".}
-proc insert*(this: var UrString; dest: Iterator; start: Iterator; 
-             `end`: Iterator): Iterator {.importcpp: "Insert", header: "Str.h".}
-proc insert*(this: var UrString; dest: Iterator; c: char): Iterator {.
+proc insert*(this: var UrString; dest: StrIterator; start: StrIterator; 
+             `end`: StrIterator): StrIterator {.importcpp: "Insert", header: "Str.h".}
+proc insert*(this: var UrString; dest: StrIterator; c: char): StrIterator {.
     importcpp: "Insert", header: "Str.h".}
 proc erase*(this: var UrString; pos: cuint; length: cuint = 1) {.
     importcpp: "Erase", header: "Str.h".}
-proc erase*(this: var UrString; it: Iterator): Iterator {.importcpp: "Erase", 
+proc erase*(this: var UrString; it: StrIterator): StrIterator {.importcpp: "Erase", 
     header: "Str.h".}
-proc erase*(this: var UrString; start: Iterator; `end`: Iterator): Iterator {.
+proc erase*(this: var UrString; start: StrIterator; `end`: StrIterator): StrIterator {.
     importcpp: "Erase", header: "Str.h".}
 proc resize*(this: var UrString; newLength: cuint) {.importcpp: "Resize", 
     header: "Str.h".}
@@ -155,11 +149,11 @@ proc compact*(this: var UrString) {.importcpp: "Compact", header: "Str.h".}
 proc clear*(this: var UrString) {.importcpp: "Clear", header: "Str.h".}
 proc swap*(this: var UrString; str: var UrString) {.importcpp: "Swap", 
     header: "Str.h".}
-proc begin*(this: var UrString): Iterator {.importcpp: "Begin", header: "Str.h".}
-proc begin*(this: UrString): ConstIterator {.noSideEffect, importcpp: "Begin", 
+proc begin*(this: var UrString): StrIterator {.importcpp: "Begin", header: "Str.h".}
+proc begin*(this: UrString): ConstStrIterator {.noSideEffect, importcpp: "Begin", 
     header: "Str.h".}
-proc `end`*(this: var UrString): Iterator {.importcpp: "End", header: "Str.h".}
-proc `end`*(this: UrString): ConstIterator {.noSideEffect, importcpp: "End", 
+proc `end`*(this: var UrString): StrIterator {.importcpp: "End", header: "Str.h".}
+proc `end`*(this: UrString): ConstStrIterator {.noSideEffect, importcpp: "End", 
     header: "Str.h".}
 proc front*(this: UrString): char {.noSideEffect, importcpp: "Front", 
                                     header: "Str.h".}
@@ -185,10 +179,10 @@ proc find*(this: UrString; str: UrString; startPos: cuint = 0;
 proc find*(this: UrString; c: char; startPos: cuint = 0; 
            caseSensitive: bool = true): cuint {.noSideEffect, importcpp: "Find", 
     header: "Str.h".}
-proc findLast*(this: UrString; str: UrString; startPos: cuint = npos; 
+proc findLast*(this: UrString; str: UrString; startPos: cuint; 
                caseSensitive: bool = true): cuint {.noSideEffect, 
     importcpp: "FindLast", header: "Str.h".}
-proc findLast*(this: UrString; c: char; startPos: cuint = npos; 
+proc findLast*(this: UrString; c: char; startPos: cuint; 
                caseSensitive: bool = true): cuint {.noSideEffect, 
     importcpp: "FindLast", header: "Str.h".}
 proc startsWith*(this: UrString; str: UrString; caseSensitive: bool = true): bool {.
@@ -213,8 +207,9 @@ proc contains*(this: UrString; c: char; caseSensitive: bool = true): bool {.
     noSideEffect, importcpp: "Contains", header: "Str.h".}
 proc setUTF8FromLatin1*(this: var UrString; str: cstring) {.
     importcpp: "SetUTF8FromLatin1", header: "Str.h".}
-proc setUTF8FromWChar*(this: var UrString; str: ptr WcharT) {.
-    importcpp: "SetUTF8FromWChar", header: "Str.h".}
+when false:
+  proc setUTF8FromWChar*(this: var UrString; str: ptr WcharT) {.
+      importcpp: "SetUTF8FromWChar", header: "Str.h".}
 proc lengthUTF8*(this: UrString): cuint {.noSideEffect, importcpp: "LengthUTF8", 
     header: "Str.h".}
 proc byteOffsetUTF8*(this: UrString; index: cuint): cuint {.noSideEffect, 
@@ -245,39 +240,38 @@ proc cStringLength*(str: cstring): cuint {.
     importcpp: "Urho3D::String::CStringLength(@)", header: "Str.h".}
 proc appendWithFormat*(this: var UrString; formatString: cstring): var UrString {.
     varargs, importcpp: "AppendWithFormat", header: "Str.h".}
-proc appendWithFormatArgs*(this: var UrString; formatString: cstring; 
-                           args: VaList): var UrString {.
-    importcpp: "AppendWithFormatArgs", header: "Str.h".}
 proc compare*(str1: cstring; str2: cstring; caseSensitive: bool): cint {.
     importcpp: "Urho3D::String::Compare(@)", header: "Str.h".}
 
-proc +*(lhs: cstring; rhs: UrString): UrString {.inline.}
+proc `+`*(lhs: cstring; rhs: UrString): UrString {.
+  importcpp: "# + #", header: "Str.h".}
 
-type 
-  WString* {.importc: "Urho3D::WString", header: "Str.h".} = object 
-    length* {.importc: "length_".}: cuint
-    buffer* {.importc: "buffer_".}: ptr WcharT
+when false:
+  type 
+    WString* {.importc: "Urho3D::WString", header: "Str.h".} = object 
+      length* {.importc: "length_".}: cuint
+      buffer* {.importc: "buffer_".}: ptr WcharT
 
 
-proc constructWString*(): WString {.importcpp: "Urho3D::WString(@)", 
-                                    header: "Str.h".}
-proc constructWString*(str: UrString): WString {.
-    importcpp: "Urho3D::WString(@)", header: "Str.h".}
-proc destroyWString*(this: var WString) {.importcpp: "#.~WString()", 
-    header: "Str.h".}
-proc `[]`*(this: var WString; index: cuint): var WcharT {.importcpp: "#[@]", 
-    header: "Str.h".}
-proc `[]`*(this: WString; index: cuint): WcharT {.noSideEffect, 
-    importcpp: "#[@]", header: "Str.h".}
-proc at*(this: var WString; index: cuint): var WcharT {.importcpp: "At", 
-    header: "Str.h".}
-proc at*(this: WString; index: cuint): WcharT {.noSideEffect, importcpp: "At", 
-    header: "Str.h".}
-proc resize*(this: var WString; newLength: cuint) {.importcpp: "Resize", 
-    header: "Str.h".}
-proc empty*(this: WString): bool {.noSideEffect, importcpp: "Empty", 
-                                   header: "Str.h".}
-proc length*(this: WString): cuint {.noSideEffect, importcpp: "Length", 
+  proc constructWString*(): WString {.importcpp: "Urho3D::WString(@)", 
+                                      header: "Str.h".}
+  proc constructWString*(str: UrString): WString {.
+      importcpp: "Urho3D::WString(@)", header: "Str.h".}
+  proc destroyWString*(this: var WString) {.importcpp: "#.~WString()", 
+      header: "Str.h".}
+  proc `[]`*(this: var WString; index: cuint): var WcharT {.importcpp: "#[@]", 
+      header: "Str.h".}
+  proc `[]`*(this: WString; index: cuint): WcharT {.noSideEffect, 
+      importcpp: "#[@]", header: "Str.h".}
+  proc at*(this: var WString; index: cuint): var WcharT {.importcpp: "At", 
+      header: "Str.h".}
+  proc at*(this: WString; index: cuint): WcharT {.noSideEffect, importcpp: "At", 
+      header: "Str.h".}
+  proc resize*(this: var WString; newLength: cuint) {.importcpp: "Resize", 
+      header: "Str.h".}
+  proc empty*(this: WString): bool {.noSideEffect, importcpp: "Empty", 
                                      header: "Str.h".}
-proc cString*(this: WString): ptr WcharT {.noSideEffect, importcpp: "CString", 
-    header: "Str.h".}
+  proc length*(this: WString): cuint {.noSideEffect, importcpp: "Length", 
+                                       header: "Str.h".}
+  proc cString*(this: WString): ptr WcharT {.noSideEffect, importcpp: "CString", 
+      header: "Str.h".}

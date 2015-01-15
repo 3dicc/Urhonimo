@@ -21,4 +21,5 @@ proc `<`*[T, U](this: Pair[T, U]; rhs: Pair[T, U]): bool {.noSideEffect,
 proc toHash*[T, U](this: Pair[T, U]): cuint {.noSideEffect, importcpp: "ToHash", 
     header: "Pair.h".}
 
-proc makePair*[T, U](first: T; second: U): Pair[T, U]
+proc makePair*[T, U](first: T; second: U): Pair[T, U] {.noSideEffect,
+  importcpp: "Urho3D::MakePair(@)", header: "Pair.h".}

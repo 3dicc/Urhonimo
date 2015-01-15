@@ -1,7 +1,7 @@
 
 
 import 
-  vector2
+  vector2, urstr
 
 
 type 
@@ -81,4 +81,14 @@ proc data*(this: Vector3): ptr cfloat {.noSideEffect, importcpp: "Data",
 proc toString*(this: Vector3): UrString {.noSideEffect, importcpp: "ToString", 
     header: "Vector3.h".}
 
-proc **(lhs: cfloat; rhs: Vector3): Vector3 {.inline.}
+proc `*`*(lhs: cfloat; rhs: Vector3): Vector3 {.noSideEffect, 
+  importcpp: "# * #", header: "Vector3.h".}
+
+var ZERO* {.importcpp: "Urho3D::Vector3::ZERO", header: "Vector3.h"}: Vector3
+var LEFT* {.importcpp: "Urho3D::Vector3::LEFT", header: "Vector3.h"}: Vector3
+var RIGHT* {.importcpp: "Urho3D::Vector3::RIGHT", header: "Vector3.h"}: Vector3
+var UP* {.importcpp: "Urho3D::Vector3::UP", header: "Vector3.h"}: Vector3
+var DOWN* {.importcpp: "Urho3D::Vector3::DOWN", header: "Vector3.h"}: Vector3
+var FORWARD* {.importcpp: "Urho3D::Vector3::FORWARD", header: "Vector3.h"}: Vector3
+var BACK* {.importcpp: "Urho3D::Vector3::BACK", header: "Vector3.h"}: Vector3
+var ONE* {.importcpp: "Urho3D::Vector3::ONE", header: "Vector3.h"}: Vector3

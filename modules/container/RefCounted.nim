@@ -1,8 +1,5 @@
 
 
-import 
-  urho3D
-
 
 type 
   RefCount* {.importc: "Urho3D::RefCount", header: "RefCounted.h".} = object 

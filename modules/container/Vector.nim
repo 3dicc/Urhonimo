@@ -7,10 +7,9 @@ import
 type 
   Vector* {.importc: "Urho3D::Vector", header: "Vector.h".}[T] = object of VectorBase
   
+  VIterator* {.importc: "Urho3D::Vector::Iterator", header: "Vector.h".}[T] = RandomAccessIterator[T]
+  ConstVIterator* {.importc: "Urho3D::Vector::ConstIterator", header: "Vector.h".}[T] = RandomAccessConstIterator[T]
 
-  type 
-    Iterator* = RandomAccessIterator[T]
-    ConstIterator* = RandomAccessConstIterator[T]
 proc constructVector*[T](): Vector[T] {.importcpp: "Urho3D::Vector(@)", 
                                         header: "Vector.h".}
 proc constructVector*[T](size: cuint): Vector[T] {.
@@ -48,20 +47,20 @@ proc insert*[T](this: var Vector[T]; pos: cuint; value: T) {.
     importcpp: "Insert", header: "Vector.h".}
 proc insert*[T](this: var Vector[T]; pos: cuint; vector: Vector[T]) {.
     importcpp: "Insert", header: "Vector.h".}
-proc insert*[T](this: var Vector[T]; dest: Iterator; value: T): Iterator {.
+proc insert*[T](this: var Vector[T]; dest: VIterator[T]; value: T): VIterator[T] {.
     importcpp: "Insert", header: "Vector.h".}
-proc insert*[T](this: var Vector[T]; dest: Iterator; vector: Vector[T]): Iterator {.
+proc insert*[T](this: var Vector[T]; dest: VIterator[T]; vector: Vector[T]): VIterator[T] {.
     importcpp: "Insert", header: "Vector.h".}
-proc insert*[T](this: var Vector[T]; dest: Iterator; start: ConstIterator; 
-                `end`: ConstIterator): Iterator {.importcpp: "Insert", 
+proc insert*[T](this: var Vector[T]; dest: VIterator[T]; start: ConstVIterator[T]; 
+                `end`: ConstVIterator[T]): VIterator[T] {.importcpp: "Insert", 
     header: "Vector.h".}
-proc insert*[T](this: var Vector[T]; dest: Iterator; start: ptr T; `end`: ptr T): Iterator {.
+proc insert*[T](this: var Vector[T]; dest: VIterator[T]; start: ptr T; `end`: ptr T): VIterator[T] {.
     importcpp: "Insert", header: "Vector.h".}
 proc erase*[T](this: var Vector[T]; pos: cuint; length: cuint = 1) {.
     importcpp: "Erase", header: "Vector.h".}
-proc erase*[T](this: var Vector[T]; it: Iterator): Iterator {.
+proc erase*[T](this: var Vector[T]; it: VIterator[T]): VIterator[T] {.
     importcpp: "Erase", header: "Vector.h".}
-proc erase*[T](this: var Vector[T]; start: Iterator; `end`: Iterator): Iterator {.
+proc erase*[T](this: var Vector[T]; start: VIterator[T]; `end`: VIterator[T]): VIterator[T] {.
     importcpp: "Erase", header: "Vector.h".}
 proc remove*[T](this: var Vector[T]; value: T): bool {.importcpp: "Remove", 
     header: "Vector.h".}
@@ -71,19 +70,19 @@ proc resize*[T](this: var Vector[T]; newSize: cuint) {.importcpp: "Resize",
 proc reserve*[T](this: var Vector[T]; newCapacity: cuint) {.
     importcpp: "Reserve", header: "Vector.h".}
 proc compact*[T](this: var Vector[T]) {.importcpp: "Compact", header: "Vector.h".}
-proc find*[T](this: var Vector[T]; value: T): Iterator {.importcpp: "Find", 
+proc find*[T](this: var Vector[T]; value: T): VIterator[T] {.importcpp: "Find", 
     header: "Vector.h".}
-proc find*[T](this: Vector[T]; value: T): ConstIterator {.noSideEffect, 
+proc find*[T](this: Vector[T]; value: T): ConstVIterator[T] {.noSideEffect, 
     importcpp: "Find", header: "Vector.h".}
 proc contains*[T](this: Vector[T]; value: T): bool {.noSideEffect, 
     importcpp: "Contains", header: "Vector.h".}
-proc begin*[T](this: var Vector[T]): Iterator {.importcpp: "Begin", 
+proc begin*[T](this: var Vector[T]): VIterator[T] {.importcpp: "Begin", 
     header: "Vector.h".}
-proc begin*[T](this: Vector[T]): ConstIterator {.noSideEffect, 
+proc begin*[T](this: Vector[T]): ConstVIterator[T] {.noSideEffect, 
     importcpp: "Begin", header: "Vector.h".}
-proc `end`*[T](this: var Vector[T]): Iterator {.importcpp: "End", 
+proc `end`*[T](this: var Vector[T]): VIterator[T] {.importcpp: "End", 
     header: "Vector.h".}
-proc `end`*[T](this: Vector[T]): ConstIterator {.noSideEffect, importcpp: "End", 
+proc `end`*[T](this: Vector[T]): ConstVIterator[T] {.noSideEffect, importcpp: "End", 
     header: "Vector.h".}
 proc front*[T](this: var Vector[T]): var T {.importcpp: "Front", 
     header: "Vector.h".}
@@ -102,11 +101,9 @@ proc empty*[T](this: Vector[T]): bool {.noSideEffect, importcpp: "Empty",
 
 type 
   PODVector* {.importc: "Urho3D::PODVector", header: "Vector.h".}[T] = object of VectorBase
-  
+  PodIterator* {.importc: "Urho3D::PODVector::Iterator", header: "Vector.h".}[T] = RandomAccessIterator[T]
+  ConstPodIterator* {.importc: "Urho3D::PODVector::ConstIterator", header: "Vector.h".}[T] = RandomAccessConstIterator[T]
 
-  type 
-    Iterator* = RandomAccessIterator[T]
-    ConstIterator* = RandomAccessConstIterator[T]
 proc constructPODVector*[T](): PODVector[T] {.importcpp: "Urho3D::PODVector(@)", 
     header: "Vector.h".}
 proc constructPODVector*[T](size: cuint): PODVector[T] {.
@@ -144,21 +141,21 @@ proc insert*[T](this: var PODVector[T]; pos: cuint; value: T) {.
     importcpp: "Insert", header: "Vector.h".}
 proc insert*[T](this: var PODVector[T]; pos: cuint; vector: PODVector[T]) {.
     importcpp: "Insert", header: "Vector.h".}
-proc insert*[T](this: var PODVector[T]; dest: Iterator; value: T): Iterator {.
+proc insert*[T](this: var PODVector[T]; dest: PodIterator[T]; value: T): PodIterator[T] {.
     importcpp: "Insert", header: "Vector.h".}
-proc insert*[T](this: var PODVector[T]; dest: Iterator; vector: PODVector[T]): Iterator {.
+proc insert*[T](this: var PODVector[T]; dest: PodIterator[T]; vector: PODVector[T]): PodIterator[T] {.
     importcpp: "Insert", header: "Vector.h".}
-proc insert*[T](this: var PODVector[T]; dest: Iterator; start: ConstIterator; 
-                `end`: ConstIterator): Iterator {.importcpp: "Insert", 
+proc insert*[T](this: var PODVector[T]; dest: PodIterator[T]; start: ConstPodIterator[T]; 
+                `end`: ConstPodIterator[T]): PodIterator[T] {.importcpp: "Insert", 
     header: "Vector.h".}
-proc insert*[T](this: var PODVector[T]; dest: Iterator; start: ptr T; 
-                `end`: ptr T): Iterator {.importcpp: "Insert", 
+proc insert*[T](this: var PODVector[T]; dest: PodIterator[T]; start: ptr T; 
+                `end`: ptr T): PodIterator[T] {.importcpp: "Insert", 
     header: "Vector.h".}
 proc erase*[T](this: var PODVector[T]; pos: cuint; length: cuint = 1) {.
     importcpp: "Erase", header: "Vector.h".}
-proc erase*[T](this: var PODVector[T]; it: Iterator): Iterator {.
+proc erase*[T](this: var PODVector[T]; it: PodIterator[T]): PodIterator[T] {.
     importcpp: "Erase", header: "Vector.h".}
-proc erase*[T](this: var PODVector[T]; start: Iterator; `end`: Iterator): Iterator {.
+proc erase*[T](this: var PODVector[T]; start: PodIterator[T]; `end`: PodIterator[T]): PodIterator[T] {.
     importcpp: "Erase", header: "Vector.h".}
 proc remove*[T](this: var PODVector[T]; value: T): bool {.importcpp: "Remove", 
     header: "Vector.h".}
@@ -169,19 +166,19 @@ proc reserve*[T](this: var PODVector[T]; newCapacity: cuint) {.
     importcpp: "Reserve", header: "Vector.h".}
 proc compact*[T](this: var PODVector[T]) {.importcpp: "Compact", 
     header: "Vector.h".}
-proc find*[T](this: var PODVector[T]; value: T): Iterator {.importcpp: "Find", 
+proc find*[T](this: var PODVector[T]; value: T): PodIterator[T] {.importcpp: "Find", 
     header: "Vector.h".}
-proc find*[T](this: PODVector[T]; value: T): ConstIterator {.noSideEffect, 
+proc find*[T](this: PODVector[T]; value: T): ConstPodIterator[T] {.noSideEffect, 
     importcpp: "Find", header: "Vector.h".}
 proc contains*[T](this: PODVector[T]; value: T): bool {.noSideEffect, 
     importcpp: "Contains", header: "Vector.h".}
-proc begin*[T](this: var PODVector[T]): Iterator {.importcpp: "Begin", 
+proc begin*[T](this: var PODVector[T]): PodIterator[T] {.importcpp: "Begin", 
     header: "Vector.h".}
-proc begin*[T](this: PODVector[T]): ConstIterator {.noSideEffect, 
+proc begin*[T](this: PODVector[T]): ConstPodIterator[T] {.noSideEffect, 
     importcpp: "Begin", header: "Vector.h".}
-proc `end`*[T](this: var PODVector[T]): Iterator {.importcpp: "End", 
+proc `end`*[T](this: var PODVector[T]): PodIterator[T] {.importcpp: "End", 
     header: "Vector.h".}
-proc `end`*[T](this: PODVector[T]): ConstIterator {.noSideEffect, 
+proc `end`*[T](this: PODVector[T]): ConstPodIterator[T] {.noSideEffect, 
     importcpp: "End", header: "Vector.h".}
 proc front*[T](this: var PODVector[T]): var T {.importcpp: "Front", 
     header: "Vector.h".}

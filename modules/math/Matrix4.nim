@@ -1,9 +1,23 @@
 
 
 import 
-  quaternion, vector4
+  quaternion, vector3, vector4, matrix3, urstr
 
-discard "forward decl of Matrix3x4"
+type 
+  Matrix3x4* {.importc: "Urho3D::Matrix3x4", header: "Matrix3x4.h".} = object 
+    m00* {.importc: "m00_".}: cfloat
+    m01* {.importc: "m01_".}: cfloat
+    m02* {.importc: "m02_".}: cfloat
+    m03* {.importc: "m03_".}: cfloat
+    m10* {.importc: "m10_".}: cfloat
+    m11* {.importc: "m11_".}: cfloat
+    m12* {.importc: "m12_".}: cfloat
+    m13* {.importc: "m13_".}: cfloat
+    m20* {.importc: "m20_".}: cfloat
+    m21* {.importc: "m21_".}: cfloat
+    m22* {.importc: "m22_".}: cfloat
+    m23* {.importc: "m23_".}: cfloat
+
 type 
   Matrix4* {.importc: "Urho3D::Matrix4", header: "Matrix4.h".} = object 
     m00* {.importc: "m00_".}: cfloat
@@ -87,4 +101,5 @@ proc toString*(this: Matrix4): UrString {.noSideEffect, importcpp: "ToString",
 proc bulkTranspose*(dest: ptr cfloat; src: ptr cfloat; count: cuint) {.
     importcpp: "Urho3D::Matrix4::BulkTranspose(@)", header: "Matrix4.h".}
 
-proc **(lhs: cfloat; rhs: Matrix4): Matrix4 {.inline.}
+proc `*`*(lhs: cfloat; rhs: Matrix4): Matrix4 {.
+    importcpp: "# * #", header: "Matrix4.h".}

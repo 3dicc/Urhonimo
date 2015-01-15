@@ -1,7 +1,7 @@
 
 
 import 
-  mathDefs, str
+  mathDefs, urstr
 
 
 type 
@@ -70,7 +70,8 @@ proc data*(this: Vector2): ptr cfloat {.noSideEffect, importcpp: "Data",
 proc toString*(this: Vector2): UrString {.noSideEffect, importcpp: "ToString", 
     header: "Vector2.h".}
 
-proc **(lhs: cfloat; rhs: Vector2): Vector2 {.inline.}
+proc `*`*(lhs: cfloat; rhs: Vector2): Vector2 {.noSideEffect, 
+    importcpp: "# * #", header: "Vector2.h".}
 
 type 
   IntVector2* {.importc: "Urho3D::IntVector2", header: "Vector2.h".} = object 
@@ -111,4 +112,5 @@ proc data*(this: IntVector2): ptr cint {.noSideEffect, importcpp: "Data",
 proc toString*(this: IntVector2): UrString {.noSideEffect, 
     importcpp: "ToString", header: "Vector2.h".}
 
-proc **(lhs: cint; rhs: IntVector2): IntVector2 {.inline.}
+proc `*`*(lhs: cint; rhs: IntVector2): IntVector2 {.noSideEffect, 
+    importcpp: "# * #", header: "Vector2.h".}

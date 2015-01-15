@@ -1,7 +1,7 @@
 
 
 import 
-  `ptr`, variant
+  ptrs, variant
 
 
 var AM_EDIT* {.importc: "AM_EDIT", header: "Attribute.h".}: cuint = 0x00000000

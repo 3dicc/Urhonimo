@@ -1,7 +1,7 @@
 
 
 import 
-  vector3
+  vector3, urstr
 
 
 type 
@@ -60,4 +60,5 @@ proc toString*(this: Matrix3): UrString {.noSideEffect, importcpp: "ToString",
 proc bulkTranspose*(dest: ptr cfloat; src: ptr cfloat; count: cuint) {.
     importcpp: "Urho3D::Matrix3::BulkTranspose(@)", header: "Matrix3.h".}
 
-proc **(lhs: cfloat; rhs: Matrix3): Matrix3 {.inline.}
+proc `*`*(lhs: cfloat; rhs: Matrix3): Matrix3 {.
+    importcpp: "# * #", header: "Matrix3.h".}

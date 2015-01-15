@@ -1,20 +1,10 @@
 
-
-import 
-  urho3D
-
-discard "forward decl of AllocatorBlock"
-discard "forward decl of AllocatorNode"
 type 
   AllocatorBlock* {.importc: "Urho3D::AllocatorBlock", header: "Allocator.h".} = object 
     nodeSize* {.importc: "nodeSize_".}: cuint
     capacity* {.importc: "capacity_".}: cuint
     free* {.importc: "free_".}: ptr AllocatorNode
     next* {.importc: "next_".}: ptr AllocatorBlock
-
-
-
-type 
   AllocatorNode* {.importc: "Urho3D::AllocatorNode", header: "Allocator.h".} = object 
     next* {.importc: "next_".}: ptr AllocatorNode
 

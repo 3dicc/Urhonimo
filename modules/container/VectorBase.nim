@@ -1,9 +1,5 @@
 
 
-import 
-  urho3D, swap
-
-
 type 
   RandomAccessIterator* {.importc: "Urho3D::RandomAccessIterator", 
                           header: "VectorBase.h".}[T] = object 
@@ -87,7 +83,8 @@ proc `<=`*[T](this: RandomAccessConstIterator[T]; rhs: RandomAccessConstIterator
     noSideEffect, importcpp: "# <= #", header: "VectorBase.h".}
 
 type 
-  VectorBase* {.importc: "Urho3D::VectorBase", header: "VectorBase.h".} = object 
+  VectorBase* {.importc: "Urho3D::VectorBase", header: "VectorBase.h", 
+                inheritable.} = object 
     size* {.importc: "size_".}: cuint
     capacity* {.importc: "capacity_".}: cuint
     buffer* {.importc: "buffer_".}: ptr cuchar

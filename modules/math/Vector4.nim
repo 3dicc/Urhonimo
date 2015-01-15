@@ -1,7 +1,7 @@
 
 
 import 
-  vector3
+  vector3, urstr
 
 
 type 
@@ -67,4 +67,5 @@ proc data*(this: Vector4): ptr cfloat {.noSideEffect, importcpp: "Data",
 proc toString*(this: Vector4): UrString {.noSideEffect, importcpp: "ToString", 
     header: "Vector4.h".}
 
-proc **(lhs: cfloat; rhs: Vector4): Vector4 {.inline.}
+proc `*`*(lhs: cfloat; rhs: Vector4): Vector4 {.noSideEffect, importcpp: "# * #", 
+    header: "Vector4.h".}

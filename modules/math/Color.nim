@@ -1,7 +1,7 @@
 
 
 import 
-  vector4
+  vector3, vector4, urstr
 
 
 discard "forward decl of String"
@@ -89,4 +89,5 @@ proc equals*(this: Color; rhs: Color): bool {.noSideEffect, importcpp: "Equals",
 proc toString*(this: Color): UrString {.noSideEffect, importcpp: "ToString", 
                                         header: "Color.h".}
 
-proc **(lhs: cfloat; rhs: Color): Color {.inline.}
+proc `*`*(lhs: cfloat; rhs: Color): Color {.noSideEffect, importcpp: "# * #", 
+                                        header: "Color.h".}

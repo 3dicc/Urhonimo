@@ -1,9 +1,5 @@
 
 
-import 
-  urho3D
-
-
 proc setRandomSeed*(seed: cuint) {.importcpp: "Urho3D::SetRandomSeed(@)", 
                                    header: "Random.h".}
 

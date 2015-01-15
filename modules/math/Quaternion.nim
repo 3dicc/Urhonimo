@@ -1,7 +1,7 @@
 
 
 import 
-  matrix3
+  matrix3, vector3, urstr
 
 
 type 
@@ -61,7 +61,7 @@ proc fromAxes*(this: var Quaternion; xAxis: Vector3; yAxis: Vector3;
 proc fromRotationMatrix*(this: var Quaternion; matrix: Matrix3) {.
     importcpp: "FromRotationMatrix", header: "Quaternion.h".}
 proc fromLookRotation*(this: var Quaternion; direction: Vector3; 
-                       up: Vector3 = vector3.up): bool {.
+                       up: Vector3 = vector3.UP): bool {.
     importcpp: "FromLookRotation", header: "Quaternion.h".}
 proc normalize*(this: var Quaternion) {.importcpp: "Normalize", 
                                         header: "Quaternion.h".}
