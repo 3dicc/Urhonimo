@@ -1,0 +1,34 @@
+
+
+import 
+  context, main, UrObject
+
+discard "forward decl of Engine"
+type 
+  Application* {.importc: "Urho3D::Application", header: "Application.h".} = object of UrObject
+    engine* {.importc: "engine_".}: SharedPtr[Engine]
+    engineParameters* {.importc: "engineParameters_".}: VariantMap
+    startupErrors* {.importc: "startupErrors_".}: UrString
+    exitCode* {.importc: "exitCode_".}: cint
+
+
+proc getType*(this: Application): Urho3D.StringHash {.noSideEffect, 
+    importcpp: "GetType", header: "Application.h".}
+proc getBaseType*(this: Application): Urho3D.StringHash {.noSideEffect, 
+    importcpp: "GetBaseType", header: "Application.h".}
+proc getTypeName*(this: Application): Urho3D.UrString {.noSideEffect, 
+    importcpp: "GetTypeName", header: "Application.h".}
+proc getTypeStatic*(): Urho3D.StringHash {.
+    importcpp: "Urho3D::Application::GetTypeStatic(@)", header: "Application.h".}
+proc getTypeNameStatic*(): Urho3D.UrString {.
+    importcpp: "Urho3D::Application::GetTypeNameStatic(@)", 
+    header: "Application.h".}
+proc constructApplication*(context: ptr Context): Application {.
+    importcpp: "Urho3D::Application(@)", header: "Application.h".}
+proc setup*(this: var Application) {.importcpp: "Setup", header: "Application.h".}
+proc start*(this: var Application) {.importcpp: "Start", header: "Application.h".}
+proc stop*(this: var Application) {.importcpp: "Stop", header: "Application.h".}
+proc run*(this: var Application): cint {.importcpp: "Run", 
+    header: "Application.h".}
+proc errorExit*(this: var Application; message: UrString = UrString.empty) {.
+    importcpp: "ErrorExit", header: "Application.h".}
