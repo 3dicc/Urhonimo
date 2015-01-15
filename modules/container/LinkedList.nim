@@ -1,11 +1,8 @@
 
 
-import 
-  urho3D
-
-
 type 
-  LinkedListNode* {.importc: "Urho3D::LinkedListNode", header: "LinkedList.h".} = object 
+  LinkedListNode* {.importc: "Urho3D::LinkedListNode", 
+                    header: "LinkedList.h", inheritable.} = object 
     next* {.importc: "next_".}: ptr LinkedListNode
 
 

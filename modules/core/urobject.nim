@@ -1,17 +1,50 @@
 
 
 import 
-  linkedList, variant
+  linkedList, variant, refcounted, urstr, stringHash, hashMap, vector, ptrs,
+  attribute, hashset
 
-discard "forward decl of Context"
-discard "forward decl of EventHandler"
 type 
+  ObjectFactory* {.importc: "Urho3D::ObjectFactory", header: "Object.h".} = object of RefCounted
+    context* {.importc: "context_".}: ptr Context
+    `type`* {.importc: "type_".}: StringHash
+    baseType* {.importc: "baseType_".}: StringHash
+    typeName* {.importc: "typeName_".}: UrString
+
+
+  EventHandler* {.importc: "Urho3D::EventHandler", header: "Object.h".} = object of LinkedListNode
+    receiver* {.importc: "receiver_".}: ptr UrObject
+    sender* {.importc: "sender_".}: ptr UrObject
+    eventType* {.importc: "eventType_".}: StringHash
+    userData* {.importc: "userData_".}: pointer
+
+
   UrObject* {.importc: "Urho3D::Object", header: "Object.h".} = object of RefCounted
     context* {.importc: "context_".}: ptr Context
     eventHandlers* {.importc: "eventHandlers_".}: LinkedList[EventHandler]
 
+  Context* {.importc: "Urho3D::Context", header: "Context.h".} = object of RefCounted
+    factories* {.importc: "factories_".}: HashMap[StringHash, 
+        SharedPtr[ObjectFactory]]
+    subsystems* {.importc: "subsystems_".}: HashMap[StringHash, 
+        SharedPtr[UrObject]]
+    attributes* {.importc: "attributes_".}: HashMap[StringHash, 
+        Vector[AttributeInfo]]
+    networkAttributes* {.importc: "networkAttributes_".}: HashMap[StringHash, 
+        Vector[AttributeInfo]]
+    eventReceivers* {.importc: "eventReceivers_".}: HashMap[StringHash, 
+        HashSet[ptr UrObject]]
+    specificEventReceivers* {.importc: "specificEventReceivers_".}: HashMap[
+        ptr UrObject, HashMap[StringHash, HashSet[ptr UrObject]]]
+    eventSenders* {.importc: "eventSenders_".}: PODVector[ptr UrObject]
+    eventDataMaps* {.importc: "eventDataMaps_".}: PODVector[ptr VariantMap]
+    eventHandler* {.importc: "eventHandler_".}: ptr EventHandler
+    objectCategories* {.importc: "objectCategories_".}: HashMap[UrString, 
+        Vector[StringHash]]
 
-proc getBaseTypeStatic*(): Urho3D.StringHash {.
+
+
+proc getBaseTypeStatic*(): StringHash {.
     importcpp: "Urho3D::Object::GetBaseTypeStatic(@)", header: "Object.h".}
 proc constructObject*(context: ptr Context): UrObject {.
     importcpp: "Urho3D::Object(@)", header: "Object.h".}
@@ -71,15 +104,8 @@ proc getSubsystem*[T](this: UrObject): ptr T {.noSideEffect,
     importcpp: "GetSubsystem", header: "Object.h".}
 proc getCategory*(this: UrObject): UrString {.noSideEffect, 
     importcpp: "GetCategory", header: "Object.h".}
-proc object::GetSubsystem*[T](): ptr T {.noSideEffect.}
-
-type 
-  ObjectFactory* {.importc: "Urho3D::ObjectFactory", header: "Object.h".} = object of RefCounted
-    context* {.importc: "context_".}: ptr Context
-    `type`* {.importc: "type_".}: StringHash
-    baseType* {.importc: "baseType_".}: StringHash
-    typeName* {.importc: "typeName_".}: UrString
-
+proc getSubsystem*[T](): ptr T {.noSideEffect, 
+  importcpp: "Object::GetSubsystem<'*0>()", header: "Object.h".}
 
 proc constructObjectFactory*(context: ptr Context): ObjectFactory {.
     importcpp: "Urho3D::ObjectFactory(@)", header: "Object.h".}
@@ -104,14 +130,6 @@ proc constructObjectFactoryImpl*[T](context: ptr Context): ObjectFactoryImpl[T] 
 proc createObject*[T](this: var ObjectFactoryImpl[T]): SharedPtr[UrObject] {.
     importcpp: "CreateObject", header: "Object.h".}
 
-type 
-  EventHandler* {.importc: "Urho3D::EventHandler", header: "Object.h".} = object of LinkedListNode
-    receiver* {.importc: "receiver_".}: ptr UrObject
-    sender* {.importc: "sender_".}: ptr UrObject
-    eventType* {.importc: "eventType_".}: StringHash
-    userData* {.importc: "userData_".}: pointer
-
-
 proc constructEventHandler*(receiver: ptr UrObject): EventHandler {.
     importcpp: "Urho3D::EventHandler(@)", header: "Object.h".}
 proc constructEventHandler*(receiver: ptr UrObject; userData: pointer): EventHandler {.
@@ -132,20 +150,21 @@ proc getEventType*(this: EventHandler): StringHash {.noSideEffect,
 proc getUserData*(this: EventHandler): pointer {.noSideEffect, 
     importcpp: "GetUserData", header: "Object.h".}
 
-type 
-  EventHandlerImpl* {.importc: "Urho3D::EventHandlerImpl", header: "Object.h".}[
-      T] = object of EventHandler
-    function* {.importc: "function_".}: HandlerFunctionPtr
-
-
+when false:
+  # we have our own event handler implementation that plays nicer with Nim
   type 
+    EventHandlerImpl* {.importc: "Urho3D::EventHandlerImpl", header: "Object.h".}[
+        T] = object of EventHandler
+      function* {.importc: "function_".}: HandlerFunctionPtr
+
+
     HandlerFunctionPtr* = proc (a2: StringHash; a3: var VariantMap) {.
         memberfuncptr.}
-proc constructEventHandlerImpl*[T](receiver: ptr T; function: HandlerFunctionPtr): EventHandlerImpl[
-    T] {.importcpp: "Urho3D::EventHandlerImpl(@)", header: "Object.h".}
-proc constructEventHandlerImpl*[T](receiver: ptr T; 
-                                   function: HandlerFunctionPtr; 
-                                   userData: pointer): EventHandlerImpl[T] {.
-    importcpp: "Urho3D::EventHandlerImpl(@)", header: "Object.h".}
-proc invoke*[T](this: var EventHandlerImpl[T]; eventData: var VariantMap) {.
-    importcpp: "Invoke", header: "Object.h".}
+  proc constructEventHandlerImpl*[T](receiver: ptr T; function: HandlerFunctionPtr): EventHandlerImpl[
+      T] {.importcpp: "Urho3D::EventHandlerImpl(@)", header: "Object.h".}
+  proc constructEventHandlerImpl*[T](receiver: ptr T; 
+                                     function: HandlerFunctionPtr; 
+                                     userData: pointer): EventHandlerImpl[T] {.
+      importcpp: "Urho3D::EventHandlerImpl(@)", header: "Object.h".}
+  proc invoke*[T](this: var EventHandlerImpl[T]; eventData: var VariantMap) {.
+      importcpp: "Invoke", header: "Object.h".}

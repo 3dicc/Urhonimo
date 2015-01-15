@@ -1,29 +1,8 @@
 
 
 import 
-  attribute, UrObject, hashSet
-
-
-type 
-  Context* {.importc: "Urho3D::Context", header: "Context.h".} = object of RefCounted
-    factories* {.importc: "factories_".}: HashMap[StringHash, 
-        SharedPtr[ObjectFactory]]
-    subsystems* {.importc: "subsystems_".}: HashMap[StringHash, 
-        SharedPtr[UrObject]]
-    attributes* {.importc: "attributes_".}: HashMap[StringHash, 
-        Vector[AttributeInfo]]
-    networkAttributes* {.importc: "networkAttributes_".}: HashMap[StringHash, 
-        Vector[AttributeInfo]]
-    eventReceivers* {.importc: "eventReceivers_".}: HashMap[StringHash, 
-        HashSet[ptr UrObject]]
-    specificEventReceivers* {.importc: "specificEventReceivers_".}: HashMap[
-        ptr UrObject, HashMap[StringHash, HashSet[ptr UrObject]]]
-    eventSenders* {.importc: "eventSenders_".}: PODVector[ptr UrObject]
-    eventDataMaps* {.importc: "eventDataMaps_".}: PODVector[ptr VariantMap]
-    eventHandler* {.importc: "eventHandler_".}: ptr EventHandler
-    objectCategories* {.importc: "objectCategories_".}: HashMap[UrString, 
-        Vector[StringHash]]
-
+  attribute, UrObject, hashSet, stringHash, ptrs, variant, hashMap, urstr,
+  vector
 
 proc constructContext*(): Context {.importcpp: "Urho3D::Context(@)", 
                                     header: "Context.h".}
@@ -101,13 +80,23 @@ proc getEventReceivers*(this: var Context; sender: ptr UrObject;
     importcpp: "GetEventReceivers", header: "Context.h".}
 proc getEventReceivers*(this: var Context; eventType: StringHash): ptr HashSet[
     ptr UrObject] {.importcpp: "GetEventReceivers", header: "Context.h".}
-proc context::RegisterFactory*[T]()
-proc context::RegisterFactory*[T](category: cstring)
-proc context::RemoveSubsystem*[T]()
-proc context::RegisterAttribute*[T](attr: AttributeInfo)
-proc context::RemoveAttribute*[T](name: cstring)
-proc context::CopyBaseAttributes*[T, U]()
-proc context::GetSubsystem*[T](): ptr T {.noSideEffect.}
-proc context::GetAttribute*[T](name: cstring): ptr AttributeInfo
-proc context::UpdateAttributeDefaultValue*[T](name: cstring; 
-    defaultValue: Variant)
+
+proc registerFactory*[T]() {.
+  importcpp: "Context::RegisterFactory(@)", header: "Context.h".}
+proc registerFactory*[T](category: cstring){.
+  importcpp: "Context::RegisterFactory(@)", header: "Context.h".}
+proc removeSubsystem*[T](){.
+  importcpp: "Context::RemoveSubsystem(@)", header: "Context.h".}
+proc registerAttribute*[T](attr: AttributeInfo){.
+  importcpp: "Context::RegisterAttribute(@)", header: "Context.h".}
+proc removeAttribute*[T](name: cstring){.
+  importcpp: "Context::RemoveAttribute(@)", header: "Context.h".}
+proc copyBaseAttributes*[T, U](){.
+  importcpp: "Context::CopyBaseAttributes(@)", header: "Context.h".}
+proc getSubsystem*[T](): ptr T {.
+  importcpp: "Context::GetSubsystem(@)", header: "Context.h", noSideEffect.}
+proc getAttribute*[T](name: cstring): ptr AttributeInfo {.
+  importcpp: "Context::GetAttribute(@)", header: "Context.h".}
+proc updateAttributeDefaultValue*[T](name: cstring; 
+    defaultValue: Variant) {.
+  importcpp: "Context::UpdateAttributeDefaultValue(@)", header: "Context.h".}

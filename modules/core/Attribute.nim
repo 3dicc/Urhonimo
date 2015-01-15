@@ -1,7 +1,7 @@
 
 
 import 
-  ptrs, variant
+  ptrs, variant, refcounted, urstr
 
 
 var AM_EDIT* {.importc: "AM_EDIT", header: "Attribute.h".}: cuint = 0x00000000
@@ -35,11 +35,11 @@ type
   AttributeAccessor* {.importc: "Urho3D::AttributeAccessor", 
                        header: "Attribute.h".} = object of RefCounted
   
-
-proc get*(this: AttributeAccessor; `ptr`: ptr Serializable; dest: var Variant) {.
-    noSideEffect, importcpp: "Get", header: "Attribute.h".}
-proc set*(this: var AttributeAccessor; `ptr`: ptr Serializable; src: Variant) {.
-    importcpp: "Set", header: "Attribute.h".}
+when false:
+  proc get*(this: AttributeAccessor; `ptr`: ptr Serializable; dest: var Variant) {.
+      noSideEffect, importcpp: "Get", header: "Attribute.h".}
+  proc set*(this: var AttributeAccessor; `ptr`: ptr Serializable; src: Variant) {.
+      importcpp: "Set", header: "Attribute.h".}
 
 type 
   AttributeInfo* {.importc: "Urho3D::AttributeInfo", header: "Attribute.h".} = object 

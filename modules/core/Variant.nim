@@ -1,7 +1,8 @@
 
 
 import 
-  color, hashMap, matrix3, matrix3x4, `ptr`, rect, stringHash
+  color, hashMap, matrix3, matrix4, ptrs, rect, urstr, stringHash, vector,
+  vector2, vector3, vector4, quaternion, refcounted
 
 
 type 
@@ -51,18 +52,14 @@ proc constructResourceRefList*(`type`: StringHash; names: Vector[UrString]): Res
 proc `==`*(this: ResourceRefList; rhs: ResourceRefList): bool {.noSideEffect, 
     importcpp: "# == #", header: "Variant.h".}
 discard "forward decl of Variant"
-type 
-  VariantVector* = Vector[Variant]
-
-
-type 
-  VariantMap* = HashMap[StringHash, Variant]
-
 
 type 
   Variant* {.importc: "Urho3D::Variant", header: "Variant.h".} = object 
     `type`* {.importc: "type_".}: VariantType
     value* {.importc: "value_".}: VariantValue
+
+  VariantVector* = Vector[Variant]
+  VariantMap* = HashMap[StringHash, Variant]
 
 
 proc constructVariant*(): Variant {.importcpp: "Urho3D::Variant(@)", 

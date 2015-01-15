@@ -1,7 +1,7 @@
 
 
 import 
-  str
+  urstr
 
 
 type 
@@ -27,8 +27,6 @@ proc `==`*(this: StringHash; rhs: StringHash): bool {.noSideEffect,
     importcpp: "# == #", header: "StringHash.h".}
 proc `<`*(this: StringHash; rhs: StringHash): bool {.noSideEffect, 
     importcpp: "# < #", header: "StringHash.h".}
-proc bool*(this: StringHash): Operator {.noSideEffect, importcpp: "bool", 
-    header: "StringHash.h".}
 proc value*(this: StringHash): cuint {.noSideEffect, importcpp: "Value", 
                                        header: "StringHash.h".}
 proc toString*(this: StringHash): UrString {.noSideEffect, 
