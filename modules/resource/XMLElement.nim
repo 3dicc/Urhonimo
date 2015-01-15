@@ -1,32 +1,32 @@
 
 
 import 
-  boundingBox, rect, `ptr`, variant
+  boundingBox, rect, ptrs, variant, resource, urstr, vector, color, vector2,
+  quaternion, vector3, vector4, matrix3, matrix4, urobject
 
-discard "forward decl of xml_node_struct"
-discard "forward decl of xpath_node"
-discard "forward decl of xpath_node_set"
-discard "forward decl of xpath_query"
-discard "forward decl of xpath_variable_set"
-discard "forward decl of XMLFile"
-discard "forward decl of XPathQuery"
-discard "forward decl of XPathResultSet"
 type 
+  XMLFile* {.importc: "Urho3D::XMLFile", header: "XMLFile.h".} = object of Resource
+
   XMLElement* {.importc: "Urho3D::XMLElement", header: "XMLElement.h".} = object 
     file* {.importc: "file_".}: WeakPtr[XMLFile]
-    node* {.importc: "node_".}: ptr Pugi.XmlNodeStruct
     xpathResultSet* {.importc: "xpathResultSet_".}: ptr XPathResultSet
-    xpathNode* {.importc: "xpathNode_".}: ptr Pugi.XpathNode
     xpathResultIndex* {.importc: "xpathResultIndex_".}: cuint
+
+  XPathResultSet* {.importc: "Urho3D::XPathResultSet", header: "XMLElement.h".} = object 
+    file* {.importc: "file_".}: WeakPtr[XMLFile]
+  XPathQuery* {.importc: "Urho3D::XPathQuery", header: "XMLElement.h".} = object 
+    queryString* {.importc: "queryString_".}: UrString
+
+
+proc constructXMLFile*(context: ptr Context): XMLFile {.
+    importcpp: "Urho3D::XMLFile(@)", header: "XMLFile.h".}
+proc destroyXMLFile*(this: var XMLFile) {.importcpp: "#.~XMLFile()", 
+    header: "XMLFile.h".}
 
 
 proc constructXMLElement*(): XMLElement {.importcpp: "Urho3D::XMLElement(@)", 
     header: "XMLElement.h".}
-proc constructXMLElement*(file: ptr XMLFile; node: ptr Pugi.XmlNodeStruct): XMLElement {.
-    importcpp: "Urho3D::XMLElement(@)", header: "XMLElement.h".}
-proc constructXMLElement*(file: ptr XMLFile; resultSet: ptr XPathResultSet; 
-                          xpathNode: ptr Pugi.XpathNode; xpathResultIndex: cuint): XMLElement {.
-    importcpp: "Urho3D::XMLElement(@)", header: "XMLElement.h".}
+
 proc constructXMLElement*(rhs: XMLElement): XMLElement {.
     importcpp: "Urho3D::XMLElement(@)", header: "XMLElement.h".}
 proc destroyXMLElement*(this: var XMLElement) {.importcpp: "#.~XMLElement()", 
@@ -41,21 +41,19 @@ proc removeChild*(this: var XMLElement; name: UrString): bool {.
     importcpp: "RemoveChild", header: "XMLElement.h".}
 proc removeChild*(this: var XMLElement; name: cstring): bool {.
     importcpp: "RemoveChild", header: "XMLElement.h".}
-proc removeChildren*(this: var XMLElement; name: UrString = UrString.empty): bool {.
+proc removeChildren*(this: var XMLElement; name: UrString): bool {.
     importcpp: "RemoveChildren", header: "XMLElement.h".}
 proc removeChildren*(this: var XMLElement; name: cstring): bool {.
     importcpp: "RemoveChildren", header: "XMLElement.h".}
-proc removeAttribute*(this: var XMLElement; name: UrString = UrString.empty): bool {.
+proc removeAttribute*(this: var XMLElement; name: UrString): bool {.
     importcpp: "RemoveAttribute", header: "XMLElement.h".}
 proc removeAttribute*(this: var XMLElement; name: cstring): bool {.
     importcpp: "RemoveAttribute", header: "XMLElement.h".}
-proc selectSingle*(this: XMLElement; query: UrString; 
-                   variables: ptr Pugi.XpathVariableSet = 0): XMLElement {.
+proc selectSingle*(this: XMLElement; query: UrString): XMLElement {.
     noSideEffect, importcpp: "SelectSingle", header: "XMLElement.h".}
 proc selectSinglePrepared*(this: XMLElement; query: XPathQuery): XMLElement {.
     noSideEffect, importcpp: "SelectSinglePrepared", header: "XMLElement.h".}
-proc select*(this: XMLElement; query: UrString; 
-             variables: ptr Pugi.XpathVariableSet = 0): XPathResultSet {.
+proc select*(this: XMLElement; query: UrString): XPathResultSet {.
     noSideEffect, importcpp: "Select", header: "XMLElement.h".}
 proc selectPrepared*(this: XMLElement; query: XPathQuery): XPathResultSet {.
     noSideEffect, importcpp: "SelectPrepared", header: "XMLElement.h".}
@@ -127,19 +125,18 @@ proc isNull*(this: XMLElement): bool {.noSideEffect, importcpp: "IsNull",
                                        header: "XMLElement.h".}
 proc notNull*(this: XMLElement): bool {.noSideEffect, importcpp: "NotNull", 
                                         header: "XMLElement.h".}
-proc bool*(this: XMLElement): Operator {.noSideEffect, importcpp: "bool", 
-    header: "XMLElement.h".}
+
 proc getName*(this: XMLElement): UrString {.noSideEffect, importcpp: "GetName", 
     header: "XMLElement.h".}
 proc hasChild*(this: XMLElement; name: UrString): bool {.noSideEffect, 
     importcpp: "HasChild", header: "XMLElement.h".}
 proc hasChild*(this: XMLElement; name: cstring): bool {.noSideEffect, 
     importcpp: "HasChild", header: "XMLElement.h".}
-proc getChild*(this: XMLElement; name: UrString = UrString.empty): XMLElement {.
+proc getChild*(this: XMLElement; name: UrString): XMLElement {.
     noSideEffect, importcpp: "GetChild", header: "XMLElement.h".}
 proc getChild*(this: XMLElement; name: cstring): XMLElement {.noSideEffect, 
     importcpp: "GetChild", header: "XMLElement.h".}
-proc getNext*(this: XMLElement; name: UrString = UrString.empty): XMLElement {.
+proc getNext*(this: XMLElement; name: UrString): XMLElement {.
     noSideEffect, importcpp: "GetNext", header: "XMLElement.h".}
 proc getNext*(this: XMLElement; name: cstring): XMLElement {.noSideEffect, 
     importcpp: "GetNext", header: "XMLElement.h".}
@@ -153,7 +150,7 @@ proc hasAttribute*(this: XMLElement; name: cstring): bool {.noSideEffect,
     importcpp: "HasAttribute", header: "XMLElement.h".}
 proc getValue*(this: XMLElement): UrString {.noSideEffect, 
     importcpp: "GetValue", header: "XMLElement.h".}
-proc getAttribute*(this: XMLElement; name: UrString = UrString.empty): UrString {.
+proc getAttribute*(this: XMLElement; name: UrString): UrString {.
     noSideEffect, importcpp: "GetAttribute", header: "XMLElement.h".}
 proc getAttribute*(this: XMLElement; name: cstring): UrString {.noSideEffect, 
     importcpp: "GetAttribute", header: "XMLElement.h".}
@@ -223,28 +220,18 @@ proc getMatrix4*(this: XMLElement; name: UrString): Matrix4 {.noSideEffect,
     importcpp: "GetMatrix4", header: "XMLElement.h".}
 proc getFile*(this: XMLElement): ptr XMLFile {.noSideEffect, 
     importcpp: "GetFile", header: "XMLElement.h".}
-proc getNode*(this: XMLElement): ptr Pugi.XmlNodeStruct {.noSideEffect, 
-    importcpp: "GetNode", header: "XMLElement.h".}
+
 proc getXPathResultSet*(this: XMLElement): ptr XPathResultSet {.noSideEffect, 
     importcpp: "GetXPathResultSet", header: "XMLElement.h".}
-proc getXPathNode*(this: XMLElement): ptr Pugi.XpathNode {.noSideEffect, 
-    importcpp: "GetXPathNode", header: "XMLElement.h".}
 proc getXPathResultIndex*(this: XMLElement): cuint {.noSideEffect, 
     importcpp: "GetXPathResultIndex", header: "XMLElement.h".}
 proc nextResult*(this: XMLElement): XMLElement {.noSideEffect, 
     importcpp: "NextResult", header: "XMLElement.h".}
 
-type 
-  XPathResultSet* {.importc: "Urho3D::XPathResultSet", header: "XMLElement.h".} = object 
-    file* {.importc: "file_".}: WeakPtr[XMLFile]
-    resultSet* {.importc: "resultSet_".}: ptr Pugi.XpathNodeSet
-
 
 proc constructXPathResultSet*(): XPathResultSet {.
     importcpp: "Urho3D::XPathResultSet(@)", header: "XMLElement.h".}
-proc constructXPathResultSet*(file: ptr XMLFile; 
-                              resultSet: ptr Pugi.XpathNodeSet): XPathResultSet {.
-    importcpp: "Urho3D::XPathResultSet(@)", header: "XMLElement.h".}
+
 proc constructXPathResultSet*(rhs: XPathResultSet): XPathResultSet {.
     importcpp: "Urho3D::XPathResultSet(@)", header: "XMLElement.h".}
 proc destroyXPathResultSet*(this: var XPathResultSet) {.
@@ -257,20 +244,12 @@ proc size*(this: XPathResultSet): cuint {.noSideEffect, importcpp: "Size",
     header: "XMLElement.h".}
 proc empty*(this: XPathResultSet): bool {.noSideEffect, importcpp: "Empty", 
     header: "XMLElement.h".}
-proc getXPathNodeSet*(this: XPathResultSet): ptr Pugi.XpathNodeSet {.
-    noSideEffect, importcpp: "GetXPathNodeSet", header: "XMLElement.h".}
-
-type 
-  XPathQuery* {.importc: "Urho3D::XPathQuery", header: "XMLElement.h".} = object 
-    queryString* {.importc: "queryString_".}: UrString
-    query* {.importc: "query_".}: ptr Pugi.XpathQuery
-    variables* {.importc: "variables_".}: ptr Pugi.XpathVariableSet
 
 
 proc constructXPathQuery*(): XPathQuery {.importcpp: "Urho3D::XPathQuery(@)", 
     header: "XMLElement.h".}
 proc constructXPathQuery*(queryString: UrString; 
-                          variableString: UrString = UrString.empty): XPathQuery {.
+                          variableString: UrString): XPathQuery {.
     importcpp: "Urho3D::XPathQuery(@)", header: "XMLElement.h".}
 proc destroyXPathQuery*(this: var XPathQuery) {.importcpp: "#.~XPathQuery()", 
     header: "XMLElement.h".}
@@ -286,7 +265,7 @@ proc setVariable*(this: var XPathQuery; name: cstring; value: cstring): bool {.
 proc setVariable*(this: var XPathQuery; name: UrString; value: XPathResultSet): bool {.
     importcpp: "SetVariable", header: "XMLElement.h".}
 proc setQuery*(this: var XPathQuery; queryString: UrString; 
-               variableString: UrString = UrString.empty; `bind`: bool = true): bool {.
+               variableString: UrString; `bind`: bool = true): bool {.
     importcpp: "SetQuery", header: "XMLElement.h".}
 proc clear*(this: var XPathQuery) {.importcpp: "Clear", header: "XMLElement.h".}
 proc evaluateToBool*(this: XPathQuery; element: XMLElement): bool {.
@@ -299,7 +278,4 @@ proc evaluate*(this: XPathQuery; element: XMLElement): XPathResultSet {.
     noSideEffect, importcpp: "Evaluate", header: "XMLElement.h".}
 proc getQuery*(this: XPathQuery): UrString {.noSideEffect, 
     importcpp: "GetQuery", header: "XMLElement.h".}
-proc getXPathQuery*(this: XPathQuery): ptr Pugi.XpathQuery {.noSideEffect, 
-    importcpp: "GetXPathQuery", header: "XMLElement.h".}
-proc getXPathVariableSet*(this: XPathQuery): ptr Pugi.XpathVariableSet {.
-    noSideEffect, importcpp: "GetXPathVariableSet", header: "XMLElement.h".}
+

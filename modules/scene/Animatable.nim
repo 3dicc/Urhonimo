@@ -1,29 +1,9 @@
 
 
 import 
-  hashSet, serializable, valueAnimationInfo
-
-discard "forward decl of Animatable"
-discard "forward decl of ValueAnimation"
-discard "forward decl of AttributeAnimationInfo"
-discard "forward decl of ObjectAnimation"
-type 
-  AttributeAnimationInfo* {.importc: "Urho3D::AttributeAnimationInfo", 
-                            header: "Animatable.h".} = object of ValueAnimationInfo
-    attributeInfo* {.importc: "attributeInfo_".}: AttributeInfo
-
-
-proc constructAttributeAnimationInfo*(animatable: ptr Animatable; 
-                                      attributeInfo: AttributeInfo; 
-                                      attributeAnimation: ptr ValueAnimation; 
-                                      wrapMode: WrapMode; speed: cfloat): AttributeAnimationInfo {.
-    importcpp: "Urho3D::AttributeAnimationInfo(@)", header: "Animatable.h".}
-proc constructAttributeAnimationInfo*(other: AttributeAnimationInfo): AttributeAnimationInfo {.
-    importcpp: "Urho3D::AttributeAnimationInfo(@)", header: "Animatable.h".}
-proc destroyAttributeAnimationInfo*(this: var AttributeAnimationInfo) {.
-    importcpp: "#.~AttributeAnimationInfo()", header: "Animatable.h".}
-proc getAttributeInfo*(this: AttributeAnimationInfo): AttributeInfo {.
-    noSideEffect, importcpp: "GetAttributeInfo", header: "Animatable.h".}
+  hashSet, serializable, valueAnimationInfo, valueanimation, objectanimation,
+  ptrs, attribute, hashMap, urstr, animationdefs, stringHash, urobject,
+  xmlelement, variant
 
 type 
   Animatable* {.importc: "Urho3D::Animatable", header: "Animatable.h".} = object of Serializable
@@ -34,16 +14,34 @@ type
     attributeAnimationInfos* {.importc: "attributeAnimationInfos_".}: HashMap[
         UrString, SharedPtr[AttributeAnimationInfo]]
 
+  AttributeAnimationInfo* {.importc: "Urho3D::AttributeAnimationInfo", 
+                            header: "Animatable.h".} = object of ValueAnimationInfo
+    attributeInfo* {.importc: "attributeInfo_".}: AttributeInfo
 
-proc getType*(this: Animatable): Urho3D.StringHash {.noSideEffect, 
+
+proc constructAttributeAnimationInfo*(animatable: ptr Animatable; 
+                                      attributeInfo: AttributeInfo; 
+                                      attributeAnimation: ptr ValueAnimation; 
+                                      wrapMode: WrapMode;
+                                      speed: cfloat): AttributeAnimationInfo {.
+    importcpp: "Urho3D::AttributeAnimationInfo(@)", header: "Animatable.h".}
+proc constructAttributeAnimationInfo*(other: AttributeAnimationInfo): AttributeAnimationInfo {.
+    importcpp: "Urho3D::AttributeAnimationInfo(@)", header: "Animatable.h".}
+proc destroyAttributeAnimationInfo*(this: var AttributeAnimationInfo) {.
+    importcpp: "#.~AttributeAnimationInfo()", header: "Animatable.h".}
+proc getAttributeInfo*(this: AttributeAnimationInfo): AttributeInfo {.
+    noSideEffect, importcpp: "GetAttributeInfo", header: "Animatable.h".}
+
+
+proc getType*(this: Animatable): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "Animatable.h".}
-proc getBaseType*(this: Animatable): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: Animatable): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "Animatable.h".}
-proc getTypeName*(this: Animatable): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: Animatable): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "Animatable.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::Animatable::GetTypeStatic(@)", header: "Animatable.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::Animatable::GetTypeNameStatic(@)", 
     header: "Animatable.h".}
 proc constructAnimatable*(context: ptr Context): Animatable {.
@@ -64,7 +62,7 @@ proc setObjectAnimation*(this: var Animatable;
     importcpp: "SetObjectAnimation", header: "Animatable.h".}
 proc setAttributeAnimation*(this: var Animatable; name: UrString; 
                             attributeAnimation: ptr ValueAnimation; 
-                            wrapMode: WrapMode = wm_Loop; speed: cfloat = 1.0) {.
+                            wrapMode: WrapMode = Wm_Loop; speed: cfloat = 1.0) {.
     importcpp: "SetAttributeAnimation", header: "Animatable.h".}
 proc setAttributeAnimationWrapMode*(this: var Animatable; name: UrString; 
                                     wrapMode: WrapMode) {.

@@ -1,7 +1,7 @@
 
 
 import 
-  resource, variant
+  resource, variant, stringHash, vector, urstr
 
 discard "forward decl of XMLElement"
 type 
@@ -42,33 +42,29 @@ type
     eventFrames* {.importc: "eventFrames_".}: Vector[VAnimEventFrame]
 
 
-proc getType*(this: ValueAnimation): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: ValueAnimation): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "ValueAnimation.h".}
-proc getBaseType*(this: ValueAnimation): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: ValueAnimation): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "ValueAnimation.h".}
-proc getTypeName*(this: ValueAnimation): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: ValueAnimation): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "ValueAnimation.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::ValueAnimation::GetTypeStatic(@)", 
     header: "ValueAnimation.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::ValueAnimation::GetTypeNameStatic(@)", 
     header: "ValueAnimation.h".}
-proc constructValueAnimation*(context: ptr Context): ValueAnimation {.
-    importcpp: "Urho3D::ValueAnimation(@)", header: "ValueAnimation.h".}
-proc destroyValueAnimation*(this: var ValueAnimation) {.
-    importcpp: "#.~ValueAnimation()", header: "ValueAnimation.h".}
-proc registerObject*(context: ptr Context) {.
-    importcpp: "Urho3D::ValueAnimation::RegisterObject(@)", 
-    header: "ValueAnimation.h".}
-proc load*(this: var ValueAnimation; source: var Deserializer): bool {.
-    importcpp: "Load", header: "ValueAnimation.h".}
-proc save*(this: ValueAnimation; dest: var Serializer): bool {.noSideEffect, 
-    importcpp: "Save", header: "ValueAnimation.h".}
-proc loadXML*(this: var ValueAnimation; source: XMLElement): bool {.
-    importcpp: "LoadXML", header: "ValueAnimation.h".}
-proc saveXML*(this: ValueAnimation; dest: var XMLElement): bool {.noSideEffect, 
-    importcpp: "SaveXML", header: "ValueAnimation.h".}
+
+when false:
+  proc load*(this: var ValueAnimation; source: var Deserializer): bool {.
+      importcpp: "Load", header: "ValueAnimation.h".}
+  proc save*(this: ValueAnimation; dest: var Serializer): bool {.noSideEffect, 
+      importcpp: "Save", header: "ValueAnimation.h".}
+  proc loadXML*(this: var ValueAnimation; source: XMLElement): bool {.
+      importcpp: "LoadXML", header: "ValueAnimation.h".}
+  proc saveXML*(this: ValueAnimation; dest: var XMLElement): bool {.noSideEffect, 
+      importcpp: "SaveXML", header: "ValueAnimation.h".}
+    
 proc setOwner*(this: var ValueAnimation; owner: pointer) {.
     importcpp: "SetOwner", header: "ValueAnimation.h".}
 proc setInterpolationMethod*(this: var ValueAnimation; `method`: InterpMethod) {.
@@ -80,7 +76,7 @@ proc setValueType*(this: var ValueAnimation; valueType: VariantType) {.
 proc setKeyFrame*(this: var ValueAnimation; time: cfloat; value: Variant): bool {.
     importcpp: "SetKeyFrame", header: "ValueAnimation.h".}
 proc setEventFrame*(this: var ValueAnimation; time: cfloat; 
-                    eventType: StringHash; eventData: VariantMap = variantMap()) {.
+                    eventType: StringHash; eventData: VariantMap) {.
     importcpp: "SetEventFrame", header: "ValueAnimation.h".}
 proc isValid*(this: ValueAnimation): bool {.noSideEffect, importcpp: "IsValid", 
     header: "ValueAnimation.h".}

@@ -1,24 +1,7 @@
 
 
 import 
-  boundingBox, matrix3x4, plane, rect, sphere
-
-
-type 
-  FrustumPlane* = enum 
-    PLANE_NEAR = 0, PLANE_LEFT, PLANE_RIGHT, PLANE_UP, PLANE_DOWN, PLANE_FAR
-
-
-var NUM_FRUSTUM_PLANES* {.importc: "NUM_FRUSTUM_PLANES", header: "Frustum.h".}: cuint = 6
-
-var NUM_FRUSTUM_VERTICES* {.importc: "NUM_FRUSTUM_VERTICES", header: "Frustum.h".}: cuint = 8
-
-
-type 
-  Frustum* {.importc: "Urho3D::Frustum", header: "Frustum.h".} = object 
-    planes* {.importc: "planes_".}: array[num_Frustum_Planes, Plane]
-    vertices* {.importc: "vertices_".}: array[num_Frustum_Vertices, Vector3]
-
+  boundingBox, matrix4, plane, rect
 
 proc constructFrustum*(): Frustum {.importcpp: "Urho3D::Frustum(@)", 
                                     header: "Frustum.h".}

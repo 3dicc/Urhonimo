@@ -1,19 +1,29 @@
 
 
 import 
-  rect, vector3
+  rect, vector3, vector, plane, matrix3, matrix4, mathdefs, urstr
 
-discard "forward decl of Polyhedron"
-discard "forward decl of Frustum"
-discard "forward decl of Matrix3"
-discard "forward decl of Matrix4"
-discard "forward decl of Matrix3x4"
-discard "forward decl of Sphere"
+const NUM_FRUSTUM_PLANES*: cuint = 6
+const NUM_FRUSTUM_VERTICES*: cuint = 8
+
 type 
   BoundingBox* {.importc: "Urho3D::BoundingBox", header: "BoundingBox.h".} = object 
     min* {.importc: "min_".}: Vector3
     max* {.importc: "max_".}: Vector3
     defined* {.importc: "defined_".}: bool
+  Sphere* {.importc: "Urho3D::Sphere", header: "Sphere.h".} = object 
+    center* {.importc: "center_".}: Vector3
+    radius* {.importc: "radius_".}: cfloat
+    defined* {.importc: "defined_".}: bool
+  Polyhedron* {.importc: "Urho3D::Polyhedron", header: "Polyhedron.h".} = object 
+    faces* {.importc: "faces_".}: Vector[PODVector[Vector3]]
+    clippedVertices* {.importc: "clippedVertices_".}: PODVector[Vector3]
+    outFace* {.importc: "outFace_".}: PODVector[Vector3]
+  FrustumPlane* = enum 
+    PLANE_NEAR = 0, PLANE_LEFT, PLANE_RIGHT, PLANE_UP, PLANE_DOWN, PLANE_FAR
+  Frustum* {.importc: "Urho3D::Frustum", header: "Frustum.h".} = object 
+    planes* {.importc: "planes_".}: array[Num_Frustum_Planes, Plane]
+    vertices* {.importc: "vertices_".}: array[Num_Frustum_Vertices, Vector3]
 
 
 proc constructBoundingBox*(): BoundingBox {.importcpp: "Urho3D::BoundingBox(@)", 

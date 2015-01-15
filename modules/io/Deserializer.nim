@@ -1,7 +1,8 @@
 
 
 import 
-  boundingBox, rect, variant
+  boundingBox, rect, variant, urstr, vector2, vector3, vector4, quaternion,
+  matrix3, matrix4, color, stringHash, vector, rect
 
 
 type 

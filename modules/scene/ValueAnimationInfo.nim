@@ -1,11 +1,8 @@
 
 
 import 
-  animationDefs, refCounted
+  animationDefs, refCounted, urobject, valueanimation, ptrs
 
-discard "forward decl of Object"
-discard "forward decl of ValueAnimation"
-discard "forward decl of VAnimEventFrame"
 type 
   ValueAnimationInfo* {.importc: "Urho3D::ValueAnimationInfo", 
                         header: "ValueAnimationInfo.h".} = object of RefCounted

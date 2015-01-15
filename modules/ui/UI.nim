@@ -1,7 +1,8 @@
 
 
 import 
-  UrObject, cursor, uIBatch
+  UrObject, uielement, ptrs, graphics, vector, vertexbuffer, urstr, timer,
+  hashMap, stringHash, urobject, vector2, serializer, deserializer, xmlelement
 
 discard "forward decl of Cursor"
 discard "forward decl of Graphics"
@@ -13,6 +14,14 @@ discard "forward decl of VertexBuffer"
 discard "forward decl of XMLElement"
 discard "forward decl of XMLFile"
 type 
+  DragData* {.importc: "Urho3D::UI::DragData", header: "UI.h".} = object 
+    dragButtons* {.importc: "dragButtons".}: cint
+    numDragButtons* {.importc: "numDragButtons".}: cint
+    sumPos* {.importc: "sumPos".}: IntVector2
+    dragBeginPending* {.importc: "dragBeginPending".}: bool
+    dragBeginTimer* {.importc: "dragBeginTimer".}: Timer
+    dragBeginSumPos* {.importc: "dragBeginSumPos".}: IntVector2
+
   Ui* {.importc: "Urho3D::UI", header: "UI.h".} = object of UrObject
     graphics* {.importc: "graphics_".}: WeakPtr[Graphics]
     rootElement* {.importc: "rootElement_".}: SharedPtr[UIElement]
@@ -57,15 +66,15 @@ type
         ptr UIElement]
 
 
-proc getType*(this: Ui): Urho3D.StringHash {.noSideEffect, importcpp: "GetType", 
+proc getType*(this: Ui): StringHash {.noSideEffect, importcpp: "GetType", 
     header: "UI.h".}
-proc getBaseType*(this: Ui): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: Ui): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "UI.h".}
-proc getTypeName*(this: Ui): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: Ui): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "UI.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::UI::GetTypeStatic(@)", header: "UI.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::UI::GetTypeNameStatic(@)", header: "UI.h".}
 proc constructUI*(context: ptr Context): Ui {.importcpp: "Urho3D::UI(@)", 
     header: "UI.h".}
@@ -84,9 +93,9 @@ proc render*(this: var Ui) {.importcpp: "Render", header: "UI.h".}
 proc debugDraw*(this: var Ui; element: ptr UIElement) {.importcpp: "DebugDraw", 
     header: "UI.h".}
 proc loadLayout*(this: var Ui; source: var Deserializer; 
-                 styleFile: ptr XMLFile = 0): SharedPtr[UIElement] {.
+                 styleFile: ptr XMLFile = nil): SharedPtr[UIElement] {.
     importcpp: "LoadLayout", header: "UI.h".}
-proc loadLayout*(this: var Ui; file: ptr XMLFile; styleFile: ptr XMLFile = 0): SharedPtr[
+proc loadLayout*(this: var Ui; file: ptr XMLFile; styleFile: ptr XMLFile = nil): SharedPtr[
     UIElement] {.importcpp: "LoadLayout", header: "UI.h".}
 proc saveLayout*(this: var Ui; dest: var Serializer; element: ptr UIElement): bool {.
     importcpp: "SaveLayout", header: "UI.h".}
@@ -161,15 +170,6 @@ proc hasModalElement*(this: Ui): bool {.noSideEffect,
                                         header: "UI.h".}
 proc isDragging*(this: Ui): bool {.noSideEffect, importcpp: "IsDragging", 
                                    header: "UI.h".}
-  type 
-    DragData* {.importc: "Urho3D::DragData", header: "UI.h".} = object 
-      dragButtons* {.importc: "dragButtons".}: cint
-      numDragButtons* {.importc: "numDragButtons".}: cint
-      sumPos* {.importc: "sumPos".}: IntVector2
-      dragBeginPending* {.importc: "dragBeginPending".}: bool
-      dragBeginTimer* {.importc: "dragBeginTimer".}: Timer
-      dragBeginSumPos* {.importc: "dragBeginSumPos".}: IntVector2
-
 
 proc registerUILibrary*(context: ptr Context) {.
     importcpp: "Urho3D::RegisterUILibrary(@)", header: "UI.h".}

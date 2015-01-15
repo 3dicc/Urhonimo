@@ -1,9 +1,5 @@
 
-
-when defined(URHO3D_OPENGL): 
-  import 
-    openGL/OGLVertexBuffer
-
-else: 
-  import 
-    direct3D9/D3D9VertexBuffer
+when defined(windows):
+  type VertexBuffer* {.importc: "Urho3D::VertexBuffer", header: "D3D9VertexBuffer.h".} = object
+else:
+  type VertexBuffer* {.importc: "Urho3D::VertexBuffer", header: "OGLVertexBuffer.h".} = object

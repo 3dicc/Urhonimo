@@ -1,19 +1,13 @@
 
 
 import 
-  vector3
+  vector3, vector, boundingbox, frustum, matrix3, matrix4, plane
 
 discard "forward decl of BoundingBox"
 discard "forward decl of Frustum"
 discard "forward decl of Matrix3"
 discard "forward decl of Matrix3x4"
 discard "forward decl of Plane"
-type 
-  Polyhedron* {.importc: "Urho3D::Polyhedron", header: "Polyhedron.h".} = object 
-    faces* {.importc: "faces_".}: Vector[PODVector[Vector3]]
-    clippedVertices* {.importc: "clippedVertices_".}: PODVector[Vector3]
-    outFace* {.importc: "outFace_".}: PODVector[Vector3]
-
 
 proc constructPolyhedron*(): Polyhedron {.importcpp: "Urho3D::Polyhedron(@)", 
     header: "Polyhedron.h".}

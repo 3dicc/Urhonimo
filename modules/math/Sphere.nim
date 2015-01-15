@@ -1,17 +1,7 @@
 
 
 import 
-  vector3
-
-discard "forward decl of BoundingBox"
-discard "forward decl of Polyhedron"
-discard "forward decl of Frustum"
-type 
-  Sphere* {.importc: "Urho3D::Sphere", header: "Sphere.h".} = object 
-    center* {.importc: "center_".}: Vector3
-    radius* {.importc: "radius_".}: cfloat
-    defined* {.importc: "defined_".}: bool
-
+  vector3, boundingbox, frustum
 
 proc constructSphere*(): Sphere {.importcpp: "Urho3D::Sphere(@)", 
                                   header: "Sphere.h".}

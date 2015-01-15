@@ -1,9 +1,8 @@
 
 
 import 
-  hashBase, stringHash
+  hashBase, stringHash, vector3
 
-discard "forward decl of Vector3"
 type 
   PrimitiveType* = enum 
     TRIANGLE_LIST = 0, LINE_LIST, POINT_LIST, TRIANGLE_STRIP, LINE_STRIP, 
@@ -334,9 +333,9 @@ var MASK_INSTANCEMATRIX2* {.importc: "MASK_INSTANCEMATRIX2",
 var MASK_INSTANCEMATRIX3* {.importc: "MASK_INSTANCEMATRIX3", 
                             header: "GraphicsDefs.h".}: cuint = 0x00001000
 
-var MASK_DEFAULT* {.importc: "MASK_DEFAULT", header: "GraphicsDefs.h".}: cuint = 0xFFFFFFFF
+var MASK_DEFAULT* {.importc: "MASK_DEFAULT", header: "GraphicsDefs.h".}: cuint
 
-var NO_ELEMENT* {.importc: "NO_ELEMENT", header: "GraphicsDefs.h".}: cuint = 0xFFFFFFFF
+var NO_ELEMENT* {.importc: "NO_ELEMENT", header: "GraphicsDefs.h".}: cuint
 
 var MAX_RENDERTARGETS* {.importc: "MAX_RENDERTARGETS", header: "GraphicsDefs.h".}: cint = 4
 

@@ -1,63 +1,34 @@
 
 
 import 
-  animatable, uIBatch, vector2, xMLFile
-
-proc debug_Draw_Color*(a2: Color.Blue): Color {.
-    importcpp: "Urho3D::DEBUG_DRAW_COLOR(@)", header: "UIElement.h".}
+  animatable, vector2, xmlelement, texture, stringHash, urobject,
+  color, graphicsDefs, rect, urstr, vector, ptrs, variant, matrix4, image,
+  deserializer, serializer
 
 type 
   HorizontalAlignment* = enum 
     HA_LEFT = 0, HA_CENTER, HA_RIGHT
-
-
-
-type 
   VerticalAlignment* = enum 
     VA_TOP = 0, VA_CENTER, VA_BOTTOM
-
-
-
-type 
   Corner* = enum 
     C_TOPLEFT = 0, C_TOPRIGHT, C_BOTTOMLEFT, C_BOTTOMRIGHT, 
     MAX_UIELEMENT_CORNERS
-
-
-
-type 
   Orientation* = enum 
     O_HORIZONTAL = 0, O_VERTICAL
-
-
-
-type 
   FocusMode* = enum 
     FM_NOTFOCUSABLE = 0, FM_RESETFOCUS, FM_FOCUSABLE, FM_FOCUSABLE_DEFOCUSABLE
-
-
-
-type 
   LayoutMode* = enum 
     LM_FREE = 0, LM_HORIZONTAL, LM_VERTICAL
-
-
-
-type 
   TraversalMode* = enum 
     TM_BREADTH_FIRST = 0, TM_DEPTH_FIRST
-
-
+  CursorShape* = enum 
+    CS_NORMAL = 0, CS_RESIZEVERTICAL, CS_RESIZEDIAGONAL_TOPRIGHT, 
+    CS_RESIZEHORIZONTAL, CS_RESIZEDIAGONAL_TOPLEFT, CS_ACCEPTDROP, 
+    CS_REJECTDROP, CS_BUSY, CS_MAX_SHAPES
 
 var DD_DISABLED* {.importc: "DD_DISABLED", header: "UIElement.h".}: cuint = 0x00000000
-
-
 var DD_SOURCE* {.importc: "DD_SOURCE", header: "UIElement.h".}: cuint = 0x00000001
-
-
 var DD_TARGET* {.importc: "DD_TARGET", header: "UIElement.h".}: cuint = 0x00000002
-
-
 var DD_SOURCE_AND_TARGET* {.importc: "DD_SOURCE_AND_TARGET", 
                             header: "UIElement.h".}: cuint = 0x00000003
 
@@ -69,7 +40,7 @@ type
     children* {.importc: "children_".}: Vector[SharedPtr[UIElement]]
     parent* {.importc: "parent_".}: ptr UIElement
     clipBorder* {.importc: "clipBorder_".}: IntRect
-    color* {.importc: "color_".}: array[max_Uielement_Corners, Color]
+    color* {.importc: "color_".}: array[Max_Uielement_Corners, Color]
     vars* {.importc: "vars_".}: VariantMap
     priority* {.importc: "priority_".}: cint
     bringToFront* {.importc: "bringToFront_".}: bool
@@ -119,18 +90,82 @@ type
     traversalMode* {.importc: "traversalMode_".}: TraversalMode
     elementEventSender* {.importc: "elementEventSender_".}: bool
 
+  UIBatch* {.importc: "Urho3D::UIBatch", header: "UIBatch.h".} = object 
+    element* {.importc: "element_".}: ptr UIElement
+    blendMode* {.importc: "blendMode_".}: BlendMode
+    scissor* {.importc: "scissor_".}: IntRect
+    texture* {.importc: "texture_".}: ptr Texture
+    invTextureSize* {.importc: "invTextureSize_".}: Vector2
+    color* {.importc: "color_".}: cuint
+    vertexData* {.importc: "vertexData_".}: ptr PODVector[cfloat]
+    vertexStart* {.importc: "vertexStart_".}: cuint
+    vertexEnd* {.importc: "vertexEnd_".}: cuint
+    useGradient* {.importc: "useGradient_".}: bool
+  BorderImage* {.importc: "Urho3D::BorderImage", header: "BorderImage.h".} = object of UIElement
+    texture* {.importc: "texture_".}: SharedPtr[Texture]
+    imageRect* {.importc: "imageRect_".}: IntRect
+    border* {.importc: "border_".}: IntRect
+    imageBorder* {.importc: "imageBorder_".}: IntRect
+    hoverOffset* {.importc: "hoverOffset_".}: IntVector2
+    blendMode* {.importc: "blendMode_".}: BlendMode
+    tiled* {.importc: "tiled_".}: bool
 
-proc getType*(this: UIElement): Urho3D.StringHash {.noSideEffect, 
+
+  Cursor* {.importc: "Urho3D::Cursor", header: "Cursor.h".} = object of BorderImage
+    shape* {.importc: "shape_".}: CursorShape
+    shapeInfos* {.importc: "shapeInfos_".}: array[CS_Max_Shapes, CursorShapeInfo]
+    useSystemShapes* {.importc: "useSystemShapes_".}: bool
+    osShapeDirty* {.importc: "osShapeDirty_".}: bool
+  CursorShapeInfo* {.importc: "Urho3D::CursorShapeInfo", header: "Cursor.h".} = object 
+    image* {.importc: "image_".}: SharedPtr[Image]
+    texture* {.importc: "texture_".}: SharedPtr[Texture]
+    imageRect* {.importc: "imageRect_".}: IntRect
+    hotSpot* {.importc: "hotSpot_".}: IntVector2
+    #osCursor* {.importc: "osCursor_".}: ptr SDL_Cursor
+    systemDefined* {.importc: "systemDefined_".}: bool
+
+
+var UI_VERTEX_SIZE* {.importc: "UI_VERTEX_SIZE", header: "UIBatch.h".}: cuint = 6
+
+proc constructUIBatch*(): UIBatch {.importcpp: "Urho3D::UIBatch(@)", 
+                                    header: "UIBatch.h".}
+proc constructUIBatch*(element: ptr UIElement; blendMode: BlendMode; 
+                       scissor: IntRect; texture: ptr Texture; 
+                       vertexData: ptr PODVector[cfloat]): UIBatch {.
+    importcpp: "Urho3D::UIBatch(@)", header: "UIBatch.h".}
+proc setColor*(this: var UIBatch; color: Color; overrideAlpha: bool = false) {.
+    importcpp: "SetColor", header: "UIBatch.h".}
+proc setDefaultColor*(this: var UIBatch) {.importcpp: "SetDefaultColor", 
+    header: "UIBatch.h".}
+proc addQuad*(this: var UIBatch; x: cint; y: cint; width: cint; height: cint; 
+              texOffsetX: cint; texOffsetY: cint; texWidth: cint = 0; 
+              texHeight: cint = 0) {.importcpp: "AddQuad", header: "UIBatch.h".}
+proc addQuad*(this: var UIBatch; transform: Matrix3x4; x: cint; y: cint; 
+              width: cint; height: cint; texOffsetX: cint; texOffsetY: cint; 
+              texWidth: cint = 0; texHeight: cint = 0) {.importcpp: "AddQuad", 
+    header: "UIBatch.h".}
+proc addQuad*(this: var UIBatch; x: cint; y: cint; width: cint; height: cint; 
+              texOffsetX: cint; texOffsetY: cint; texWidth: cint; 
+              texHeight: cint; tiled: bool) {.importcpp: "AddQuad", 
+    header: "UIBatch.h".}
+proc merge*(this: var UIBatch; batch: UIBatch): bool {.importcpp: "Merge", 
+    header: "UIBatch.h".}
+proc getInterpolatedColor*(this: var UIBatch; x: cint; y: cint): cuint {.
+    importcpp: "GetInterpolatedColor", header: "UIBatch.h".}
+proc addOrMerge*(batch: UIBatch; batches: var PODVector[UIBatch]) {.
+    importcpp: "Urho3D::UIBatch::AddOrMerge(@)", header: "UIBatch.h".}
+    
+proc getType*(this: UIElement): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "UIElement.h".}
-proc getBaseType*(this: UIElement): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: UIElement): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "UIElement.h".}
-proc getTypeName*(this: UIElement): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: UIElement): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "UIElement.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::UIElement::GetTypeStatic(@)", header: "UIElement.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::UIElement::GetTypeNameStatic(@)", header: "UIElement.h".}
-proc getBaseTypeStatic*(): Urho3D.StringHash {.
+proc getBaseTypeStatic*(): StringHash {.
     importcpp: "Urho3D::UIElement::GetBaseTypeStatic(@)", header: "UIElement.h".}
 proc constructUIElement*(context: ptr Context): UIElement {.
     importcpp: "Urho3D::UIElement(@)", header: "UIElement.h".}
@@ -147,7 +182,7 @@ proc loadXML*(this: var UIElement; source: XMLElement; styleFile: ptr XMLFile;
               setInstanceDefault: bool = false): bool {.importcpp: "LoadXML", 
     header: "UIElement.h".}
 proc loadChildXML*(this: var UIElement; childElem: XMLElement; 
-                   styleFile: ptr XMLFile = 0; setInstanceDefault: bool = false): bool {.
+                   styleFile: ptr XMLFile = nil; setInstanceDefault: bool = false): bool {.
     importcpp: "LoadChildXML", header: "UIElement.h".}
 proc saveXML*(this: UIElement; dest: var XMLElement): bool {.noSideEffect, 
     importcpp: "SaveXML", header: "UIElement.h".}
@@ -306,16 +341,16 @@ proc setFocusMode*(this: var UIElement; mode: FocusMode) {.
     importcpp: "SetFocusMode", header: "UIElement.h".}
 proc setDragDropMode*(this: var UIElement; mode: cuint) {.
     importcpp: "SetDragDropMode", header: "UIElement.h".}
-proc setStyle*(this: var UIElement; styleName: UrString; file: ptr XMLFile = 0): bool {.
+proc setStyle*(this: var UIElement; styleName: UrString; file: ptr XMLFile = nil): bool {.
     importcpp: "SetStyle", header: "UIElement.h".}
 proc setStyle*(this: var UIElement; element: XMLElement): bool {.
     importcpp: "SetStyle", header: "UIElement.h".}
-proc setStyleAuto*(this: var UIElement; file: ptr XMLFile = 0): bool {.
+proc setStyleAuto*(this: var UIElement; file: ptr XMLFile = nil): bool {.
     importcpp: "SetStyleAuto", header: "UIElement.h".}
 proc setDefaultStyle*(this: var UIElement; style: ptr XMLFile) {.
     importcpp: "SetDefaultStyle", header: "UIElement.h".}
 proc setLayout*(this: var UIElement; mode: LayoutMode; spacing: cint = 0; 
-                border: IntRect = intRect.zero) {.importcpp: "SetLayout", 
+                border: IntRect) {.importcpp: "SetLayout", 
     header: "UIElement.h".}
 proc setLayoutMode*(this: var UIElement; mode: LayoutMode) {.
     importcpp: "SetLayoutMode", header: "UIElement.h".}
@@ -338,7 +373,7 @@ proc enableLayoutUpdate*(this: var UIElement) {.importcpp: "EnableLayoutUpdate",
 proc bringToFront*(this: var UIElement) {.importcpp: "BringToFront", 
     header: "UIElement.h".}
 proc createChild*(this: var UIElement; `type`: StringHash; 
-                  name: UrString = UrString.empty; index: cuint = m_Max_Unsigned): ptr UIElement {.
+                  name: UrString; index: cuint = cuint(-1)): ptr UIElement {.
     importcpp: "CreateChild", header: "UIElement.h".}
 proc addChild*(this: var UIElement; element: ptr UIElement) {.
     importcpp: "AddChild", header: "UIElement.h".}
@@ -354,7 +389,7 @@ proc remove*(this: var UIElement) {.importcpp: "Remove", header: "UIElement.h".}
 proc findChild*(this: UIElement; element: ptr UIElement): cuint {.noSideEffect, 
     importcpp: "FindChild", header: "UIElement.h".}
 proc setParent*(this: var UIElement; parent: ptr UIElement; 
-                index: cuint = m_Max_Unsigned) {.importcpp: "SetParent", 
+                index: cuint = cuint(-1)) {.importcpp: "SetParent", 
     header: "UIElement.h".}
 proc setVar*(this: var UIElement; key: StringHash; value: Variant) {.
     importcpp: "SetVar", header: "UIElement.h".}
@@ -364,8 +399,8 @@ proc setTraversalMode*(this: var UIElement; traversalMode: TraversalMode) {.
     importcpp: "SetTraversalMode", header: "UIElement.h".}
 proc setElementEventSender*(this: var UIElement; flag: bool) {.
     importcpp: "SetElementEventSender", header: "UIElement.h".}
-proc createChild*[T](this: var UIElement; name: UrString = UrString.empty; 
-                     index: cuint = m_Max_Unsigned): ptr T {.
+proc createChild*[T](this: var UIElement; name: UrString; 
+                     index: cuint = cuint(-1)): ptr T {.
     importcpp: "CreateChild", header: "UIElement.h".}
 proc getName*(this: UIElement): UrString {.noSideEffect, importcpp: "GetName", 
     header: "UIElement.h".}
@@ -461,7 +496,7 @@ proc getChild*(this: UIElement; index: cuint): ptr UIElement {.noSideEffect,
     importcpp: "GetChild", header: "UIElement.h".}
 proc getChild*(this: UIElement; name: UrString; recursive: bool = false): ptr UIElement {.
     noSideEffect, importcpp: "GetChild", header: "UIElement.h".}
-proc getChild*(this: UIElement; key: StringHash; value: Variant = variant.empty; 
+proc getChild*(this: UIElement; key: StringHash; value: Variant; 
                recursive: bool = false): ptr UIElement {.noSideEffect, 
     importcpp: "GetChild", header: "UIElement.h".}
 proc getChildren*(this: UIElement): Vector[SharedPtr[UIElement]] {.noSideEffect, 
@@ -524,4 +559,5 @@ proc isElementEventSender*(this: UIElement): bool {.noSideEffect,
     importcpp: "IsElementEventSender", header: "UIElement.h".}
 proc getElementEventSender*(this: UIElement): ptr UIElement {.noSideEffect, 
     importcpp: "GetElementEventSender", header: "UIElement.h".}
-proc uIElement::CreateChild*[T](name: UrString; index: cuint): ptr T
+
+#proc uIElement::CreateChild*[T](name: UrString; index: cuint): ptr T

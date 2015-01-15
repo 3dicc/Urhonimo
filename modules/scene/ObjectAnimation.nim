@@ -1,11 +1,9 @@
 
 
 import 
-  animationDefs, resource
+  animationDefs, resource, ValueAnimation, ValueAnimationInfo, XMLElement,
+  hashmap, urstr, ptrs, stringHash, urobject, deserializer, serializer
 
-discard "forward decl of ValueAnimation"
-discard "forward decl of ValueAnimationInfo"
-discard "forward decl of XMLElement"
 type 
   ObjectAnimation* {.importc: "Urho3D::ObjectAnimation", 
                      header: "ObjectAnimation.h".} = object of Resource
@@ -13,16 +11,16 @@ type
         UrString, SharedPtr[ValueAnimationInfo]]
 
 
-proc getType*(this: ObjectAnimation): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: ObjectAnimation): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "ObjectAnimation.h".}
-proc getBaseType*(this: ObjectAnimation): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: ObjectAnimation): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "ObjectAnimation.h".}
-proc getTypeName*(this: ObjectAnimation): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: ObjectAnimation): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "ObjectAnimation.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::ObjectAnimation::GetTypeStatic(@)", 
     header: "ObjectAnimation.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::ObjectAnimation::GetTypeNameStatic(@)", 
     header: "ObjectAnimation.h".}
 proc constructObjectAnimation*(context: ptr Context): ObjectAnimation {.
@@ -42,7 +40,7 @@ proc saveXML*(this: ObjectAnimation; dest: var XMLElement): bool {.noSideEffect,
     importcpp: "SaveXML", header: "ObjectAnimation.h".}
 proc addAttributeAnimation*(this: var ObjectAnimation; name: UrString; 
                             attributeAnimation: ptr ValueAnimation; 
-                            wrapMode: WrapMode = wm_Loop; speed: cfloat = 1.0) {.
+                            wrapMode: WrapMode = Wm_Loop; speed: cfloat = 1.0) {.
     importcpp: "AddAttributeAnimation", header: "ObjectAnimation.h".}
 proc removeAttributeAnimation*(this: var ObjectAnimation; name: UrString) {.
     importcpp: "RemoveAttributeAnimation", header: "ObjectAnimation.h".}

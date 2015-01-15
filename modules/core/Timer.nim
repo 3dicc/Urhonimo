@@ -1,7 +1,7 @@
 
 
 import 
-  UrObject
+  UrObject, stringHash, urstr
 
 
 type 
@@ -37,15 +37,15 @@ type
     timerPeriod* {.importc: "timerPeriod_".}: cuint
 
 
-proc getType*(this: Time): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: Time): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "Timer.h".}
-proc getBaseType*(this: Time): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: Time): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "Timer.h".}
-proc getTypeName*(this: Time): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: Time): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "Timer.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::Time::GetTypeStatic(@)", header: "Timer.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::Time::GetTypeNameStatic(@)", header: "Timer.h".}
 proc constructTime*(context: ptr Context): Time {.importcpp: "Urho3D::Time(@)", 
     header: "Timer.h".}

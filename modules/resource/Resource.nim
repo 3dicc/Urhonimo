@@ -1,7 +1,8 @@
 
 
 import 
-  UrObject, timer
+  UrObject, timer, urstr, vector, stringHash, deserializer, serializer, variant,
+  ptrs
 
 discard "forward decl of Deserializer"
 discard "forward decl of Serializer"
@@ -21,17 +22,17 @@ type
     asyncLoadState* {.importc: "asyncLoadState_".}: AsyncLoadState
 
 
-proc getType*(this: Resource): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: Resource): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "Resource.h".}
-proc getBaseType*(this: Resource): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: Resource): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "Resource.h".}
-proc getTypeName*(this: Resource): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: Resource): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "Resource.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::Resource::GetTypeStatic(@)", header: "Resource.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::Resource::GetTypeNameStatic(@)", header: "Resource.h".}
-proc getBaseTypeStatic*(): Urho3D.StringHash {.
+proc getBaseTypeStatic*(): StringHash {.
     importcpp: "Urho3D::Resource::GetBaseTypeStatic(@)", header: "Resource.h".}
 proc constructResource*(context: ptr Context): Resource {.
     importcpp: "Urho3D::Resource(@)", header: "Resource.h".}
@@ -61,10 +62,15 @@ proc getUseTimer*(this: var Resource): cuint {.importcpp: "GetUseTimer",
     header: "Resource.h".}
 proc getAsyncLoadState*(this: Resource): AsyncLoadState {.noSideEffect, 
     importcpp: "GetAsyncLoadState", header: "Resource.h".}
-proc getResourceName*(resource: ptr Resource): var UrString {.inline.}
-proc getResourceType*(resource: ptr Resource; defaultType: StringHash): StringHash {.
-    inline.}
-proc getResourceRef*(resource: ptr Resource; defaultType: StringHash): ResourceRef {.
-    inline.}
-proc getResourceNames*[T](resources: Vector[SharedPtr[T]]): Vector[UrString]
-proc getResourceRefList*[T](resources: Vector[SharedPtr[T]]): ResourceRefList
+    
+proc getResourceName*(resource: ptr Resource): UrString {.noSideEffect, 
+    importcpp: "Urho3D::GetResourceName(@)", header: "Resource.h".}
+proc getResourceType*(resource: ptr Resource; defaultType: StringHash): StringHash {.noSideEffect, 
+    importcpp: "Urho3D::GetResourceType(@)", header: "Resource.h".}
+proc getResourceRef*(resource: ptr Resource; defaultType: StringHash): ResourceRef {.noSideEffect, 
+    importcpp: "Urho3D::GetResourceReg", header: "Resource.h".}
+proc getResourceNames*[T](resources: Vector[SharedPtr[T]]): Vector[UrString] {.noSideEffect, 
+    importcpp: "Urho3D::GetResourceNames(@)", header: "Resource.h".}
+proc getResourceRefList*[T](resources: Vector[SharedPtr[T]]): ResourceRefList{.noSideEffect, 
+    importcpp: "Urho3D::GetResourceRefList(@)", header: "Resource.h".}
+    

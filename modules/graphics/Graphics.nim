@@ -1,9 +1,5 @@
 
-
-when defined(URHO3D_OPENGL): 
-  import 
-    openGL/OGLGraphics
-
-else: 
-  import 
-    direct3D9/D3D9Graphics
+when defined(windows):
+  type Graphics* {.importc: "Urho3D::Graphics", header: "D3D9Graphics.h".} = object
+else:
+  type Graphics* {.importc: "Urho3D::Graphics", header: "OGLGraphics.h".} = object

@@ -1,16 +1,9 @@
 
 
 import 
-  hashMap, stringHash, variant
+  hashMap, stringHash, variant, rect, vector2, quaternion, vector3, vector4,
+  color, matrix3, matrix4, boundingbox, urstr, vector
 
-discard "forward decl of Color"
-discard "forward decl of IntRect"
-discard "forward decl of IntVector2"
-discard "forward decl of Quaternion"
-discard "forward decl of Rect"
-discard "forward decl of Vector2"
-discard "forward decl of Vector3"
-discard "forward decl of Vector4"
 type 
   Serializer* {.importc: "Urho3D::Serializer", header: "Serializer.h".} = object 
   

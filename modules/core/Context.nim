@@ -2,7 +2,15 @@
 
 import 
   attribute, UrObject, hashSet, stringHash, ptrs, variant, hashMap, urstr,
-  vector
+  vector, valueanimation
+
+proc constructValueAnimation*(context: ptr Context): ValueAnimation {.
+    importcpp: "Urho3D::ValueAnimation(@)", header: "ValueAnimation.h".}
+proc destroyValueAnimation*(this: var ValueAnimation) {.
+    importcpp: "#.~ValueAnimation()", header: "ValueAnimation.h".}
+proc registerObject*(context: ptr Context) {.
+    importcpp: "Urho3D::ValueAnimation::RegisterObject(@)", 
+    header: "ValueAnimation.h".}
 
 proc constructContext*(): Context {.importcpp: "Urho3D::Context(@)", 
                                     header: "Context.h".}
@@ -100,3 +108,4 @@ proc getAttribute*[T](name: cstring): ptr AttributeInfo {.
 proc updateAttributeDefaultValue*[T](name: cstring; 
     defaultValue: Variant) {.
   importcpp: "Context::UpdateAttributeDefaultValue(@)", header: "Context.h".}
+

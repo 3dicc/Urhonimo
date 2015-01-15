@@ -1,47 +1,22 @@
 
 
 import 
-  borderImage, image, texture
-
-
-type 
-  CursorShape* = enum 
-    CS_NORMAL = 0, CS_RESIZEVERTICAL, CS_RESIZEDIAGONAL_TOPRIGHT, 
-    CS_RESIZEHORIZONTAL, CS_RESIZEDIAGONAL_TOPLEFT, CS_ACCEPTDROP, 
-    CS_REJECTDROP, CS_BUSY, CS_MAX_SHAPES
-
-
-
-type 
-  CursorShapeInfo* {.importc: "Urho3D::CursorShapeInfo", header: "Cursor.h".} = object 
-    image* {.importc: "image_".}: SharedPtr[Image]
-    texture* {.importc: "texture_".}: SharedPtr[Texture]
-    imageRect* {.importc: "imageRect_".}: IntRect
-    hotSpot* {.importc: "hotSpot_".}: IntVector2
-    osCursor* {.importc: "osCursor_".}: ptr SDL_Cursor
-    systemDefined* {.importc: "systemDefined_".}: bool
-
+  image, texture, ptrs, rect, vector2, uielement, stringhash, urstr, urobject,
+  vector, variant
 
 proc constructCursorShapeInfo*(): CursorShapeInfo {.
     importcpp: "Urho3D::CursorShapeInfo(@)", header: "Cursor.h".}
 
-type 
-  Cursor* {.importc: "Urho3D::Cursor", header: "Cursor.h".} = object of BorderImage
-    shape* {.importc: "shape_".}: CursorShape
-    shapeInfos* {.importc: "shapeInfos_".}: array[cs_Max_Shapes, CursorShapeInfo]
-    useSystemShapes* {.importc: "useSystemShapes_".}: bool
-    osShapeDirty* {.importc: "osShapeDirty_".}: bool
 
-
-proc getType*(this: Cursor): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: Cursor): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "Cursor.h".}
-proc getBaseType*(this: Cursor): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: Cursor): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "Cursor.h".}
-proc getTypeName*(this: Cursor): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: Cursor): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "Cursor.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::Cursor::GetTypeStatic(@)", header: "Cursor.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::Cursor::GetTypeNameStatic(@)", header: "Cursor.h".}
 proc constructCursor*(context: ptr Context): Cursor {.
     importcpp: "Urho3D::Cursor(@)", header: "Cursor.h".}

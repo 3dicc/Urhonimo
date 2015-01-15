@@ -49,9 +49,11 @@ proc refCountPtr*[T](this: SharedArrayPtr[T]): ptr RefCount {.noSideEffect,
 proc toHash*[T](this: SharedArrayPtr[T]): cuint {.noSideEffect, 
     importcpp: "ToHash", header: "ArrayPtr.h".}
 
-proc staticCast*[T, U](`ptr`: SharedArrayPtr[U]): SharedArrayPtr[T]
+proc staticCast*[T, U](`ptr`: SharedArrayPtr[U]): SharedArrayPtr[T] {.noSideEffect, 
+    importcpp: "Urho3D::StaticCast(@)", header: "ArrayPtr.h".}
 
-proc reinterpretCast*[T, U](`ptr`: SharedArrayPtr[U]): SharedArrayPtr[T]
+proc reinterpretCast*[T, U](`ptr`: SharedArrayPtr[U]): SharedArrayPtr[T] {.noSideEffect, 
+    importcpp: "Urho3D::ReinterpretCast(@)", header: "ArrayPtr.h".}
 
 type 
   WeakArrayPtr* {.importc: "Urho3D::WeakArrayPtr", header: "ArrayPtr.h".}[T] = object 
@@ -102,6 +104,8 @@ proc refCountPtr*[T](this: WeakArrayPtr[T]): ptr RefCount {.noSideEffect,
 proc toHash*[T](this: WeakArrayPtr[T]): cuint {.noSideEffect, 
     importcpp: "ToHash", header: "ArrayPtr.h".}
 
-proc staticCast*[T, U](`ptr`: WeakArrayPtr[U]): WeakArrayPtr[T]
+proc staticCast*[T, U](`ptr`: WeakArrayPtr[U]): WeakArrayPtr[T] {.noSideEffect, 
+    importcpp: "Urho3D::StaticCast(@)", header: "ArrayPtr.h".}
 
-proc reinterpretCast*[T, U](`ptr`: WeakArrayPtr[U]): WeakArrayPtr[T]
+proc reinterpretCast*[T, U](`ptr`: WeakArrayPtr[U]): WeakArrayPtr[T]{.noSideEffect, 
+    importcpp: "Urho3D::ReinterpretCast(@)", header: "ArrayPtr.h".}

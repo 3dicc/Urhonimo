@@ -1,7 +1,8 @@
 
 
 import 
-  arrayPtr, resource
+  arrayPtr, resource, ptrs, stringhash, urstr, urobject, deserializer, 
+  color, rect, ptrs, serializer
 
 discard "forward decl of SDL_Surface"
 var COLOR_LUT_SIZE* {.importc: "COLOR_LUT_SIZE", header: "Image.h".}: cint = 16
@@ -12,9 +13,6 @@ type
     CF_NONE = 0, CF_DXT1, CF_DXT3, CF_DXT5, CF_ETC1, CF_PVRTC_RGB_2BPP, 
     CF_PVRTC_RGBA_2BPP, CF_PVRTC_RGB_4BPP, CF_PVRTC_RGBA_4BPP
 
-
-
-type 
   CompressedLevel* {.importc: "Urho3D::CompressedLevel", header: "Image.h".} = object 
     data* {.importc: "data_".}: ptr cuchar
     format* {.importc: "format_".}: CompressedFormat
@@ -44,15 +42,15 @@ type
     nextLevel* {.importc: "nextLevel_".}: SharedPtr[Image]
 
 
-proc getType*(this: Image): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: Image): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "Image.h".}
-proc getBaseType*(this: Image): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: Image): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "Image.h".}
-proc getTypeName*(this: Image): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: Image): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "Image.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::Image::GetTypeStatic(@)", header: "Image.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::Image::GetTypeNameStatic(@)", header: "Image.h".}
 proc constructImage*(context: ptr Context): Image {.
     importcpp: "Urho3D::Image(@)", header: "Image.h".}
@@ -131,7 +129,7 @@ proc getCompressedLevel*(this: Image; index: cuint): CompressedLevel {.
     noSideEffect, importcpp: "GetCompressedLevel", header: "Image.h".}
 proc getSubimage*(this: Image; rect: IntRect): ptr Image {.noSideEffect, 
     importcpp: "GetSubimage", header: "Image.h".}
-proc getSDLSurface*(this: Image; rect: IntRect = intRect.zero): ptr SDL_Surface {.
-    noSideEffect, importcpp: "GetSDLSurface", header: "Image.h".}
+#proc getSDLSurface*(this: Image; rect: IntRect = intRect.zero): ptr SDL_Surface {.
+#    noSideEffect, importcpp: "GetSDLSurface", header: "Image.h".}
 proc precalculateLevels*(this: var Image) {.importcpp: "PrecalculateLevels", 
     header: "Image.h".}

@@ -5,15 +5,6 @@ import
 
 discard "forward decl of Texture"
 discard "forward decl of Texture2D"
-type 
-  BorderImage* {.importc: "Urho3D::BorderImage", header: "BorderImage.h".} = object of UIElement
-    texture* {.importc: "texture_".}: SharedPtr[Texture]
-    imageRect* {.importc: "imageRect_".}: IntRect
-    border* {.importc: "border_".}: IntRect
-    imageBorder* {.importc: "imageBorder_".}: IntRect
-    hoverOffset* {.importc: "hoverOffset_".}: IntVector2
-    blendMode* {.importc: "blendMode_".}: BlendMode
-    tiled* {.importc: "tiled_".}: bool
 
 
 proc getType*(this: BorderImage): Urho3D.StringHash {.noSideEffect, 
