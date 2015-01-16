@@ -14,15 +14,15 @@ type
     autoPopup* {.importc: "autoPopup_".}: bool
 
 
-proc getType*(this: Menu): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: Menu): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "Menu.h".}
-proc getBaseType*(this: Menu): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: Menu): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "Menu.h".}
-proc getTypeName*(this: Menu): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: Menu): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "Menu.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::Menu::GetTypeStatic(@)", header: "Menu.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::Menu::GetTypeNameStatic(@)", header: "Menu.h".}
 proc constructMenu*(context: ptr Context): Menu {.importcpp: "Urho3D::Menu(@)", 
     header: "Menu.h".}

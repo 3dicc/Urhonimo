@@ -19,15 +19,15 @@ type
     autoUpdate* {.importc: "autoUpdate_".}: bool
 
 
-proc getType*(this: View3D): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: View3D): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "View3D.h".}
-proc getBaseType*(this: View3D): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: View3D): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "View3D.h".}
-proc getTypeName*(this: View3D): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: View3D): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "View3D.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::View3D::GetTypeStatic(@)", header: "View3D.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::View3D::GetTypeNameStatic(@)", header: "View3D.h".}
 proc constructView3D*(context: ptr Context): View3D {.
     importcpp: "Urho3D::View3D(@)", header: "View3D.h".}

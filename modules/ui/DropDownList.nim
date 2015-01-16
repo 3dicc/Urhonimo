@@ -12,16 +12,16 @@ type
     selectionAttr* {.importc: "selectionAttr_".}: cuint
 
 
-proc getType*(this: DropDownList): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: DropDownList): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "DropDownList.h".}
-proc getBaseType*(this: DropDownList): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: DropDownList): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "DropDownList.h".}
-proc getTypeName*(this: DropDownList): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: DropDownList): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "DropDownList.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::DropDownList::GetTypeStatic(@)", 
     header: "DropDownList.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::DropDownList::GetTypeNameStatic(@)", 
     header: "DropDownList.h".}
 proc constructDropDownList*(context: ptr Context): DropDownList {.

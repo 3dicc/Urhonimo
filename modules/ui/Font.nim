@@ -1,9 +1,9 @@
 
 
 import 
-  arrayPtr, resource
+  arrayPtr, resource, hashMap, ptrs, fontface, vector2, stringHash, urstr,
+  urobject, deserializer, serializer
 
-discard "forward decl of FontFace"
 var FONT_TEXTURE_MIN_SIZE* {.importc: "FONT_TEXTURE_MIN_SIZE", header: "Font.h".}: cint = 128
 
 var FONT_DPI* {.importc: "FONT_DPI", header: "Font.h".}: cint = 96
@@ -25,16 +25,21 @@ type
     fontType* {.importc: "fontType_".}: Font_Type
     sdfFont* {.importc: "sdfFont_".}: bool
 
+proc constructFontFace*(font: ptr Font): FontFace {.
+    importcpp: "Urho3D::FontFace(@)", header: "FontFace.h".}
+proc destroyFontFace*(this: var FontFace) {.importcpp: "#.~FontFace()", 
+    header: "FontFace.h".}
 
-proc getType*(this: Font): Urho3D.StringHash {.noSideEffect, 
+
+proc getType*(this: Font): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "Font.h".}
-proc getBaseType*(this: Font): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: Font): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "Font.h".}
-proc getTypeName*(this: Font): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: Font): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "Font.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::Font::GetTypeStatic(@)", header: "Font.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::Font::GetTypeNameStatic(@)", header: "Font.h".}
 proc constructFont*(context: ptr Context): Font {.importcpp: "Urho3D::Font(@)", 
     header: "Font.h".}

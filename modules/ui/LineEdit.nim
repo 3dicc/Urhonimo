@@ -23,15 +23,15 @@ type
     textCopyable* {.importc: "textCopyable_".}: bool
 
 
-proc getType*(this: LineEdit): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: LineEdit): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "LineEdit.h".}
-proc getBaseType*(this: LineEdit): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: LineEdit): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "LineEdit.h".}
-proc getTypeName*(this: LineEdit): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: LineEdit): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "LineEdit.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::LineEdit::GetTypeStatic(@)", header: "LineEdit.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::LineEdit::GetTypeNameStatic(@)", header: "LineEdit.h".}
 proc constructLineEdit*(context: ptr Context): LineEdit {.
     importcpp: "Urho3D::LineEdit(@)", header: "LineEdit.h".}

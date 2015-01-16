@@ -14,15 +14,15 @@ type
     pressed* {.importc: "pressed_".}: bool
 
 
-proc getType*(this: Button): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: Button): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "Button.h".}
-proc getBaseType*(this: Button): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: Button): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "Button.h".}
-proc getTypeName*(this: Button): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: Button): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "Button.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::Button::GetTypeStatic(@)", header: "Button.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::Button::GetTypeNameStatic(@)", header: "Button.h".}
 proc constructButton*(context: ptr Context): Button {.
     importcpp: "Urho3D::Button(@)", header: "Button.h".}

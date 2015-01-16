@@ -31,15 +31,15 @@ type
     autoDisableThreshold* {.importc: "autoDisableThreshold_".}: cfloat
 
 
-proc getType*(this: ScrollView): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: ScrollView): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "ScrollView.h".}
-proc getBaseType*(this: ScrollView): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: ScrollView): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "ScrollView.h".}
-proc getTypeName*(this: ScrollView): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: ScrollView): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "ScrollView.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::ScrollView::GetTypeStatic(@)", header: "ScrollView.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::ScrollView::GetTypeNameStatic(@)", 
     header: "ScrollView.h".}
 proc constructScrollView*(context: ptr Context): ScrollView {.

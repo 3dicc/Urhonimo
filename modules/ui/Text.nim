@@ -1,32 +1,21 @@
 
 
 import 
-  uIElement
+  uIElement, font, fontface, vector2, ptrs, urstr, color, vector, stringHash,
+  urobject, rect, variant
 
 var DEFAULT_FONT_SIZE* {.importc: "DEFAULT_FONT_SIZE", header: "Text.h".}: cint = 12
 
-discard "forward decl of Font"
-discard "forward decl of FontFace"
-discard "forward decl of FontGlyph"
 type 
   TextEffect* = enum 
     TE_NONE = 0, TE_SHADOW, TE_STROKE
-
-
-
-type 
   CharLocation* {.importc: "Urho3D::CharLocation", header: "Text.h".} = object 
     position* {.importc: "position_".}: IntVector2
     size* {.importc: "size_".}: IntVector2
-
-
-
-type 
   GlyphLocation* {.importc: "Urho3D::GlyphLocation", header: "Text.h".} = object 
     x* {.importc: "x_".}: cint
     y* {.importc: "y_".}: cint
     glyph* {.importc: "glyph_".}: ptr FontGlyph
-
 
 proc constructGlyphLocation*(x: cint; y: cint; glyph: ptr FontGlyph): GlyphLocation {.
     importcpp: "Urho3D::GlyphLocation(@)", header: "Text.h".}
@@ -59,15 +48,15 @@ type
     charLocations* {.importc: "charLocations_".}: PODVector[CharLocation]
 
 
-proc getType*(this: Text): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: Text): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "Text.h".}
-proc getBaseType*(this: Text): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: Text): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "Text.h".}
-proc getTypeName*(this: Text): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: Text): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "Text.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::Text::GetTypeStatic(@)", header: "Text.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::Text::GetTypeNameStatic(@)", header: "Text.h".}
 proc constructText*(context: ptr Context): Text {.importcpp: "Urho3D::Text(@)", 
     header: "Text.h".}
@@ -81,9 +70,9 @@ proc getBatches*(this: var Text; batches: var PODVector[UIBatch];
     importcpp: "GetBatches", header: "Text.h".}
 proc onResize*(this: var Text) {.importcpp: "OnResize", header: "Text.h".}
 proc onIndentSet*(this: var Text) {.importcpp: "OnIndentSet", header: "Text.h".}
-proc setFont*(this: var Text; fontName: UrString; size: cint = default_Font_Size): bool {.
+proc setFont*(this: var Text; fontName: UrString; size: cint = Default_Font_Size): bool {.
     importcpp: "SetFont", header: "Text.h".}
-proc setFont*(this: var Text; font: ptr Font; size: cint = default_Font_Size): bool {.
+proc setFont*(this: var Text; font: ptr Font; size: cint = Default_Font_Size): bool {.
     importcpp: "SetFont", header: "Text.h".}
 proc setText*(this: var Text; text: UrString) {.importcpp: "SetText", 
     header: "Text.h".}
@@ -93,7 +82,7 @@ proc setRowSpacing*(this: var Text; spacing: cfloat) {.
     importcpp: "SetRowSpacing", header: "Text.h".}
 proc setWordwrap*(this: var Text; enable: bool) {.importcpp: "SetWordwrap", 
     header: "Text.h".}
-proc setSelection*(this: var Text; start: cuint; length: cuint = m_Max_Unsigned) {.
+proc setSelection*(this: var Text; start: cuint; length: cuint = cuint(-1)) {.
     importcpp: "SetSelection", header: "Text.h".}
 proc clearSelection*(this: var Text) {.importcpp: "ClearSelection", 
                                        header: "Text.h".}

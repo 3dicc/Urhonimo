@@ -30,15 +30,15 @@ type
     modalFrameSize* {.importc: "modalFrameSize_".}: IntVector2
 
 
-proc getType*(this: Window): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: Window): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "Window.h".}
-proc getBaseType*(this: Window): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: Window): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "Window.h".}
-proc getTypeName*(this: Window): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: Window): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "Window.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::Window::GetTypeStatic(@)", header: "Window.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::Window::GetTypeNameStatic(@)", header: "Window.h".}
 proc constructWindow*(context: ptr Context): Window {.
     importcpp: "Urho3D::Window(@)", header: "Window.h".}

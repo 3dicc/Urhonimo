@@ -22,15 +22,15 @@ type
     selectOnClickEnd* {.importc: "selectOnClickEnd_".}: bool
 
 
-proc getType*(this: ListView): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: ListView): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "ListView.h".}
-proc getBaseType*(this: ListView): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: ListView): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "ListView.h".}
-proc getTypeName*(this: ListView): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: ListView): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "ListView.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::ListView::GetTypeStatic(@)", header: "ListView.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::ListView::GetTypeNameStatic(@)", header: "ListView.h".}
 proc constructListView*(context: ptr Context): ListView {.
     importcpp: "Urho3D::ListView(@)", header: "ListView.h".}

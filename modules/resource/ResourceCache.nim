@@ -1,12 +1,13 @@
 
 
 import 
-  file, hashSet, list, mutex, resource
+  file, hashSet, list, mutex, resource, hashMap, stringHash, ptrs, urobject, 
+  vector, urstr, packagefile
 
 discard "forward decl of BackgroundLoader"
 discard "forward decl of FileWatcher"
-discard "forward decl of PackageFile"
-var PRIORITY_LAST* {.importc: "PRIORITY_LAST", header: "ResourceCache.h".}: cuint = 0xFFFFFFFF
+
+var PRIORITY_LAST* {.importc: "PRIORITY_LAST", header: "ResourceCache.h".}: cuint
 
 
 type 
@@ -42,12 +43,11 @@ type
     resourceGroups* {.importc: "resourceGroups_".}: HashMap[StringHash, 
         ResourceGroup]
     resourceDirs* {.importc: "resourceDirs_".}: Vector[UrString]
-    fileWatchers* {.importc: "fileWatchers_".}: Vector[SharedPtr[FileWatcher]]
+    #fileWatchers* {.importc: "fileWatchers_".}: Vector[SharedPtr[FileWatcher]]
     packages* {.importc: "packages_".}: Vector[SharedPtr[PackageFile]]
     dependentResources* {.importc: "dependentResources_".}: HashMap[StringHash, 
         HashSet[StringHash]]
-    backgroundLoader* {.importc: "backgroundLoader_".}: SharedPtr[
-        BackgroundLoader]
+    #backgroundLoader* {.importc: "backgroundLoader_".}: SharedPtr[BackgroundLoader]
     resourceRouter* {.importc: "resourceRouter_".}: SharedPtr[ResourceRouter]
     autoReloadResources* {.importc: "autoReloadResources_".}: bool
     returnFailedResources* {.importc: "returnFailedResources_".}: bool
@@ -55,16 +55,16 @@ type
     finishBackgroundResourcesMs* {.importc: "finishBackgroundResourcesMs_".}: cint
 
 
-proc getType*(this: ResourceCache): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: ResourceCache): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "ResourceCache.h".}
-proc getBaseType*(this: ResourceCache): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: ResourceCache): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "ResourceCache.h".}
-proc getTypeName*(this: ResourceCache): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: ResourceCache): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "ResourceCache.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::ResourceCache::GetTypeStatic(@)", 
     header: "ResourceCache.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::ResourceCache::GetTypeNameStatic(@)", 
     header: "ResourceCache.h".}
 proc constructResourceCache*(context: ptr Context): ResourceCache {.
@@ -72,10 +72,10 @@ proc constructResourceCache*(context: ptr Context): ResourceCache {.
 proc destroyResourceCache*(this: var ResourceCache) {.
     importcpp: "#.~ResourceCache()", header: "ResourceCache.h".}
 proc addResourceDir*(this: var ResourceCache; pathName: UrString; 
-                     priority: cuint = priority_Last): bool {.
+                     priority: cuint = Priority_Last): bool {.
     importcpp: "AddResourceDir", header: "ResourceCache.h".}
 proc addPackageFile*(this: var ResourceCache; package: ptr PackageFile; 
-                     priority: cuint = priority_Last) {.
+                     priority: cuint = Priority_Last) {.
     importcpp: "AddPackageFile", header: "ResourceCache.h".}
 proc addManualResource*(this: var ResourceCache; resource: ptr Resource): bool {.
     importcpp: "AddManualResource", header: "ResourceCache.h".}
@@ -120,7 +120,7 @@ proc setFinishBackgroundResourcesMs*(this: var ResourceCache; ms: cint) {.
 proc setResourceRouter*(this: var ResourceCache; router: ptr ResourceRouter) {.
     importcpp: "SetResourceRouter", header: "ResourceCache.h".}
 proc getFile*(this: var ResourceCache; name: UrString; 
-              sendEventOnFailure: bool = true): SharedPtr[File] {.
+              sendEventOnFailure: bool = true): SharedPtr[UrFile] {.
     importcpp: "GetFile", header: "ResourceCache.h".}
 proc getResource*(this: var ResourceCache; `type`: StringHash; name: UrString; 
                   sendEventOnFailure: bool = true): ptr Resource {.
@@ -130,7 +130,7 @@ proc getTempResource*(this: var ResourceCache; `type`: StringHash;
     Resource] {.importcpp: "GetTempResource", header: "ResourceCache.h".}
 proc backgroundLoadResource*(this: var ResourceCache; `type`: StringHash; 
                              name: UrString; sendEventOnFailure: bool = true; 
-                             caller: ptr Resource = 0): bool {.
+                             caller: ptr Resource = nil): bool {.
     importcpp: "BackgroundLoadResource", header: "ResourceCache.h".}
 proc getNumBackgroundLoadResources*(this: ResourceCache): cuint {.noSideEffect, 
     importcpp: "GetNumBackgroundLoadResources", header: "ResourceCache.h".}
@@ -151,7 +151,7 @@ proc getTempResource*[T](this: var ResourceCache; name: UrString;
     importcpp: "GetTempResource", header: "ResourceCache.h".}
 proc backgroundLoadResource*[T](this: var ResourceCache; name: UrString; 
                                 sendEventOnFailure: bool = true; 
-                                caller: ptr Resource = 0): bool {.
+                                caller: ptr Resource = nil): bool {.
     importcpp: "BackgroundLoadResource", header: "ResourceCache.h".}
 proc getResources*[T](this: ResourceCache; result: var PODVector[ptr T]) {.
     noSideEffect, importcpp: "GetResources", header: "ResourceCache.h".}
@@ -188,13 +188,20 @@ proc storeResourceDependency*(this: var ResourceCache; resource: ptr Resource;
     importcpp: "StoreResourceDependency", header: "ResourceCache.h".}
 proc resetDependencies*(this: var ResourceCache; resource: ptr Resource) {.
     importcpp: "ResetDependencies", header: "ResourceCache.h".}
-proc resourceCache::GetResource*[T](name: UrString; sendEventOnFailure: bool): ptr T
-proc resourceCache::GetTempResource*[T](name: UrString; sendEventOnFailure: bool): SharedPtr[
-    T]
-proc resourceCache::BackgroundLoadResource*[T](name: UrString; 
-    sendEventOnFailure: bool; caller: ptr Resource): bool
-proc resourceCache::GetResources*[T](result: var PODVector[ptr T]) {.
-    noSideEffect.}
+
+proc getResource*[T](name: UrString; sendEventOnFailure: bool): ptr T{.
+    importcpp: "ResourceCache::GetResource<'*0>(@)", header: "ResourceCache.h".}
+proc getTempResource*[T](name: UrString; sendEventOnFailure: bool): SharedPtr[T] {.
+    importcpp: "ResourceCache::GetTempResource<'*0>(@)", header: "ResourceCache.h".}
+    
+proc backgroundLoadResource*[T](name: UrString; 
+    sendEventOnFailure: bool; caller: ptr Resource): bool {.
+    importcpp: "ResourceCache::BackgroundLoadResource<'0>(@)",
+    header: "ResourceCache.h".}
+
+proc getResources*[T](result: var PODVector[ptr T]) {.
+    importcpp: "ResourceCache::GetResources(@)", header: "ResourceCache.h".}
+
 
 proc registerResourceLibrary*(context: ptr Context) {.
     importcpp: "Urho3D::RegisterResourceLibrary(@)", header: "ResourceCache.h".}

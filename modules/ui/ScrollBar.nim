@@ -18,15 +18,15 @@ type
     downRect* {.importc: "downRect_".}: IntRect
 
 
-proc getType*(this: ScrollBar): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: ScrollBar): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "ScrollBar.h".}
-proc getBaseType*(this: ScrollBar): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: ScrollBar): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "ScrollBar.h".}
-proc getTypeName*(this: ScrollBar): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: ScrollBar): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "ScrollBar.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::ScrollBar::GetTypeStatic(@)", header: "ScrollBar.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::ScrollBar::GetTypeNameStatic(@)", header: "ScrollBar.h".}
 proc constructScrollBar*(context: ptr Context): ScrollBar {.
     importcpp: "Urho3D::ScrollBar(@)", header: "ScrollBar.h".}

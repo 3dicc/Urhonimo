@@ -15,15 +15,15 @@ type
     okButton* {.importc: "okButton_".}: ptr Button
 
 
-proc getType*(this: MessageBox): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: MessageBox): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "MessageBox.h".}
-proc getBaseType*(this: MessageBox): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: MessageBox): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "MessageBox.h".}
-proc getTypeName*(this: MessageBox): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: MessageBox): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "MessageBox.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::MessageBox::GetTypeStatic(@)", header: "MessageBox.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::MessageBox::GetTypeNameStatic(@)", 
     header: "MessageBox.h".}
 proc constructMessageBox*(context: ptr Context; 

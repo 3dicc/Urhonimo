@@ -1,7 +1,7 @@
 
 
 import 
-  UrObject
+  UrObject, hashMap, urstr, stringHash, vector
 
 
 type 
@@ -22,15 +22,15 @@ type
     compressed* {.importc: "compressed_".}: bool
 
 
-proc getType*(this: PackageFile): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: PackageFile): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "PackageFile.h".}
-proc getBaseType*(this: PackageFile): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: PackageFile): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "PackageFile.h".}
-proc getTypeName*(this: PackageFile): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: PackageFile): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "PackageFile.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::PackageFile::GetTypeStatic(@)", header: "PackageFile.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::PackageFile::GetTypeNameStatic(@)", 
     header: "PackageFile.h".}
 proc constructPackageFile*(context: ptr Context): PackageFile {.

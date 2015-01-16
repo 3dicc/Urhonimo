@@ -1,9 +1,5 @@
 
-
-when defined(URHO3D_OPENGL): 
-  import 
-    openGL/OGLTexture3D
-
-else: 
-  import 
-    direct3D9/D3D9Texture3D
+when defined(windows):
+  type Texture3D* {.importc: "Urho3D::Texture3D", header: "D3D9Texture3D.h".} = object
+else:
+  type Texture3D* {.importc: "Urho3D::Texture3D", header: "OGLTexture3D.h".} = object

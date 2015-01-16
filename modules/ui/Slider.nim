@@ -17,15 +17,15 @@ type
     repeatTimer* {.importc: "repeatTimer_".}: Timer
 
 
-proc getType*(this: Slider): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: Slider): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "Slider.h".}
-proc getBaseType*(this: Slider): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: Slider): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "Slider.h".}
-proc getTypeName*(this: Slider): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: Slider): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "Slider.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::Slider::GetTypeStatic(@)", header: "Slider.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::Slider::GetTypeNameStatic(@)", header: "Slider.h".}
 proc constructSlider*(context: ptr Context): Slider {.
     importcpp: "Urho3D::Slider(@)", header: "Slider.h".}

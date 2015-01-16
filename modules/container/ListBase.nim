@@ -1,11 +1,12 @@
 
 
 import 
-  urho3D, allocator, swap
+  allocator
 
 
 type 
-  ListNodeBase* {.importc: "Urho3D::ListNodeBase", header: "ListBase.h".} = object 
+  ListNodeBase* {.importc: "Urho3D::ListNodeBase", header: "ListBase.h",
+                  inheritable.} = object 
     prev* {.importc: "prev_".}: ptr ListNodeBase
     next* {.importc: "next_".}: ptr ListNodeBase
 
@@ -14,7 +15,8 @@ proc constructListNodeBase*(): ListNodeBase {.
     importcpp: "Urho3D::ListNodeBase(@)", header: "ListBase.h".}
 
 type 
-  ListIteratorBase* {.importc: "Urho3D::ListIteratorBase", header: "ListBase.h".} = object 
+  ListIteratorBase* {.importc: "Urho3D::ListIteratorBase", header: "ListBase.h",
+                      inheritable.} = object 
     `ptr`* {.importc: "ptr_".}: ptr ListNodeBase
 
 
@@ -30,7 +32,8 @@ proc gotoPrev*(this: var ListIteratorBase) {.importcpp: "GotoPrev",
     header: "ListBase.h".}
 
 type 
-  ListBase* {.importc: "Urho3D::ListBase", header: "ListBase.h".} = object 
+  ListBase* {.importc: "Urho3D::ListBase", header: "ListBase.h",
+              inheritable.} = object 
     head* {.importc: "head_".}: ptr ListNodeBase
     tail* {.importc: "tail_".}: ptr ListNodeBase
     allocator* {.importc: "allocator_".}: ptr AllocatorBlock

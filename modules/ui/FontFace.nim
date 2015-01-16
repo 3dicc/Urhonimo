@@ -1,7 +1,8 @@
 
 
 import 
-  areaAllocator, arrayPtr, list
+  areaAllocator, arrayPtr, list, image, texture2d, refcounted, hashMap, vector,
+  ptrs
 
 discard "forward decl of Font"
 discard "forward decl of Image"
@@ -24,18 +25,13 @@ proc constructFontGlyph*(): FontGlyph {.importcpp: "Urho3D::FontGlyph(@)",
 
 type 
   FontFace* {.importc: "Urho3D::FontFace", header: "FontFace.h".} = object of RefCounted
-    font* {.importc: "font_".}: ptr Font
+    #font* {.importc: "font_".}: ptr Font
     glyphMapping* {.importc: "glyphMapping_".}: HashMap[cuint, FontGlyph]
     kerningMapping* {.importc: "kerningMapping_".}: HashMap[cuint, cshort]
     textures* {.importc: "textures_".}: Vector[SharedPtr[Texture2D]]
     pointSize* {.importc: "pointSize_".}: cint
     rowHeight* {.importc: "rowHeight_".}: cint
 
-
-proc constructFontFace*(font: ptr Font): FontFace {.
-    importcpp: "Urho3D::FontFace(@)", header: "FontFace.h".}
-proc destroyFontFace*(this: var FontFace) {.importcpp: "#.~FontFace()", 
-    header: "FontFace.h".}
 proc load*(this: var FontFace; fontData: ptr cuchar; fontDataSize: cuint; 
            pointSize: cint): bool {.importcpp: "Load", header: "FontFace.h".}
 proc getGlyph*(this: var FontFace; c: cuint): ptr FontGlyph {.

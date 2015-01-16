@@ -10,15 +10,15 @@ type
     checked* {.importc: "checked_".}: bool
 
 
-proc getType*(this: CheckBox): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: CheckBox): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "CheckBox.h".}
-proc getBaseType*(this: CheckBox): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: CheckBox): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "CheckBox.h".}
-proc getTypeName*(this: CheckBox): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: CheckBox): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "CheckBox.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::CheckBox::GetTypeStatic(@)", header: "CheckBox.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::CheckBox::GetTypeNameStatic(@)", header: "CheckBox.h".}
 proc constructCheckBox*(context: ptr Context): CheckBox {.
     importcpp: "Urho3D::CheckBox(@)", header: "CheckBox.h".}

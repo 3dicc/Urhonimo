@@ -1,7 +1,7 @@
 
 
 import 
-  str
+  urstr, vector
 
 discard "forward decl of Mutex"
 proc initFPU*() {.importcpp: "Urho3D::InitFPU(@)", header: "ProcessUtils.h".}
@@ -9,8 +9,7 @@ proc initFPU*() {.importcpp: "Urho3D::InitFPU(@)", header: "ProcessUtils.h".}
 proc errorDialog*(title: UrString; message: UrString) {.
     importcpp: "Urho3D::ErrorDialog(@)", header: "ProcessUtils.h".}
 
-proc errorExit*(message: UrString = UrString.empty; 
-                exitCode: cint = exit_Failure) {.
+proc errorExit*(message: UrString; exitCode: cint) {.
     importcpp: "Urho3D::ErrorExit(@)", header: "ProcessUtils.h".}
 
 proc openConsoleWindow*() {.importcpp: "Urho3D::OpenConsoleWindow(@)", 
@@ -31,11 +30,12 @@ proc parseArguments*(cmdLine: UrString; skipFirstArgument: bool = true): var Vec
 proc parseArguments*(cmdLine: cstring): var Vector[UrString] {.
     importcpp: "Urho3D::ParseArguments(@)", header: "ProcessUtils.h".}
 
-proc parseArguments*(cmdLine: WString): var Vector[UrString] {.
-    importcpp: "Urho3D::ParseArguments(@)", header: "ProcessUtils.h".}
+when false:
+  proc parseArguments*(cmdLine: WString): var Vector[UrString] {.
+      importcpp: "Urho3D::ParseArguments(@)", header: "ProcessUtils.h".}
 
-proc parseArguments*(cmdLine: ptr WcharT): var Vector[UrString] {.
-    importcpp: "Urho3D::ParseArguments(@)", header: "ProcessUtils.h".}
+  proc parseArguments*(cmdLine: ptr WcharT): var Vector[UrString] {.
+      importcpp: "Urho3D::ParseArguments(@)", header: "ProcessUtils.h".}
 
 proc parseArguments*(argc: cint; argv: cstringArray): var Vector[UrString] {.
     importcpp: "Urho3D::ParseArguments(@)", header: "ProcessUtils.h".}

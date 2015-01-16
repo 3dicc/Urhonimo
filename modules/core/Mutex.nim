@@ -1,9 +1,5 @@
 
 
-import 
-  urho3D
-
-
 type 
   Mutex* {.importc: "Urho3D::Mutex", header: "Mutex.h".} = object 
     handle* {.importc: "handle_".}: pointer
@@ -16,8 +12,6 @@ proc release*(this: var Mutex) {.importcpp: "Release", header: "Mutex.h".}
 
 type 
   MutexLock* {.importc: "Urho3D::MutexLock", header: "Mutex.h".} = object 
-    mutex* {.importc: "mutex_".}: var Mutex
-
 
 proc constructMutexLock*(mutex: var Mutex): MutexLock {.
     importcpp: "Urho3D::MutexLock(@)", header: "Mutex.h".}

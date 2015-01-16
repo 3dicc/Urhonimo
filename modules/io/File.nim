@@ -1,22 +1,16 @@
 
 
 import 
-  arrayPtr, deserializer, serializer, UrObject
-
-when defined(ANDROID): 
+  arrayPtr, deserializer, serializer, UrObject, packagefile, urstr, stringHash
 
 type 
   FileMode* = enum 
     FILE_READ = 0, FILE_WRITE, FILE_READWRITE
-
-
-discard "forward decl of PackageFile"
-type 
-  File* {.importc: "Urho3D::File", header: "File.h".} = object of UrObject
+  UrFile* {.importc: "Urho3D::File", header: "File.h".} = object of UrObject
     fileName* {.importc: "fileName_".}: UrString
     mode* {.importc: "mode_".}: FileMode
     handle* {.importc: "handle_".}: pointer
-    assetHandle* {.importc: "assetHandle_".}: ptr SDL_RWops
+    #assetHandle* {.importc: "assetHandle_".}: ptr SDL_RWops
     readBuffer* {.importc: "readBuffer_".}: SharedArrayPtr[cuchar]
     inputBuffer* {.importc: "inputBuffer_".}: SharedArrayPtr[cuchar]
     readBufferOffset* {.importc: "readBufferOffset_".}: cuint
@@ -28,48 +22,48 @@ type
     writeSyncNeeded* {.importc: "writeSyncNeeded_".}: bool
 
 
-proc getType*(this: File): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: UrFile): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "File.h".}
-proc getBaseType*(this: File): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: UrFile): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "File.h".}
-proc getTypeName*(this: File): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: UrFile): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "File.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::File::GetTypeStatic(@)", header: "File.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::File::GetTypeNameStatic(@)", header: "File.h".}
-proc constructFile*(context: ptr Context): File {.importcpp: "Urho3D::File(@)", 
+proc constructFile*(context: ptr Context): UrFile {.importcpp: "Urho3D::File(@)", 
     header: "File.h".}
 proc constructFile*(context: ptr Context; fileName: UrString; 
-                    mode: FileMode = file_Read): File {.
+                    mode: FileMode = FILE_READ): UrFile {.
     importcpp: "Urho3D::File(@)", header: "File.h".}
 proc constructFile*(context: ptr Context; package: ptr PackageFile; 
-                    fileName: UrString): File {.importcpp: "Urho3D::File(@)", 
+                    fileName: UrString): UrFile {.importcpp: "Urho3D::File(@)", 
     header: "File.h".}
-proc destroyFile*(this: var File) {.importcpp: "#.~File()", header: "File.h".}
-proc read*(this: var File; dest: pointer; size: cuint): cuint {.
+proc destroyFile*(this: var UrFile) {.importcpp: "#.~File()", header: "File.h".}
+proc read*(this: var UrFile; dest: pointer; size: cuint): cuint {.
     importcpp: "Read", header: "File.h".}
-proc seek*(this: var File; position: cuint): cuint {.importcpp: "Seek", 
+proc seek*(this: var UrFile; position: cuint): cuint {.importcpp: "Seek", 
     header: "File.h".}
-proc write*(this: var File; data: pointer; size: cuint): cuint {.
+proc write*(this: var UrFile; data: pointer; size: cuint): cuint {.
     importcpp: "Write", header: "File.h".}
-proc getName*(this: File): UrString {.noSideEffect, importcpp: "GetName", 
+proc getName*(this: UrFile): UrString {.noSideEffect, importcpp: "GetName", 
                                       header: "File.h".}
-proc getChecksum*(this: var File): cuint {.importcpp: "GetChecksum", 
+proc getChecksum*(this: var UrFile): cuint {.importcpp: "GetChecksum", 
     header: "File.h".}
-proc open*(this: var File; fileName: UrString; mode: FileMode = file_Read): bool {.
+proc open*(this: var UrFile; fileName: UrString; mode: FileMode = FILE_READ): bool {.
     importcpp: "Open", header: "File.h".}
-proc open*(this: var File; package: ptr PackageFile; fileName: UrString): bool {.
+proc open*(this: var UrFile; package: ptr PackageFile; fileName: UrString): bool {.
     importcpp: "Open", header: "File.h".}
-proc close*(this: var File) {.importcpp: "Close", header: "File.h".}
-proc flush*(this: var File) {.importcpp: "Flush", header: "File.h".}
-proc setName*(this: var File; name: UrString) {.importcpp: "SetName", 
+proc close*(this: var UrFile) {.importcpp: "Close", header: "File.h".}
+proc flush*(this: var UrFile) {.importcpp: "Flush", header: "File.h".}
+proc setName*(this: var UrFile; name: UrString) {.importcpp: "SetName", 
     header: "File.h".}
-proc getMode*(this: File): FileMode {.noSideEffect, importcpp: "GetMode", 
+proc getMode*(this: UrFile): FileMode {.noSideEffect, importcpp: "GetMode", 
                                       header: "File.h".}
-proc isOpen*(this: File): bool {.noSideEffect, importcpp: "IsOpen", 
+proc isOpen*(this: UrFile): bool {.noSideEffect, importcpp: "IsOpen", 
                                  header: "File.h".}
-proc getHandle*(this: File): pointer {.noSideEffect, importcpp: "GetHandle", 
+proc getHandle*(this: UrFile): pointer {.noSideEffect, importcpp: "GetHandle", 
                                        header: "File.h".}
-proc isPackaged*(this: File): bool {.noSideEffect, importcpp: "IsPackaged", 
+proc isPackaged*(this: UrFile): bool {.noSideEffect, importcpp: "IsPackaged", 
                                      header: "File.h".}

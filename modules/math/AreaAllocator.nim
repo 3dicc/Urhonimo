@@ -1,7 +1,7 @@
 
 
 import 
-  rect
+  rect, vector, vector2
 
 
 type 

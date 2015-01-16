@@ -18,15 +18,15 @@ type
     geometryDirty* {.importc: "geometryDirty_".}: bool
 
 
-proc getType*(this: Text3D): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: Text3D): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "Text3D.h".}
-proc getBaseType*(this: Text3D): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: Text3D): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "Text3D.h".}
-proc getTypeName*(this: Text3D): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: Text3D): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "Text3D.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::Text3D::GetTypeStatic(@)", header: "Text3D.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::Text3D::GetTypeNameStatic(@)", header: "Text3D.h".}
 proc constructText3D*(context: ptr Context): Text3D {.
     importcpp: "Urho3D::Text3D(@)", header: "Text3D.h".}

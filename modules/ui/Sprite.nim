@@ -16,15 +16,15 @@ type
     transform* {.importc: "transform_".}: Matrix3x4
 
 
-proc getType*(this: Sprite): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: Sprite): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "Sprite.h".}
-proc getBaseType*(this: Sprite): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: Sprite): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "Sprite.h".}
-proc getTypeName*(this: Sprite): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: Sprite): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "Sprite.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::Sprite::GetTypeStatic(@)", header: "Sprite.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::Sprite::GetTypeNameStatic(@)", header: "Sprite.h".}
 proc constructSprite*(context: ptr Context): Sprite {.
     importcpp: "Urho3D::Sprite(@)", header: "Sprite.h".}
