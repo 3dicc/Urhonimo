@@ -71,9 +71,9 @@ proc getBatches*(this: var Text; batches: var PODVector[UIBatch];
 proc onResize*(this: var Text) {.importcpp: "OnResize", header: "Text.h".}
 proc onIndentSet*(this: var Text) {.importcpp: "OnIndentSet", header: "Text.h".}
 proc setFont*(this: var Text; fontName: UrString; size: cint = Default_Font_Size): bool {.
-    importcpp: "SetFont", header: "Text.h".}
+    importcpp: "SetFont", header: "Text.h", discardable.}
 proc setFont*(this: var Text; font: ptr Font; size: cint = Default_Font_Size): bool {.
-    importcpp: "SetFont", header: "Text.h".}
+    importcpp: "SetFont", header: "Text.h", discardable.}
 proc setText*(this: var Text; text: UrString) {.importcpp: "SetText", 
     header: "Text.h".}
 proc setTextAlignment*(this: var Text; align: HorizontalAlignment) {.

@@ -12,6 +12,17 @@ type
     b* {.importc: "b_".}: cfloat
     a* {.importc: "a_".}: cfloat
 
+var
+  WHITE* {.importc: "Urho3D::Color::WHITE", header: "Color.h".}: Color
+  GRAY* {.importc: "Urho3D::Color::GREY", header: "Color.h".}: Color
+  BLACK* {.importc: "Urho3D::Color::BLACK", header: "Color.h".}: Color
+  RED* {.importc: "Urho3D::Color::RED", header: "Color.h".}: Color
+  GREEN* {.importc: "Urho3D::Color::GREEN", header: "Color.h".}: Color
+  BLUE* {.importc: "Urho3D::Color::BLUE", header: "Color.h".}: Color
+  CYAN* {.importc: "Urho3D::Color::CYAN", header: "Color.h".}: Color
+  MAGENTA* {.importc: "Urho3D::Color::MAGENTA", header: "Color.h".}: Color
+  YELLOW* {.importc: "Urho3D::Color::YELLOW", header: "Color.h".}: Color
+  TRANSPARENT* {.importc: "Urho3D::Color::TRANSPARENT", header: "Color.h".}: Color
 
 proc constructColor*(): Color {.importcpp: "Urho3D::Color(@)", header: "Color.h".}
 proc constructColor*(color: Color): Color {.importcpp: "Urho3D::Color(@)", 
