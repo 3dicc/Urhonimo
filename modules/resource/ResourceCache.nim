@@ -22,7 +22,7 @@ proc constructResourceGroup*(): ResourceGroup {.
     importcpp: "Urho3D::ResourceGroup(@)", header: "ResourceCache.h".}
 
 type 
-  ResourceRequest* = enum 
+  ResourceRequest* {.importcpp: "Urho3D::ResourceRequest".} = enum 
     RESOURCE_CHECKEXISTS = 0, RESOURCE_GETFILE = 1
 
 

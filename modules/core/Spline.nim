@@ -4,7 +4,7 @@ import
   color, variant, vector2, vector3, vector4
 
 type 
-  InterpolationMode* = enum 
+  InterpolationMode* {.importcpp: "Urho3D::InterpolationMode".} = enum 
     BEZIER_CURVE = 0
 
 

@@ -10,7 +10,7 @@ discard "forward decl of Constraint"
 discard "forward decl of PhysicsWorld"
 discard "forward decl of SmoothedTransform"
 type 
-  CollisionEventMode* = enum 
+  CollisionEventMode* {.importcpp: "Urho3D::CollisionEventMode".} = enum 
     COLLISION_NEVER = 0, COLLISION_ACTIVE, COLLISION_ALWAYS
 
 

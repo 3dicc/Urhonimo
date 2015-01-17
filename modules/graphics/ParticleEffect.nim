@@ -5,7 +5,7 @@ import
 
 
 type 
-  EmitterType* = enum 
+  EmitterType* {.importcpp: "Urho3D::EmitterType".} = enum 
     EMITTER_SPHERE, EMITTER_BOX
 
 

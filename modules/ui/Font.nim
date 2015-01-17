@@ -10,7 +10,7 @@ var FONT_DPI* {.importc: "FONT_DPI", header: "Font.h".}: cint #= 96
 
 
 type 
-  Font_Type* = enum 
+  Font_Type* {.importcpp: "Urho3D::Font_Type".} = enum 
     FONT_NONE = 0, FONT_FREETYPE, FONT_BITMAP, MAX_FONT_TYPES
 
 

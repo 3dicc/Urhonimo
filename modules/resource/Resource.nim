@@ -7,7 +7,7 @@ import
 discard "forward decl of Deserializer"
 discard "forward decl of Serializer"
 type 
-  AsyncLoadState* = enum 
+  AsyncLoadState* {.importcpp: "Urho3D::AsyncLoadState".} = enum 
     ASYNC_DONE = 0, ASYNC_QUEUED = 1, ASYNC_LOADING = 2, ASYNC_SUCCESS = 3, 
     ASYNC_FAIL = 4
 

@@ -5,7 +5,7 @@ import
 
 discard "forward decl of XMLElement"
 type 
-  Orientation2D* = enum 
+  Orientation2D* {.importcpp: "Urho3D::Orientation2D".} = enum 
     O_ORTHOGONAL = 0, O_ISOMETRIC, O_STAGGERED
 
 
@@ -32,13 +32,13 @@ proc positionToTileIndex*(this: TileMapInfo2D; x: var cint; y: var cint;
     importcpp: "PositionToTileIndex", header: "TileMapDefs2D.h".}
 
 type 
-  TileMapLayerType2D* = enum 
+  TileMapLayerType2D* {.importcpp: "Urho3D::TileMapLayerType2D".} = enum 
     LT_TILE_LAYER = 0, LT_OBJECT_GROUP, LT_IMAGE_LAYER, LT_INVALID = 0x0000FFFF
 
 
 
 type 
-  TileMapObjectType2D* = enum 
+  TileMapObjectType2D* {.importcpp: "Urho3D::TileMapObjectType2D".} = enum 
     OT_RECTANGLE = 0, OT_ELLIPSE, OT_POLYGON, OT_POLYLINE, OT_TILE, 
     OT_INVALID = 0x0000FFFF
 

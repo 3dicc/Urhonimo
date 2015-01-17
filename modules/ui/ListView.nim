@@ -5,7 +5,7 @@ import
 
 
 type 
-  HighlightMode* = enum 
+  HighlightMode* {.importcpp: "Urho3D::HighlightMode".} = enum 
     HM_NEVER, HM_FOCUS, HM_ALWAYS
 
 

@@ -5,7 +5,7 @@ import
 
 discard "forward decl of XMLElement"
 type 
-  InterpMethod* = enum 
+  InterpMethod* {.importcpp: "Urho3D::InterpMethod".} = enum 
     IM_LINEAR = 0, IM_SPLINE
 
 

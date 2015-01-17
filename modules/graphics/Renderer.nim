@@ -27,21 +27,21 @@ var INSTANCING_BUFFER_DEFAULT_SIZE* {.importc: "INSTANCING_BUFFER_DEFAULT_SIZE",
 
 
 type 
-  LightVSVariation* = enum 
+  LightVSVariation* {.importcpp: "Urho3D::LightVSVariation".} = enum 
     LVS_DIR = 0, LVS_SPOT, LVS_POINT, LVS_SHADOW, LVS_SPOTSHADOW, 
     LVS_POINTSHADOW, MAX_LIGHT_VS_VARIATIONS
 
 
 
 type 
-  VertexLightVSVariation* = enum 
+  VertexLightVSVariation* {.importcpp: "Urho3D::VertexLightVSVariation".} = enum 
     VLVS_NOLIGHTS = 0, VLVS_1LIGHT, VLVS_2LIGHTS, VLVS_3LIGHTS, VLVS_4LIGHTS, 
     MAX_VERTEXLIGHT_VS_VARIATIONS
 
 
 
 type 
-  LightPSVariation* = enum 
+  LightPSVariation* {.importcpp: "Urho3D::LightPSVariation".} = enum 
     LPS_NONE = 0, LPS_SPOT, LPS_POINT, LPS_POINTMASK, LPS_SPEC, LPS_SPOTSPEC, 
     LPS_POINTSPEC, LPS_POINTMASKSPEC, LPS_SHADOW, LPS_SPOTSHADOW, 
     LPS_POINTSHADOW, LPS_POINTMASKSHADOW, LPS_SHADOWSPEC, LPS_SPOTSHADOWSPEC, 
@@ -50,14 +50,14 @@ type
 
 
 type 
-  DeferredLightVSVariation* = enum 
+  DeferredLightVSVariation* {.importcpp: "Urho3D::DeferredLightVSVariation".} = enum 
     DLVS_NONE = 0, DLVS_DIR, DLVS_ORTHO, DLVS_ORTHODIR, 
     MAX_DEFERRED_LIGHT_VS_VARIATIONS
 
 
 
 type 
-  DeferredLightPSVariation* = enum 
+  DeferredLightPSVariation* {.importcpp: "Urho3D::DeferredLightPSVariation".} = enum 
     DLPS_NONE = 0, DLPS_SPOT, DLPS_POINT, DLPS_POINTMASK, DLPS_SPEC, 
     DLPS_SPOTSPEC, DLPS_POINTSPEC, DLPS_POINTMASKSPEC, DLPS_SHADOW, 
     DLPS_SPOTSHADOW, DLPS_POINTSHADOW, DLPS_POINTMASKSHADOW, DLPS_SHADOWSPEC, 

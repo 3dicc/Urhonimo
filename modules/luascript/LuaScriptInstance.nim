@@ -8,7 +8,7 @@ discard "forward decl of LuaFile"
 discard "forward decl of LuaFunction"
 discard "forward decl of LuaScript"
 type 
-  LuaScriptObjectMethod* = enum 
+  LuaScriptObjectMethod* {.importcpp: "Urho3D::LuaScriptObjectMethod".} = enum 
     LSOM_START = 0, LSOM_STOP, LSOM_UPDATE, LSOM_POSTUPDATE, LSOM_FIXEDUPDATE, 
     LSOM_FIXEDPOSTUPDATE, LSOM_LOAD, LSOM_SAVE, LSOM_READNETWORKUPDATE, 
     LSOM_WRITENETWORKUPDATE, LSOM_APPLYATTRIBUTES, LSOM_TRANSFORMCHANGED, 

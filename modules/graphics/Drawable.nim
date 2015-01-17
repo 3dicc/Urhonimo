@@ -38,7 +38,7 @@ discard "forward decl of Zone"
 discard "forward decl of RayQueryResult"
 discard "forward decl of WorkItem"
 type 
-  UpdateGeometryType* = enum 
+  UpdateGeometryType* {.importcpp: "Urho3D::UpdateGeometryType".} = enum 
     UPDATE_NONE = 0, UPDATE_MAIN_THREAD, UPDATE_WORKER_THREAD
 
 

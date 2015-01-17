@@ -9,7 +9,7 @@ var COLOR_LUT_SIZE* {.importc: "COLOR_LUT_SIZE", header: "Image.h".}: cint #= 16
 
 
 type 
-  CompressedFormat* = enum 
+  CompressedFormat* {.importcpp: "Urho3D::CompressedFormat".} = enum 
     CF_NONE = 0, CF_DXT1, CF_DXT3, CF_DXT5, CF_ETC1, CF_PVRTC_RGB_2BPP, 
     CF_PVRTC_RGBA_2BPP, CF_PVRTC_RGB_4BPP, CF_PVRTC_RGBA_4BPP
 

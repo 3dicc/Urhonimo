@@ -34,7 +34,7 @@ var M_RADTODEG* {.importc: "M_RADTODEG", header: "MathDefs.h".}: cfloat
 
 
 type 
-  Intersection* = enum 
+  Intersection* {.importcpp: "Urho3D::Intersection".} = enum 
     OUTSIDE, INTERSECTS, INSIDE
 
 proc equals*(lhs: cfloat; rhs: cfloat): bool {.inline.} =

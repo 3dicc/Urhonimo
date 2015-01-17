@@ -9,13 +9,13 @@ discard "forward decl of Scene"
 discard "forward decl of SceneResolver"
 discard "forward decl of NodeReplicationState"
 type 
-  CreateMode* = enum 
+  CreateMode* {.importcpp: "Urho3D::CreateMode".} = enum 
     REPLICATED = 0, LOCAL = 1
 
 
 
 type 
-  TransformSpace* = enum 
+  TransformSpace* {.importcpp: "Urho3D::TransformSpace".} = enum 
     TS_LOCAL = 0, TS_PARENT, TS_WORLD
 
 

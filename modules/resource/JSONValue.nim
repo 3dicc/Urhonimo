@@ -12,7 +12,7 @@ type
 
 discard "forward decl of JSONFile"
 type 
-  JSONValueType* = enum 
+  JSONValueType* {.importcpp: "Urho3D::JSONValueType".} = enum 
     JSON_ANY = 0, JSON_OBJECT, JSON_ARRAY
 
 

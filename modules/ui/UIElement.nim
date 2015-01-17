@@ -6,22 +6,22 @@ import
   deserializer, serializer
 
 type 
-  HorizontalAlignment* = enum 
+  HorizontalAlignment* {.importcpp: "Urho3D::HorizontalAlignment".} = enum 
     HA_LEFT = 0, HA_CENTER, HA_RIGHT
-  VerticalAlignment* = enum 
+  VerticalAlignment* {.importcpp: "Urho3D::VerticalAlignment".} = enum 
     VA_TOP = 0, VA_CENTER, VA_BOTTOM
-  Corner* = enum 
+  Corner* {.importcpp: "Urho3D::Corner".} = enum 
     C_TOPLEFT = 0, C_TOPRIGHT, C_BOTTOMLEFT, C_BOTTOMRIGHT, 
     MAX_UIELEMENT_CORNERS
-  Orientation* = enum 
+  Orientation* {.importcpp: "Urho3D::Orientation".} = enum 
     O_HORIZONTAL = 0, O_VERTICAL
-  FocusMode* = enum 
+  FocusMode* {.importcpp: "Urho3D::FocusMode".} = enum 
     FM_NOTFOCUSABLE = 0, FM_RESETFOCUS, FM_FOCUSABLE, FM_FOCUSABLE_DEFOCUSABLE
-  LayoutMode* = enum 
+  LayoutMode* {.importcpp: "Urho3D::LayoutMode".} = enum 
     LM_FREE = 0, LM_HORIZONTAL, LM_VERTICAL
-  TraversalMode* = enum 
+  TraversalMode* {.importcpp: "Urho3D::TraversalMode".} = enum 
     TM_BREADTH_FIRST = 0, TM_DEPTH_FIRST
-  CursorShape* = enum 
+  CursorShape* {.importcpp: "Urho3D::CursorShape".} = enum 
     CS_NORMAL = 0, CS_RESIZEVERTICAL, CS_RESIZEDIAGONAL_TOPRIGHT, 
     CS_RESIZEHORIZONTAL, CS_RESIZEDIAGONAL_TOPLEFT, CS_ACCEPTDROP, 
     CS_REJECTDROP, CS_BUSY, CS_MAX_SHAPES

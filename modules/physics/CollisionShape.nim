@@ -16,7 +16,7 @@ discard "forward decl of RigidBody"
 discard "forward decl of Terrain"
 discard "forward decl of TriangleMeshInterface"
 type 
-  ShapeType* = enum 
+  ShapeType* {.importcpp: "Urho3D::ShapeType".} = enum 
     SHAPE_BOX = 0, SHAPE_SPHERE, SHAPE_STATICPLANE, SHAPE_CYLINDER, 
     SHAPE_CAPSULE, SHAPE_CONE, SHAPE_TRIANGLEMESH, SHAPE_CONVEXHULL, 
     SHAPE_TERRAIN

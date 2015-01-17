@@ -6,7 +6,7 @@ import
 discard "forward decl of Camera"
 discard "forward decl of LightBatchQueue"
 type 
-  LightType* = enum 
+  LightType* {.importcpp: "Urho3D::LightType".} = enum 
     LIGHT_DIRECTIONAL = 0, LIGHT_SPOT, LIGHT_POINT
 
 

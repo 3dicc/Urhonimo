@@ -101,7 +101,7 @@ proc constructOctreeQueryResult*(): OctreeQueryResult {.
     importcpp: "Urho3D::OctreeQueryResult(@)", header: "OctreeQuery.h".}
 
 type 
-  RayQueryLevel* = enum 
+  RayQueryLevel* {.importcpp: "Urho3D::RayQueryLevel".} = enum 
     RAY_AABB = 0, RAY_OBB, RAY_TRIANGLE
 
 

@@ -15,7 +15,7 @@ var LAST_LOCAL_ID* {.importc: "LAST_LOCAL_ID", header: "Scene.h".}: cuint = 0xFF
 
 
 type 
-  LoadMode* = enum 
+  LoadMode* {.importcpp: "Urho3D::LoadMode".} = enum 
     LOAD_RESOURCES_ONLY = 0, LOAD_SCENE, LOAD_SCENE_AND_RESOURCES
 
 

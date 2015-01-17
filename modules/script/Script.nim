@@ -14,7 +14,7 @@ discard "forward decl of Scene"
 discard "forward decl of ScriptFile"
 discard "forward decl of ScriptInstance"
 type 
-  DumpMode* = enum 
+  DumpMode* {.importcpp: "Urho3D::DumpMode".} = enum 
     DOXYGEN = 0, C_HEADER, MAX_DUMP_MODES
 
 

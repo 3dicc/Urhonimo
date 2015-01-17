@@ -6,7 +6,7 @@ import
 discard "forward decl of XMLElement"
 discard "forward decl of Sprite2D"
 type 
-  EmitterType2D* = enum 
+  EmitterType2D* {.importcpp: "Urho3D::EmitterType2D".} = enum 
     EMITTER_TYPE_GRAVITY = 0, EMITTER_TYPE_RADIAL
 
 

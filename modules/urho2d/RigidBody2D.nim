@@ -7,7 +7,7 @@ discard "forward decl of CollisionShape2D"
 discard "forward decl of Constraint2D"
 discard "forward decl of PhysicsWorld2D"
 type 
-  BodyType2D* = enum 
+  BodyType2D* {.importcpp: "Urho3D::BodyType2D".} = enum 
     BT_STATIC = b2StaticBody, BT_DYNAMIC = b2DynamicBody, 
     BT_KINEMATIC = b2KinematicBody
 

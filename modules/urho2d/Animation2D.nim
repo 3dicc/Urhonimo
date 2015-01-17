@@ -6,7 +6,7 @@ import
 discard "forward decl of AnimationSet2D"
 discard "forward decl of Sprite2D"
 type 
-  ObjectType2D* = enum 
+  ObjectType2D* {.importcpp: "Urho3D::ObjectType2D".} = enum 
     OT_BONE = 0, OT_SPRITE
 
 

@@ -7,7 +7,7 @@ import
 var DEFAULT_FONT_SIZE* {.importc: "DEFAULT_FONT_SIZE", header: "Text.h".}: cint #= 12
 
 type 
-  TextEffect* = enum 
+  TextEffect* {.importcpp: "Urho3D::TextEffect".} = enum 
     TE_NONE = 0, TE_SHADOW, TE_STROKE
   CharLocation* {.importc: "Urho3D::CharLocation", header: "Text.h".} = object 
     position* {.importc: "position_".}: IntVector2

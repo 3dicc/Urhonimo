@@ -5,7 +5,7 @@ import
 
 discard "forward decl of XMLElement"
 type 
-  PListValueType* = enum 
+  PListValueType* {.importcpp: "Urho3D::PListValueType".} = enum 
     PLVT_NONE = 0, PLVT_INT, PLVT_BOOL, PLVT_FLOAT, PLVT_STRING, PLVT_VALUEMAP, 
     PLVT_VALUEVECTOR
 

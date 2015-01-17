@@ -6,20 +6,20 @@ import
 discard "forward decl of XMLElement"
 discard "forward decl of XMLFile"
 type 
-  RenderCommandType* = enum 
+  RenderCommandType* {.importcpp: "Urho3D::RenderCommandType".} = enum 
     CMD_NONE = 0, CMD_CLEAR, CMD_SCENEPASS, CMD_QUAD, CMD_FORWARDLIGHTS, 
     CMD_LIGHTVOLUMES
 
 
 
 type 
-  RenderCommandSortMode* = enum 
+  RenderCommandSortMode* {.importcpp: "Urho3D::RenderCommandSortMode".} = enum 
     SORT_FRONTTOBACK = 0, SORT_BACKTOFRONT
 
 
 
 type 
-  RenderTargetSizeMode* = enum 
+  RenderTargetSizeMode* {.importcpp: "Urho3D::RenderTargetSizeMode".} = enum 
     SIZE_ABSOLUTE = 0, SIZE_VIEWPORTDIVISOR, SIZE_VIEWPORTMULTIPLIER
 
 

@@ -4,7 +4,7 @@ import
   arrayPtr, deserializer, serializer, UrObject, packagefile, urstr, stringHash
 
 type 
-  FileMode* = enum 
+  FileMode* {.importcpp: "Urho3D::FileMode".} = enum 
     FILE_READ = 0, FILE_WRITE, FILE_READWRITE
   UrFile* {.importc: "Urho3D::File", header: "File.h".} = object of UrObject
     fileName* {.importc: "fileName_".}: UrString

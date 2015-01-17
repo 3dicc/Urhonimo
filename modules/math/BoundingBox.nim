@@ -19,7 +19,7 @@ type
     faces* {.importc: "faces_".}: Vector[PODVector[Vector3]]
     clippedVertices* {.importc: "clippedVertices_".}: PODVector[Vector3]
     outFace* {.importc: "outFace_".}: PODVector[Vector3]
-  FrustumPlane* = enum 
+  FrustumPlane* {.importcpp: "Urho3D::FrustumPlane".} = enum 
     PLANE_NEAR = 0, PLANE_LEFT, PLANE_RIGHT, PLANE_UP, PLANE_DOWN, PLANE_FAR
   Frustum* {.importc: "Urho3D::Frustum", header: "Frustum.h".} = object 
     planes* {.importc: "planes_".}: array[Num_Frustum_Planes, Plane]

@@ -5,7 +5,7 @@ import
 
 
 type 
-  MouseMode* = enum 
+  MouseMode* {.importcpp: "Urho3D::MouseMode".} = enum 
     MM_ABSOLUTE = 0, MM_RELATIVE, MM_WRAP
 
 

@@ -4,14 +4,14 @@ import
   hashBase, stringHash, vector3
 
 type 
-  PrimitiveType* = enum 
+  PrimitiveType* {.importcpp: "Urho3D::PrimitiveType".} = enum 
     TRIANGLE_LIST = 0, LINE_LIST, POINT_LIST, TRIANGLE_STRIP, LINE_STRIP, 
     TRIANGLE_FAN
 
 
 
 type 
-  GeometryType* = enum 
+  GeometryType* {.importcpp: "Urho3D::GeometryType".} = enum 
     GEOM_STATIC = 0, GEOM_SKINNED = 1, GEOM_INSTANCED = 2, GEOM_BILLBOARD = 3, 
     GEOM_STATIC_NOINSTANCING = 4
 
@@ -20,7 +20,7 @@ const
 
 
 type 
-  BlendMode* = enum 
+  BlendMode* {.importcpp: "Urho3D::BlendMode".} = enum 
     BLEND_REPLACE = 0, BLEND_ADD, BLEND_MULTIPLY, BLEND_ALPHA, BLEND_ADDALPHA, 
     BLEND_PREMULALPHA, BLEND_INVDESTALPHA, BLEND_SUBTRACT, BLEND_SUBTRACTALPHA, 
     MAX_BLENDMODES
@@ -28,38 +28,38 @@ type
 
 
 type 
-  CompareMode* = enum 
+  CompareMode* {.importcpp: "Urho3D::CompareMode".} = enum 
     CMP_ALWAYS = 0, CMP_EQUAL, CMP_NOTEQUAL, CMP_LESS, CMP_LESSEQUAL, 
     CMP_GREATER, CMP_GREATEREQUAL, MAX_COMPAREMODES
 
 
 
 type 
-  CullMode* = enum 
+  CullMode* {.importcpp: "Urho3D::CullMode".} = enum 
     CULL_NONE = 0, CULL_CCW, CULL_CW, MAX_CULLMODES
 
 
 
 type 
-  FillMode* = enum 
+  FillMode* {.importcpp: "Urho3D::FillMode".} = enum 
     FILL_SOLID = 0, FILL_WIREFRAME, FILL_POINT
 
 
 
 type 
-  StencilOp* = enum 
+  StencilOp* {.importcpp: "Urho3D::StencilOp".} = enum 
     OP_KEEP = 0, OP_ZERO, OP_REF, OP_INCR, OP_DECR
 
 
 
 type 
-  LockState* = enum 
+  LockState* {.importcpp: "Urho3D::LockState".} = enum 
     LOCK_NONE = 0, LOCK_HARDWARE, LOCK_SHADOW, LOCK_SCRATCH
 
 
 
 type 
-  VertexElement* = enum 
+  VertexElement* {.importcpp: "Urho3D::VertexElement".} = enum 
     ELEMENT_POSITION = 0, ELEMENT_NORMAL, ELEMENT_COLOR, ELEMENT_TEXCOORD1, 
     ELEMENT_TEXCOORD2, ELEMENT_CUBETEXCOORD1, ELEMENT_CUBETEXCOORD2, 
     ELEMENT_TANGENT, ELEMENT_BLENDWEIGHTS, ELEMENT_BLENDINDICES, 
@@ -69,67 +69,67 @@ type
 
 
 type 
-  TextureFilterMode* = enum 
+  TextureFilterMode* {.importcpp: "Urho3D::TextureFilterMode".} = enum 
     FILTER_NEAREST = 0, FILTER_BILINEAR, FILTER_TRILINEAR, FILTER_ANISOTROPIC, 
     FILTER_DEFAULT, MAX_FILTERMODES
 
 
 
 type 
-  TextureAddressMode* = enum 
+  TextureAddressMode* {.importcpp: "Urho3D::TextureAddressMode".} = enum 
     ADDRESS_WRAP = 0, ADDRESS_MIRROR, ADDRESS_CLAMP, ADDRESS_BORDER, 
     MAX_ADDRESSMODES
 
 
 
 type 
-  TextureCoordinate* = enum 
+  TextureCoordinate* {.importcpp: "Urho3D::TextureCoordinate".} = enum 
     COORD_U = 0, COORD_V, COORD_W, MAX_COORDS
 
 
 
 type 
-  TextureUsage* = enum 
+  TextureUsage* {.importcpp: "Urho3D::TextureUsage".} = enum 
     TEXTURE_STATIC = 0, TEXTURE_DYNAMIC, TEXTURE_RENDERTARGET, 
     TEXTURE_DEPTHSTENCIL
 
 
 
 type 
-  CubeMapFace* = enum 
+  CubeMapFace* {.importcpp: "Urho3D::CubeMapFace".} = enum 
     FACE_POSITIVE_X = 0, FACE_NEGATIVE_X, FACE_POSITIVE_Y, FACE_NEGATIVE_Y, 
     FACE_POSITIVE_Z, FACE_NEGATIVE_Z, MAX_CUBEMAP_FACES
 
 
 
 type 
-  CubeMapLayout* = enum 
+  CubeMapLayout* {.importcpp: "Urho3D::CubeMapLayout".} = enum 
     CML_HORIZONTAL = 0, CML_HORIZONTALNVIDIA, CML_HORIZONTALCROSS, 
     CML_VERTICALCROSS, CML_BLENDER
 
 
 
 type 
-  RenderSurfaceUpdateMode* = enum 
+  RenderSurfaceUpdateMode* {.importcpp: "Urho3D::RenderSurfaceUpdateMode".} = enum 
     SURFACE_MANUALUPDATE = 0, SURFACE_UPDATEVISIBLE, SURFACE_UPDATEALWAYS
 
 
 
 type 
-  ShaderType* = enum 
+  ShaderType* {.importcpp: "Urho3D::ShaderType".} = enum 
     VS = 0, PS
 
 
 
 type 
-  ShaderParameterGroup* = enum 
+  ShaderParameterGroup* {.importcpp: "Urho3D::ShaderParameterGroup".} = enum 
     SP_FRAME = 0, SP_CAMERA, SP_VIEWPORT, SP_ZONE, SP_LIGHT, SP_VERTEXLIGHTS, 
     SP_MATERIAL, SP_OBJECTTRANSFORM, MAX_SHADER_PARAMETER_GROUPS
 
 
 
 type 
-  TextureUnit* = enum 
+  TextureUnit* {.importcpp: "Urho3D::TextureUnit".} = enum 
     TU_DIFFUSE = 0, TU_NORMAL = 1, TU_SPECULAR = 2, TU_EMISSIVE = 3, 
     TU_ENVIRONMENT = 4, MAX_MATERIAL_TEXTURE_UNITS = 5, TU_LIGHTSHAPE = 6, 
     TU_SHADOWMAP = 7, TU_FACESELECT = 8, TU_INDIRECTION = 9, 
@@ -143,7 +143,7 @@ const
 
 
 type 
-  FaceCameraMode* = enum 
+  FaceCameraMode* {.importcpp: "Urho3D::FaceCameraMode".} = enum 
     FC_NONE = 0, FC_ROTATE_XYZ, FC_ROTATE_Y, FC_LOOKAT_XYZ, FC_LOOKAT_Y
 
 

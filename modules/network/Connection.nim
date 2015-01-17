@@ -43,7 +43,7 @@ proc constructPackageUpload*(): PackageUpload {.
     importcpp: "Urho3D::PackageUpload(@)", header: "Connection.h".}
 
 type 
-  ObserverPositionSendMode* = enum 
+  ObserverPositionSendMode* {.importcpp: "Urho3D::ObserverPositionSendMode".} = enum 
     OPSM_NONE = 0, OPSM_POSITION, OPSM_POSITION_ROTATION
 
 

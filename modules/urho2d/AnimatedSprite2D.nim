@@ -5,7 +5,7 @@ import
 
 
 type 
-  LoopMode2D* = enum 
+  LoopMode2D* {.importcpp: "Urho3D::LoopMode2D".} = enum 
     LM_DEFAULT = 0, LM_FORCE_LOOPED, LM_FORCE_CLAMPED
 
 

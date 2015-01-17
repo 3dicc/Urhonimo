@@ -5,7 +5,7 @@ import
 
 discard "forward decl of ShaderVariation"
 type 
-  PassLightingMode* = enum 
+  PassLightingMode* {.importcpp: "Urho3D::PassLightingMode".} = enum 
     LIGHTING_UNLIT, LIGHTING_PERVERTEX, LIGHTING_PERPIXEL
 
 

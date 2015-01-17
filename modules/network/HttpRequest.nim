@@ -5,7 +5,7 @@ import
 
 
 type 
-  HttpRequestState* = enum 
+  HttpRequestState* {.importcpp: "Urho3D::HttpRequestState".} = enum 
     HTTP_INITIALIZING = 0, HTTP_ERROR, HTTP_OPEN, HTTP_CLOSED
 
 

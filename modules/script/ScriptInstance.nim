@@ -8,7 +8,7 @@ discard "forward decl of asIScriptObject"
 discard "forward decl of Script"
 discard "forward decl of ScriptFile"
 type 
-  ScriptInstanceMethod* = enum 
+  ScriptInstanceMethod* {.importcpp: "Urho3D::ScriptInstanceMethod".} = enum 
     METHOD_START = 0, METHOD_STOP, METHOD_DELAYEDSTART, METHOD_UPDATE, 
     METHOD_POSTUPDATE, METHOD_FIXEDUPDATE, METHOD_FIXEDPOSTUPDATE, METHOD_LOAD, 
     METHOD_SAVE, METHOD_READNETWORKUPDATE, METHOD_WRITENETWORKUPDATE, 

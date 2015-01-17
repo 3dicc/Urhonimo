@@ -6,7 +6,7 @@ import
 discard "forward decl of btTypedConstraint"
 
 type 
-  ConstraintType* = enum 
+  ConstraintType* {.importcpp: "Urho3D::ConstraintType".} = enum 
     CONSTRAINT_POINT = 0, CONSTRAINT_HINGE, CONSTRAINT_SLIDER, 
     CONSTRAINT_CONETWIST
 
