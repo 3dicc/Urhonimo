@@ -4,9 +4,9 @@ import
   arrayPtr, resource, hashMap, ptrs, fontface, vector2, stringHash, urstr,
   urobject, deserializer, serializer
 
-var FONT_TEXTURE_MIN_SIZE* {.importc: "FONT_TEXTURE_MIN_SIZE", header: "Font.h".}: cint = 128
+var FONT_TEXTURE_MIN_SIZE* {.importc: "FONT_TEXTURE_MIN_SIZE", header: "Font.h".}: cint #= 128
 
-var FONT_DPI* {.importc: "FONT_DPI", header: "Font.h".}: cint = 96
+var FONT_DPI* {.importc: "FONT_DPI", header: "Font.h".}: cint #= 96
 
 
 type 

@@ -13,7 +13,7 @@
 
 using namespace Urho3D;
 
-typedef void(*HandlerFunc)(void* userData, StringHash eventType, VariantMap* eventData);
+typedef void(*HandlerFunc)(void* userData, StringHash eventType, void* eventData);
 
 void openUrho3D(bool fullScreen);
 
@@ -26,7 +26,7 @@ Urho3D::UI* getSubsystemUI(void);
 Urho3D::ResourceCache* getSubsystemResourceCache(void);
 
 Urho3D::Font* getFont(const Urho3D::String& fontName);
-void registerEvent(HandlerFunc func, void* userData, const StringHash* eventType);
+void registerEvent(HandlerFunc func, void* userData, StringHash eventType);
 void parseArguments(void);
 
 int runMainLoop(void);

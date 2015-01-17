@@ -4,10 +4,10 @@ import
   vector, vectorbase
 
 var CONVERSION_BUFFER_LENGTH* {.importc: "CONVERSION_BUFFER_LENGTH", 
-                                header: "Str.h".}: cint = 128
+                                header: "Str.h".}: cint #= 128
 
 var MATRIX_CONVERSION_BUFFER_LENGTH* {.importc: "MATRIX_CONVERSION_BUFFER_LENGTH", 
-                                       header: "Str.h".}: cint = 256
+                                       header: "Str.h".}: cint #= 256
 
 discard "forward decl of WString"
 type 

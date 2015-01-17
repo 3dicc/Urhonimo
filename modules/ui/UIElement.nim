@@ -26,11 +26,11 @@ type
     CS_RESIZEHORIZONTAL, CS_RESIZEDIAGONAL_TOPLEFT, CS_ACCEPTDROP, 
     CS_REJECTDROP, CS_BUSY, CS_MAX_SHAPES
 
-var DD_DISABLED* {.importc: "DD_DISABLED", header: "UIElement.h".}: cuint = 0x00000000
-var DD_SOURCE* {.importc: "DD_SOURCE", header: "UIElement.h".}: cuint = 0x00000001
-var DD_TARGET* {.importc: "DD_TARGET", header: "UIElement.h".}: cuint = 0x00000002
+var DD_DISABLED* {.importc: "DD_DISABLED", header: "UIElement.h".}: cuint #= 0x00000000
+var DD_SOURCE* {.importc: "DD_SOURCE", header: "UIElement.h".}: cuint #= 0x00000001
+var DD_TARGET* {.importc: "DD_TARGET", header: "UIElement.h".}: cuint #= 0x00000002
 var DD_SOURCE_AND_TARGET* {.importc: "DD_SOURCE_AND_TARGET", 
-                            header: "UIElement.h".}: cuint = 0x00000003
+                            header: "UIElement.h".}: cuint #= 0x00000003
 
 discard "forward decl of Cursor"
 discard "forward decl of ResourceCache"
@@ -125,7 +125,7 @@ type
     systemDefined* {.importc: "systemDefined_".}: bool
 
 
-var UI_VERTEX_SIZE* {.importc: "UI_VERTEX_SIZE", header: "UIBatch.h".}: cuint = 6
+var UI_VERTEX_SIZE* {.importc: "UI_VERTEX_SIZE", header: "UIBatch.h".}: cuint #= 6
 
 proc constructUIBatch*(): UIBatch {.importcpp: "Urho3D::UIBatch(@)", 
                                     header: "UIBatch.h".}

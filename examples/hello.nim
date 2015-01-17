@@ -3,7 +3,7 @@ import ui, urhomain, processutils, color, urstr, stringHash, variant, text,
   uielement
 
 proc onKeyDown(userData: pointer; eventType: StringHash;
-               eventData: ptr VariantMap) {.cdecl.} =
+               eventData: pointer) {.cdecl.} =
   closeUrho3D()
 
 proc main =

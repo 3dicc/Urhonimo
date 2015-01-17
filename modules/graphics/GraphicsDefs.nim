@@ -274,78 +274,78 @@ var PASS_POSTALPHA* {.importc: "PASS_POSTALPHA", header: "GraphicsDefs.h".}: Str
 
 var DOT_SCALE* {.importc: "DOT_SCALE", header: "GraphicsDefs.h".}: Vector3
 
-var QUALITY_LOW* {.importc: "QUALITY_LOW", header: "GraphicsDefs.h".}: cint = 0
+var QUALITY_LOW* {.importc: "QUALITY_LOW", header: "GraphicsDefs.h".}: cint #= 0
 
-var QUALITY_MEDIUM* {.importc: "QUALITY_MEDIUM", header: "GraphicsDefs.h".}: cint = 1
+var QUALITY_MEDIUM* {.importc: "QUALITY_MEDIUM", header: "GraphicsDefs.h".}: cint #= 1
 
-var QUALITY_HIGH* {.importc: "QUALITY_HIGH", header: "GraphicsDefs.h".}: cint = 2
+var QUALITY_HIGH* {.importc: "QUALITY_HIGH", header: "GraphicsDefs.h".}: cint #= 2
 
-var QUALITY_MAX* {.importc: "QUALITY_MAX", header: "GraphicsDefs.h".}: cint = 15
+var QUALITY_MAX* {.importc: "QUALITY_MAX", header: "GraphicsDefs.h".}: cint #= 15
 
 var SHADOWQUALITY_LOW_16BIT* {.importc: "SHADOWQUALITY_LOW_16BIT", 
-                               header: "GraphicsDefs.h".}: cint = 0
+                               header: "GraphicsDefs.h".}: cint #= 0
 
 var SHADOWQUALITY_LOW_24BIT* {.importc: "SHADOWQUALITY_LOW_24BIT", 
-                               header: "GraphicsDefs.h".}: cint = 1
+                               header: "GraphicsDefs.h".}: cint #= 1
 
 var SHADOWQUALITY_HIGH_16BIT* {.importc: "SHADOWQUALITY_HIGH_16BIT", 
-                                header: "GraphicsDefs.h".}: cint = 2
+                                header: "GraphicsDefs.h".}: cint #= 2
 
 var SHADOWQUALITY_HIGH_24BIT* {.importc: "SHADOWQUALITY_HIGH_24BIT", 
-                                header: "GraphicsDefs.h".}: cint = 3
+                                header: "GraphicsDefs.h".}: cint #= 3
 
-var CLEAR_COLOR* {.importc: "CLEAR_COLOR", header: "GraphicsDefs.h".}: cuint = 0x00000001
+var CLEAR_COLOR* {.importc: "CLEAR_COLOR", header: "GraphicsDefs.h".}: cuint #= 0x00000001
 
-var CLEAR_DEPTH* {.importc: "CLEAR_DEPTH", header: "GraphicsDefs.h".}: cuint = 0x00000002
+var CLEAR_DEPTH* {.importc: "CLEAR_DEPTH", header: "GraphicsDefs.h".}: cuint #= 0x00000002
 
-var CLEAR_STENCIL* {.importc: "CLEAR_STENCIL", header: "GraphicsDefs.h".}: cuint = 0x00000004
+var CLEAR_STENCIL* {.importc: "CLEAR_STENCIL", header: "GraphicsDefs.h".}: cuint #= 0x00000004
 
-var MASK_NONE* {.importc: "MASK_NONE", header: "GraphicsDefs.h".}: cuint = 0x00000000
+var MASK_NONE* {.importc: "MASK_NONE", header: "GraphicsDefs.h".}: cuint #= 0x00000000
 
-var MASK_POSITION* {.importc: "MASK_POSITION", header: "GraphicsDefs.h".}: cuint = 0x00000001
+var MASK_POSITION* {.importc: "MASK_POSITION", header: "GraphicsDefs.h".}: cuint #= 0x00000001
 
-var MASK_NORMAL* {.importc: "MASK_NORMAL", header: "GraphicsDefs.h".}: cuint = 0x00000002
+var MASK_NORMAL* {.importc: "MASK_NORMAL", header: "GraphicsDefs.h".}: cuint #= 0x00000002
 
-var MASK_COLOR* {.importc: "MASK_COLOR", header: "GraphicsDefs.h".}: cuint = 0x00000004
+var MASK_COLOR* {.importc: "MASK_COLOR", header: "GraphicsDefs.h".}: cuint #= 0x00000004
 
-var MASK_TEXCOORD1* {.importc: "MASK_TEXCOORD1", header: "GraphicsDefs.h".}: cuint = 0x00000008
+var MASK_TEXCOORD1* {.importc: "MASK_TEXCOORD1", header: "GraphicsDefs.h".}: cuint #= 0x00000008
 
-var MASK_TEXCOORD2* {.importc: "MASK_TEXCOORD2", header: "GraphicsDefs.h".}: cuint = 0x00000010
+var MASK_TEXCOORD2* {.importc: "MASK_TEXCOORD2", header: "GraphicsDefs.h".}: cuint #= 0x00000010
 
 var MASK_CUBETEXCOORD1* {.importc: "MASK_CUBETEXCOORD1", 
-                          header: "GraphicsDefs.h".}: cuint = 0x00000020
+                          header: "GraphicsDefs.h".}: cuint #= 0x00000020
 
 var MASK_CUBETEXCOORD2* {.importc: "MASK_CUBETEXCOORD2", 
-                          header: "GraphicsDefs.h".}: cuint = 0x00000040
+                          header: "GraphicsDefs.h".}: cuint #= 0x00000040
 
-var MASK_TANGENT* {.importc: "MASK_TANGENT", header: "GraphicsDefs.h".}: cuint = 0x00000080
+var MASK_TANGENT* {.importc: "MASK_TANGENT", header: "GraphicsDefs.h".}: cuint #= 0x00000080
 
-var MASK_BLENDWEIGHTS* {.importc: "MASK_BLENDWEIGHTS", header: "GraphicsDefs.h".}: cuint = 0x00000100
+var MASK_BLENDWEIGHTS* {.importc: "MASK_BLENDWEIGHTS", header: "GraphicsDefs.h".}: cuint #= 0x00000100
 
-var MASK_BLENDINDICES* {.importc: "MASK_BLENDINDICES", header: "GraphicsDefs.h".}: cuint = 0x00000200
+var MASK_BLENDINDICES* {.importc: "MASK_BLENDINDICES", header: "GraphicsDefs.h".}: cuint #= 0x00000200
 
 var MASK_INSTANCEMATRIX1* {.importc: "MASK_INSTANCEMATRIX1", 
-                            header: "GraphicsDefs.h".}: cuint = 0x00000400
+                            header: "GraphicsDefs.h".}: cuint #= 0x00000400
 
 var MASK_INSTANCEMATRIX2* {.importc: "MASK_INSTANCEMATRIX2", 
-                            header: "GraphicsDefs.h".}: cuint = 0x00000800
+                            header: "GraphicsDefs.h".}: cuint #= 0x00000800
 
 var MASK_INSTANCEMATRIX3* {.importc: "MASK_INSTANCEMATRIX3", 
-                            header: "GraphicsDefs.h".}: cuint = 0x00001000
+                            header: "GraphicsDefs.h".}: cuint# = 0x00001000
 
 var MASK_DEFAULT* {.importc: "MASK_DEFAULT", header: "GraphicsDefs.h".}: cuint
 
 var NO_ELEMENT* {.importc: "NO_ELEMENT", header: "GraphicsDefs.h".}: cuint
 
-var MAX_RENDERTARGETS* {.importc: "MAX_RENDERTARGETS", header: "GraphicsDefs.h".}: cint = 4
+var MAX_RENDERTARGETS* {.importc: "MAX_RENDERTARGETS", header: "GraphicsDefs.h".}: cint #= 4
 
 var MAX_VERTEX_STREAMS* {.importc: "MAX_VERTEX_STREAMS", 
-                          header: "GraphicsDefs.h".}: cint = 4
+                          header: "GraphicsDefs.h".}: cint #= 4
 
-var MAX_SKIN_MATRICES* {.importc: "MAX_SKIN_MATRICES", header: "GraphicsDefs.h".}: cint = 64
+var MAX_SKIN_MATRICES* {.importc: "MAX_SKIN_MATRICES", header: "GraphicsDefs.h".}: cint #= 64
 
 var MAX_CONSTANT_REGISTERS* {.importc: "MAX_CONSTANT_REGISTERS", 
-                              header: "GraphicsDefs.h".}: cint = 256
+                              header: "GraphicsDefs.h".}: cint #= 256
 
 var BITS_PER_COMPONENT* {.importc: "BITS_PER_COMPONENT", 
-                          header: "GraphicsDefs.h".}: cint = 8
+                          header: "GraphicsDefs.h".}: cint #= 8

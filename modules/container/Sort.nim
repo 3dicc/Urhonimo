@@ -3,7 +3,7 @@
 import 
   vectorBase
 
-var QUICKSORT_THRESHOLD* {.importc: "QUICKSORT_THRESHOLD", header: "Sort.h".}: cint = 16
+var QUICKSORT_THRESHOLD* {.importc: "QUICKSORT_THRESHOLD", header: "Sort.h".}: cint #= 16
 
 
 proc insertionSort*[T](begin: RandomAccessIterator[T]; 

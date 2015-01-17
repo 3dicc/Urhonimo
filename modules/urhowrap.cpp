@@ -14,7 +14,7 @@
 
 using namespace Urho3D;
 
-typedef void(*HandlerFunc)(void* userData, StringHash eventType, VariantMap* eventData);
+typedef void(*HandlerFunc)(void* userData, StringHash eventType, void* eventData);
 
 class EventHandlerForC : public EventHandler
 {

@@ -5,7 +5,7 @@ import
   color, rect, ptrs, serializer
 
 discard "forward decl of SDL_Surface"
-var COLOR_LUT_SIZE* {.importc: "COLOR_LUT_SIZE", header: "Image.h".}: cint = 16
+var COLOR_LUT_SIZE* {.importc: "COLOR_LUT_SIZE", header: "Image.h".}: cint #= 16
 
 
 type 

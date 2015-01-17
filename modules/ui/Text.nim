@@ -4,7 +4,7 @@ import
   uIElement, font, fontface, vector2, ptrs, urstr, color, vector, stringHash,
   urobject, rect, variant
 
-var DEFAULT_FONT_SIZE* {.importc: "DEFAULT_FONT_SIZE", header: "Text.h".}: cint = 12
+var DEFAULT_FONT_SIZE* {.importc: "DEFAULT_FONT_SIZE", header: "Text.h".}: cint #= 12
 
 type 
   TextEffect* = enum 

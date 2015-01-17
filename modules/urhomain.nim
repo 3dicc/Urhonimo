@@ -20,7 +20,7 @@ proc getFont*(fontName: UrString): ptr Font {.urh.}
 
 type
   HandlerFunc* = proc (userData: pointer, eventType: StringHash;
-                       eventData: ptr VariantMap) {.cdecl.}
+                       eventData: pointer) {.cdecl.}
 
 proc registerEvent*(fn: HandlerFunc, userData: pointer;
                     eventType: StringHash) {.urh.}

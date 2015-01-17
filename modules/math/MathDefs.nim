@@ -14,15 +14,15 @@ var M_MIN_UNSIGNED* {.importc: "M_MIN_UNSIGNED", header: "MathDefs.h".}: cuint
 
 var M_MAX_UNSIGNED* {.importc: "M_MAX_UNSIGNED", header: "MathDefs.h".}: cuint
 
-var M_EPSILON* {.importc: "M_EPSILON", header: "MathDefs.h".}: cfloat = 1e-006
+var M_EPSILON* {.importc: "M_EPSILON", header: "MathDefs.h".}: cfloat #= 1e-006
 
-var M_LARGE_EPSILON* {.importc: "M_LARGE_EPSILON", header: "MathDefs.h".}: cfloat = 5e-005
+var M_LARGE_EPSILON* {.importc: "M_LARGE_EPSILON", header: "MathDefs.h".}: cfloat #= 5e-005
 
-var M_MIN_NEARCLIP* {.importc: "M_MIN_NEARCLIP", header: "MathDefs.h".}: cfloat = 0.01
+var M_MIN_NEARCLIP* {.importc: "M_MIN_NEARCLIP", header: "MathDefs.h".}: cfloat #= 0.01
 
-var M_MAX_FOV* {.importc: "M_MAX_FOV", header: "MathDefs.h".}: cfloat = 160.0
+var M_MAX_FOV* {.importc: "M_MAX_FOV", header: "MathDefs.h".}: cfloat #= 160.0
 
-var M_LARGE_VALUE* {.importc: "M_LARGE_VALUE", header: "MathDefs.h".}: cfloat = 100000000.0
+var M_LARGE_VALUE* {.importc: "M_LARGE_VALUE", header: "MathDefs.h".}: cfloat # = 100000000.0
 
 var M_INFINITY* {.importc: "M_INFINITY", header: "MathDefs.h".}: cfloat
 
