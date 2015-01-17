@@ -1,7 +1,7 @@
 
 
 import 
-  UrObject
+  UrObject, ptrs, text, button, xmlelement, uielement, stringHash, urstr
 
 discard "forward decl of Button"
 discard "forward decl of Text"
@@ -27,10 +27,10 @@ proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::MessageBox::GetTypeNameStatic(@)", 
     header: "MessageBox.h".}
 proc constructMessageBox*(context: ptr Context; 
-                          messageString: UrString = UrString.empty; 
-                          titleString: UrString = UrString.empty; 
-                          layoutFile: ptr XMLFile = 0; 
-                          styleFile: ptr XMLFile = 0): MessageBox {.
+                          messageString: UrString; 
+                          titleString: UrString; 
+                          layoutFile: ptr XMLFile = nil; 
+                          styleFile: ptr XMLFile = nil): MessageBox {.
     importcpp: "Urho3D::MessageBox(@)", header: "MessageBox.h".}
 proc destroyMessageBox*(this: var MessageBox) {.importcpp: "#.~MessageBox()", 
     header: "MessageBox.h".}

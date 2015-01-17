@@ -1,7 +1,8 @@
 
 
 import 
-  borderImage
+  uielement, vector2, stringHash, urstr, urobject, vector, rect, ptrs, text,
+  font
 
 discard "forward decl of Font"
 discard "forward decl of Text"

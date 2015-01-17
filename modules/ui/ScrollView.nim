@@ -1,7 +1,7 @@
 
+import
+  uielement, vector2, stringHash, urstr, urobject, vector, rect, ptrs, scrollbar
 
-import 
-  uIElement
 
 discard "forward decl of BorderImage"
 discard "forward decl of ScrollBar"

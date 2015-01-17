@@ -1,7 +1,8 @@
 
 
 import 
-  uIElement
+  uielement, vector2, stringHash, urstr, urobject, vector, rect, ptrs, button,
+  slider
 
 discard "forward decl of Button"
 discard "forward decl of Slider"

@@ -1,7 +1,7 @@
 
 
 import 
-  graphicsDefs, uIElement
+  graphicsDefs, uIElement, ptrs, timer, vector2, stringHash, urstr, urobject
 
 
 type 
@@ -13,15 +13,15 @@ type
     originalPosition* {.importc: "originalPosition_".}: IntVector2
 
 
-proc getType*(this: ToolTip): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: ToolTip): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "ToolTip.h".}
-proc getBaseType*(this: ToolTip): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: ToolTip): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "ToolTip.h".}
-proc getTypeName*(this: ToolTip): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: ToolTip): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "ToolTip.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::ToolTip::GetTypeStatic(@)", header: "ToolTip.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::ToolTip::GetTypeNameStatic(@)", header: "ToolTip.h".}
 proc constructToolTip*(context: ptr Context): ToolTip {.
     importcpp: "Urho3D::ToolTip(@)", header: "ToolTip.h".}

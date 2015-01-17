@@ -1,7 +1,9 @@
 
 
-import 
-  UrObject
+import
+  uielement, vector2, stringHash, urstr, urobject, vector, rect, ptrs, button,
+  dropdownlist, font, lineedit, listview, resourcecache, text, window,
+  xmlelement
 
 discard "forward decl of Button"
 discard "forward decl of DropDownList"
@@ -46,16 +48,16 @@ type
     ignoreEvents* {.importc: "ignoreEvents_".}: bool
 
 
-proc getType*(this: FileSelector): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: FileSelector): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "FileSelector.h".}
-proc getBaseType*(this: FileSelector): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: FileSelector): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "FileSelector.h".}
-proc getTypeName*(this: FileSelector): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: FileSelector): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "FileSelector.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::FileSelector::GetTypeStatic(@)", 
     header: "FileSelector.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*():   UrString {.
     importcpp: "Urho3D::FileSelector::GetTypeNameStatic(@)", 
     header: "FileSelector.h".}
 proc constructFileSelector*(context: ptr Context): FileSelector {.

@@ -1,21 +1,22 @@
 
 
 import 
-  graphicsDefs, uIElement
+  graphicsDefs, uIElement, stringHash, urstr, urobject, vector, rect, texture,
+  vector2, variant
 
 discard "forward decl of Texture"
 discard "forward decl of Texture2D"
 
 
-proc getType*(this: BorderImage): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: BorderImage):   StringHash {.noSideEffect, 
     importcpp: "GetType", header: "BorderImage.h".}
-proc getBaseType*(this: BorderImage): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: BorderImage):   StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "BorderImage.h".}
-proc getTypeName*(this: BorderImage): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: BorderImage):   UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "BorderImage.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*():   StringHash {.
     importcpp: "Urho3D::BorderImage::GetTypeStatic(@)", header: "BorderImage.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*():   UrString {.
     importcpp: "Urho3D::BorderImage::GetTypeNameStatic(@)", 
     header: "BorderImage.h".}
 proc constructBorderImage*(context: ptr Context): BorderImage {.

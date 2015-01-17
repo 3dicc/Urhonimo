@@ -1,7 +1,8 @@
 
 
 import 
-  button
+  button, ptrs,
+  uielement, vector2, stringHash, urstr, urobject, vector, rect, xmlelement
 
 
 type 

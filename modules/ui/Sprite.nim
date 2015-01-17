@@ -1,7 +1,8 @@
 
 
 import 
-  matrix3x4, uIElement
+  vector2, ptrs, texture, rect, matrix4, uIElement, graphicsdefs, stringHash,
+  urstr, urobject, vector, variant
 
 
 type 

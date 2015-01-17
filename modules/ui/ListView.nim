@@ -1,7 +1,8 @@
 
 
 import 
-  scrollView
+  scrollView, ptrs,
+  uielement, vector2, stringHash, urstr, urobject, vector, rect
 
 
 type 
@@ -44,7 +45,7 @@ proc onResize*(this: var ListView) {.importcpp: "OnResize", header: "ListView.h"
 proc addItem*(this: var ListView; item: ptr UIElement) {.importcpp: "AddItem", 
     header: "ListView.h".}
 proc insertItem*(this: var ListView; index: cuint; item: ptr UIElement; 
-                 parentItem: ptr UIElement = 0) {.importcpp: "InsertItem", 
+                 parentItem: ptr UIElement = nil) {.importcpp: "InsertItem", 
     header: "ListView.h".}
 proc removeItem*(this: var ListView; item: ptr UIElement; index: cuint = 0) {.
     importcpp: "RemoveItem", header: "ListView.h".}
