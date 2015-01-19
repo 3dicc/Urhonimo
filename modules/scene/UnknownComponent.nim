@@ -1,7 +1,7 @@
 
 
 import 
-  component
+  component, stringHash, urstr, urobject
 
 
 type 
@@ -46,9 +46,9 @@ proc getBinaryAttributes*(this: UnknownComponent): PODVector[cuchar] {.
     noSideEffect, importcpp: "GetBinaryAttributes", header: "UnknownComponent.h".}
 proc getUseXML*(this: UnknownComponent): bool {.noSideEffect, 
     importcpp: "GetUseXML", header: "UnknownComponent.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::UnknownComponent::GetTypeStatic(@)", 
     header: "UnknownComponent.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::UnknownComponent::GetTypeNameStatic(@)", 
     header: "UnknownComponent.h".}

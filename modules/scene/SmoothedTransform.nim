@@ -4,13 +4,9 @@ import
   component
 
 
-var SMOOTH_NONE* {.importc: "SMOOTH_NONE", header: "SmoothedTransform.h".}: cuint = 0
-
-
-var SMOOTH_POSITION* {.importc: "SMOOTH_POSITION", header: "SmoothedTransform.h".}: cuint = 1
-
-
-var SMOOTH_ROTATION* {.importc: "SMOOTH_ROTATION", header: "SmoothedTransform.h".}: cuint = 2
+var SMOOTH_NONE* {.importc: "SMOOTH_NONE", header: "SmoothedTransform.h".}: cuint #= 0
+var SMOOTH_POSITION* {.importc: "SMOOTH_POSITION", header: "SmoothedTransform.h".}: cuint #= 1
+var SMOOTH_ROTATION* {.importc: "SMOOTH_ROTATION", header: "SmoothedTransform.h".}: cuint #= 2
 
 
 type 
@@ -22,16 +18,16 @@ type
     subscribed* {.importc: "subscribed_".}: bool
 
 
-proc getType*(this: SmoothedTransform): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: SmoothedTransform): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "SmoothedTransform.h".}
-proc getBaseType*(this: SmoothedTransform): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: SmoothedTransform): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "SmoothedTransform.h".}
-proc getTypeName*(this: SmoothedTransform): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: SmoothedTransform): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "SmoothedTransform.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::SmoothedTransform::GetTypeStatic(@)", 
     header: "SmoothedTransform.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::SmoothedTransform::GetTypeNameStatic(@)", 
     header: "SmoothedTransform.h".}
 proc constructSmoothedTransform*(context: ptr Context): SmoothedTransform {.

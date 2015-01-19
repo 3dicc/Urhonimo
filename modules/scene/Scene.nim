@@ -1,84 +1,25 @@
 
 
 import 
-  hashSet, mutex, node, sceneResolver, xMLElement
+  hashSet, mutex, node, sceneResolver, xMLElement, component
 
 discard "forward decl of File"
 discard "forward decl of PackageFile"
-var FIRST_REPLICATED_ID* {.importc: "FIRST_REPLICATED_ID", header: "Scene.h".}: cuint = 0x00000001
-
-var LAST_REPLICATED_ID* {.importc: "LAST_REPLICATED_ID", header: "Scene.h".}: cuint = 0x00FFFFFF
-
-var FIRST_LOCAL_ID* {.importc: "FIRST_LOCAL_ID", header: "Scene.h".}: cuint = 0x01000000
-
-var LAST_LOCAL_ID* {.importc: "LAST_LOCAL_ID", header: "Scene.h".}: cuint = 0xFFFFFFFF
+var FIRST_REPLICATED_ID* {.importc: "FIRST_REPLICATED_ID", header: "Scene.h".}: cuint #= 0x00000001
+var LAST_REPLICATED_ID* {.importc: "LAST_REPLICATED_ID", header: "Scene.h".}: cuint #= 0x00FFFFFF
+var FIRST_LOCAL_ID* {.importc: "FIRST_LOCAL_ID", header: "Scene.h".}: cuint #= 0x01000000
+var LAST_LOCAL_ID* {.importc: "LAST_LOCAL_ID", header: "Scene.h".}: cuint #= 0xFFFFFFFF
 
 
-type 
-  LoadMode* {.importcpp: "Urho3D::LoadMode".} = enum 
-    LOAD_RESOURCES_ONLY = 0, LOAD_SCENE, LOAD_SCENE_AND_RESOURCES
-
-
-
-type 
-  AsyncProgress* {.importc: "Urho3D::AsyncProgress", header: "Scene.h".} = object 
-    file* {.importc: "file_".}: SharedPtr[File]
-    xmlFile* {.importc: "xmlFile_".}: SharedPtr[XMLFile]
-    xmlElement* {.importc: "xmlElement_".}: XMLElement
-    mode* {.importc: "mode_".}: LoadMode
-    resources* {.importc: "resources_".}: HashSet[StringHash]
-    loadedResources* {.importc: "loadedResources_".}: cuint
-    totalResources* {.importc: "totalResources_".}: cuint
-    loadedNodes* {.importc: "loadedNodes_".}: cuint
-    totalNodes* {.importc: "totalNodes_".}: cuint
-
-
-
-type 
-  Scene* {.importc: "Urho3D::Scene", header: "Scene.h".} = object of Node
-    replicatedNodes* {.importc: "replicatedNodes_".}: HashMap[cuint, ptr Node]
-    localNodes* {.importc: "localNodes_".}: HashMap[cuint, ptr Node]
-    replicatedComponents* {.importc: "replicatedComponents_".}: HashMap[cuint, 
-        ptr Component]
-    localComponents* {.importc: "localComponents_".}: HashMap[cuint, 
-        ptr Component]
-    asyncProgress* {.importc: "asyncProgress_".}: AsyncProgress
-    resolver* {.importc: "resolver_".}: SceneResolver
-    fileName* {.importc: "fileName_".}: UrString
-    requiredPackageFiles* {.importc: "requiredPackageFiles_".}: Vector[
-        SharedPtr[PackageFile]]
-    varNames* {.importc: "varNames_".}: HashMap[StringHash, UrString]
-    networkUpdateNodes* {.importc: "networkUpdateNodes_".}: HashSet[cuint]
-    networkUpdateComponents* {.importc: "networkUpdateComponents_".}: HashSet[
-        cuint]
-    delayedDirtyComponents* {.importc: "delayedDirtyComponents_".}: PODVector[
-        ptr Component]
-    sceneMutex* {.importc: "sceneMutex_".}: Mutex
-    smoothingData* {.importc: "smoothingData_".}: VariantMap
-    replicatedNodeID* {.importc: "replicatedNodeID_".}: cuint
-    replicatedComponentID* {.importc: "replicatedComponentID_".}: cuint
-    localNodeID* {.importc: "localNodeID_".}: cuint
-    localComponentID* {.importc: "localComponentID_".}: cuint
-    checksum* {.importc: "checksum_".}: cuint
-    asyncLoadingMs* {.importc: "asyncLoadingMs_".}: cint
-    timeScale* {.importc: "timeScale_".}: cfloat
-    elapsedTime* {.importc: "elapsedTime_".}: cfloat
-    smoothingConstant* {.importc: "smoothingConstant_".}: cfloat
-    snapThreshold* {.importc: "snapThreshold_".}: cfloat
-    updateEnabled* {.importc: "updateEnabled_".}: bool
-    asyncLoading* {.importc: "asyncLoading_".}: bool
-    threadedUpdate* {.importc: "threadedUpdate_".}: bool
-
-
-proc getType*(this: Scene): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: Scene): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "Scene.h".}
-proc getBaseType*(this: Scene): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: Scene): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "Scene.h".}
-proc getTypeName*(this: Scene): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: Scene): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "Scene.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::Scene::GetTypeStatic(@)", header: "Scene.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::Scene::GetTypeNameStatic(@)", header: "Scene.h".}
 proc constructScene*(context: ptr Context): Scene {.
     importcpp: "Urho3D::Scene(@)", header: "Scene.h".}

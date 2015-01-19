@@ -1,7 +1,7 @@
 
 
 import 
-  deserializer, serializer
+  deserializer, serializer, vector
 
 
 type 
@@ -11,10 +11,6 @@ type
 
 
 proc constructMemoryBuffer*(data: pointer; size: cuint): MemoryBuffer {.
-    importcpp: "Urho3D::MemoryBuffer(@)", header: "MemoryBuffer.h".}
-proc constructMemoryBuffer*(data: pointer; size: cuint): MemoryBuffer {.
-    importcpp: "Urho3D::MemoryBuffer(@)", header: "MemoryBuffer.h".}
-proc constructMemoryBuffer*(data: var PODVector[cuchar]): MemoryBuffer {.
     importcpp: "Urho3D::MemoryBuffer(@)", header: "MemoryBuffer.h".}
 proc constructMemoryBuffer*(data: PODVector[cuchar]): MemoryBuffer {.
     importcpp: "Urho3D::MemoryBuffer(@)", header: "MemoryBuffer.h".}

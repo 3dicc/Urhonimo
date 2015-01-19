@@ -1,7 +1,7 @@
 
 
 import 
-  deserializer, serializer
+  deserializer, serializer, vector
 
 
 type 

@@ -1,20 +1,14 @@
 
 
 import 
-  component
+  component, stringhash, urstr, urobject
 
 
-var USE_UPDATE* {.importc: "USE_UPDATE", header: "LogicComponent.h".}: cuchar = 0x00000001
-
-
-var USE_POSTUPDATE* {.importc: "USE_POSTUPDATE", header: "LogicComponent.h".}: cuchar = 0x00000002
-
-
-var USE_FIXEDUPDATE* {.importc: "USE_FIXEDUPDATE", header: "LogicComponent.h".}: cuchar = 0x00000004
-
-
+var USE_UPDATE* {.importc: "USE_UPDATE", header: "LogicComponent.h".}: cuchar #= 0x00000001
+var USE_POSTUPDATE* {.importc: "USE_POSTUPDATE", header: "LogicComponent.h".}: cuchar #= 0x00000002
+var USE_FIXEDUPDATE* {.importc: "USE_FIXEDUPDATE", header: "LogicComponent.h".}: cuchar #= 0x00000004
 var USE_FIXEDPOSTUPDATE* {.importc: "USE_FIXEDPOSTUPDATE", 
-                           header: "LogicComponent.h".}: cuchar = 0x00000008
+                           header: "LogicComponent.h".}: cuchar #= 0x00000008
 
 
 type 
@@ -25,16 +19,16 @@ type
     delayedStartCalled* {.importc: "delayedStartCalled_".}: bool
 
 
-proc getType*(this: LogicComponent): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: LogicComponent): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "LogicComponent.h".}
-proc getBaseType*(this: LogicComponent): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: LogicComponent): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "LogicComponent.h".}
-proc getTypeName*(this: LogicComponent): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: LogicComponent): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "LogicComponent.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::LogicComponent::GetTypeStatic(@)", 
     header: "LogicComponent.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::LogicComponent::GetTypeNameStatic(@)", 
     header: "LogicComponent.h".}
 proc constructLogicComponent*(context: ptr Context): LogicComponent {.

@@ -1,61 +1,25 @@
 
 
 import 
-  matrix3x4, animatable, vectorBuffer
+  matrix3x4, animatable, vectorBuffer, component
 
 discard "forward decl of Component"
 discard "forward decl of Connection"
 discard "forward decl of Scene"
 discard "forward decl of SceneResolver"
 discard "forward decl of NodeReplicationState"
-type 
-  CreateMode* {.importcpp: "Urho3D::CreateMode".} = enum 
-    REPLICATED = 0, LOCAL = 1
 
-
-
-type 
-  TransformSpace* {.importcpp: "Urho3D::TransformSpace".} = enum 
-    TS_LOCAL = 0, TS_PARENT, TS_WORLD
-
-
-
-type 
-  Node* {.importc: "Urho3D::Node", header: "Node.h".} = object of Animatable
-    networkUpdate* {.importc: "networkUpdate_".}: bool
-    vars* {.importc: "vars_".}: VariantMap
-    worldTransform* {.importc: "worldTransform_".}: Matrix3x4
-    dirty* {.importc: "dirty_".}: bool
-    enabled* {.importc: "enabled_".}: bool
-    enabledPrev* {.importc: "enabledPrev_".}: bool
-    parent* {.importc: "parent_".}: ptr Node
-    scene* {.importc: "scene_".}: ptr Scene
-    id* {.importc: "id_".}: cuint
-    position* {.importc: "position_".}: Vector3
-    rotation* {.importc: "rotation_".}: Quaternion
-    scale* {.importc: "scale_".}: Vector3
-    worldRotation* {.importc: "worldRotation_".}: Quaternion
-    components* {.importc: "components_".}: Vector[SharedPtr[Component]]
-    children* {.importc: "children_".}: Vector[SharedPtr[Node]]
-    listeners* {.importc: "listeners_".}: Vector[WeakPtr[Component]]
-    dependencyNodes* {.importc: "dependencyNodes_".}: PODVector[ptr Node]
-    owner* {.importc: "owner_".}: ptr Connection
-    name* {.importc: "name_".}: UrString
-    nameHash* {.importc: "nameHash_".}: StringHash
-    attrBuffer* {.importc: "attrBuffer_".}: VectorBuffer
-
-
-proc getType*(this: Node): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: Node): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "Node.h".}
-proc getBaseType*(this: Node): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: Node): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "Node.h".}
-proc getTypeName*(this: Node): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: Node): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "Node.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::Node::GetTypeStatic(@)", header: "Node.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::Node::GetTypeNameStatic(@)", header: "Node.h".}
-proc getBaseTypeStatic*(): Urho3D.StringHash {.
+proc getBaseTypeStatic*(): StringHash {.
     importcpp: "Urho3D::Node::GetBaseTypeStatic(@)", header: "Node.h".}
 proc constructNode*(context: ptr Context): Node {.importcpp: "Urho3D::Node(@)", 
     header: "Node.h".}
@@ -417,6 +381,7 @@ proc setScaleSilent*(this: var Node; scale: Vector3) {.
 proc setTransformSilent*(this: var Node; position: Vector3; 
                          rotation: Quaternion; scale: Vector3) {.
     importcpp: "SetTransformSilent", header: "Node.h".}
+
 proc node::CreateComponent*[T](mode: CreateMode; id: cuint): ptr T
 proc node::GetOrCreateComponent*[T](mode: CreateMode; id: cuint): ptr T
 proc node::RemoveComponent*[T]()

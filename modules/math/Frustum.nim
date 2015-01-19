@@ -1,7 +1,7 @@
 
 
 import 
-  boundingBox, matrix4, plane, rect
+  boundingBox, matrix4, matrix3x4, vector3, matrix3, plane, rect, mathdefs
 
 proc constructFrustum*(): Frustum {.importcpp: "Urho3D::Frustum(@)", 
                                     header: "Frustum.h".}
@@ -9,17 +9,17 @@ proc constructFrustum*(frustum: Frustum): Frustum {.
     importcpp: "Urho3D::Frustum(@)", header: "Frustum.h".}
 proc define*(this: var Frustum; fov: cfloat; aspectRatio: cfloat; zoom: cfloat; 
              nearZ: cfloat; farZ: cfloat; 
-             transform: Matrix3x4 = matrix3x4.identity) {.importcpp: "Define", 
+             transform: Matrix3x4) {.importcpp: "Define", 
     header: "Frustum.h".}
 proc define*(this: var Frustum; near: Vector3; far: Vector3; 
-             transform: Matrix3x4 = matrix3x4.identity) {.importcpp: "Define", 
+             transform: Matrix3x4) {.importcpp: "Define", 
     header: "Frustum.h".}
 proc define*(this: var Frustum; box: BoundingBox; 
-             transform: Matrix3x4 = matrix3x4.identity) {.importcpp: "Define", 
+             transform: Matrix3x4) {.importcpp: "Define", 
     header: "Frustum.h".}
 proc defineOrtho*(this: var Frustum; orthoSize: cfloat; aspectRatio: cfloat; 
                   zoom: cfloat; nearZ: cfloat; farZ: cfloat; 
-                  transform: Matrix3x4 = matrix3x4.identity) {.
+                  transform: Matrix3x4) {.
     importcpp: "DefineOrtho", header: "Frustum.h".}
 proc transform*(this: var Frustum; transform: Matrix3) {.importcpp: "Transform", 
     header: "Frustum.h".}

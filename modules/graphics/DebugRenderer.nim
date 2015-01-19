@@ -1,7 +1,7 @@
 
 
 import 
-  color, component, frustum
+  color, component, frustum, vector3, component
 
 discard "forward decl of BoundingBox"
 discard "forward decl of Camera"
@@ -119,3 +119,7 @@ proc getFrustum*(this: DebugRenderer): Frustum {.noSideEffect,
     importcpp: "GetFrustum", header: "DebugRenderer.h".}
 proc isInside*(this: DebugRenderer; box: BoundingBox): bool {.noSideEffect, 
     importcpp: "IsInside", header: "DebugRenderer.h".}
+
+proc drawDebugGeometry*(this: var Component; debug: ptr DebugRenderer; 
+                        depthTest: bool) {.importcpp: "DrawDebugGeometry", 
+    header: "Component.h".}

@@ -6,7 +6,8 @@ import
 
 
 type 
-  Deserializer* {.importc: "Urho3D::Deserializer", header: "Deserializer.h".} = object 
+  Deserializer* {.importc: "Urho3D::Deserializer", header: "Deserializer.h",
+                  inheritable.} = object 
     position* {.importc: "position_".}: cuint
     size* {.importc: "size_".}: cuint
 

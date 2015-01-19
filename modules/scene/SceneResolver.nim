@@ -1,14 +1,10 @@
 
 
 import 
-  hashMap, `ptr`
+  hashMap, ptrs
 
 discard "forward decl of Component"
 discard "forward decl of Node"
-type 
-  SceneResolver* {.importc: "Urho3D::SceneResolver", header: "SceneResolver.h".} = object 
-    nodes* {.importc: "nodes_".}: HashMap[cuint, WeakPtr[Node]]
-    components* {.importc: "components_".}: HashMap[cuint, WeakPtr[Component]]
 
 
 proc constructSceneResolver*(): SceneResolver {.

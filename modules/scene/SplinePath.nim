@@ -1,7 +1,7 @@
 
 
 import 
-  component, debugRenderer, mathDefs, node, `ptr`, variant, vector, vector3, 
+  component, debugRenderer, mathDefs, node, ptrs, variant, vector, vector3, 
   spline
 
 
@@ -19,15 +19,15 @@ type
     controlledIdAttr* {.importc: "controlledIdAttr_".}: cuint
 
 
-proc getType*(this: SplinePath): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: SplinePath): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "SplinePath.h".}
-proc getBaseType*(this: SplinePath): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: SplinePath): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "SplinePath.h".}
-proc getTypeName*(this: SplinePath): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: SplinePath): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "SplinePath.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::SplinePath::GetTypeStatic(@)", header: "SplinePath.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::SplinePath::GetTypeNameStatic(@)", 
     header: "SplinePath.h".}
 proc constructSplinePath*(context: ptr Context): SplinePath {.
