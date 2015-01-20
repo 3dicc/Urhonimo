@@ -1,31 +1,23 @@
 
 
 import 
-  boundingBox, component, graphicsDefs, hashSet
+  boundingBox, component, graphicsDefs, hashSet, vector2, camera, 
+  graphics.geometry, ptrs, material, matrix4, vector, stringHash, urstr,
+  urobject
 
-var DRAWABLE_GEOMETRY* {.importc: "DRAWABLE_GEOMETRY", header: "Drawable.h".}: cuint = 0x00000001
-
-var DRAWABLE_LIGHT* {.importc: "DRAWABLE_LIGHT", header: "Drawable.h".}: cuint = 0x00000002
-
-var DRAWABLE_ZONE* {.importc: "DRAWABLE_ZONE", header: "Drawable.h".}: cuint = 0x00000004
-
+var DRAWABLE_GEOMETRY* {.importc: "DRAWABLE_GEOMETRY", header: "Drawable.h".}: cuint #= 0x00000001
+var DRAWABLE_LIGHT* {.importc: "DRAWABLE_LIGHT", header: "Drawable.h".}: cuint #= 0x00000002
+var DRAWABLE_ZONE* {.importc: "DRAWABLE_ZONE", header: "Drawable.h".}: cuint #= 0x00000004
 var DRAWABLE_PROXYGEOMETRY* {.importc: "DRAWABLE_PROXYGEOMETRY", 
-                              header: "Drawable.h".}: cuint = 0x00000008
-
-var DRAWABLE_ANY* {.importc: "DRAWABLE_ANY", header: "Drawable.h".}: cuint = 0x000000FF
-
-var DEFAULT_VIEWMASK* {.importc: "DEFAULT_VIEWMASK", header: "Drawable.h".}: cuint = m_Max_Unsigned
-
-var DEFAULT_LIGHTMASK* {.importc: "DEFAULT_LIGHTMASK", header: "Drawable.h".}: cuint = m_Max_Unsigned
-
-var DEFAULT_SHADOWMASK* {.importc: "DEFAULT_SHADOWMASK", header: "Drawable.h".}: cuint = m_Max_Unsigned
-
-var DEFAULT_ZONEMASK* {.importc: "DEFAULT_ZONEMASK", header: "Drawable.h".}: cuint = m_Max_Unsigned
-
-var MAX_VERTEX_LIGHTS* {.importc: "MAX_VERTEX_LIGHTS", header: "Drawable.h".}: cint = 4
-
+                              header: "Drawable.h".}: cuint #= 0x00000008
+var DRAWABLE_ANY* {.importc: "DRAWABLE_ANY", header: "Drawable.h".}: cuint #= 0x000000FF
+var DEFAULT_VIEWMASK* {.importc: "DEFAULT_VIEWMASK", header: "Drawable.h".}: cuint #= m_Max_Unsigned
+var DEFAULT_LIGHTMASK* {.importc: "DEFAULT_LIGHTMASK", header: "Drawable.h".}: cuint #= m_Max_Unsigned
+var DEFAULT_SHADOWMASK* {.importc: "DEFAULT_SHADOWMASK", header: "Drawable.h".}: cuint #= m_Max_Unsigned
+var DEFAULT_ZONEMASK* {.importc: "DEFAULT_ZONEMASK", header: "Drawable.h".}: cuint #= m_Max_Unsigned
+var MAX_VERTEX_LIGHTS* {.importc: "MAX_VERTEX_LIGHTS", header: "Drawable.h".}: cint #= 4
 var ANIMATION_LOD_BASESCALE* {.importc: "ANIMATION_LOD_BASESCALE", 
-                               header: "Drawable.h".}: cfloat = 2500.0
+                               header: "Drawable.h".}: cfloat #= 2500.0
 
 discard "forward decl of Camera"
 discard "forward decl of Geometry"
@@ -94,24 +86,24 @@ type
     lodBias* {.importc: "lodBias_".}: cfloat
     basePassFlags* {.importc: "basePassFlags_".}: cuint
     maxLights* {.importc: "maxLights_".}: cuint
-    octant* {.importc: "octant_".}: ptr Octant
-    firstLight* {.importc: "firstLight_".}: ptr Light
-    lights* {.importc: "lights_".}: PODVector[ptr Light]
-    vertexLights* {.importc: "vertexLights_".}: PODVector[ptr Light]
-    zone* {.importc: "zone_".}: ptr Zone
+    octant* {.importc: "octant_".}: pointer #ptr Octant
+    #firstLight* {.importc: "firstLight_".}: ptr Light
+    #lights* {.importc: "lights_".}: PODVector[ptr Light]
+    #vertexLights* {.importc: "vertexLights_".}: PODVector[ptr Light]
+    #zone* {.importc: "zone_".}: ptr Zone
     zoneDirty* {.importc: "zoneDirty_".}: bool
     viewCameras* {.importc: "viewCameras_".}: HashSet[ptr Camera]
 
 
-proc getType*(this: Drawable): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: Drawable): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "Drawable.h".}
-proc getBaseType*(this: Drawable): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: Drawable): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "Drawable.h".}
-proc getTypeName*(this: Drawable): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: Drawable): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "Drawable.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::Drawable::GetTypeStatic(@)", header: "Drawable.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::Drawable::GetTypeNameStatic(@)", header: "Drawable.h".}
 proc constructDrawable*(context: ptr Context; drawableFlags: cuchar): Drawable {.
     importcpp: "Urho3D::Drawable(@)", header: "Drawable.h".}
@@ -121,9 +113,7 @@ proc registerObject*(context: ptr Context) {.
     importcpp: "Urho3D::Drawable::RegisterObject(@)", header: "Drawable.h".}
 proc onSetEnabled*(this: var Drawable) {.importcpp: "OnSetEnabled", 
     header: "Drawable.h".}
-proc processRayQuery*(this: var Drawable; query: RayOctreeQuery; 
-                      results: var PODVector[RayQueryResult]) {.
-    importcpp: "ProcessRayQuery", header: "Drawable.h".}
+
 proc update*(this: var Drawable; frame: FrameInfo) {.importcpp: "Update", 
     header: "Drawable.h".}
 proc updateBatches*(this: var Drawable; frame: FrameInfo) {.
@@ -136,11 +126,7 @@ proc getLodGeometry*(this: var Drawable; batchIndex: cuint; level: cuint): ptr G
     importcpp: "GetLodGeometry", header: "Drawable.h".}
 proc getNumOccluderTriangles*(this: var Drawable): cuint {.
     importcpp: "GetNumOccluderTriangles", header: "Drawable.h".}
-proc drawOcclusion*(this: var Drawable; buffer: ptr OcclusionBuffer): bool {.
-    importcpp: "DrawOcclusion", header: "Drawable.h".}
-proc drawDebugGeometry*(this: var Drawable; debug: ptr DebugRenderer; 
-                        depthTest: bool) {.importcpp: "DrawDebugGeometry", 
-    header: "Drawable.h".}
+
 proc setDrawDistance*(this: var Drawable; distance: cfloat) {.
     importcpp: "SetDrawDistance", header: "Drawable.h".}
 proc setShadowDistance*(this: var Drawable; distance: cfloat) {.
@@ -199,8 +185,7 @@ proc isInView*(this: Drawable; camera: ptr Camera): bool {.noSideEffect,
     importcpp: "IsInView", header: "Drawable.h".}
 proc getBatches*(this: Drawable): Vector[SourceBatch] {.noSideEffect, 
     importcpp: "GetBatches", header: "Drawable.h".}
-proc setZone*(this: var Drawable; zone: ptr Zone; temporary: bool = false) {.
-    importcpp: "SetZone", header: "Drawable.h".}
+
 proc setSortValue*(this: var Drawable; value: cfloat) {.
     importcpp: "SetSortValue", header: "Drawable.h".}
 proc setMinMaxZ*(this: var Drawable; minZ: cfloat; maxZ: cfloat) {.
@@ -215,10 +200,6 @@ proc limitVertexLights*(this: var Drawable) {.importcpp: "LimitVertexLights",
     header: "Drawable.h".}
 proc setBasePass*(this: var Drawable; batchIndex: cuint) {.
     importcpp: "SetBasePass", header: "Drawable.h".}
-proc getOctant*(this: Drawable): ptr Octant {.noSideEffect, 
-    importcpp: "GetOctant", header: "Drawable.h".}
-proc getZone*(this: Drawable): ptr Zone {.noSideEffect, importcpp: "GetZone", 
-    header: "Drawable.h".}
 proc isZoneDirty*(this: Drawable): bool {.noSideEffect, 
     importcpp: "IsZoneDirty", header: "Drawable.h".}
 proc getDistance*(this: Drawable): cfloat {.noSideEffect, 
@@ -231,20 +212,12 @@ proc isInView*(this: Drawable; frame: FrameInfo; anyCamera: bool = false): bool 
     noSideEffect, importcpp: "IsInView", header: "Drawable.h".}
 proc hasBasePass*(this: Drawable; batchIndex: cuint): bool {.noSideEffect, 
     importcpp: "HasBasePass", header: "Drawable.h".}
-proc getLights*(this: Drawable): PODVector[ptr Light] {.noSideEffect, 
-    importcpp: "GetLights", header: "Drawable.h".}
-proc getVertexLights*(this: Drawable): PODVector[ptr Light] {.noSideEffect, 
-    importcpp: "GetVertexLights", header: "Drawable.h".}
-proc getFirstLight*(this: Drawable): ptr Light {.noSideEffect, 
-    importcpp: "GetFirstLight", header: "Drawable.h".}
 proc getMinZ*(this: Drawable): cfloat {.noSideEffect, importcpp: "GetMinZ", 
                                         header: "Drawable.h".}
 proc getMaxZ*(this: Drawable): cfloat {.noSideEffect, importcpp: "GetMaxZ", 
                                         header: "Drawable.h".}
 proc clearLights*(this: var Drawable) {.importcpp: "ClearLights", 
                                         header: "Drawable.h".}
-proc addLight*(this: var Drawable; light: ptr Light) {.importcpp: "AddLight", 
-    header: "Drawable.h".}
-proc addVertexLight*(this: var Drawable; light: ptr Light) {.
-    importcpp: "AddVertexLight", header: "Drawable.h".}
-proc compareDrawables*(lhs: ptr Drawable; rhs: ptr Drawable): bool {.inline.}
+
+proc compareDrawables*(lhs: ptr Drawable; rhs: ptr Drawable): bool {.
+    importcpp: "Urho3D::CompareDrawables(@)", header: "Drawable.h".}

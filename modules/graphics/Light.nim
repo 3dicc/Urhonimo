@@ -1,7 +1,9 @@
 
 
 import 
-  color, drawable, frustum, texture
+  color, drawable, frustum, texture, material, matrix4, ptrs, urstr, urobject,
+  stringHash, attribute, variant, octreequery, vector, debugrenderer,
+  boundingbox, camera
 
 discard "forward decl of Camera"
 discard "forward decl of LightBatchQueue"
@@ -10,22 +12,10 @@ type
     LIGHT_DIRECTIONAL = 0, LIGHT_SPOT, LIGHT_POINT
 
 
-var SHADOW_MIN_QUANTIZE* {.importc: "SHADOW_MIN_QUANTIZE", header: "Light.h".}: cfloat = 0.1
-
-var SHADOW_MIN_VIEW* {.importc: "SHADOW_MIN_VIEW", header: "Light.h".}: cfloat = 1.0
-
-var MAX_LIGHT_SPLITS* {.importc: "MAX_LIGHT_SPLITS", header: "Light.h".}: cint = 6
-
-when not defined(android) and not defined(ios) and not defined(raspi): 
-  var MAX_CASCADE_SPLITS* {.importc: "MAX_CASCADE_SPLITS", header: "Light.h".}: cint = 4
-else: 
-  var MAX_CASCADE_SPLITS* {.importc: "MAX_CASCADE_SPLITS", header: "Light.h".}: cint = 1
-
-type 
-  BiasParameters* {.importc: "Urho3D::BiasParameters", header: "Light.h".} = object 
-    constantBias* {.importc: "constantBias_".}: cfloat
-    slopeScaledBias* {.importc: "slopeScaledBias_".}: cfloat
-
+var SHADOW_MIN_QUANTIZE* {.importc: "SHADOW_MIN_QUANTIZE", header: "Light.h".}: cfloat #= 0.1
+var SHADOW_MIN_VIEW* {.importc: "SHADOW_MIN_VIEW", header: "Light.h".}: cfloat #= 1.0
+var MAX_LIGHT_SPLITS* {.importc: "MAX_LIGHT_SPLITS", header: "Light.h".}: cint #= 6
+var MAX_CASCADE_SPLITS* {.importc: "MAX_CASCADE_SPLITS", header: "Light.h".}: cint #= 4 or 1
 
 proc constructBiasParameters*(): BiasParameters {.
     importcpp: "Urho3D::BiasParameters(@)", header: "Light.h".}
@@ -79,7 +69,7 @@ type
     volumeTransform* {.importc: "volumeTransform_".}: Matrix3x4
     rampTexture* {.importc: "rampTexture_".}: SharedPtr[Texture]
     shapeTexture* {.importc: "shapeTexture_".}: SharedPtr[Texture]
-    lightQueue* {.importc: "lightQueue_".}: ptr LightBatchQueue
+    #lightQueue* {.importc: "lightQueue_".}: ptr LightBatchQueue
     specularIntensity* {.importc: "specularIntensity_".}: cfloat
     brightness* {.importc: "brightness_".}: cfloat
     range* {.importc: "range_".}: cfloat
@@ -93,15 +83,15 @@ type
     perVertex* {.importc: "perVertex_".}: bool
 
 
-proc getType*(this: Light): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: Light): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "Light.h".}
-proc getBaseType*(this: Light): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: Light): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "Light.h".}
-proc getTypeName*(this: Light): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: Light): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "Light.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::Light::GetTypeStatic(@)", header: "Light.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::Light::GetTypeNameStatic(@)", header: "Light.h".}
 proc constructLight*(context: ptr Context): Light {.
     importcpp: "Urho3D::Light(@)", header: "Light.h".}
@@ -204,15 +194,11 @@ proc setIntensitySortValue*(this: var Light; distance: cfloat) {.
     importcpp: "SetIntensitySortValue", header: "Light.h".}
 proc setIntensitySortValue*(this: var Light; box: BoundingBox) {.
     importcpp: "SetIntensitySortValue", header: "Light.h".}
-proc setLightQueue*(this: var Light; queue: ptr LightBatchQueue) {.
-    importcpp: "SetLightQueue", header: "Light.h".}
 proc getDirLightTransform*(this: var Light; camera: ptr Camera; 
                            getNearQuad: bool = false): Matrix3x4 {.
     importcpp: "GetDirLightTransform", header: "Light.h".}
 proc getVolumeTransform*(this: var Light; camera: ptr Camera): Matrix3x4 {.
     importcpp: "GetVolumeTransform", header: "Light.h".}
-proc getLightQueue*(this: Light): ptr LightBatchQueue {.noSideEffect, 
-    importcpp: "GetLightQueue", header: "Light.h".}
 proc getIntensityDivisor*(this: Light; attenuation: cfloat = 1.0): cfloat {.
     noSideEffect, importcpp: "GetIntensityDivisor", header: "Light.h".}
 proc setRampTextureAttr*(this: var Light; value: ResourceRef) {.
@@ -223,4 +209,17 @@ proc getRampTextureAttr*(this: Light): ResourceRef {.noSideEffect,
     importcpp: "GetRampTextureAttr", header: "Light.h".}
 proc getShapeTextureAttr*(this: Light): ResourceRef {.noSideEffect, 
     importcpp: "GetShapeTextureAttr", header: "Light.h".}
-proc compareLights*(lhs: ptr Light; rhs: ptr Light): bool {.inline.}
+proc compareLights*(lhs: ptr Light; rhs: ptr Light): bool {.noSideEffect, 
+    importcpp: "Urho3D::CompareLights(@)", header: "Light.h".}
+
+proc getLights*(this: Drawable): PODVector[ptr Light] {.noSideEffect, 
+    importcpp: "GetLights", header: "Drawable.h".}
+proc getVertexLights*(this: Drawable): PODVector[ptr Light] {.noSideEffect, 
+    importcpp: "GetVertexLights", header: "Drawable.h".}
+proc getFirstLight*(this: Drawable): ptr Light {.noSideEffect, 
+    importcpp: "GetFirstLight", header: "Drawable.h".}
+
+proc addLight*(this: var Drawable; light: ptr Light) {.importcpp: "AddLight", 
+    header: "Drawable.h".}
+proc addVertexLight*(this: var Drawable; light: ptr Light) {.
+    importcpp: "AddVertexLight", header: "Drawable.h".}

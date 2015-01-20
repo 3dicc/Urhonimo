@@ -1,7 +1,8 @@
 
 
 import 
-  color, drawable, texture
+  color, drawable, texture, matrix4, stringHash, urstr, boundingbox, color,
+  ptrs, urobject, attribute, variant, debugrenderer, vector3
 
 
 type 
@@ -26,15 +27,15 @@ type
     lastAmbientEndZone* {.importc: "lastAmbientEndZone_".}: WeakPtr[Zone]
 
 
-proc getType*(this: Zone): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: Zone): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "Zone.h".}
-proc getBaseType*(this: Zone): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: Zone): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "Zone.h".}
-proc getTypeName*(this: Zone): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: Zone): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "Zone.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::Zone::GetTypeStatic(@)", header: "Zone.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::Zone::GetTypeNameStatic(@)", header: "Zone.h".}
 proc constructZone*(context: ptr Context): Zone {.importcpp: "Urho3D::Zone(@)", 
     header: "Zone.h".}
@@ -104,3 +105,8 @@ proc setZoneTextureAttr*(this: var Zone; value: ResourceRef) {.
     importcpp: "SetZoneTextureAttr", header: "Zone.h".}
 proc getZoneTextureAttr*(this: Zone): ResourceRef {.noSideEffect, 
     importcpp: "GetZoneTextureAttr", header: "Zone.h".}
+
+proc setZone*(this: var Drawable; zone: ptr Zone; temporary: bool = false) {.
+    importcpp: "SetZone", header: "Drawable.h".}
+proc getZone*(this: Drawable): ptr Zone {.noSideEffect, importcpp: "GetZone", 
+    header: "Drawable.h".}

@@ -1,24 +1,18 @@
 
 
 import 
-  frustum, component, graphicsDefs, ray
+  boundingBox, component, graphicsDefs, ray, matrix4, vector2, plane,
+  stringHash, urstr, urobject, vector3, quaternion, vector4
 
-var DEFAULT_NEARCLIP* {.importc: "DEFAULT_NEARCLIP", header: "Camera.h".}: cfloat = 0.1
-
-var DEFAULT_FARCLIP* {.importc: "DEFAULT_FARCLIP", header: "Camera.h".}: cfloat = 1000.0
-
-var DEFAULT_CAMERA_FOV* {.importc: "DEFAULT_CAMERA_FOV", header: "Camera.h".}: cfloat = 45.0
-
-var DEFAULT_ORTHOSIZE* {.importc: "DEFAULT_ORTHOSIZE", header: "Camera.h".}: cfloat = 20.0
-
-var VO_NONE* {.importc: "VO_NONE", header: "Camera.h".}: cuint = 0x00000000
-
+var DEFAULT_NEARCLIP* {.importc: "DEFAULT_NEARCLIP", header: "Camera.h".}: cfloat #= 0.1
+var DEFAULT_FARCLIP* {.importc: "DEFAULT_FARCLIP", header: "Camera.h".}: cfloat #= 1000.0
+var DEFAULT_CAMERA_FOV* {.importc: "DEFAULT_CAMERA_FOV", header: "Camera.h".}: cfloat #= 45.0
+var DEFAULT_ORTHOSIZE* {.importc: "DEFAULT_ORTHOSIZE", header: "Camera.h".}: cfloat #= 20.0
+var VO_NONE* {.importc: "VO_NONE", header: "Camera.h".}: cuint #= 0x00000000
 var VO_LOW_MATERIAL_QUALITY* {.importc: "VO_LOW_MATERIAL_QUALITY", 
-                               header: "Camera.h".}: cuint = 0x00000001
-
-var VO_DISABLE_SHADOWS* {.importc: "VO_DISABLE_SHADOWS", header: "Camera.h".}: cuint = 0x00000002
-
-var VO_DISABLE_OCCLUSION* {.importc: "VO_DISABLE_OCCLUSION", header: "Camera.h".}: cuint = 0x00000004
+                               header: "Camera.h".}: cuint #= 0x00000001
+var VO_DISABLE_SHADOWS* {.importc: "VO_DISABLE_SHADOWS", header: "Camera.h".}: cuint #= 0x00000002
+var VO_DISABLE_OCCLUSION* {.importc: "VO_DISABLE_OCCLUSION", header: "Camera.h".}: cuint #= 0x00000004
 
 
 type 
@@ -50,15 +44,15 @@ type
     useClipping* {.importc: "useClipping_".}: bool
 
 
-proc getType*(this: Camera): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: Camera): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "Camera.h".}
-proc getBaseType*(this: Camera): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: Camera): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "Camera.h".}
-proc getTypeName*(this: Camera): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: Camera): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "Camera.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::Camera::GetTypeStatic(@)", header: "Camera.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::Camera::GetTypeNameStatic(@)", header: "Camera.h".}
 proc constructCamera*(context: ptr Context): Camera {.
     importcpp: "Urho3D::Camera(@)", header: "Camera.h".}
@@ -66,9 +60,7 @@ proc destroyCamera*(this: var Camera) {.importcpp: "#.~Camera()",
                                         header: "Camera.h".}
 proc registerObject*(context: ptr Context) {.
     importcpp: "Urho3D::Camera::RegisterObject(@)", header: "Camera.h".}
-proc drawDebugGeometry*(this: var Camera; debug: ptr DebugRenderer; 
-                        depthTest: bool) {.importcpp: "DrawDebugGeometry", 
-    header: "Camera.h".}
+
 proc setNearClip*(this: var Camera; nearClip: cfloat) {.
     importcpp: "SetNearClip", header: "Camera.h".}
 proc setFarClip*(this: var Camera; farClip: cfloat) {.importcpp: "SetFarClip", 
@@ -192,3 +184,4 @@ proc setClipPlaneAttr*(this: var Camera; value: Vector4) {.
     importcpp: "SetClipPlaneAttr", header: "Camera.h".}
 proc getClipPlaneAttr*(this: Camera): Vector4 {.noSideEffect, 
     importcpp: "GetClipPlaneAttr", header: "Camera.h".}
+

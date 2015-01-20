@@ -1,7 +1,10 @@
 
 
 import 
-  graphicsDefs, light, resource, valueAnimationInfo, vector4
+  graphicsDefs, resource, valueAnimationInfo, vector4, urstr, variant, ptrs,
+  technique, vector, urstr, stringHash, texture, hashmap, xmlelement,
+  component, valueAnimation, animationdefs, urobject, deserializer, serializer,
+  vector2
 
 discard "forward decl of Material"
 discard "forward decl of Pass"
@@ -39,22 +42,14 @@ type
                                   header: "Material.h".} = object of ValueAnimationInfo
     name* {.importc: "name_".}: UrString
 
-
-proc constructShaderParameterAnimationInfo*(material: ptr Material; 
-    name: UrString; attributeAnimation: ptr ValueAnimation; wrapMode: WrapMode; 
-    speed: cfloat): ShaderParameterAnimationInfo {.
-    importcpp: "Urho3D::ShaderParameterAnimationInfo(@)", header: "Material.h".}
-proc constructShaderParameterAnimationInfo*(other: ShaderParameterAnimationInfo): ShaderParameterAnimationInfo {.
-    importcpp: "Urho3D::ShaderParameterAnimationInfo(@)", header: "Material.h".}
-proc destroyShaderParameterAnimationInfo*(this: var ShaderParameterAnimationInfo) {.
-    importcpp: "#.~ShaderParameterAnimationInfo()", header: "Material.h".}
-proc getName*(this: ShaderParameterAnimationInfo): UrString {.noSideEffect, 
-    importcpp: "GetName", header: "Material.h".}
-
 type 
+  BiasParameters* {.importc: "Urho3D::BiasParameters", header: "Light.h".} = object 
+    constantBias* {.importc: "constantBias_".}: cfloat
+    slopeScaledBias* {.importc: "slopeScaledBias_".}: cfloat
+
   Material* {.importc: "Urho3D::Material", header: "Material.h".} = object of Resource
     techniques* {.importc: "techniques_".}: Vector[TechniqueEntry]
-    textures* {.importc: "textures_".}: array[max_Material_Texture_Units, 
+    textures* {.importc: "textures_".}: array[Max_Material_Texture_Units, 
         SharedPtr[Texture]]
     shaderParameters* {.importc: "shaderParameters_".}: HashMap[StringHash, 
         MaterialShaderParameter]
@@ -70,16 +65,26 @@ type
     loadXMLFile* {.importc: "loadXMLFile_".}: SharedPtr[XMLFile]
     scene* {.importc: "scene_".}: WeakPtr[Scene]
 
+proc constructShaderParameterAnimationInfo*(material: ptr Material; 
+    name: UrString; attributeAnimation: ptr ValueAnimation; wrapMode: WrapMode; 
+    speed: cfloat): ShaderParameterAnimationInfo {.
+    importcpp: "Urho3D::ShaderParameterAnimationInfo(@)", header: "Material.h".}
+proc constructShaderParameterAnimationInfo*(other: ShaderParameterAnimationInfo): ShaderParameterAnimationInfo {.
+    importcpp: "Urho3D::ShaderParameterAnimationInfo(@)", header: "Material.h".}
+proc destroyShaderParameterAnimationInfo*(this: var ShaderParameterAnimationInfo) {.
+    importcpp: "#.~ShaderParameterAnimationInfo()", header: "Material.h".}
+proc getName*(this: ShaderParameterAnimationInfo): UrString {.noSideEffect, 
+    importcpp: "GetName", header: "Material.h".}
 
-proc getType*(this: Material): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: Material): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "Material.h".}
-proc getBaseType*(this: Material): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: Material): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "Material.h".}
-proc getTypeName*(this: Material): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: Material): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "Material.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::Material::GetTypeStatic(@)", header: "Material.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::Material::GetTypeNameStatic(@)", header: "Material.h".}
 proc constructMaterial*(context: ptr Context): Material {.
     importcpp: "Urho3D::Material(@)", header: "Material.h".}
@@ -106,7 +111,7 @@ proc setShaderParameter*(this: var Material; name: UrString; value: Variant) {.
     importcpp: "SetShaderParameter", header: "Material.h".}
 proc setShaderParameterAnimation*(this: var Material; name: UrString; 
                                   animation: ptr ValueAnimation; 
-                                  wrapMode: WrapMode = wm_Loop; 
+                                  wrapMode: WrapMode = WM_Loop; 
                                   speed: cfloat = 1.0) {.
     importcpp: "SetShaderParameterAnimation", header: "Material.h".}
 proc setShaderParameterAnimationWrapMode*(this: var Material; name: UrString; 
@@ -135,7 +140,7 @@ proc removeShaderParameter*(this: var Material; name: UrString) {.
     importcpp: "RemoveShaderParameter", header: "Material.h".}
 proc releaseShaders*(this: var Material) {.importcpp: "ReleaseShaders", 
     header: "Material.h".}
-proc clone*(this: Material; cloneName: UrString = UrString.empty): SharedPtr[
+proc clone*(this: Material; cloneName: UrString): SharedPtr[
     Material] {.noSideEffect, importcpp: "Clone", header: "Material.h".}
 proc sortTechniques*(this: var Material) {.importcpp: "SortTechniques", 
     header: "Material.h".}

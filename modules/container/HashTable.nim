@@ -7,17 +7,17 @@ import
 type 
   HashTable* {.importc: "Urho3D::HashTable", header: "HashTable.h".}[T, U] = object 
     allocator* {.importc: "allocator_".}: ptr AllocatorBlock
-    ptrs* {.importc: "ptrs_".}: array[u, ptr Node]
+    #ptrs* {.importc: "ptrs_".}: array[U, ptr Node]
 
+  HashTableNode* {.importc: "Urho3D::HashTable::Node", header: "HashTable.h".}[T, U] = object 
+    hash* {.importc: "hash_".}: cuint
+    value* {.importc: "value_".}: T
+    next* {.importc: "next_".}: ptr HashTableNode
 
-  type 
-    Node* {.importc: "Urho3D::Node", header: "HashTable.h".}[T, U] = object 
-      hash* {.importc: "hash_".}: cuint
-      value* {.importc: "value_".}: T
-      next* {.importc: "next_".}: ptr Node
+proc constructNode*[T, U](hash: cuint; value: T; 
+                          next: ptr HashTableNode[T, U]): HashTableNode[T, U] {.
+    importcpp: "Urho3D::HashTable::Node(@)", header: "HashTable.h".}
 
-  proc constructNode*[T, U](hash: cuint; value: T; next: ptr Node): Node[T, U] {.
-      importcpp: "Urho3D::Node(@)", header: "HashTable.h".}
 proc constructHashTable*[T, U](): HashTable[T, U] {.
     importcpp: "Urho3D::HashTable(@)", header: "HashTable.h".}
 proc destroyHashTable*[T, U](this: var HashTable[T, U]) {.

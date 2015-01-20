@@ -1,7 +1,8 @@
 
 
 import 
-  arrayPtr, graphicsDefs, UrObject
+  arrayPtr, graphicsDefs, UrObject, vector, ptrs, vertexBuffer, indexBuffer,
+  stringHash, urstr, urobject, graphics, ray, vector3
 
 discard "forward decl of IndexBuffer"
 discard "forward decl of Ray"
@@ -26,15 +27,15 @@ type
     lodDistance* {.importc: "lodDistance_".}: cfloat
 
 
-proc getType*(this: Geometry): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: Geometry): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "Geometry.h".}
-proc getBaseType*(this: Geometry): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: Geometry): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "Geometry.h".}
-proc getTypeName*(this: Geometry): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: Geometry): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "Geometry.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::Geometry::GetTypeStatic(@)", header: "Geometry.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::Geometry::GetTypeNameStatic(@)", header: "Geometry.h".}
 proc constructGeometry*(context: ptr Context): Geometry {.
     importcpp: "Urho3D::Geometry(@)", header: "Geometry.h".}
@@ -44,7 +45,7 @@ proc setNumVertexBuffers*(this: var Geometry; num: cuint): bool {.
     importcpp: "SetNumVertexBuffers", header: "Geometry.h".}
 proc setVertexBuffer*(this: var Geometry; index: cuint; 
                       buffer: ptr VertexBuffer; 
-                      elementMask: cuint = mask_Default): bool {.
+                      elementMask: cuint = Mask_Default): bool {.
     importcpp: "SetVertexBuffer", header: "Geometry.h".}
 proc setIndexBuffer*(this: var Geometry; buffer: ptr IndexBuffer) {.
     importcpp: "SetIndexBuffer", header: "Geometry.h".}
@@ -100,7 +101,7 @@ proc getRawDataShared*(this: Geometry; vertexData: var SharedArrayPtr[cuchar];
                        indexData: var SharedArrayPtr[cuchar]; 
                        indexSize: var cuint; elementMask: var cuint) {.
     noSideEffect, importcpp: "GetRawDataShared", header: "Geometry.h".}
-proc getHitDistance*(this: Geometry; ray: Ray; outNormal: ptr Vector3 = 0): cfloat {.
+proc getHitDistance*(this: Geometry; ray: Ray; outNormal: ptr Vector3 = nil): cfloat {.
     noSideEffect, importcpp: "GetHitDistance", header: "Geometry.h".}
 proc isInside*(this: Geometry; ray: Ray): bool {.noSideEffect, 
     importcpp: "IsInside", header: "Geometry.h".}

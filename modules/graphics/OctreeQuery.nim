@@ -1,12 +1,14 @@
 
 
 import 
-  boundingBox, drawable, frustum, ray, sphere
+  boundingBox, drawable, frustum, ray, sphere, vector, mathdefs, vector3,
+  component
 
 discard "forward decl of Drawable"
 discard "forward decl of Node"
 type 
-  OctreeQuery* {.importc: "Urho3D::OctreeQuery", header: "OctreeQuery.h".} = object 
+  OctreeQuery* {.importc: "Urho3D::OctreeQuery", header: "OctreeQuery.h",
+                 inheritable.} = object 
     result* {.importc: "result_".}: var PODVector[ptr Drawable]
     drawableFlags* {.importc: "drawableFlags_".}: cuchar
     viewMask* {.importc: "viewMask_".}: cuint
@@ -31,8 +33,8 @@ type
 
 proc constructPointOctreeQuery*(result: var PODVector[ptr Drawable]; 
                                 point: Vector3; 
-                                drawableFlags: cuchar = drawable_Any; 
-                                viewMask: cuint = default_Viewmask): PointOctreeQuery {.
+                                drawableFlags: cuchar = cuchar(Drawable_Any); 
+                                viewMask: cuint = Default_Viewmask): PointOctreeQuery {.
     importcpp: "Urho3D::PointOctreeQuery(@)", header: "OctreeQuery.h".}
 proc testOctant*(this: var PointOctreeQuery; box: BoundingBox; inside: bool): Intersection {.
     importcpp: "TestOctant", header: "OctreeQuery.h".}
@@ -48,8 +50,8 @@ type
 
 proc constructSphereOctreeQuery*(result: var PODVector[ptr Drawable]; 
                                  sphere: Sphere; 
-                                 drawableFlags: cuchar = drawable_Any; 
-                                 viewMask: cuint = default_Viewmask): SphereOctreeQuery {.
+                                 drawableFlags: cuchar = cuchar(Drawable_Any); 
+                                 viewMask: cuint = Default_Viewmask): SphereOctreeQuery {.
     importcpp: "Urho3D::SphereOctreeQuery(@)", header: "OctreeQuery.h".}
 proc testOctant*(this: var SphereOctreeQuery; box: BoundingBox; inside: bool): Intersection {.
     importcpp: "TestOctant", header: "OctreeQuery.h".}
@@ -64,8 +66,8 @@ type
 
 proc constructBoxOctreeQuery*(result: var PODVector[ptr Drawable]; 
                               box: BoundingBox; 
-                              drawableFlags: cuchar = drawable_Any; 
-                              viewMask: cuint = default_Viewmask): BoxOctreeQuery {.
+                              drawableFlags: cuchar = cuchar(Drawable_Any); 
+                              viewMask: cuint = Default_Viewmask): BoxOctreeQuery {.
     importcpp: "Urho3D::BoxOctreeQuery(@)", header: "OctreeQuery.h".}
 proc testOctant*(this: var BoxOctreeQuery; box: BoundingBox; inside: bool): Intersection {.
     importcpp: "TestOctant", header: "OctreeQuery.h".}
@@ -81,8 +83,8 @@ type
 
 proc constructFrustumOctreeQuery*(result: var PODVector[ptr Drawable]; 
                                   frustum: Frustum; 
-                                  drawableFlags: cuchar = drawable_Any; 
-                                  viewMask: cuint = default_Viewmask): FrustumOctreeQuery {.
+                                  drawableFlags: cuchar = cuchar(Drawable_Any); 
+                                  viewMask: cuint = Default_Viewmask): FrustumOctreeQuery {.
     importcpp: "Urho3D::FrustumOctreeQuery(@)", header: "OctreeQuery.h".}
 proc testOctant*(this: var FrustumOctreeQuery; box: BoundingBox; inside: bool): Intersection {.
     importcpp: "TestOctant", header: "OctreeQuery.h".}
@@ -128,10 +130,14 @@ type
     maxDistance* {.importc: "maxDistance_".}: cfloat
     level* {.importc: "level_".}: RayQueryLevel
 
+proc processRayQuery*(this: var Drawable; query: RayOctreeQuery; 
+                      results: var PODVector[RayQueryResult]) {.
+    importcpp: "ProcessRayQuery", header: "Drawable.h".}
+
 
 proc constructRayOctreeQuery*(result: var PODVector[RayQueryResult]; ray: Ray; 
-                              level: RayQueryLevel = ray_Triangle; 
-                              maxDistance: cfloat = m_Infinity; 
-                              drawableFlags: cuchar = drawable_Any; 
-                              viewMask: cuint = default_Viewmask): RayOctreeQuery {.
+                              level: RayQueryLevel = Ray_Triangle; 
+                              maxDistance: cfloat = M_Infinity; 
+                              drawableFlags: cuchar = cuchar(Drawable_Any); 
+                              viewMask: cuint = Default_Viewmask): RayOctreeQuery {.
     importcpp: "Urho3D::RayOctreeQuery(@)", header: "OctreeQuery.h".}

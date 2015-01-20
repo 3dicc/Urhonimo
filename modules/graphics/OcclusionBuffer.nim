@@ -1,7 +1,8 @@
 
 
 import 
-  arrayPtr, frustum, UrObject, graphicsDefs, timer
+  arrayPtr, frustum, UrObject, graphicsDefs, timer, matrix4, vector, drawable,
+  stringHash, urstr, urobject, camera, boundingbox
 
 discard "forward decl of BoundingBox"
 discard "forward decl of Camera"
@@ -17,22 +18,17 @@ type
 
 
 var OCCLUSION_MIN_SIZE* {.importc: "OCCLUSION_MIN_SIZE", 
-                          header: "OcclusionBuffer.h".}: cint = 8
-
+                          header: "OcclusionBuffer.h".}: cint #= 8
 var OCCLUSION_DEFAULT_MAX_TRIANGLES* {.importc: "OCCLUSION_DEFAULT_MAX_TRIANGLES", 
-                                       header: "OcclusionBuffer.h".}: cint = 5000
-
+                                       header: "OcclusionBuffer.h".}: cint #= 5000
 var OCCLUSION_RELATIVE_BIAS* {.importc: "OCCLUSION_RELATIVE_BIAS", 
-                               header: "OcclusionBuffer.h".}: cfloat = 1e-005
-
+                               header: "OcclusionBuffer.h".}: cfloat #= 1e-005
 var OCCLUSION_FIXED_BIAS* {.importc: "OCCLUSION_FIXED_BIAS", 
-                            header: "OcclusionBuffer.h".}: cint = 16
-
+                            header: "OcclusionBuffer.h".}: cint #= 16
 var OCCLUSION_X_SCALE* {.importc: "OCCLUSION_X_SCALE", 
-                         header: "OcclusionBuffer.h".}: cfloat = 65536.0
-
+                         header: "OcclusionBuffer.h".}: cfloat #= 65536.0
 var OCCLUSION_Z_SCALE* {.importc: "OCCLUSION_Z_SCALE", 
-                         header: "OcclusionBuffer.h".}: cfloat = 16777216.0
+                         header: "OcclusionBuffer.h".}: cfloat #= 16777216.0
 
 
 type 
@@ -61,17 +57,20 @@ type
     fullBuffer* {.importc: "fullBuffer_".}: SharedArrayPtr[cint]
     mipBuffers* {.importc: "mipBuffers_".}: Vector[SharedArrayPtr[DepthValue]]
 
+proc drawOcclusion*(this: var Drawable; buffer: ptr OcclusionBuffer): bool {.
+    importcpp: "DrawOcclusion", header: "Drawable.h".}
 
-proc getType*(this: OcclusionBuffer): Urho3D.StringHash {.noSideEffect, 
+
+proc getType*(this: OcclusionBuffer): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "OcclusionBuffer.h".}
-proc getBaseType*(this: OcclusionBuffer): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: OcclusionBuffer): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "OcclusionBuffer.h".}
-proc getTypeName*(this: OcclusionBuffer): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: OcclusionBuffer): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "OcclusionBuffer.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::OcclusionBuffer::GetTypeStatic(@)", 
     header: "OcclusionBuffer.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::OcclusionBuffer::GetTypeNameStatic(@)", 
     header: "OcclusionBuffer.h".}
 proc constructOcclusionBuffer*(context: ptr Context): OcclusionBuffer {.

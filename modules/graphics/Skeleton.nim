@@ -1,14 +1,13 @@
 
 
 import 
-  boundingBox, node
+  boundingBox, component, serializer, deserializer, resourcecache, urstr,
+  stringhash, vector3, quaternion, matrix4, ptrs, vector
 
-var BONECOLLISION_NONE* {.importc: "BONECOLLISION_NONE", header: "Skeleton.h".}: cuint = 0x00000000
-
-var BONECOLLISION_SPHERE* {.importc: "BONECOLLISION_SPHERE", 
-                            header: "Skeleton.h".}: cuint = 0x00000001
-
-var BONECOLLISION_BOX* {.importc: "BONECOLLISION_BOX", header: "Skeleton.h".}: cuint = 0x00000002
+var BONECOLLISION_NONE* {.importc: "BONECOLLISION_NONE", header: "Skeleton.h".}: cuint #= 0x00000000
+var BONECOLLISION_SPHERE* {.importc: "BONECOLLISION_SPHERE",
+                            header: "Skeleton.h".}: cuint #= 0x00000001
+var BONECOLLISION_BOX* {.importc: "BONECOLLISION_BOX", header: "Skeleton.h".}: cuint #= 0x00000002
 
 discard "forward decl of Deserializer"
 discard "forward decl of ResourceCache"

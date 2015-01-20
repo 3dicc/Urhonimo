@@ -1,7 +1,11 @@
 
 
 import 
-  drawable, mathDefs, matrix3x4, `ptr`, rect
+  drawable, mathDefs, matrix3x4, ptrs, rect, camera, graphics.geometry, light,
+  material, matrix4, shadervariation, texture2d, vertexbuffer, zone, technique,
+  graphicsdefs, vector, view
+
+import hashmap except Node
 
 discard "forward decl of Camera"
 discard "forward decl of Drawable"
@@ -17,7 +21,7 @@ discard "forward decl of View"
 discard "forward decl of Zone"
 discard "forward decl of LightBatchQueue"
 type 
-  Batch* {.importc: "Urho3D::Batch", header: "Batch.h".} = object 
+  Batch* {.importc: "Urho3D::Batch", header: "Batch.h", inheritable.} = object 
     sortKey* {.importc: "sortKey_".}: culonglong
     distance* {.importc: "distance_".}: cfloat
     geometry* {.importc: "geometry_".}: ptr Geometry
@@ -35,6 +39,48 @@ type
     isBase* {.importc: "isBase_".}: bool
     lightMask* {.importc: "lightMask_".}: cuchar
 
+  LightBatchQueue* {.importc: "Urho3D::LightBatchQueue", header: "Batch.h".} = object 
+    light* {.importc: "light_".}: ptr Light
+    shadowMap* {.importc: "shadowMap_".}: ptr Texture2D
+    litBaseBatches* {.importc: "litBaseBatches_".}: BatchQueue
+    litBatches* {.importc: "litBatches_".}: BatchQueue
+    shadowSplits* {.importc: "shadowSplits_".}: Vector[ShadowBatchQueue]
+    vertexLights* {.importc: "vertexLights_".}: PODVector[ptr Light]
+    volumeBatches* {.importc: "volumeBatches_".}: PODVector[Batch]
+
+  BatchQueue* {.importc: "Urho3D::BatchQueue", header: "Batch.h".} = object 
+    batchGroups* {.importc: "batchGroups_".}: HashMap[BatchGroupKey, BatchGroup]
+    shaderRemapping* {.importc: "shaderRemapping_".}: HashMap[cuint, cuint]
+    materialRemapping* {.importc: "materialRemapping_".}: HashMap[cushort, 
+        cushort]
+    geometryRemapping* {.importc: "geometryRemapping_".}: HashMap[cushort, 
+        cushort]
+    batches* {.importc: "batches_".}: PODVector[Batch]
+    sortedBatches* {.importc: "sortedBatches_".}: PODVector[ptr Batch]
+    sortedBatchGroups* {.importc: "sortedBatchGroups_".}: PODVector[
+        ptr BatchGroup]
+    maxSortedInstances* {.importc: "maxSortedInstances_".}: cuint
+
+  ShadowBatchQueue* {.importc: "Urho3D::ShadowBatchQueue", header: "Batch.h".} = object 
+    shadowCamera* {.importc: "shadowCamera_".}: ptr Camera
+    shadowViewport* {.importc: "shadowViewport_".}: IntRect
+    shadowBatches* {.importc: "shadowBatches_".}: BatchQueue
+    nearSplit* {.importc: "nearSplit_".}: cfloat
+    farSplit* {.importc: "farSplit_".}: cfloat
+
+  BatchGroupKey* {.importc: "Urho3D::BatchGroupKey", header: "Batch.h".} = object 
+    zone* {.importc: "zone_".}: ptr Zone
+    lightQueue* {.importc: "lightQueue_".}: ptr LightBatchQueue
+    pass* {.importc: "pass_".}: ptr Pass
+    material* {.importc: "material_".}: ptr Material
+    geometry* {.importc: "geometry_".}: ptr Geometry
+
+  InstanceData* {.importc: "Urho3D::InstanceData", header: "Batch.h".} = object 
+    worldTransform* {.importc: "worldTransform_".}: ptr Matrix3x4
+    distance* {.importc: "distance_".}: cfloat
+  BatchGroup* {.importc: "Urho3D::BatchGroup", header: "Batch.h".} = object of Batch
+    instances* {.importc: "instances_".}: PODVector[InstanceData]
+    startIndex* {.importc: "startIndex_".}: cuint
 
 proc constructBatch*(): Batch {.importcpp: "Urho3D::Batch(@)", header: "Batch.h".}
 proc constructBatch*(rhs: SourceBatch): Batch {.importcpp: "Urho3D::Batch(@)", 
@@ -46,21 +92,10 @@ proc prepare*(this: Batch; view: ptr View; setModelTransform: bool = true) {.
 proc draw*(this: Batch; view: ptr View) {.noSideEffect, importcpp: "Draw", 
     header: "Batch.h".}
 
-type 
-  InstanceData* {.importc: "Urho3D::InstanceData", header: "Batch.h".} = object 
-    worldTransform* {.importc: "worldTransform_".}: ptr Matrix3x4
-    distance* {.importc: "distance_".}: cfloat
-
-
 proc constructInstanceData*(): InstanceData {.
     importcpp: "Urho3D::InstanceData(@)", header: "Batch.h".}
 proc constructInstanceData*(worldTransform: ptr Matrix3x4; distance: cfloat): InstanceData {.
     importcpp: "Urho3D::InstanceData(@)", header: "Batch.h".}
-
-type 
-  BatchGroup* {.importc: "Urho3D::BatchGroup", header: "Batch.h".} = object of Batch
-    instances* {.importc: "instances_".}: PODVector[InstanceData]
-    startIndex* {.importc: "startIndex_".}: cuint
 
 
 proc constructBatchGroup*(): BatchGroup {.importcpp: "Urho3D::BatchGroup(@)", 
@@ -77,14 +112,6 @@ proc setTransforms*(this: var BatchGroup; lockedData: pointer;
 proc draw*(this: BatchGroup; view: ptr View) {.noSideEffect, importcpp: "Draw", 
     header: "Batch.h".}
 
-type 
-  BatchGroupKey* {.importc: "Urho3D::BatchGroupKey", header: "Batch.h".} = object 
-    zone* {.importc: "zone_".}: ptr Zone
-    lightQueue* {.importc: "lightQueue_".}: ptr LightBatchQueue
-    pass* {.importc: "pass_".}: ptr Pass
-    material* {.importc: "material_".}: ptr Material
-    geometry* {.importc: "geometry_".}: ptr Geometry
-
 
 proc constructBatchGroupKey*(): BatchGroupKey {.
     importcpp: "Urho3D::BatchGroupKey(@)", header: "Batch.h".}
@@ -94,20 +121,6 @@ proc `==`*(this: BatchGroupKey; rhs: BatchGroupKey): bool {.noSideEffect,
     importcpp: "# == #", header: "Batch.h".}
 proc toHash*(this: BatchGroupKey): cuint {.noSideEffect, importcpp: "ToHash", 
     header: "Batch.h".}
-
-type 
-  BatchQueue* {.importc: "Urho3D::BatchQueue", header: "Batch.h".} = object 
-    batchGroups* {.importc: "batchGroups_".}: HashMap[BatchGroupKey, BatchGroup]
-    shaderRemapping* {.importc: "shaderRemapping_".}: HashMap[cuint, cuint]
-    materialRemapping* {.importc: "materialRemapping_".}: HashMap[cushort, 
-        cushort]
-    geometryRemapping* {.importc: "geometryRemapping_".}: HashMap[cushort, 
-        cushort]
-    batches* {.importc: "batches_".}: PODVector[Batch]
-    sortedBatches* {.importc: "sortedBatches_".}: PODVector[ptr Batch]
-    sortedBatchGroups* {.importc: "sortedBatchGroups_".}: PODVector[
-        ptr BatchGroup]
-    maxSortedInstances* {.importc: "maxSortedInstances_".}: cuint
 
 
 proc clear*(this: var BatchQueue; maxSortedInstances: cint) {.
@@ -130,23 +143,8 @@ proc getNumInstances*(this: BatchQueue): cuint {.noSideEffect,
 proc isEmpty*(this: BatchQueue): bool {.noSideEffect, importcpp: "IsEmpty", 
                                         header: "Batch.h".}
 
-type 
-  ShadowBatchQueue* {.importc: "Urho3D::ShadowBatchQueue", header: "Batch.h".} = object 
-    shadowCamera* {.importc: "shadowCamera_".}: ptr Camera
-    shadowViewport* {.importc: "shadowViewport_".}: IntRect
-    shadowBatches* {.importc: "shadowBatches_".}: BatchQueue
-    nearSplit* {.importc: "nearSplit_".}: cfloat
-    farSplit* {.importc: "farSplit_".}: cfloat
 
-
-
-type 
-  LightBatchQueue* {.importc: "Urho3D::LightBatchQueue", header: "Batch.h".} = object 
-    light* {.importc: "light_".}: ptr Light
-    shadowMap* {.importc: "shadowMap_".}: ptr Texture2D
-    litBaseBatches* {.importc: "litBaseBatches_".}: BatchQueue
-    litBatches* {.importc: "litBatches_".}: BatchQueue
-    shadowSplits* {.importc: "shadowSplits_".}: Vector[ShadowBatchQueue]
-    vertexLights* {.importc: "vertexLights_".}: PODVector[ptr Light]
-    volumeBatches* {.importc: "volumeBatches_".}: PODVector[Batch]
-
+proc setLightQueue*(this: var Light; queue: ptr LightBatchQueue) {.
+    importcpp: "SetLightQueue", header: "Light.h".}
+proc getLightQueue*(this: Light): ptr LightBatchQueue {.noSideEffect, 
+    importcpp: "GetLightQueue", header: "Light.h".}

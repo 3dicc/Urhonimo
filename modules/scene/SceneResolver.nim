@@ -1,7 +1,7 @@
 
 
 import 
-  hashMap, ptrs
+  hashMap, ptrs, component, stringhash
 
 discard "forward decl of Component"
 discard "forward decl of Node"
@@ -13,7 +13,7 @@ proc destroySceneResolver*(this: var SceneResolver) {.
     importcpp: "#.~SceneResolver()", header: "SceneResolver.h".}
 proc reset*(this: var SceneResolver) {.importcpp: "Reset", 
                                        header: "SceneResolver.h".}
-proc addNode*(this: var SceneResolver; oldID: cuint; node: ptr Node) {.
+proc addNode*(this: var SceneResolver; oldID: cuint; node: ptr component.Node) {.
     importcpp: "AddNode", header: "SceneResolver.h".}
 proc addComponent*(this: var SceneResolver; oldID: cuint; 
                    component: ptr Component) {.importcpp: "AddComponent", 

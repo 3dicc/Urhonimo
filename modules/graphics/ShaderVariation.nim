@@ -1,9 +1,5 @@
 
-
-when defined(URHO3D_OPENGL): 
-  import 
-    openGL/OGLShaderVariation
-
-else: 
-  import 
-    direct3D9/D3D9ShaderVariation
+when defined(windows):
+  type ShaderVariation* {.importc: "Urho3D::ShaderVariation", header: "D3D9ShaderVariation.h".} = object
+else:
+  type ShaderVariation* {.importc: "Urho3D::ShaderVariation", header: "OGLShaderVariation.h".} = object

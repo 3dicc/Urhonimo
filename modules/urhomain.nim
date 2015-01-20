@@ -58,3 +58,8 @@ converter toUrStringHash*(s: string): StringHash =
   result = stringHash.constructStringHash(s.cstring)
 
 proc cnew*[T](x: T): ptr T {.importcpp: "(new '*0#@)", nodecl.}
+
+proc getTimeStep*(eventData: pointer): float =
+  {.emit: """
+  `result` = ((VariantMap&)(`eventData`))["TimeStep"].GetFloat();
+  """.}

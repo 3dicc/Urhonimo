@@ -1,7 +1,9 @@
 
 
 import 
-  color, component, frustum, vector3, component
+  vector, matrix4, boundingbox, ptrs, vertexbuffer, color, component, frustum,
+  vector3, component, stringHash, urstr, urobject, vertexbuffer, skeleton,
+  drawable, camera, octree
 
 discard "forward decl of BoundingBox"
 discard "forward decl of Camera"
@@ -50,16 +52,16 @@ type
     vertexBuffer* {.importc: "vertexBuffer_".}: SharedPtr[VertexBuffer]
 
 
-proc getType*(this: DebugRenderer): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: DebugRenderer): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "DebugRenderer.h".}
-proc getBaseType*(this: DebugRenderer): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: DebugRenderer): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "DebugRenderer.h".}
-proc getTypeName*(this: DebugRenderer): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: DebugRenderer): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "DebugRenderer.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::DebugRenderer::GetTypeStatic(@)", 
     header: "DebugRenderer.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::DebugRenderer::GetTypeNameStatic(@)", 
     header: "DebugRenderer.h".}
 proc constructDebugRenderer*(context: ptr Context): DebugRenderer {.
@@ -69,8 +71,7 @@ proc destroyDebugRenderer*(this: var DebugRenderer) {.
 proc registerObject*(context: ptr Context) {.
     importcpp: "Urho3D::DebugRenderer::RegisterObject(@)", 
     header: "DebugRenderer.h".}
-proc setView*(this: var DebugRenderer; camera: ptr Camera) {.
-    importcpp: "SetView", header: "DebugRenderer.h".}
+
 proc addLine*(this: var DebugRenderer; start: Vector3; `end`: Vector3; 
               color: Color; depthTest: bool = true) {.importcpp: "AddLine", 
     header: "DebugRenderer.h".}
@@ -123,3 +124,19 @@ proc isInside*(this: DebugRenderer; box: BoundingBox): bool {.noSideEffect,
 proc drawDebugGeometry*(this: var Component; debug: ptr DebugRenderer; 
                         depthTest: bool) {.importcpp: "DrawDebugGeometry", 
     header: "Component.h".}
+
+proc drawDebugGeometry*(this: var Drawable; debug: ptr DebugRenderer; 
+                        depthTest: bool) {.importcpp: "DrawDebugGeometry", 
+    header: "Drawable.h".}
+proc setView*(this: var DebugRenderer; camera: ptr Camera) {.
+    importcpp: "SetView", header: "DebugRenderer.h".}
+proc drawDebugGeometry*(this: var Camera; debug: ptr DebugRenderer; 
+                        depthTest: bool) {.importcpp: "DrawDebugGeometry", 
+    header: "Camera.h".}
+proc drawDebugGeometry*(this: var Octant; debug: ptr DebugRenderer; 
+                        depthTest: bool) {.importcpp: "DrawDebugGeometry", 
+    header: "Octree.h".}
+proc drawDebugGeometry*(this: var Octree; debug: ptr DebugRenderer; 
+                        depthTest: bool) {.importcpp: "DrawDebugGeometry", 
+    header: "Octree.h".}
+

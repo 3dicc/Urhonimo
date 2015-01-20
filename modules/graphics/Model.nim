@@ -1,7 +1,9 @@
 
 
 import 
-  arrayPtr, boundingBox, graphicsDefs, skeleton, resource, `ptr`
+  arrayPtr, boundingBox, graphicsDefs, skeleton, resource, ptrs, urstr,
+  stringHash, hashMap, vector, vertexBuffer, indexbuffer, graphics.geometry,
+  vector3, urobject, deserializer, serializer
 
 discard "forward decl of Geometry"
 discard "forward decl of IndexBuffer"
@@ -72,15 +74,15 @@ type
         PODVector[GeometryDesc]]
 
 
-proc getType*(this: Model): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: Model): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "Model.h".}
-proc getBaseType*(this: Model): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: Model): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "Model.h".}
-proc getTypeName*(this: Model): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: Model): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "Model.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::Model::GetTypeStatic(@)", header: "Model.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::Model::GetTypeNameStatic(@)", header: "Model.h".}
 proc constructModel*(context: ptr Context): Model {.
     importcpp: "Urho3D::Model(@)", header: "Model.h".}
@@ -117,7 +119,7 @@ proc setGeometryBoneMappings*(this: var Model;
     importcpp: "SetGeometryBoneMappings", header: "Model.h".}
 proc setMorphs*(this: var Model; morphs: Vector[ModelMorph]) {.
     importcpp: "SetMorphs", header: "Model.h".}
-proc clone*(this: Model; cloneName: UrString = UrString.empty): SharedPtr[Model] {.
+proc clone*(this: Model; cloneName: UrString): SharedPtr[Model] {.
     noSideEffect, importcpp: "Clone", header: "Model.h".}
 proc getBoundingBox*(this: Model): BoundingBox {.noSideEffect, 
     importcpp: "GetBoundingBox", header: "Model.h".}

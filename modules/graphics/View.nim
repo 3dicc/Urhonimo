@@ -1,7 +1,8 @@
 
 
 import 
-  batch, hashSet, light, list, UrObject, polyhedron, zone
+  batch, hashSet, light, list, UrObject, polyhedron, zone, vector, camera,
+  light
 
 discard "forward decl of Camera"
 discard "forward decl of DebugRenderer"
@@ -37,7 +38,6 @@ type
     numSplits* {.importc: "numSplits_".}: cuint
 
 
-
 type 
   ScenePassInfo* {.importc: "Urho3D::ScenePassInfo", header: "View.h".} = object 
     pass* {.importc: "pass_".}: StringHash
@@ -58,7 +58,7 @@ type
     maxZ* {.importc: "maxZ_".}: cfloat
 
 
-var MAX_VIEWPORT_TEXTURES* {.importc: "MAX_VIEWPORT_TEXTURES", header: "View.h".}: cuint = 2
+var MAX_VIEWPORT_TEXTURES* {.importc: "MAX_VIEWPORT_TEXTURES", header: "View.h".}: cuint #= 2
 
 
 type 
@@ -125,16 +125,24 @@ type
     lightVolumeVSName* {.importc: "lightVolumeVSName_".}: UrString
     lightVolumePSName* {.importc: "lightVolumePSName_".}: UrString
 
+  Viewport* {.importc: "Urho3D::Viewport", header: "Viewport.h".} = object of UrObject
+    scene* {.importc: "scene_".}: WeakPtr[Scene]
+    camera* {.importc: "camera_".}: WeakPtr[Camera]
+    rect* {.importc: "rect_".}: IntRect
+    renderPath* {.importc: "renderPath_".}: SharedPtr[RenderPath]
+    view* {.importc: "view_".}: SharedPtr[View]
+    drawDebug* {.importc: "drawDebug_".}: bool
 
-proc getType*(this: View): Urho3D.StringHash {.noSideEffect, 
+
+proc getType*(this: View): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "View.h".}
-proc getBaseType*(this: View): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: View): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "View.h".}
-proc getTypeName*(this: View): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: View): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "View.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::View::GetTypeStatic(@)", header: "View.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::View::GetTypeNameStatic(@)", header: "View.h".}
 proc constructView*(context: ptr Context): View {.importcpp: "Urho3D::View(@)", 
     header: "View.h".}
@@ -177,3 +185,57 @@ proc setCameraShaderParameters*(this: var View; camera: ptr Camera;
 proc setGBufferShaderParameters*(this: var View; texSize: IntVector2; 
                                  viewRect: IntRect) {.
     importcpp: "SetGBufferShaderParameters", header: "View.h".}
+
+proc getType*(this: Viewport): StringHash {.noSideEffect, 
+    importcpp: "GetType", header: "Viewport.h".}
+proc getBaseType*(this: Viewport): StringHash {.noSideEffect, 
+    importcpp: "GetBaseType", header: "Viewport.h".}
+proc getTypeName*(this: Viewport): UrString {.noSideEffect, 
+    importcpp: "GetTypeName", header: "Viewport.h".}
+proc getTypeStatic*(): StringHash {.
+    importcpp: "Urho3D::Viewport::GetTypeStatic(@)", header: "Viewport.h".}
+proc getTypeNameStatic*(): UrString {.
+    importcpp: "Urho3D::Viewport::GetTypeNameStatic(@)", header: "Viewport.h".}
+proc constructViewport*(context: ptr Context): Viewport {.
+    importcpp: "Urho3D::Viewport(@)", header: "Viewport.h".}
+proc constructViewport*(context: ptr Context; scene: ptr Scene; 
+                        camera: ptr Camera; renderPath: ptr RenderPath = 0): Viewport {.
+    importcpp: "Urho3D::Viewport(@)", header: "Viewport.h".}
+proc constructViewport*(context: ptr Context; scene: ptr Scene; 
+                        camera: ptr Camera; rect: IntRect; 
+                        renderPath: ptr RenderPath = 0): Viewport {.
+    importcpp: "Urho3D::Viewport(@)", header: "Viewport.h".}
+proc destroyViewport*(this: var Viewport) {.importcpp: "#.~Viewport()", 
+    header: "Viewport.h".}
+proc setScene*(this: var Viewport; scene: ptr Scene) {.importcpp: "SetScene", 
+    header: "Viewport.h".}
+proc setCamera*(this: var Viewport; camera: ptr Camera) {.
+    importcpp: "SetCamera", header: "Viewport.h".}
+proc setRect*(this: var Viewport; rect: IntRect) {.importcpp: "SetRect", 
+    header: "Viewport.h".}
+proc setRenderPath*(this: var Viewport; path: ptr RenderPath) {.
+    importcpp: "SetRenderPath", header: "Viewport.h".}
+proc setRenderPath*(this: var Viewport; file: ptr XMLFile) {.
+    importcpp: "SetRenderPath", header: "Viewport.h".}
+proc setDrawDebug*(this: var Viewport; enable: bool) {.
+    importcpp: "SetDrawDebug", header: "Viewport.h".}
+proc getScene*(this: Viewport): ptr Scene {.noSideEffect, importcpp: "GetScene", 
+    header: "Viewport.h".}
+proc getCamera*(this: Viewport): ptr Camera {.noSideEffect, 
+    importcpp: "GetCamera", header: "Viewport.h".}
+proc getView*(this: Viewport): ptr View {.noSideEffect, importcpp: "GetView", 
+    header: "Viewport.h".}
+proc getRect*(this: Viewport): IntRect {.noSideEffect, importcpp: "GetRect", 
+    header: "Viewport.h".}
+proc getRenderPath*(this: Viewport): ptr RenderPath {.noSideEffect, 
+    importcpp: "GetRenderPath", header: "Viewport.h".}
+proc getDrawDebug*(this: Viewport): bool {.noSideEffect, 
+    importcpp: "GetDrawDebug", header: "Viewport.h".}
+proc getScreenRay*(this: Viewport; x: cint; y: cint): Ray {.noSideEffect, 
+    importcpp: "GetScreenRay", header: "Viewport.h".}
+proc worldToScreenPoint*(this: Viewport; worldPos: Vector3): IntVector2 {.
+    noSideEffect, importcpp: "WorldToScreenPoint", header: "Viewport.h".}
+proc screenToWorldPoint*(this: Viewport; x: cint; y: cint; depth: cfloat): Vector3 {.
+    noSideEffect, importcpp: "ScreenToWorldPoint", header: "Viewport.h".}
+proc allocateView*(this: var Viewport) {.importcpp: "AllocateView", 
+    header: "Viewport.h".}

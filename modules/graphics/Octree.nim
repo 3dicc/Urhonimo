@@ -1,12 +1,11 @@
 
 
 import 
-  drawable, list, mutex, octreeQuery
+  boundingbox, geometry, drawable, list, mutex, octreeQuery, vector, vector3,
+  component, stringhash, urstr, urobject, attribute, variant
 
-discard "forward decl of Octree"
-var NUM_OCTANTS* {.importc: "NUM_OCTANTS", header: "Octree.h".}: cint = 8
-
-var ROOT_INDEX* {.importc: "ROOT_INDEX", header: "Octree.h".}: cuint = m_Max_Unsigned
+var NUM_OCTANTS* {.importc: "NUM_OCTANTS", header: "Octree.h".}: cint# = 8
+var ROOT_INDEX* {.importc: "ROOT_INDEX", header: "Octree.h".}: cuint# = m_Max_Unsigned
 
 
 type 
@@ -14,7 +13,7 @@ type
     worldBoundingBox* {.importc: "worldBoundingBox_".}: BoundingBox
     cullingBox* {.importc: "cullingBox_".}: BoundingBox
     drawables* {.importc: "drawables_".}: PODVector[ptr Drawable]
-    children* {.importc: "children_".}: array[num_Octants, ptr Octant]
+    children* {.importc: "children_".}: array[8, ptr Octant]
     center* {.importc: "center_".}: Vector3
     halfSize* {.importc: "halfSize_".}: Vector3
     level* {.importc: "level_".}: cuint
@@ -23,9 +22,20 @@ type
     root* {.importc: "root_".}: ptr Octree
     index* {.importc: "index_".}: cuint
 
+  Octree* {.importc: "Urho3D::Octree", header: "Octree.h".} = object of Component
+    drawableUpdates* {.importc: "drawableUpdates_".}: PODVector[ptr Drawable]
+    drawableReinsertions* {.importc: "drawableReinsertions_".}: PODVector[
+        ptr Drawable]
+    octreeMutex* {.importc: "octreeMutex_".}: Mutex
+    rayQuery* {.importc: "rayQuery_".}: ptr RayOctreeQuery
+    rayQueryDrawables* {.importc: "rayQueryDrawables_".}: PODVector[ptr Drawable]
+    rayQueryResults* {.importc: "rayQueryResults_".}: Vector[
+        PODVector[RayQueryResult]]
+    numLevels* {.importc: "numLevels_".}: cuint
+
 
 proc constructOctant*(box: BoundingBox; level: cuint; parent: ptr Octant; 
-                      root: ptr Octree; index: cuint = root_Index): Octant {.
+                      root: ptr Octree; index: cuint = Root_Index): Octant {.
     importcpp: "Urho3D::Octant(@)", header: "Octree.h".}
 proc destroyOctant*(this: var Octant) {.importcpp: "#.~Octant()", 
                                         header: "Octree.h".}
@@ -56,32 +66,16 @@ proc getNumDrawables*(this: Octant): cuint {.noSideEffect,
     importcpp: "GetNumDrawables", header: "Octree.h".}
 proc isEmpty*(this: var Octant): bool {.importcpp: "IsEmpty", header: "Octree.h".}
 proc resetRoot*(this: var Octant) {.importcpp: "ResetRoot", header: "Octree.h".}
-proc drawDebugGeometry*(this: var Octant; debug: ptr DebugRenderer; 
-                        depthTest: bool) {.importcpp: "DrawDebugGeometry", 
-    header: "Octree.h".}
 
-type 
-  Octree* {.importc: "Urho3D::Octree", header: "Octree.h".} = object of Component
-    drawableUpdates* {.importc: "drawableUpdates_".}: PODVector[ptr Drawable]
-    drawableReinsertions* {.importc: "drawableReinsertions_".}: PODVector[
-        ptr Drawable]
-    octreeMutex* {.importc: "octreeMutex_".}: Mutex
-    rayQuery* {.importc: "rayQuery_".}: ptr RayOctreeQuery
-    rayQueryDrawables* {.importc: "rayQueryDrawables_".}: PODVector[ptr Drawable]
-    rayQueryResults* {.importc: "rayQueryResults_".}: Vector[
-        PODVector[RayQueryResult]]
-    numLevels* {.importc: "numLevels_".}: cuint
-
-
-proc getType*(this: Octree): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: Octree): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "Octree.h".}
-proc getBaseType*(this: Octree): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: Octree): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "Octree.h".}
-proc getTypeName*(this: Octree): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: Octree): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "Octree.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::Octree::GetTypeStatic(@)", header: "Octree.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::Octree::GetTypeNameStatic(@)", header: "Octree.h".}
 proc constructOctree*(context: ptr Context): Octree {.
     importcpp: "Urho3D::Octree(@)", header: "Octree.h".}
@@ -91,9 +85,7 @@ proc registerObject*(context: ptr Context) {.
     importcpp: "Urho3D::Octree::RegisterObject(@)", header: "Octree.h".}
 proc onSetAttribute*(this: var Octree; attr: AttributeInfo; src: Variant) {.
     importcpp: "OnSetAttribute", header: "Octree.h".}
-proc drawDebugGeometry*(this: var Octree; debug: ptr DebugRenderer; 
-                        depthTest: bool) {.importcpp: "DrawDebugGeometry", 
-    header: "Octree.h".}
+
 proc setSize*(this: var Octree; box: BoundingBox; numLevels: cuint) {.
     importcpp: "SetSize", header: "Octree.h".}
 proc update*(this: var Octree; frame: FrameInfo) {.importcpp: "Update", 
@@ -116,3 +108,6 @@ proc cancelUpdate*(this: var Octree; drawable: ptr Drawable) {.
     importcpp: "CancelUpdate", header: "Octree.h".}
 proc drawDebugGeometry*(this: var Octree; depthTest: bool) {.
     importcpp: "DrawDebugGeometry", header: "Octree.h".}
+
+proc getOctant*(this: Drawable): ptr Octant {.noSideEffect, 
+    importcpp: "GetOctant", header: "Drawable.h".}

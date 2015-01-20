@@ -1,7 +1,8 @@
 
 
 import 
-  drawable
+  drawable, vector3, model, vector, stringhash, urobject, urstr, ptrs,
+  graphics.geometry, variant, octreequery, occlusionbuffer, material
 
 discard "forward decl of Model"
 type 
@@ -22,15 +23,15 @@ type
     materialsAttr* {.importc: "materialsAttr_".}: ResourceRefList
 
 
-proc getType*(this: StaticModel): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: StaticModel): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "StaticModel.h".}
-proc getBaseType*(this: StaticModel): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: StaticModel): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "StaticModel.h".}
-proc getTypeName*(this: StaticModel): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: StaticModel): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "StaticModel.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::StaticModel::GetTypeStatic(@)", header: "StaticModel.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::StaticModel::GetTypeNameStatic(@)", 
     header: "StaticModel.h".}
 proc constructStaticModel*(context: ptr Context): StaticModel {.
@@ -59,7 +60,7 @@ proc setMaterial*(this: var StaticModel; index: cuint; material: ptr Material): 
 proc setOcclusionLodLevel*(this: var StaticModel; level: cuint) {.
     importcpp: "SetOcclusionLodLevel", header: "StaticModel.h".}
 proc applyMaterialList*(this: var StaticModel; 
-                        fileName: UrString = UrString.empty) {.
+                        fileName: UrString) {.
     importcpp: "ApplyMaterialList", header: "StaticModel.h".}
 proc getModel*(this: StaticModel): ptr Model {.noSideEffect, 
     importcpp: "GetModel", header: "StaticModel.h".}

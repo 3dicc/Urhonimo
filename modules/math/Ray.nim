@@ -1,7 +1,7 @@
 
 
 import 
-  vector3, matrix3x4
+  vector3, matrix4, boundingbox, plane
 
 discard "forward decl of BoundingBox"
 discard "forward decl of Frustum"
@@ -42,11 +42,11 @@ proc hitDistance*(this: Ray; v0: Vector3; v1: Vector3; v2: Vector3;
     importcpp: "HitDistance", header: "Ray.h".}
 proc hitDistance*(this: Ray; vertexData: pointer; vertexSize: cuint; 
                   vertexStart: cuint; vertexCount: cuint; 
-                  outNormal: ptr Vector3 = 0): cfloat {.noSideEffect, 
+                  outNormal: ptr Vector3 = nil): cfloat {.noSideEffect, 
     importcpp: "HitDistance", header: "Ray.h".}
 proc hitDistance*(this: Ray; vertexData: pointer; vertexSize: cuint; 
                   indexData: pointer; indexSize: cuint; indexStart: cuint; 
-                  indexCount: cuint; outNormal: ptr Vector3 = 0): cfloat {.
+                  indexCount: cuint; outNormal: ptr Vector3 = nil): cfloat {.
     noSideEffect, importcpp: "HitDistance", header: "Ray.h".}
 proc insideGeometry*(this: Ray; vertexData: pointer; vertexSize: cuint; 
                      vertexStart: cuint; vertexCount: cuint): bool {.

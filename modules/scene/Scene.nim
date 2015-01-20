@@ -1,7 +1,9 @@
 
 
 import 
-  hashSet, mutex, node, sceneResolver, xMLElement, component
+  hashSet except Node, 
+  mutex, node, sceneResolver, xMLElement, component, stringHash, urstr,
+  urobject, deserializer, serializer, connection, vector3, quaternion
 
 discard "forward decl of File"
 discard "forward decl of PackageFile"
@@ -43,22 +45,22 @@ proc loadXML*(this: var Scene; source: var Deserializer): bool {.
 proc saveXML*(this: Scene; dest: var Serializer): bool {.noSideEffect, 
     importcpp: "SaveXML", header: "Scene.h".}
 proc loadAsync*(this: var Scene; file: ptr File; 
-                mode: LoadMode = load_Scene_And_Resources): bool {.
+                mode: LoadMode = Load_Scene_And_Resources): bool {.
     importcpp: "LoadAsync", header: "Scene.h".}
 proc loadAsyncXML*(this: var Scene; file: ptr File; 
-                   mode: LoadMode = load_Scene_And_Resources): bool {.
+                   mode: LoadMode = Load_Scene_And_Resources): bool {.
     importcpp: "LoadAsyncXML", header: "Scene.h".}
 proc stopAsyncLoading*(this: var Scene) {.importcpp: "StopAsyncLoading", 
     header: "Scene.h".}
 proc instantiate*(this: var Scene; source: var Deserializer; position: Vector3; 
-                  rotation: Quaternion; mode: CreateMode = replicated): ptr Node {.
+                  rotation: Quaternion; mode: CreateMode = Replicated): ptr Node {.
     importcpp: "Instantiate", header: "Scene.h".}
 proc instantiateXML*(this: var Scene; source: XMLElement; position: Vector3; 
-                     rotation: Quaternion; mode: CreateMode = replicated): ptr Node {.
+                     rotation: Quaternion; mode: CreateMode = Replicated): ptr Node {.
     importcpp: "InstantiateXML", header: "Scene.h".}
 proc instantiateXML*(this: var Scene; source: var Deserializer; 
                      position: Vector3; rotation: Quaternion; 
-                     mode: CreateMode = replicated): ptr Node {.
+                     mode: CreateMode = Replicated): ptr Node {.
     importcpp: "InstantiateXML", header: "Scene.h".}
 proc clear*(this: var Scene; clearReplicated: bool = true; 
             clearLocal: bool = true) {.importcpp: "Clear", header: "Scene.h".}

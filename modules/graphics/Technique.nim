@@ -1,7 +1,8 @@
 
 
 import 
-  graphicsDefs, hashTable, resource
+  graphicsDefs, hashTable, resource, refcounted, stringHash, urstr, vector,
+  ptrs, shadervariation, urobject, deserializer, serializer
 
 discard "forward decl of ShaderVariation"
 type 
@@ -99,19 +100,19 @@ type
     sm3Support* {.importc: "sm3Support_".}: bool
     isDesktop* {.importc: "isDesktop_".}: bool
     desktopSupport* {.importc: "desktopSupport_".}: bool
-    passes* {.importc: "passes_".}: HashTable[SharedPtr[Pass], 16]
+    passes* {.importc: "passes_".}: HashTable[SharedPtr[Pass], range[0..15]]
     numPasses* {.importc: "numPasses_".}: cuint
 
 
-proc getType*(this: Technique): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: Technique): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "Technique.h".}
-proc getBaseType*(this: Technique): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: Technique): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "Technique.h".}
-proc getTypeName*(this: Technique): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: Technique): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "Technique.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::Technique::GetTypeStatic(@)", header: "Technique.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::Technique::GetTypeNameStatic(@)", header: "Technique.h".}
 proc constructTechnique*(context: ptr Context): Technique {.
     importcpp: "Urho3D::Technique(@)", header: "Technique.h".}

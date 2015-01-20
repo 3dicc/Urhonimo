@@ -1,7 +1,7 @@
 
 
 import 
-  vector3, boundingbox, frustum
+  vector3, boundingbox, frustum, mathdefs
 
 proc constructSphere*(): Sphere {.importcpp: "Urho3D::Sphere(@)", 
                                   header: "Sphere.h".}

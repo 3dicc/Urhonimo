@@ -1,9 +1,5 @@
 
-
-when defined(URHO3D_OPENGL): 
-  import 
-    openGL/OGLIndexBuffer
-
-else: 
-  import 
-    direct3D9/D3D9IndexBuffer
+when defined(windows):
+  type IndexBuffer* {.importc: "Urho3D::IndexxBuffer", header: "D3D9IndexBuffer.h".} = object
+else:
+  type IndexBuffer* {.importc: "Urho3D::IndexxBuffer", header: "OGLIndexBuffer.h".} = object
