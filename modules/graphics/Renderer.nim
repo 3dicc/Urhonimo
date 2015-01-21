@@ -1,7 +1,11 @@
 
 
 import 
-  batch, color, drawable, hashSet, mutex, viewport
+  batch, color, drawable, hashSet, mutex, viewport, urobject, ptrs, urstr,
+  stringHash, graphics, renderpath, zone, graphics.geometry, vertexbuffer,
+  material, texture2d, texturecube, vector, occlusionbuffer, hashmap,
+  component, light, pair, camera, rect, view, rendersurface, octree, technique,
+  graphicsdefs, xmlelement
 
 discard "forward decl of Geometry"
 discard "forward decl of Drawable"
@@ -20,10 +24,10 @@ discard "forward decl of Texture2D"
 discard "forward decl of TextureCube"
 discard "forward decl of View"
 discard "forward decl of Zone"
-var SHADOW_MIN_PIXELS* {.importc: "SHADOW_MIN_PIXELS", header: "Renderer.h".}: cint = 64
+var SHADOW_MIN_PIXELS* {.importc: "SHADOW_MIN_PIXELS", header: "Renderer.h".}: cint #= 64
 
 var INSTANCING_BUFFER_DEFAULT_SIZE* {.importc: "INSTANCING_BUFFER_DEFAULT_SIZE", 
-                                      header: "Renderer.h".}: cint = 1024
+                                      header: "Renderer.h".}: cint #= 1024
 
 
 type 
@@ -86,7 +90,7 @@ type
     faceSelectCubeMap* {.importc: "faceSelectCubeMap_".}: SharedPtr[TextureCube]
     indirectionCubeMap* {.importc: "indirectionCubeMap_".}: SharedPtr[
         TextureCube]
-    shadowCameraNodes* {.importc: "shadowCameraNodes_".}: Vector[SharedPtr[Node]]
+    shadowCameraNodes* {.importc: "shadowCameraNodes_".}: Vector[SharedPtr[component.Node]]
     occlusionBuffers* {.importc: "occlusionBuffers_".}: Vector[
         SharedPtr[OcclusionBuffer]]
     shadowMaps* {.importc: "shadowMaps_".}: HashMap[cint, 
@@ -145,15 +149,15 @@ type
     resetViews* {.importc: "resetViews_".}: bool
 
 
-proc getType*(this: Renderer): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: Renderer): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "Renderer.h".}
-proc getBaseType*(this: Renderer): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: Renderer): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "Renderer.h".}
-proc getTypeName*(this: Renderer): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: Renderer): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "Renderer.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::Renderer::GetTypeStatic(@)", header: "Renderer.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::Renderer::GetTypeNameStatic(@)", header: "Renderer.h".}
 proc constructRenderer*(context: ptr Context): Renderer {.
     importcpp: "Urho3D::Renderer(@)", header: "Renderer.h".}

@@ -14,7 +14,7 @@ type
 
 var SHADOW_MIN_QUANTIZE* {.importc: "SHADOW_MIN_QUANTIZE", header: "Light.h".}: cfloat #= 0.1
 var SHADOW_MIN_VIEW* {.importc: "SHADOW_MIN_VIEW", header: "Light.h".}: cfloat #= 1.0
-var MAX_LIGHT_SPLITS* {.importc: "MAX_LIGHT_SPLITS", header: "Light.h".}: cint #= 6
+const MAX_LIGHT_SPLITS*: cint = 6
 var MAX_CASCADE_SPLITS* {.importc: "MAX_CASCADE_SPLITS", header: "Light.h".}: cint #= 4 or 1
 
 proc constructBiasParameters*(): BiasParameters {.

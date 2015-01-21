@@ -148,3 +148,6 @@ proc setLightQueue*(this: var Light; queue: ptr LightBatchQueue) {.
     importcpp: "SetLightQueue", header: "Light.h".}
 proc getLightQueue*(this: Light): ptr LightBatchQueue {.noSideEffect, 
     importcpp: "GetLightQueue", header: "Light.h".}
+
+proc getLightQueues*(this: View): Vector[LightBatchQueue] {.noSideEffect, 
+    importcpp: "GetLightQueues", header: "View.h".}

@@ -1,7 +1,8 @@
 
 
 import 
-  color, graphicsDefs, `ptr`, refCounted, vector4
+  color, graphicsDefs, ptrs, refCounted, vector4, xmlelement, urstr, stringhash,
+  vector2, hashmap, variant, vector
 
 discard "forward decl of XMLElement"
 discard "forward decl of XMLFile"
@@ -55,7 +56,7 @@ type
     pixelShaderName* {.importc: "pixelShaderName_".}: UrString
     vertexShaderDefines* {.importc: "vertexShaderDefines_".}: UrString
     pixelShaderDefines* {.importc: "pixelShaderDefines_".}: UrString
-    textureNames* {.importc: "textureNames_".}: array[max_Texture_Units, 
+    textureNames* {.importc: "textureNames_".}: array[Max_Texture_Units, 
         UrString]
     shaderParameters* {.importc: "shaderParameters_".}: HashMap[StringHash, 
         Variant]

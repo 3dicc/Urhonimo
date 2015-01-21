@@ -1,8 +1,12 @@
 
 
 import 
-  batch, hashSet, light, list, UrObject, polyhedron, zone, vector, camera,
-  light
+  batch, light, list, UrObject, polyhedron, zone, vector, camera,
+  light, drawable, boundingbox, stringHash, ptrs, graphics, component, octree,
+  occlusionbuffer, renderSurface, texture2d, rect, vector2, renderpath, hashmap,
+  urstr, xmlelement, ray, vector3
+
+import hashSet except Node
 
 discard "forward decl of Camera"
 discard "forward decl of DebugRenderer"
@@ -23,17 +27,17 @@ type
     light* {.importc: "light_".}: ptr Light
     litGeometries* {.importc: "litGeometries_".}: PODVector[ptr Drawable]
     shadowCasters* {.importc: "shadowCasters_".}: PODVector[ptr Drawable]
-    shadowCameras* {.importc: "shadowCameras_".}: array[max_Light_Splits, 
+    shadowCameras* {.importc: "shadowCameras_".}: array[Max_Light_Splits, 
         ptr Camera]
     shadowCasterBegin* {.importc: "shadowCasterBegin_".}: array[
-        max_Light_Splits, cuint]
-    shadowCasterEnd* {.importc: "shadowCasterEnd_".}: array[max_Light_Splits, 
+        Max_Light_Splits, cuint]
+    shadowCasterEnd* {.importc: "shadowCasterEnd_".}: array[Max_Light_Splits, 
         cuint]
-    shadowCasterBox* {.importc: "shadowCasterBox_".}: array[max_Light_Splits, 
+    shadowCasterBox* {.importc: "shadowCasterBox_".}: array[Max_Light_Splits, 
         BoundingBox]
-    shadowNearSplits* {.importc: "shadowNearSplits_".}: array[max_Light_Splits, 
+    shadowNearSplits* {.importc: "shadowNearSplits_".}: array[Max_Light_Splits, 
         cfloat]
-    shadowFarSplits* {.importc: "shadowFarSplits_".}: array[max_Light_Splits, 
+    shadowFarSplits* {.importc: "shadowFarSplits_".}: array[Max_Light_Splits, 
         cfloat]
     numSplits* {.importc: "numSplits_".}: cuint
 
@@ -45,7 +49,7 @@ type
     markToStencil* {.importc: "markToStencil_".}: bool
     useScissor* {.importc: "useScissor_".}: bool
     vertexLights* {.importc: "vertexLights_".}: bool
-    batchQueue* {.importc: "batchQueue_".}: ptr BatchQueue
+    #batchQueue* {.importc: "batchQueue_".}: ptr BatchQueue
 
 
 
@@ -58,24 +62,24 @@ type
     maxZ* {.importc: "maxZ_".}: cfloat
 
 
-var MAX_VIEWPORT_TEXTURES* {.importc: "MAX_VIEWPORT_TEXTURES", header: "View.h".}: cuint #= 2
+const MAX_VIEWPORT_TEXTURES*: cuint = 2
 
 
 type 
   View* {.importc: "Urho3D::View", header: "View.h".} = object of UrObject
     graphics* {.importc: "graphics_".}: WeakPtr[Graphics]
-    renderer* {.importc: "renderer_".}: WeakPtr[Renderer]
+    #renderer* {.importc: "renderer_".}: WeakPtr[Renderer]
     scene* {.importc: "scene_".}: ptr Scene
     octree* {.importc: "octree_".}: ptr Octree
     camera* {.importc: "camera_".}: ptr Camera
-    cameraNode* {.importc: "cameraNode_".}: ptr Node
+    cameraNode* {.importc: "cameraNode_".}: ptr component.Node
     cameraZone* {.importc: "cameraZone_".}: ptr Zone
     farClipZone* {.importc: "farClipZone_".}: ptr Zone
     occlusionBuffer* {.importc: "occlusionBuffer_".}: ptr OcclusionBuffer
     renderTarget* {.importc: "renderTarget_".}: ptr RenderSurface
     substituteRenderTarget* {.importc: "substituteRenderTarget_".}: ptr RenderSurface
     viewportTextures* {.importc: "viewportTextures_".}: array[
-        max_Viewport_Textures, ptr Texture2D]
+        Max_Viewport_Textures, ptr Texture2D]
     currentRenderTarget* {.importc: "currentRenderTarget_".}: ptr RenderSurface
     currentViewportTexture* {.importc: "currentViewportTexture_".}: ptr Texture2D
     viewRect* {.importc: "viewRect_".}: IntRect
@@ -112,10 +116,10 @@ type
     lightQueryResults* {.importc: "lightQueryResults_".}: Vector[
         LightQueryResult]
     scenePasses* {.importc: "scenePasses_".}: Vector[ScenePassInfo]
-    lightQueues* {.importc: "lightQueues_".}: Vector[LightBatchQueue]
-    vertexLightQueues* {.importc: "vertexLightQueues_".}: HashMap[culonglong, 
-        LightBatchQueue]
-    batchQueues* {.importc: "batchQueues_".}: HashMap[StringHash, BatchQueue]
+    #lightQueues* {.importc: "lightQueues_".}: Vector[LightBatchQueue]
+    #vertexLightQueues* {.importc: "vertexLightQueues_".}: HashMap[culonglong, 
+    #    LightBatchQueue]
+    #batchQueues* {.importc: "batchQueues_".}: HashMap[StringHash, BatchQueue]
     gBufferPassName* {.importc: "gBufferPassName_".}: StringHash
     basePassName* {.importc: "basePassName_".}: StringHash
     alphaPassName* {.importc: "alphaPassName_".}: StringHash
@@ -155,8 +159,8 @@ proc update*(this: var View; frame: FrameInfo) {.importcpp: "Update",
 proc render*(this: var View) {.importcpp: "Render", header: "View.h".}
 proc getGraphics*(this: View): ptr Graphics {.noSideEffect, 
     importcpp: "GetGraphics", header: "View.h".}
-proc getRenderer*(this: View): ptr Renderer {.noSideEffect, 
-    importcpp: "GetRenderer", header: "View.h".}
+#proc getRenderer*(this: View): ptr Renderer {.noSideEffect, 
+#    importcpp: "GetRenderer", header: "View.h".}
 proc getScene*(this: View): ptr Scene {.noSideEffect, importcpp: "GetScene", 
                                         header: "View.h".}
 proc getOctree*(this: View): ptr Octree {.noSideEffect, importcpp: "GetOctree", 
@@ -175,8 +179,7 @@ proc getOccluders*(this: View): PODVector[ptr Drawable] {.noSideEffect,
     importcpp: "GetOccluders", header: "View.h".}
 proc getLights*(this: View): PODVector[ptr Light] {.noSideEffect, 
     importcpp: "GetLights", header: "View.h".}
-proc getLightQueues*(this: View): Vector[LightBatchQueue] {.noSideEffect, 
-    importcpp: "GetLightQueues", header: "View.h".}
+
 proc setGlobalShaderParameters*(this: var View) {.
     importcpp: "SetGlobalShaderParameters", header: "View.h".}
 proc setCameraShaderParameters*(this: var View; camera: ptr Camera; 
@@ -192,18 +195,19 @@ proc getBaseType*(this: Viewport): StringHash {.noSideEffect,
     importcpp: "GetBaseType", header: "Viewport.h".}
 proc getTypeName*(this: Viewport): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "Viewport.h".}
-proc getTypeStatic*(): StringHash {.
-    importcpp: "Urho3D::Viewport::GetTypeStatic(@)", header: "Viewport.h".}
-proc getTypeNameStatic*(): UrString {.
-    importcpp: "Urho3D::Viewport::GetTypeNameStatic(@)", header: "Viewport.h".}
+#proc getTypeStatic*(): StringHash {.
+#    importcpp: "Urho3D::Viewport::GetTypeStatic(@)", header: "Viewport.h".}
+#proc getTypeNameStatic*(): UrString {.
+#    importcpp: "Urho3D::Viewport::GetTypeNameStatic(@)", header: "Viewport.h".}
+
 proc constructViewport*(context: ptr Context): Viewport {.
     importcpp: "Urho3D::Viewport(@)", header: "Viewport.h".}
 proc constructViewport*(context: ptr Context; scene: ptr Scene; 
-                        camera: ptr Camera; renderPath: ptr RenderPath = 0): Viewport {.
+                        camera: ptr Camera; renderPath: ptr RenderPath = nil): Viewport {.
     importcpp: "Urho3D::Viewport(@)", header: "Viewport.h".}
 proc constructViewport*(context: ptr Context; scene: ptr Scene; 
                         camera: ptr Camera; rect: IntRect; 
-                        renderPath: ptr RenderPath = 0): Viewport {.
+                        renderPath: ptr RenderPath = nil): Viewport {.
     importcpp: "Urho3D::Viewport(@)", header: "Viewport.h".}
 proc destroyViewport*(this: var Viewport) {.importcpp: "#.~Viewport()", 
     header: "Viewport.h".}
