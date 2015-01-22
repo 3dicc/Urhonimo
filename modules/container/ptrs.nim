@@ -5,7 +5,7 @@ import
 
 
 type 
-  SharedPtr* {.importc: "Urho3D::SharedPtr", header: "Ptr.h".}[T] = object 
+  SharedPtr* {.importcpp: "Urho3D::SharedPtr", header: "Ptr.h".}[T] = object 
     `ptr`* {.importc: "ptr_".}: ptr T
 
 

@@ -25,7 +25,11 @@ else:
 
 #  {.passL: "/MD".}
 
-import urobject, ui, resourcecache, urstr, font, stringHash, variant
+import urobject, ui, resourcecache, urstr, font, stringHash, variant, input,
+  renderer
+
+proc getSubsystem*[T](): ptr T {.importcpp: "getSubsystem<'*0>()", cdecl,
+  header: "urhowrap.h".}
 
 {.pragma: urh, importc, cdecl, header: "urhowrap.h".}
 
@@ -38,6 +42,9 @@ proc getContext*(): ptr Context {.urh.}
 proc getSubsystemUI*(): ptr UI {.urh.}
 
 proc getSubsystemResourceCache*(): ptr ResourceCache {.urh.}
+proc getSubsystemRenderer*(): ptr Renderer {.urh.}
+proc getSubsystemInput*(): ptr Input {.urh.}
+
 
 proc getFont*(fontName: UrString): ptr Font {.urh.}
 
@@ -51,15 +58,12 @@ proc registerEvent*(fn: HandlerFunc, userData: pointer;
 proc parseArguments*() {.urh}
 proc runMainLoop*(): cint {.urh.}
 
+converter toUrStringHash*(s: string): StringHash =
+  result = stringHash.constructStringHash(cstring(s))
+
 converter toUrString*(s: string): UrString =
   result = urstr.constructString(s, s.len.cuint)
 
-converter toUrStringHash*(s: string): StringHash =
-  result = stringHash.constructStringHash(s.cstring)
-
 proc cnew*[T](x: T): ptr T {.importcpp: "(new '*0#@)", nodecl.}
 
-proc getTimeStep*(eventData: pointer): float =
-  {.emit: """
-  `result` = ((VariantMap&)(`eventData`))["TimeStep"].GetFloat();
-  """.}
+proc getTimeStep*(eventData: pointer): float32 {.urh.}

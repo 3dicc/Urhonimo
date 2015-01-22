@@ -1,7 +1,9 @@
 
 
 import 
-  hashSet, inputEvents, mutex, UrObject, list, cursor
+  hashSet, inputEvents, mutex, UrObject, list, cursor, vector2, ptrs, uielement,
+  urstr, vector, graphics, hashmap, stringHash, serializer, deserializer,
+  urobject
 
 
 type 
@@ -15,9 +17,8 @@ discard "forward decl of Serializer"
 discard "forward decl of UIElement"
 discard "forward decl of XMLFile"
 var MOUSE_POSITION_OFFSCREEN* {.importc: "MOUSE_POSITION_OFFSCREEN", 
-                                header: "Input.h".}: IntVector2 = intVector2(
-    m_Min_Int, m_Min_Int)
-
+                                header: "Input.h".}: IntVector2 
+                                #= intVector2(m_Min_Int, m_Min_Int)
 
 type 
   TouchState* {.importc: "Urho3D::TouchState", header: "Input.h".} = object 
@@ -34,9 +35,9 @@ proc getTouchedElement*(this: var TouchState): ptr UIElement {.
 
 type 
   JoystickState* {.importc: "Urho3D::JoystickState", header: "Input.h".} = object 
-    joystick* {.importc: "joystick_".}: ptr SDL_Joystick
-    joystickID* {.importc: "joystickID_".}: SDL_JoystickID
-    controller* {.importc: "controller_".}: ptr SDL_GameController
+    #joystick* {.importc: "joystick_".}: ptr SDL_Joystick
+    #joystickID* {.importc: "joystickID_".}: SDL_JoystickID
+    #controller* {.importc: "controller_".}: ptr SDL_GameController
     screenJoystick* {.importc: "screenJoystick_".}: ptr UIElement
     name* {.importc: "name_".}: UrString
     buttons* {.importc: "buttons_".}: PODVector[bool]
@@ -78,7 +79,7 @@ type
     availableTouchIDs* {.importc: "availableTouchIDs_".}: List[cint]
     touchIDMap* {.importc: "touchIDMap_".}: HashMap[cint, cint]
     textInput* {.importc: "textInput_".}: UrString
-    joysticks* {.importc: "joysticks_".}: HashMap[SDL_JoystickID, JoystickState]
+    #joysticks* {.importc: "joysticks_".}: HashMap[SDL_JoystickID, JoystickState]
     mouseButtonDown* {.importc: "mouseButtonDown_".}: cuint
     mouseButtonPress* {.importc: "mouseButtonPress_".}: cuint
     lastMousePosition* {.importc: "lastMousePosition_".}: IntVector2
@@ -99,15 +100,15 @@ type
     initialized* {.importc: "initialized_".}: bool
 
 
-proc getType*(this: Input): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: Input): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "Input.h".}
-proc getBaseType*(this: Input): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: Input): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "Input.h".}
-proc getTypeName*(this: Input): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: Input): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "Input.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::Input::GetTypeStatic(@)", header: "Input.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::Input::GetTypeNameStatic(@)", header: "Input.h".}
 proc constructInput*(context: ptr Context): Input {.
     importcpp: "Urho3D::Input(@)", header: "Input.h".}
@@ -123,13 +124,16 @@ proc setMouseGrabbed*(this: var Input; grab: bool) {.
     importcpp: "SetMouseGrabbed", header: "Input.h".}
 proc setMouseMode*(this: var Input; mode: MouseMode) {.
     importcpp: "SetMouseMode", header: "Input.h".}
-proc addScreenJoystick*(this: var Input; layoutFile: ptr XMLFile = 0; 
-                        styleFile: ptr XMLFile = 0): SDL_JoystickID {.
-    importcpp: "AddScreenJoystick", header: "Input.h".}
-proc removeScreenJoystick*(this: var Input; id: SDL_JoystickID): bool {.
-    importcpp: "RemoveScreenJoystick", header: "Input.h".}
-proc setScreenJoystickVisible*(this: var Input; id: SDL_JoystickID; enable: bool) {.
-    importcpp: "SetScreenJoystickVisible", header: "Input.h".}
+
+when false:
+  proc addScreenJoystick*(this: var Input; layoutFile: ptr XMLFile = 0; 
+                          styleFile: ptr XMLFile = 0): SDL_JoystickID {.
+      importcpp: "AddScreenJoystick", header: "Input.h".}
+  proc removeScreenJoystick*(this: var Input; id: SDL_JoystickID): bool {.
+      importcpp: "RemoveScreenJoystick", header: "Input.h".}
+  proc setScreenJoystickVisible*(this: var Input; id: SDL_JoystickID; enable: bool) {.
+      importcpp: "SetScreenJoystickVisible", header: "Input.h".}
+
 proc setScreenKeyboardVisible*(this: var Input; enable: bool) {.
     importcpp: "SetScreenKeyboardVisible", header: "Input.h".}
 proc setTouchEmulation*(this: var Input; enable: bool) {.
@@ -160,8 +164,13 @@ proc getScancodeName*(this: Input; scancode: cint): UrString {.noSideEffect,
     importcpp: "GetScancodeName", header: "Input.h".}
 proc getKeyDown*(this: Input; key: cint): bool {.noSideEffect, 
     importcpp: "GetKeyDown", header: "Input.h".}
+proc getKeyDown*(this: Input; key: char): bool {.noSideEffect, 
+    importcpp: "GetKeyDown", header: "Input.h".}
 proc getKeyPress*(this: Input; key: cint): bool {.noSideEffect, 
     importcpp: "GetKeyPress", header: "Input.h".}
+proc getKeyPress*(this: Input; key: char): bool {.noSideEffect, 
+    importcpp: "GetKeyPress", header: "Input.h".}
+
 proc getScancodeDown*(this: Input; scancode: cint): bool {.noSideEffect, 
     importcpp: "GetScancodeDown", header: "Input.h".}
 proc getScancodePress*(this: Input; scanode: cint): bool {.noSideEffect, 
@@ -192,14 +201,16 @@ proc getTouch*(this: Input; index: cuint): ptr TouchState {.noSideEffect,
     importcpp: "GetTouch", header: "Input.h".}
 proc getNumJoysticks*(this: Input): cuint {.noSideEffect, 
     importcpp: "GetNumJoysticks", header: "Input.h".}
-proc getJoystick*(this: var Input; id: SDL_JoystickID): ptr JoystickState {.
-    importcpp: "GetJoystick", header: "Input.h".}
+when false:
+  proc getJoystick*(this: var Input; id: SDL_JoystickID): ptr JoystickState {.
+      importcpp: "GetJoystick", header: "Input.h".}
+  proc isScreenJoystickVisible*(this: Input; id: SDL_JoystickID): bool {.
+      noSideEffect, importcpp: "IsScreenJoystickVisible", header: "Input.h".}
+
 proc getJoystickByIndex*(this: var Input; index: cuint): ptr JoystickState {.
     importcpp: "GetJoystickByIndex", header: "Input.h".}
 proc getToggleFullscreen*(this: Input): bool {.noSideEffect, 
     importcpp: "GetToggleFullscreen", header: "Input.h".}
-proc isScreenJoystickVisible*(this: Input; id: SDL_JoystickID): bool {.
-    noSideEffect, importcpp: "IsScreenJoystickVisible", header: "Input.h".}
 proc getScreenKeyboardSupport*(this: Input): bool {.noSideEffect, 
     importcpp: "GetScreenKeyboardSupport", header: "Input.h".}
 proc isScreenKeyboardVisible*(this: Input): bool {.noSideEffect, 

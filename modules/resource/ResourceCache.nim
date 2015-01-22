@@ -122,7 +122,7 @@ proc setResourceRouter*(this: var ResourceCache; router: ptr ResourceRouter) {.
 proc getFile*(this: var ResourceCache; name: UrString; 
               sendEventOnFailure: bool = true): SharedPtr[UrFile] {.
     importcpp: "GetFile", header: "ResourceCache.h".}
-proc getResource*(this: var ResourceCache; `type`: StringHash; name: UrString; 
+proc getResourceRaw*(this: var ResourceCache; `type`: StringHash; name: UrString; 
                   sendEventOnFailure: bool = true): ptr Resource {.
     importcpp: "GetResource", header: "ResourceCache.h".}
 proc getTempResource*(this: var ResourceCache; `type`: StringHash; 
@@ -145,7 +145,7 @@ proc getPackageFiles*(this: ResourceCache): Vector[SharedPtr[PackageFile]] {.
     noSideEffect, importcpp: "GetPackageFiles", header: "ResourceCache.h".}
 proc getResource*[T](this: var ResourceCache; name: UrString; 
                      sendEventOnFailure: bool = true): ptr T {.
-    importcpp: "GetResource", header: "ResourceCache.h".}
+    importcpp: "#.GetResource<'*0>(@)", header: "ResourceCache.h".}
 proc getTempResource*[T](this: var ResourceCache; name: UrString; 
                          sendEventOnFailure: bool = true): SharedPtr[T] {.
     importcpp: "GetTempResource", header: "ResourceCache.h".}
@@ -189,8 +189,8 @@ proc storeResourceDependency*(this: var ResourceCache; resource: ptr Resource;
 proc resetDependencies*(this: var ResourceCache; resource: ptr Resource) {.
     importcpp: "ResetDependencies", header: "ResourceCache.h".}
 
-proc getResource*[T](name: UrString; sendEventOnFailure: bool): ptr T{.
-    importcpp: "ResourceCache::GetResource<'*0>(@)", header: "ResourceCache.h".}
+#proc getResource*[T](name: UrString; sendEventOnFailure: bool): ptr T{.
+#    importcpp: "ResourceCache::GetResource<'*0>(@)", header: "ResourceCache.h".}
 proc getTempResource*[T](name: UrString; sendEventOnFailure: bool): SharedPtr[T] {.
     importcpp: "ResourceCache::GetTempResource<'*0>(@)", header: "ResourceCache.h".}
     

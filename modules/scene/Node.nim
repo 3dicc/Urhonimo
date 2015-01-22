@@ -173,9 +173,14 @@ proc removeAllChildren*(this: var Node) {.importcpp: "RemoveAllChildren",
 proc removeChildren*(this: var Node; removeReplicated: bool; removeLocal: bool; 
                      recursive: bool) {.importcpp: "RemoveChildren", 
                                         header: "Node.h".}
-proc createComponent*(this: var Node; `type`: StringHash; 
-                      mode: CreateMode = Replicated; id: cuint = 0): ptr Component {.
+
+proc createComponentRaw*(this: var Node; `type`: StringHash;
+                  mode: CreateMode = Replicated; id: cuint = 0): ptr Component {.
     importcpp: "CreateComponent", header: "Node.h".}
+proc createComponent*[T](this: var Node; mode: CreateMode = Replicated;
+                         id: cuint = 0): ptr T {.
+    importcpp: "#.CreateComponent<'*0>(@)", header: "Node.h".}
+
 proc getOrCreateComponent*(this: var Node; `type`: StringHash; 
                            mode: CreateMode = Replicated; id: cuint = 0): ptr Component {.
     importcpp: "GetOrCreateComponent", header: "Node.h".}
@@ -190,7 +195,7 @@ proc removeComponent*(this: var Node; `type`: StringHash) {.
     importcpp: "RemoveComponent", header: "Node.h".}
 proc removeAllComponents*(this: var Node) {.importcpp: "RemoveAllComponents", 
     header: "Node.h".}
-proc removeComponents*(this: var Node; removeReplicated: bool; removeLocal: bool) {.
+proc removeComponents*(this: var Node; removeReplicated, removeLocal: bool) {.
     importcpp: "RemoveComponents", header: "Node.h".}
 proc clone*(this: var Node; mode: CreateMode = Replicated): ptr Node {.
     importcpp: "Clone", header: "Node.h".}
@@ -203,9 +208,6 @@ proc addListener*(this: var Node; component: ptr Component) {.
     importcpp: "AddListener", header: "Node.h".}
 proc removeListener*(this: var Node; component: ptr Component) {.
     importcpp: "RemoveListener", header: "Node.h".}
-proc createComponent*[T](this: var Node; mode: CreateMode = Replicated; 
-                         id: cuint = 0): ptr T {.importcpp: "CreateComponent", 
-    header: "Node.h".}
 proc getOrCreateComponent*[T](this: var Node; mode: CreateMode = Replicated; 
                               id: cuint = 0): ptr T {.
     importcpp: "GetOrCreateComponent", header: "Node.h".}
@@ -309,7 +311,7 @@ proc getComponents*(this: Node): Vector[SharedPtr[Component]] {.noSideEffect,
 proc getComponents*(this: Node; dest: var PODVector[ptr Component]; 
                     `type`: StringHash; recursive: bool = false) {.noSideEffect, 
     importcpp: "GetComponents", header: "Node.h".}
-proc getComponent*(this: Node; `type`: StringHash): ptr Component {.
+proc getComponentRaw*(this: Node; `type`: StringHash): ptr Component {.
     noSideEffect, importcpp: "GetComponent", header: "Node.h".}
 proc hasComponent*(this: Node; `type`: StringHash): bool {.noSideEffect, 
     importcpp: "HasComponent", header: "Node.h".}
@@ -327,7 +329,7 @@ proc getChildrenWithComponent*[T](this: Node; dest: var PODVector[ptr Node];
                                   recursive: bool = false) {.noSideEffect, 
     importcpp: "GetChildrenWithComponent", header: "Node.h".}
 proc getComponent*[T](this: Node): ptr T {.noSideEffect, 
-    importcpp: "GetComponent", header: "Node.h".}
+    importcpp: "#.GetComponent<'*0>(@)", header: "Node.h".}
 proc getComponents*[T](this: Node; dest: var PODVector[ptr T]; 
                        recursive: bool = false) {.noSideEffect, 
     importcpp: "GetComponents", header: "Node.h".}
@@ -384,8 +386,8 @@ proc setTransformSilent*(this: var Node; position: Vector3;
                          rotation: Quaternion; scale: Vector3) {.
     importcpp: "SetTransformSilent", header: "Node.h".}
 
-proc createComponent*[T](mode: CreateMode; id: cuint): ptr T {.
-    importcpp: "Node::CreateComponent<'*0>(@)", header: "Node.h".}
+#proc createComponent*[T](mode: CreateMode; id: cuint): ptr T {.
+#    importcpp: "Node::CreateComponent<'*0>(@)", header: "Node.h".}
 
 proc getOrCreateComponent*[T](mode: CreateMode; id: cuint): ptr T{.
     importcpp: "Node::GetOrCreateComponent<'*0>(@)", header: "Node.h".}
@@ -395,8 +397,8 @@ proc removeComponent*[T]() {.
 proc getChildrenWithComponent*[T](dest: var PODVector[ptr Node]; 
                                         recursive: bool) {.
     importcpp: "Node::GetChildrenWithComponent(@)", header: "Node.h".}
-proc getComponent*[T](): ptr T {.
-    importcpp: "Node::GetComponent<'*0>(@)", header: "Node.h".}
+#proc getComponent*[T](): ptr T {.
+#    importcpp: "Node::GetComponent<'*0>(@)", header: "Node.h".}
 proc getComponents*[T](dest: var PODVector[ptr T]; recursive: bool) {.
     importcpp: "Node::GetComponent<'*0>(@)", header: "Node.h".}
     

@@ -9,16 +9,17 @@ type
     value* {.importc: "value_".}: cuint
 
 
-proc constructStringHash*(): StringHash {.importcpp: "Urho3D::StringHash(@)", 
-    header: "StringHash.h".}
-proc constructStringHash*(rhs: StringHash): StringHash {.
-    importcpp: "Urho3D::StringHash(@)", header: "StringHash.h".}
-proc constructStringHash*(value: cuint): StringHash {.
-    importcpp: "Urho3D::StringHash(@)", header: "StringHash.h".}
+#proc constructStringHash*(): StringHash {.importcpp: "Urho3D::StringHash(@)", 
+#    header: "StringHash.h".}
+#proc constructStringHash*(rhs: StringHash): StringHash {.
+#    importcpp: "Urho3D::StringHash(@)", header: "StringHash.h".}
+#proc constructStringHash*(value: cuint): StringHash {.
+#    importcpp: "Urho3D::StringHash(@)", header: "StringHash.h".}
 proc constructStringHash*(str: cstring): StringHash {.
     importcpp: "Urho3D::StringHash(@)", header: "StringHash.h".}
 proc constructStringHash*(str: UrString): StringHash {.
     importcpp: "Urho3D::StringHash(@)", header: "StringHash.h".}
+
 proc `+`*(this: StringHash; rhs: StringHash): StringHash {.noSideEffect, 
     importcpp: "# + #", header: "StringHash.h".}
 proc `+=`*(this: var StringHash; rhs: StringHash) {.importcpp: "# += #", 

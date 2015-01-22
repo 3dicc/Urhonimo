@@ -9,7 +9,7 @@ discard "forward decl of Node"
 type 
   OctreeQuery* {.importc: "Urho3D::OctreeQuery", header: "OctreeQuery.h",
                  inheritable.} = object 
-    result* {.importc: "result_".}: var PODVector[ptr Drawable]
+    result* {.importc: "result_".}: ptr PODVector[ptr Drawable]
     drawableFlags* {.importc: "drawableFlags_".}: cuchar
     viewMask* {.importc: "viewMask_".}: cuint
 
@@ -123,7 +123,7 @@ proc constructRayQueryResult*(): RayQueryResult {.
 
 type 
   RayOctreeQuery* {.importc: "Urho3D::RayOctreeQuery", header: "OctreeQuery.h".} = object 
-    result* {.importc: "result_".}: var PODVector[RayQueryResult]
+    result* {.importc: "result_".}: ptr PODVector[RayQueryResult]
     ray* {.importc: "ray_".}: Ray
     drawableFlags* {.importc: "drawableFlags_".}: cuchar
     viewMask* {.importc: "viewMask_".}: cuint

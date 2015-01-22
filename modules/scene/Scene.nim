@@ -1,9 +1,12 @@
 
 
 import 
-  hashSet except Node, 
+  hashSet except Node
+
+import
   mutex, node, sceneResolver, xMLElement, component, stringHash, urstr,
-  urobject, deserializer, serializer, connection, vector3, quaternion
+  urobject, deserializer, serializer, connection, vector3, quaternion,
+  packagefile, vector, ptrs
 
 discard "forward decl of File"
 discard "forward decl of PackageFile"

@@ -4,12 +4,13 @@
 #include "Application.h"
 #include "Engine.h"
 #include "Graphics.h"
-#include "Input.h"
 #include "InputEvents.h"
 #include "ResourceCache.h"
 #include "UI.h"
 #include "Font.h"
 #include "Text.h"
+#include "Renderer.h"
+#include "Input.h"
 
 using namespace Urho3D;
 
@@ -29,4 +30,10 @@ Urho3D::Font* getFont(const Urho3D::String& fontName);
 void registerEvent(HandlerFunc func, void* userData, StringHash eventType);
 void parseArguments(void);
 
+float getTimeStep(void* eventData);
+
 int runMainLoop(void);
+
+Urho3D::ResourceCache* getSubsystemResourceCache(void);
+Urho3D::Renderer* getSubsystemRenderer(void);
+Urho3D::Input* getSubsystemInput(void);

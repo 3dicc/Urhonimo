@@ -189,7 +189,7 @@ proc startsWith*(this: UrString; str: UrString; caseSensitive: bool = true): boo
     noSideEffect, importcpp: "StartsWith", header: "Str.h".}
 proc endsWith*(this: UrString; str: UrString; caseSensitive: bool = true): bool {.
     noSideEffect, importcpp: "EndsWith", header: "Str.h".}
-proc cString*(this: UrString): cstring {.noSideEffect, importcpp: "CString", 
+proc toCString*(this: UrString): cstring {.noSideEffect, importcpp: "CString",
     header: "Str.h".}
 proc length*(this: UrString): cuint {.noSideEffect, importcpp: "Length", 
                                       header: "Str.h".}
