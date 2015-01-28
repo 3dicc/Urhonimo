@@ -135,7 +135,7 @@ proc handleUpdate(userData: pointer; eventType: StringHash;
 proc main =
   parseArguments()
 
-  openUrho3D(true)
+  openUrho3D(false)
 
   createScene()
   setupViewport()
