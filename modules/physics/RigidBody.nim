@@ -1,7 +1,8 @@
 
 
 import 
-  component, vectorBuffer
+  component, vectorBuffer, urstr, urobject, stringHash, attribute, variant,
+  vector3, quaternion, vector
 
 discard "forward decl of btCompoundShape"
 discard "forward decl of btRigidBody"
@@ -9,46 +10,44 @@ discard "forward decl of CollisionShape"
 discard "forward decl of Constraint"
 discard "forward decl of PhysicsWorld"
 discard "forward decl of SmoothedTransform"
-type 
+type
   CollisionEventMode* {.importcpp: "Urho3D::CollisionEventMode".} = enum 
     COLLISION_NEVER = 0, COLLISION_ACTIVE, COLLISION_ALWAYS
-
-
-
-type 
+ 
   RigidBody* {.importc: "Urho3D::RigidBody", header: "RigidBody.h".} = object of Component
-    body* {.importc: "body_".}: ptr BtRigidBody
-    compoundShape* {.importc: "compoundShape_".}: ptr BtCompoundShape
-    shiftedCompoundShape* {.importc: "shiftedCompoundShape_".}: ptr BtCompoundShape
-    physicsWorld* {.importc: "physicsWorld_".}: WeakPtr[PhysicsWorld]
-    constraints* {.importc: "constraints_".}: PODVector[ptr Constraint]
-    gravityOverride* {.importc: "gravityOverride_".}: Vector3
-    centerOfMass* {.importc: "centerOfMass_".}: Vector3
-    mass* {.importc: "mass_".}: cfloat
-    attrBuffer* {.importc: "attrBuffer_".}: VectorBuffer
-    collisionLayer* {.importc: "collisionLayer_".}: cuint
-    collisionMask* {.importc: "collisionMask_".}: cuint
-    collisionEventMode* {.importc: "collisionEventMode_".}: CollisionEventMode
-    lastPosition* {.importc: "lastPosition_".}: Vector3
-    lastRotation* {.importc: "lastRotation_".}: Quaternion
-    kinematic* {.importc: "kinematic_".}: bool
-    trigger* {.importc: "trigger_".}: bool
-    useGravity* {.importc: "useGravity_".}: bool
-    hasSmoothedTransform* {.importc: "hasSmoothedTransform_".}: bool
-    readdBody* {.importc: "readdBody_".}: bool
-    inWorld* {.importc: "inWorld_".}: bool
-    enableMassUpdate* {.importc: "enableMassUpdate_".}: bool
+    #body* {.importc: "body_".}: ptr BtRigidBody
+    #compoundShape* {.importc: "compoundShape_".}: ptr BtCompoundShape
+    #shiftedCompoundShape* {.importc: "shiftedCompoundShape_".}: ptr BtCompoundShape
+    when false:
+      physicsWorld* {.importc: "physicsWorld_".}: WeakPtr[PhysicsWorld]
+      constraints* {.importc: "constraints_".}: PODVector[ptr Constraint]
+      gravityOverride* {.importc: "gravityOverride_".}: Vector3
+      centerOfMass* {.importc: "centerOfMass_".}: Vector3
+      mass* {.importc: "mass_".}: cfloat
+      attrBuffer* {.importc: "attrBuffer_".}: VectorBuffer
+      collisionLayer* {.importc: "collisionLayer_".}: cuint
+      collisionMask* {.importc: "collisionMask_".}: cuint
+      collisionEventMode* {.importc: "collisionEventMode_".}: CollisionEventMode
+      lastPosition* {.importc: "lastPosition_".}: Vector3
+      lastRotation* {.importc: "lastRotation_".}: Quaternion
+      kinematic* {.importc: "kinematic_".}: bool
+      trigger* {.importc: "trigger_".}: bool
+      useGravity* {.importc: "useGravity_".}: bool
+      hasSmoothedTransform* {.importc: "hasSmoothedTransform_".}: bool
+      readdBody* {.importc: "readdBody_".}: bool
+      inWorld* {.importc: "inWorld_".}: bool
+      enableMassUpdate* {.importc: "enableMassUpdate_".}: bool
 
 
-proc getType*(this: RigidBody): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: RigidBody): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "RigidBody.h".}
-proc getBaseType*(this: RigidBody): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: RigidBody): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "RigidBody.h".}
-proc getTypeName*(this: RigidBody): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: RigidBody): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "RigidBody.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::RigidBody::GetTypeStatic(@)", header: "RigidBody.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::RigidBody::GetTypeNameStatic(@)", header: "RigidBody.h".}
 proc constructRigidBody*(context: ptr Context): RigidBody {.
     importcpp: "Urho3D::RigidBody(@)", header: "RigidBody.h".}
@@ -62,13 +61,16 @@ proc applyAttributes*(this: var RigidBody) {.importcpp: "ApplyAttributes",
     header: "RigidBody.h".}
 proc onSetEnabled*(this: var RigidBody) {.importcpp: "OnSetEnabled", 
     header: "RigidBody.h".}
-proc getWorldTransform*(this: RigidBody; worldTrans: var BtTransform) {.
-    noSideEffect, importcpp: "getWorldTransform", header: "RigidBody.h".}
-proc setWorldTransform*(this: var RigidBody; worldTrans: BtTransform) {.
-    importcpp: "setWorldTransform", header: "RigidBody.h".}
-proc drawDebugGeometry*(this: var RigidBody; debug: ptr DebugRenderer; 
-                        depthTest: bool) {.importcpp: "DrawDebugGeometry", 
-    header: "RigidBody.h".}
+
+when false:
+  proc getWorldTransform*(this: RigidBody; worldTrans: var BtTransform) {.
+      noSideEffect, importcpp: "getWorldTransform", header: "RigidBody.h".}
+  proc setWorldTransform*(this: var RigidBody; worldTrans: BtTransform) {.
+      importcpp: "setWorldTransform", header: "RigidBody.h".}
+  proc drawDebugGeometry*(this: var RigidBody; debug: ptr DebugRenderer; 
+                          depthTest: bool) {.importcpp: "DrawDebugGeometry", 
+      header: "RigidBody.h".}
+
 proc setMass*(this: var RigidBody; mass: cfloat) {.importcpp: "SetMass", 
     header: "RigidBody.h".}
 proc setPosition*(this: var RigidBody; position: Vector3) {.
@@ -145,12 +147,15 @@ proc disableMassUpdate*(this: var RigidBody) {.importcpp: "DisableMassUpdate",
     header: "RigidBody.h".}
 proc enableMassUpdate*(this: var RigidBody) {.importcpp: "EnableMassUpdate", 
     header: "RigidBody.h".}
-proc getPhysicsWorld*(this: RigidBody): ptr PhysicsWorld {.noSideEffect, 
-    importcpp: "GetPhysicsWorld", header: "RigidBody.h".}
-proc getBody*(this: RigidBody): ptr BtRigidBody {.noSideEffect, 
-    importcpp: "GetBody", header: "RigidBody.h".}
-proc getCompoundShape*(this: RigidBody): ptr BtCompoundShape {.noSideEffect, 
-    importcpp: "GetCompoundShape", header: "RigidBody.h".}
+
+when false:
+  proc getPhysicsWorld*(this: RigidBody): ptr PhysicsWorld {.noSideEffect, 
+      importcpp: "GetPhysicsWorld", header: "RigidBody.h".}
+  proc getBody*(this: RigidBody): ptr BtRigidBody {.noSideEffect, 
+      importcpp: "GetBody", header: "RigidBody.h".}
+  proc getCompoundShape*(this: RigidBody): ptr BtCompoundShape {.noSideEffect, 
+      importcpp: "GetCompoundShape", header: "RigidBody.h".}
+
 proc getMass*(this: RigidBody): cfloat {.noSideEffect, importcpp: "GetMass", 
     header: "RigidBody.h".}
 proc getPosition*(this: RigidBody): Vector3 {.noSideEffect, 
@@ -220,9 +225,12 @@ proc setNetAngularVelocityAttr*(this: var RigidBody; value: PODVector[cuchar]) {
     importcpp: "SetNetAngularVelocityAttr", header: "RigidBody.h".}
 proc getNetAngularVelocityAttr*(this: RigidBody): PODVector[cuchar] {.
     noSideEffect, importcpp: "GetNetAngularVelocityAttr", header: "RigidBody.h".}
-proc addConstraint*(this: var RigidBody; constraint: ptr Constraint) {.
-    importcpp: "AddConstraint", header: "RigidBody.h".}
-proc removeConstraint*(this: var RigidBody; constraint: ptr Constraint) {.
-    importcpp: "RemoveConstraint", header: "RigidBody.h".}
+
+when false:
+  proc addConstraint*(this: var RigidBody; constraint: ptr Constraint) {.
+      importcpp: "AddConstraint", header: "RigidBody.h".}
+  proc removeConstraint*(this: var RigidBody; constraint: ptr Constraint) {.
+      importcpp: "RemoveConstraint", header: "RigidBody.h".}
+
 proc releaseBody*(this: var RigidBody) {.importcpp: "ReleaseBody", 
     header: "RigidBody.h".}

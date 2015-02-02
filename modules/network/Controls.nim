@@ -21,5 +21,10 @@ proc set*(this: var Controls; buttons: cuint; down: bool = true) {.
     importcpp: "Set", header: "Controls.h".}
 proc isDown*(this: Controls; button: cuint): bool {.noSideEffect, 
     importcpp: "IsDown", header: "Controls.h".}
+proc isDown*(this: Controls; button: cint): bool {.noSideEffect, 
+    importcpp: "IsDown", header: "Controls.h".}
+
 proc isPressed*(this: Controls; button: cuint; previousControls: Controls): bool {.
+    noSideEffect, importcpp: "IsPressed", header: "Controls.h".}
+proc isPressed*(this: Controls; button: cint; previousControls: Controls): bool {.
     noSideEffect, importcpp: "IsPressed", header: "Controls.h".}

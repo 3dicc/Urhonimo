@@ -1,7 +1,10 @@
 
 
 import 
-  model, skeleton, staticModel
+  model, skeleton, staticModel, vector, ptrs, vertexbuffer, animation,
+  animationstate, matrix4, boundingbox, vectorbuffer, stringHash, urstr,
+  urobject, deserializer, xmlelement, octreequery, drawable, debugrenderer,
+  variant
 
 discard "forward decl of Animation"
 discard "forward decl of AnimationState"
@@ -38,16 +41,16 @@ type
     assignBonesPending* {.importc: "assignBonesPending_".}: bool
 
 
-proc getType*(this: AnimatedModel): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: AnimatedModel): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "AnimatedModel.h".}
-proc getBaseType*(this: AnimatedModel): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: AnimatedModel): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "AnimatedModel.h".}
-proc getTypeName*(this: AnimatedModel): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: AnimatedModel): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "AnimatedModel.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::AnimatedModel::GetTypeStatic(@)", 
     header: "AnimatedModel.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::AnimatedModel::GetTypeNameStatic(@)", 
     header: "AnimatedModel.h".}
 proc constructAnimatedModel*(context: ptr Context): AnimatedModel {.

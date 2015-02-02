@@ -158,3 +158,6 @@ proc markReplicationDirty*(this: var Scene; node: ptr Node) {.
 
 proc registerSceneLibrary*(context: ptr Context) {.
     importcpp: "Urho3D::RegisterSceneLibrary(@)", header: "Scene.h".}
+
+proc getComponentFromScene*[T](this: var Scene): ptr T {.noSideEffect, 
+    importcpp: "#.GetComponent<'*0>(@)", header: "Node.h".}

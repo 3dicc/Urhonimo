@@ -55,10 +55,9 @@ proc dynamicCast*[T, U](`ptr`: SharedPtr[U]): SharedPtr[T] {.noSideEffect,
   importcpp: "DynamicCast<'*0>", header: "Ptr.h".}
 
 type 
-  WeakPtr* {.importc: "Urho3D::WeakPtr", header: "Ptr.h".}[T] = object 
+  WeakPtr* {.importcpp: "Urho3D::WeakPtr", header: "Ptr.h".}[T] = object 
     `ptr`* {.importc: "ptr_".}: ptr T
     refCount* {.importc: "refCount_".}: ptr RefCount
-
 
 proc constructWeakPtr*[T](): WeakPtr[T] {.importcpp: "Urho3D::WeakPtr(@)", 
     header: "Ptr.h".}
@@ -109,3 +108,6 @@ proc staticCast*[T, U](`ptr`: WeakPtr[U]): WeakPtr[T] {.noSideEffect,
 
 proc dynamicCast*[T, U](`ptr`: WeakPtr[U]): WeakPtr[T] {.noSideEffect,
   importcpp: "DynamicCast<'*0>", header: "Ptr.h".}
+
+proc isNil*[T](w: WeakPtr[T]): bool = get(w).isNil
+proc isNil*[T](w: SharedPtr[T]): bool = get(w).isNil

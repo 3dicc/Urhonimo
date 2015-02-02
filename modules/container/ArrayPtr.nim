@@ -5,7 +5,7 @@ import
 
 
 type 
-  SharedArrayPtr* {.importc: "Urho3D::SharedArrayPtr", header: "ArrayPtr.h".}[T] = object 
+  SharedArrayPtr* {.importcpp: "Urho3D::SharedArrayPtr", header: "ArrayPtr.h".}[T] = object 
     `ptr`* {.importc: "ptr_".}: ptr T
     refCount* {.importc: "refCount_".}: ptr RefCount
 

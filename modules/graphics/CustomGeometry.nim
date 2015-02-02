@@ -1,7 +1,9 @@
 
 
 import 
-  drawable
+  drawable, urstr, stringHash, vector3, vector2, vector4, ptrs, vector,
+  variant, geometry, vertexbuffer, graphicsdefs, urobject, octreequery,
+  occlusionbuffer, color, material
 
 
 type 
@@ -28,16 +30,16 @@ type
     dynamic* {.importc: "dynamic_".}: bool
 
 
-proc getType*(this: CustomGeometry): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: CustomGeometry): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "CustomGeometry.h".}
-proc getBaseType*(this: CustomGeometry): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: CustomGeometry): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "CustomGeometry.h".}
-proc getTypeName*(this: CustomGeometry): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: CustomGeometry): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "CustomGeometry.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::CustomGeometry::GetTypeStatic(@)", 
     header: "CustomGeometry.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::CustomGeometry::GetTypeNameStatic(@)", 
     header: "CustomGeometry.h".}
 proc constructCustomGeometry*(context: ptr Context): CustomGeometry {.

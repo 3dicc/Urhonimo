@@ -11,6 +11,8 @@ type
     y* {.importc: "y_".}: cfloat
     z* {.importc: "z_".}: cfloat
 
+var Identity* {.importc: "Urho3D::Quaternion::IDENTITY", 
+                header: "Quaternion.h".}: Quaternion
 
 proc constructQuaternion*(): Quaternion {.importcpp: "Urho3D::Quaternion(@)", 
     header: "Quaternion.h".}

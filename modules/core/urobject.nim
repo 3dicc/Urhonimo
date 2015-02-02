@@ -104,8 +104,9 @@ proc getSubsystem*[T](this: UrObject): ptr T {.noSideEffect,
     importcpp: "GetSubsystem", header: "Object.h".}
 proc getCategory*(this: UrObject): UrString {.noSideEffect, 
     importcpp: "GetCategory", header: "Object.h".}
-proc getSubsystem*[T](): ptr T {.noSideEffect, 
-  importcpp: "Object::GetSubsystem<'*0>()", header: "Object.h".}
+
+#proc getSubsystem*[T](): ptr T {.noSideEffect, 
+#  importcpp: "Object::GetSubsystem<'*0>()", header: "Object.h".}
 
 proc constructObjectFactory*(context: ptr Context): ObjectFactory {.
     importcpp: "Urho3D::ObjectFactory(@)", header: "Object.h".}

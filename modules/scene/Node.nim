@@ -296,10 +296,10 @@ proc getChildrenWithComponent*(this: Node; dest: var PODVector[ptr Node];
     noSideEffect, importcpp: "GetChildrenWithComponent", header: "Node.h".}
 proc getChild*(this: Node; index: cuint): ptr Node {.noSideEffect, 
     importcpp: "GetChild", header: "Node.h".}
-proc getChild*(this: Node; name: UrString; recursive: bool = false): ptr Node {.
-    noSideEffect, importcpp: "GetChild", header: "Node.h".}
-proc getChild*(this: Node; name: cstring; recursive: bool = false): ptr Node {.
-    noSideEffect, importcpp: "GetChild", header: "Node.h".}
+#proc getChild*(this: Node; name: UrString; recursive: bool = false): ptr Node {.
+#    noSideEffect, importcpp: "GetChild", header: "Node.h".}
+#proc getChild*(this: Node; name: cstring; recursive: bool = false): ptr Node {.
+#    noSideEffect, importcpp: "GetChild", header: "Node.h".}
 proc getChild*(this: Node; nameHash: StringHash; recursive: bool = false): ptr Node {.
     noSideEffect, importcpp: "GetChild", header: "Node.h".}
 proc getNumComponents*(this: Node): cuint {.noSideEffect, 
@@ -328,8 +328,9 @@ proc getDerivedComponents*[T](this: Node; dest: var PODVector[ptr T]) {.
 proc getChildrenWithComponent*[T](this: Node; dest: var PODVector[ptr Node]; 
                                   recursive: bool = false) {.noSideEffect, 
     importcpp: "GetChildrenWithComponent", header: "Node.h".}
-proc getComponent*[T](this: Node): ptr T {.noSideEffect, 
+proc getComponentFromNode*[T](this: Node): ptr T {.noSideEffect, 
     importcpp: "#.GetComponent<'*0>(@)", header: "Node.h".}
+    
 proc getComponents*[T](this: Node; dest: var PODVector[ptr T]; 
                        recursive: bool = false) {.noSideEffect, 
     importcpp: "GetComponents", header: "Node.h".}

@@ -14,7 +14,8 @@
 
 using namespace Urho3D;
 
-typedef void(*HandlerFunc)(void* userData, StringHash eventType, void* eventData);
+typedef void(*HandlerFunc)(void* userData, StringHash eventType,
+                           VariantMap* eventData);
 
 void openUrho3D(bool fullScreen);
 
@@ -37,3 +38,9 @@ int runMainLoop(void);
 Urho3D::ResourceCache* getSubsystemResourceCache(void);
 Urho3D::Renderer* getSubsystemRenderer(void);
 Urho3D::Input* getSubsystemInput(void);
+
+Urho3D::Application* getApp(void);
+
+template<class T> T* getSubsystem(void) {
+  return getApp()->getSubsystem<T>();
+}

@@ -1,36 +1,30 @@
 
 
 import 
-  hashSet, list, UrObject
+  hashSet, list, UrObject, urstr, stringHash, vector
 
 discard "forward decl of AsyncExecRequest"
-var SCAN_FILES* {.importc: "SCAN_FILES", header: "FileSystem.h".}: cuint = 0x00000001
-
-
-var SCAN_DIRS* {.importc: "SCAN_DIRS", header: "FileSystem.h".}: cuint = 0x00000002
-
-
-var SCAN_HIDDEN* {.importc: "SCAN_HIDDEN", header: "FileSystem.h".}: cuint = 0x00000004
-
+var SCAN_FILES* {.importc: "SCAN_FILES", header: "FileSystem.h".}: cuint #= 0x00000001
+var SCAN_DIRS* {.importc: "SCAN_DIRS", header: "FileSystem.h".}: cuint #= 0x00000002
+var SCAN_HIDDEN* {.importc: "SCAN_HIDDEN", header: "FileSystem.h".}: cuint #= 0x00000004
 
 type 
   FileSystem* {.importc: "Urho3D::FileSystem", header: "FileSystem.h".} = object of UrObject
     allowedPaths* {.importc: "allowedPaths_".}: HashSet[UrString]
     programDir* {.importc: "programDir_".}: UrString
-    asyncExecQueue* {.importc: "asyncExecQueue_".}: List[ptr AsyncExecRequest]
+    #asyncExecQueue* {.importc: "asyncExecQueue_".}: List[ptr AsyncExecRequest]
     nextAsyncExecID* {.importc: "nextAsyncExecID_".}: cuint
     executeConsoleCommands* {.importc: "executeConsoleCommands_".}: bool
 
-
-proc getType*(this: FileSystem): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: FileSystem): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "FileSystem.h".}
-proc getBaseType*(this: FileSystem): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: FileSystem): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "FileSystem.h".}
-proc getTypeName*(this: FileSystem): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: FileSystem): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "FileSystem.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::FileSystem::GetTypeStatic(@)", header: "FileSystem.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::FileSystem::GetTypeNameStatic(@)", 
     header: "FileSystem.h".}
 proc constructFileSystem*(context: ptr Context): FileSystem {.
@@ -55,7 +49,7 @@ proc systemRunAsync*(this: var FileSystem; fileName: UrString;
                      arguments: Vector[UrString]): cuint {.
     importcpp: "SystemRunAsync", header: "FileSystem.h".}
 proc systemOpen*(this: var FileSystem; fileName: UrString; 
-                 mode: UrString = UrString.empty): bool {.
+                 mode: UrString): bool {.
     importcpp: "SystemOpen", header: "FileSystem.h".}
 proc copy*(this: var FileSystem; srcFileName: UrString; destFileName: UrString): bool {.
     importcpp: "Copy", header: "FileSystem.h".}
@@ -129,8 +123,9 @@ proc getInternalPath*(pathName: UrString): UrString {.
 proc getNativePath*(pathName: UrString): UrString {.
     importcpp: "Urho3D::GetNativePath(@)", header: "FileSystem.h".}
 
-proc getWideNativePath*(pathName: UrString): WString {.
-    importcpp: "Urho3D::GetWideNativePath(@)", header: "FileSystem.h".}
+when false:
+  proc getWideNativePath*(pathName: UrString): WString {.
+      importcpp: "Urho3D::GetWideNativePath(@)", header: "FileSystem.h".}
 
 proc isAbsolutePath*(pathName: UrString): bool {.
     importcpp: "Urho3D::IsAbsolutePath(@)", header: "FileSystem.h".}

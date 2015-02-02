@@ -15,7 +15,8 @@
 
 using namespace Urho3D;
 
-typedef void(*__cdecl HandlerFunc)(void* userData, StringHash eventType, void* eventData);
+typedef void(*__cdecl HandlerFunc)(void* userData, StringHash eventType, 
+                                   VariantMap* eventData);
 
 class EventHandlerForC: public EventHandler
 {
@@ -68,7 +69,7 @@ void closeUrho3D(void) {
 }
 
 Urho3D::Context* getContext(void) { return mainApp->GetContext(); }
-
+Urho3D::Application* getApp(void) { return mainApp; }
 
 Urho3D::UI* getSubsystemUI(void) {
   return mainApp->GetSubsystem<UI>();
@@ -91,8 +92,12 @@ Urho3D::Font* getFont(const Urho3D::String& fontName) {
   return mainApp->GetSubsystem<Urho3D::ResourceCache>()->GetResource<Urho3D::Font>(fontName);
 }
 
-void registerEvent(HandlerFunc func, void* userData, StringHash eventType) {
+void subscribeToEvent(StringHash eventType, HandlerFunc func, void* userData) {
   mainApp->SubscribeToEvent(eventType, new EventHandlerForC(mainApp, func, userData));
+}
+
+void unsubscribeFromEvent(StringHash eventType) { 
+  mainApp->UnsubscribeFromEvent(eventType);
 }
 
 void parseArguments(void) {

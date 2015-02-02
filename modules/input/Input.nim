@@ -197,7 +197,7 @@ proc getMouseMoveWheel*(this: Input): cint {.noSideEffect,
     importcpp: "GetMouseMoveWheel", header: "Input.h".}
 proc getNumTouches*(this: Input): cuint {.noSideEffect, 
     importcpp: "GetNumTouches", header: "Input.h".}
-proc getTouch*(this: Input; index: cuint): ptr TouchState {.noSideEffect, 
+proc getTouch*(this: Input; index: int): ptr TouchState {.noSideEffect, 
     importcpp: "GetTouch", header: "Input.h".}
 proc getNumJoysticks*(this: Input): cuint {.noSideEffect, 
     importcpp: "GetNumJoysticks", header: "Input.h".}

@@ -26,7 +26,7 @@ else:
 #  {.passL: "/MD".}
 
 import urobject, ui, resourcecache, urstr, font, stringHash, variant, input,
-  renderer
+  renderer, vector3, quaternion, color, file, component
 
 proc getSubsystem*[T](): ptr T {.importcpp: "getSubsystem<'*0>()", cdecl,
   header: "urhowrap.h".}
@@ -50,10 +50,12 @@ proc getFont*(fontName: UrString): ptr Font {.urh.}
 
 type
   HandlerFunc* = proc (userData: pointer, eventType: StringHash;
-                       eventData: pointer) {.cdecl.}
+                       eventData: ptr VariantMap) {.cdecl.}
 
-proc registerEvent*(fn: HandlerFunc, userData: pointer;
-                    eventType: StringHash) {.urh.}
+proc subscribeToEvent*(eventType: StringHash; fn: HandlerFunc;
+                       userData: pointer = nil) {.urh.}
+
+proc unsubscribeFromEvent*(eventType: StringHash) {.urh.}
 
 proc parseArguments*() {.urh}
 proc runMainLoop*(): cint {.urh.}
@@ -67,3 +69,18 @@ converter toUrString*(s: string): UrString =
 proc cnew*[T](x: T): ptr T {.importcpp: "(new '*0#@)", nodecl.}
 
 proc getTimeStep*(eventData: pointer): float32 {.urh.}
+
+template vec3*(a, b, c: float): Vector3 =
+  constructVector3(a.float32, b.float32, c.float32)
+
+template quat*(a, b, c: float): Quaternion =
+  constructQuaternion(a.float32, b.float32, c.float32)
+
+template col*(r, g, b: float): Color =
+  constructColor(r.float32, g.float32, b.float32)
+
+proc saveXML*(sc: ptr Scene, f: UrFile) {.importcpp: "#.saveXML(@)", header:
+  "File.h".}
+
+proc loadXML*(sc: ptr Scene, f: UrFile) {.importcpp: "#.loadXML(@)", header:
+  "File.h".}

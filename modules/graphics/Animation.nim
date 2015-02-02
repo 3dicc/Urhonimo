@@ -1,7 +1,8 @@
 
 
 import 
-  quaternion, resource, `ptr`, vector3
+  quaternion, resource, ptrs, vector3, urstr, stringHash, vector, variant,
+  urobject, deserializer, serializer
 
 
 type 
@@ -34,11 +35,11 @@ type
 
 proc constructAnimationTriggerPoint*(): AnimationTriggerPoint {.
     importcpp: "Urho3D::AnimationTriggerPoint(@)", header: "Animation.h".}
-var CHANNEL_POSITION* {.importc: "CHANNEL_POSITION", header: "Animation.h".}: cuchar = 0x00000001
+var CHANNEL_POSITION* {.importc: "CHANNEL_POSITION", header: "Animation.h".}: cuchar# = 0x00000001
 
-var CHANNEL_ROTATION* {.importc: "CHANNEL_ROTATION", header: "Animation.h".}: cuchar = 0x00000002
+var CHANNEL_ROTATION* {.importc: "CHANNEL_ROTATION", header: "Animation.h".}: cuchar# = 0x00000002
 
-var CHANNEL_SCALE* {.importc: "CHANNEL_SCALE", header: "Animation.h".}: cuchar = 0x00000004
+var CHANNEL_SCALE* {.importc: "CHANNEL_SCALE", header: "Animation.h".}: cuchar# = 0x00000004
 
 
 type 
@@ -50,15 +51,15 @@ type
     triggers* {.importc: "triggers_".}: Vector[AnimationTriggerPoint]
 
 
-proc getType*(this: Animation): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: Animation): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "Animation.h".}
-proc getBaseType*(this: Animation): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: Animation): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "Animation.h".}
-proc getTypeName*(this: Animation): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: Animation): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "Animation.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::Animation::GetTypeStatic(@)", header: "Animation.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::Animation::GetTypeNameStatic(@)", header: "Animation.h".}
 proc constructAnimation*(context: ptr Context): Animation {.
     importcpp: "Urho3D::Animation(@)", header: "Animation.h".}

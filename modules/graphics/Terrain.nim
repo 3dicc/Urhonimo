@@ -1,7 +1,8 @@
 
 
 import 
-  component
+  component, urobject, urstr, stringHash, ptrs, indexbuffer, image, arrayPtr,
+  material, vector, terrainpatch, pair, vector3, vector2, attribute, variant
 
 discard "forward decl of Image"
 discard "forward decl of IndexBuffer"
@@ -43,15 +44,15 @@ type
     recreateTerrain* {.importc: "recreateTerrain_".}: bool
 
 
-proc getType*(this: Terrain): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: Terrain): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "Terrain.h".}
-proc getBaseType*(this: Terrain): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: Terrain): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "Terrain.h".}
-proc getTypeName*(this: Terrain): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: Terrain): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "Terrain.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::Terrain::GetTypeStatic(@)", header: "Terrain.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::Terrain::GetTypeNameStatic(@)", header: "Terrain.h".}
 proc constructTerrain*(context: ptr Context): Terrain {.
     importcpp: "Urho3D::Terrain(@)", header: "Terrain.h".}

@@ -18,11 +18,13 @@ proc destroyContext*(this: var Context) {.importcpp: "#.~Context()",
     header: "Context.h".}
 proc createObject*(this: var Context; objectType: StringHash): SharedPtr[
     UrObject] {.importcpp: "CreateObject", header: "Context.h".}
-proc registerFactory*(this: var Context; factory: ptr ObjectFactory) {.
-    importcpp: "RegisterFactory", header: "Context.h".}
-proc registerFactory*(this: var Context; factory: ptr ObjectFactory; 
-                      category: cstring) {.importcpp: "RegisterFactory", 
-    header: "Context.h".}
+
+when false:
+  proc registerFactory*(this: var Context; factory: ptr ObjectFactory) {.
+      importcpp: "RegisterFactory", header: "Context.h".}
+  proc registerFactory*(this: var Context; factory: ptr ObjectFactory; 
+                        category: cstring) {.importcpp: "RegisterFactory", 
+      header: "Context.h".}
 proc registerSubsystem*(this: var Context; subsystem: ptr UrObject) {.
     importcpp: "RegisterSubsystem", header: "Context.h".}
 proc removeSubsystem*(this: var Context; objectType: StringHash) {.
@@ -40,10 +42,13 @@ proc getEventDataMap*(this: var Context): var VariantMap {.
 proc copyBaseAttributes*(this: var Context; baseType: StringHash; 
                          derivedType: StringHash) {.
     importcpp: "CopyBaseAttributes", header: "Context.h".}
-proc registerFactory*[T](this: var Context) {.importcpp: "RegisterFactory", 
-    header: "Context.h".}
-proc registerFactory*[T](this: var Context; category: cstring) {.
-    importcpp: "RegisterFactory", header: "Context.h".}
+proc registerFactory*[T](this: var Context) {.
+  importcpp: "#.RegisterFactory<'1>(@)", header: "Context.h".}
+
+when false:
+  proc registerFactory*[T](this: var Context; category: cstring) {.
+      importcpp: "RegisterFactory", header: "Context.h".}
+
 proc removeSubsystem*[T](this: var Context) {.importcpp: "RemoveSubsystem", 
     header: "Context.h".}
 proc registerAttribute*[T](this: var Context; attr: AttributeInfo) {.
@@ -89,10 +94,15 @@ proc getEventReceivers*(this: var Context; sender: ptr UrObject;
 proc getEventReceivers*(this: var Context; eventType: StringHash): ptr HashSet[
     ptr UrObject] {.importcpp: "GetEventReceivers", header: "Context.h".}
 
-proc registerFactory*[T]() {.
-  importcpp: "Context::RegisterFactory(@)", header: "Context.h".}
-proc registerFactory*[T](category: cstring){.
-  importcpp: "Context::RegisterFactory(@)", header: "Context.h".}
+when false:
+  proc registerFactory*[T]() {.
+    importcpp: "Context::RegisterFactory(@)", header: "Context.h".}
+  proc registerFactory*[T](category: cstring){.
+    importcpp: "Context::RegisterFactory(@)", header: "Context.h".}
+
+  proc getSubsystem*[T](): ptr T {.
+    importcpp: "Context::GetSubsystem(@)", header: "Context.h", noSideEffect.}
+
 proc removeSubsystem*[T](){.
   importcpp: "Context::RemoveSubsystem(@)", header: "Context.h".}
 proc registerAttribute*[T](attr: AttributeInfo){.
@@ -101,8 +111,6 @@ proc removeAttribute*[T](name: cstring){.
   importcpp: "Context::RemoveAttribute(@)", header: "Context.h".}
 proc copyBaseAttributes*[T, U](){.
   importcpp: "Context::CopyBaseAttributes(@)", header: "Context.h".}
-proc getSubsystem*[T](): ptr T {.
-  importcpp: "Context::GetSubsystem(@)", header: "Context.h", noSideEffect.}
 proc getAttribute*[T](name: cstring): ptr AttributeInfo {.
   importcpp: "Context::GetAttribute(@)", header: "Context.h".}
 proc updateAttributeDefaultValue*[T](name: cstring; 

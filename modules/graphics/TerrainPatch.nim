@@ -1,7 +1,8 @@
 
 
 import 
-  drawable
+  drawable, geometry, vertexbuffer, vector2, ptrs, vector, stringHash, urstr,
+  urobject, octreequery, occlusionbuffer, material, boundingbox
 
 discard "forward decl of Geometry"
 discard "forward decl of Terrain"
@@ -12,7 +13,7 @@ type
     maxLodGeometry* {.importc: "maxLodGeometry_".}: SharedPtr[Geometry]
     minLodGeometry* {.importc: "minLodGeometry_".}: SharedPtr[Geometry]
     vertexBuffer* {.importc: "vertexBuffer_".}: SharedPtr[VertexBuffer]
-    owner* {.importc: "owner_".}: WeakPtr[Terrain]
+    #owner* {.importc: "owner_".}: WeakPtr[Terrain]
     north* {.importc: "north_".}: WeakPtr[TerrainPatch]
     south* {.importc: "south_".}: WeakPtr[TerrainPatch]
     west* {.importc: "west_".}: WeakPtr[TerrainPatch]
@@ -23,16 +24,16 @@ type
     occlusionOffset* {.importc: "occlusionOffset_".}: cfloat
 
 
-proc getType*(this: TerrainPatch): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: TerrainPatch): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "TerrainPatch.h".}
-proc getBaseType*(this: TerrainPatch): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: TerrainPatch): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "TerrainPatch.h".}
-proc getTypeName*(this: TerrainPatch): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: TerrainPatch): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "TerrainPatch.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::TerrainPatch::GetTypeStatic(@)", 
     header: "TerrainPatch.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::TerrainPatch::GetTypeNameStatic(@)", 
     header: "TerrainPatch.h".}
 proc constructTerrainPatch*(context: ptr Context): TerrainPatch {.
@@ -57,8 +58,8 @@ proc getNumOccluderTriangles*(this: var TerrainPatch): cuint {.
     importcpp: "GetNumOccluderTriangles", header: "TerrainPatch.h".}
 proc drawOcclusion*(this: var TerrainPatch; buffer: ptr OcclusionBuffer): bool {.
     importcpp: "DrawOcclusion", header: "TerrainPatch.h".}
-proc setOwner*(this: var TerrainPatch; terrain: ptr Terrain) {.
-    importcpp: "SetOwner", header: "TerrainPatch.h".}
+#proc setOwner*(this: var TerrainPatch; terrain: ptr Terrain) {.
+#    importcpp: "SetOwner", header: "TerrainPatch.h".}
 proc setNeighbors*(this: var TerrainPatch; north: ptr TerrainPatch; 
                    south: ptr TerrainPatch; west: ptr TerrainPatch; 
                    east: ptr TerrainPatch) {.importcpp: "SetNeighbors", 
@@ -81,8 +82,8 @@ proc getMinLodGeometry*(this: TerrainPatch): ptr Geometry {.noSideEffect,
     importcpp: "GetMinLodGeometry", header: "TerrainPatch.h".}
 proc getVertexBuffer*(this: TerrainPatch): ptr VertexBuffer {.noSideEffect, 
     importcpp: "GetVertexBuffer", header: "TerrainPatch.h".}
-proc getOwner*(this: TerrainPatch): ptr Terrain {.noSideEffect, 
-    importcpp: "GetOwner", header: "TerrainPatch.h".}
+#proc getOwner*(this: TerrainPatch): ptr Terrain {.noSideEffect, 
+#    importcpp: "GetOwner", header: "TerrainPatch.h".}
 proc getNorthPatch*(this: TerrainPatch): ptr TerrainPatch {.noSideEffect, 
     importcpp: "GetNorthPatch", header: "TerrainPatch.h".}
 proc getSouthPatch*(this: TerrainPatch): ptr TerrainPatch {.noSideEffect, 

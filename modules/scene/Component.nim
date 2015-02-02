@@ -15,7 +15,7 @@ type
   TransformSpace* {.importcpp: "Urho3D::TransformSpace".} = enum 
     TS_LOCAL = 0, TS_PARENT, TS_WORLD
 
-  Node* {.importc: "Urho3D::Node", header: "Node.h".} = object of Animatable
+  Node* {.importcpp: "Urho3D::Node", header: "Node.h".} = object of Animatable
     networkUpdate* {.importc: "networkUpdate_".}: bool
     vars* {.importc: "vars_".}: VariantMap
     worldTransform* {.importc: "worldTransform_".}: Matrix3x4
@@ -38,7 +38,7 @@ type
     nameHash* {.importc: "nameHash_".}: StringHash
     attrBuffer* {.importc: "attrBuffer_".}: VectorBuffer
 
-  Component* {.importc: "Urho3D::Component", header: "Component.h".} = object of Animatable
+  Component* {.importcpp: "Urho3D::Component", header: "Component.h".} = object of Animatable
     node* {.importc: "node_".}: ptr Node
     id* {.importc: "id_".}: cuint
     networkUpdate* {.importc: "networkUpdate_".}: bool
@@ -47,7 +47,7 @@ type
   LoadMode* {.importcpp: "Urho3D::LoadMode".} = enum 
     LOAD_RESOURCES_ONLY = 0, LOAD_SCENE, LOAD_SCENE_AND_RESOURCES
 
-  AsyncProgress* {.importc: "Urho3D::AsyncProgress", header: "Scene.h".} = object 
+  AsyncProgress* {.importcpp: "Urho3D::AsyncProgress", header: "Scene.h".} = object 
     file* {.importc: "file_".}: SharedPtr[File]
     xmlFile* {.importc: "xmlFile_".}: SharedPtr[XMLFile]
     xmlElement* {.importc: "xmlElement_".}: XMLElement
@@ -58,7 +58,7 @@ type
     loadedNodes* {.importc: "loadedNodes_".}: cuint
     totalNodes* {.importc: "totalNodes_".}: cuint
 
-  Scene* {.importc: "Urho3D::Scene", header: "Scene.h".} = object of Node
+  Scene* {.importcpp: "Urho3D::Scene", header: "Scene.h".} = object of Node
     replicatedNodes* {.importc: "replicatedNodes_".}: HashMap[cuint, ptr Node]
     localNodes* {.importc: "localNodes_".}: HashMap[cuint, ptr Node]
     replicatedComponents* {.importc: "replicatedComponents_".}: HashMap[cuint, 
@@ -92,7 +92,7 @@ type
     asyncLoading* {.importc: "asyncLoading_".}: bool
     threadedUpdate* {.importc: "threadedUpdate_".}: bool
 
-  SceneResolver* {.importc: "Urho3D::SceneResolver", header: "SceneResolver.h".} = object 
+  SceneResolver* {.importcpp: "Urho3D::SceneResolver", header: "SceneResolver.h".} = object 
     nodes* {.importc: "nodes_".}: HashMap[cuint, WeakPtr[Node]]
     components* {.importc: "components_".}: HashMap[cuint, WeakPtr[Component]]
 
@@ -141,8 +141,8 @@ proc getComponent*(this: Component; `type`: StringHash): ptr Component {.
 proc getComponents*(this: Component; dest: var PODVector[ptr Component]; 
                     `type`: StringHash) {.noSideEffect, 
     importcpp: "GetComponents", header: "Component.h".}
-proc getComponent*[T](this: Component): ptr T {.noSideEffect, 
-    importcpp: "GetComponent", header: "Component.h".}
+proc getComponentFromComponent*[T](this: Component): ptr T {.noSideEffect, 
+    importcpp: "#.GetComponent<'0>(@)", header: "Component.h".}
 proc getComponents*[T](this: Component; dest: var PODVector[ptr T]) {.
     noSideEffect, importcpp: "GetComponents", header: "Component.h".}
 proc addReplicationState*(this: var Component; 

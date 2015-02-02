@@ -1,7 +1,8 @@
 
 
 import 
-  component, vectorBuffer
+  component, vectorBuffer, urstr, animatedmodel, animation, skeleton,
+  stringHash, vector, ptrs, urobject, animationstate, variant
 
 discard "forward decl of AnimatedModel"
 discard "forward decl of Animation"
@@ -36,16 +37,16 @@ type
     attrBuffer* {.importc: "attrBuffer_".}: VectorBuffer
 
 
-proc getType*(this: AnimationController): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: AnimationController): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "AnimationController.h".}
-proc getBaseType*(this: AnimationController): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: AnimationController): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "AnimationController.h".}
-proc getTypeName*(this: AnimationController): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: AnimationController): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "AnimationController.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::AnimationController::GetTypeStatic(@)", 
     header: "AnimationController.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::AnimationController::GetTypeNameStatic(@)", 
     header: "AnimationController.h".}
 proc constructAnimationController*(context: ptr Context): AnimationController {.

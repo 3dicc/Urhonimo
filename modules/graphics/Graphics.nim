@@ -1,5 +1,11 @@
 
 when defined(windows):
-  type Graphics* {.importc: "Urho3D::Graphics", header: "D3D9Graphics.h".} = object
+  const Header = "D3D9Graphics.h"
+
 else:
-  type Graphics* {.importc: "Urho3D::Graphics", header: "OGLGraphics.h".} = object
+  const Header = "OGLGraphics.h"
+
+type Graphics* {.importc: "Urho3D::Graphics", header: Header.} = object
+
+proc getHeight*(g: var Graphics): cint {.
+  importcpp: "getHeight", header: Header.}
