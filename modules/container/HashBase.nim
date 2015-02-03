@@ -5,7 +5,7 @@ import
 
 
 type 
-  HashNodeBase* {.importc: "Urho3D::HashNodeBase", header: "HashBase.h",
+  HashNodeBase* {.importcpp: "Urho3D::HashNodeBase", header: "HashBase.h",
                   inheritable.} = object 
     down* {.importc: "down_".}: ptr HashNodeBase
     prev* {.importc: "prev_".}: ptr HashNodeBase
@@ -16,7 +16,7 @@ proc constructHashNodeBase*(): HashNodeBase {.
     importcpp: "Urho3D::HashNodeBase(@)", header: "HashBase.h".}
 
 type 
-  HashIteratorBase* {.importc: "Urho3D::HashIteratorBase", header: "HashBase.h",
+  HashIteratorBase* {.importcpp: "Urho3D::HashIteratorBase", header: "HashBase.h",
                       inheritable.} = object 
     `ptr`* {.importc: "ptr_".}: ptr HashNodeBase
 
@@ -33,7 +33,7 @@ proc gotoPrev*(this: var HashIteratorBase) {.importcpp: "GotoPrev",
     header: "HashBase.h".}
 
 type 
-  HashBase* {.importc: "Urho3D::HashBase", header: "HashBase.h", 
+  HashBase* {.importcpp: "Urho3D::HashBase", header: "HashBase.h", 
               inheritable.} = object 
     head* {.importc: "head_".}: ptr HashNodeBase
     tail* {.importc: "tail_".}: ptr HashNodeBase

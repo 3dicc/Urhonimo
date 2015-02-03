@@ -5,9 +5,9 @@ import
 
 
 type 
-  HashMap* {.importc: "Urho3D::HashMap", header: "HashMap.h".}[T, U] = object of HashBase
+  HashMap* {.importcpp: "Urho3D::HashMap", header: "HashMap.h".}[T, U] = object of HashBase
   
-  KeyValue* {.importc: "Urho3D::HashMap::KeyValue", header: "HashMap.h".}[T, U] = object 
+  KeyValue* {.importcpp: "Urho3D::HashMap::KeyValue", header: "HashMap.h".}[T, U] = object 
     first* {.importc: "first_".}: T
     second* {.importc: "second_".}: U
 
@@ -20,7 +20,7 @@ proc constructKeyValue*[T, U](value: KeyValue): KeyValue[T, U] {.
 proc `==`*[T, U](this: KeyValue[T, U]; rhs: KeyValue): bool {.noSideEffect, 
     importcpp: "# == #", header: "HashMap.h".}
 type 
-  Node* {.importc: "Urho3D::Node", header: "HashMap.h".}[T, U] = object of HashNodeBase
+  Node* {.importcpp: "Urho3D::Node", header: "HashMap.h".}[T, U] = object of HashNodeBase
     pair* {.importc: "pair_".}: KeyValue[T, U]
 
 proc constructNode*[T, U](): Node[T, U] {.importcpp: "Urho3D::Node(@)", 
@@ -35,7 +35,7 @@ proc down*[T, U](this: Node[T, U]): ptr Node {.noSideEffect,
     importcpp: "Down", header: "HashMap.h".}
 
 type
-  HashMapIterator* {.importc: "Urho3D::HashMap::Iterator", header: "HashMap.h".}[T, U] = object of HashIteratorBase
+  HashMapIterator* {.importcpp: "Urho3D::HashMap::Iterator", header: "HashMap.h".}[T, U] = object of HashIteratorBase
   
 proc constructIterator*[T, U](): HashMapIterator[T, U] {.
     importcpp: "Urho3D::HashMap::Iterator(@)", header: "HashMap.h".}

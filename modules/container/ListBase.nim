@@ -5,7 +5,7 @@ import
 
 
 type 
-  ListNodeBase* {.importc: "Urho3D::ListNodeBase", header: "ListBase.h",
+  ListNodeBase* {.importcpp: "Urho3D::ListNodeBase", header: "ListBase.h",
                   inheritable.} = object 
     prev* {.importc: "prev_".}: ptr ListNodeBase
     next* {.importc: "next_".}: ptr ListNodeBase
@@ -15,7 +15,7 @@ proc constructListNodeBase*(): ListNodeBase {.
     importcpp: "Urho3D::ListNodeBase(@)", header: "ListBase.h".}
 
 type 
-  ListIteratorBase* {.importc: "Urho3D::ListIteratorBase", header: "ListBase.h",
+  ListIteratorBase* {.importcpp: "Urho3D::ListIteratorBase", header: "ListBase.h",
                       inheritable.} = object 
     `ptr`* {.importc: "ptr_".}: ptr ListNodeBase
 
@@ -32,7 +32,7 @@ proc gotoPrev*(this: var ListIteratorBase) {.importcpp: "GotoPrev",
     header: "ListBase.h".}
 
 type 
-  ListBase* {.importc: "Urho3D::ListBase", header: "ListBase.h",
+  ListBase* {.importcpp: "Urho3D::ListBase", header: "ListBase.h",
               inheritable.} = object 
     head* {.importc: "head_".}: ptr ListNodeBase
     tail* {.importc: "tail_".}: ptr ListNodeBase

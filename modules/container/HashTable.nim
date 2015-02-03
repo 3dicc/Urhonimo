@@ -5,11 +5,11 @@ import
 
 
 type 
-  HashTable* {.importc: "Urho3D::HashTable", header: "HashTable.h".}[T, U] = object 
+  HashTable* {.importcpp: "Urho3D::HashTable", header: "HashTable.h".}[T, U] = object 
     allocator* {.importc: "allocator_".}: ptr AllocatorBlock
     #ptrs* {.importc: "ptrs_".}: array[U, ptr Node]
 
-  HashTableNode* {.importc: "Urho3D::HashTable::Node", header: "HashTable.h".}[T, U] = object 
+  HashTableNode* {.importcpp: "Urho3D::HashTable::Node", header: "HashTable.h".}[T, U] = object 
     hash* {.importc: "hash_".}: cuint
     value* {.importc: "value_".}: T
     next* {.importc: "next_".}: ptr HashTableNode

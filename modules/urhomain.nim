@@ -50,7 +50,7 @@ proc getFont*(fontName: UrString): ptr Font {.urh.}
 
 type
   HandlerFunc* = proc (userData: pointer, eventType: StringHash;
-                       eventData: ptr VariantMap) {.cdecl.}
+                       eventData: var VariantMap) {.cdecl.}
 
 proc subscribeToEvent*(eventType: StringHash; fn: HandlerFunc;
                        userData: pointer = nil) {.urh.}
@@ -68,8 +68,6 @@ converter toUrString*(s: string): UrString =
 
 proc cnew*[T](x: T): ptr T {.importcpp: "(new '*0#@)", nodecl.}
 
-proc getTimeStep*(eventData: pointer): float32 {.urh.}
-
 template vec3*(a, b, c: float): Vector3 =
   constructVector3(a.float32, b.float32, c.float32)
 
@@ -79,8 +77,8 @@ template quat*(a, b, c: float): Quaternion =
 template col*(r, g, b: float): Color =
   constructColor(r.float32, g.float32, b.float32)
 
-proc saveXML*(sc: ptr Scene, f: UrFile) {.importcpp: "#.saveXML(@)", header:
+proc saveXML*(sc: ptr Scene, f: UrFile) {.importcpp: "#.SaveXML(@)", header:
   "File.h".}
 
-proc loadXML*(sc: ptr Scene, f: UrFile) {.importcpp: "#.loadXML(@)", header:
+proc loadXML*(sc: ptr Scene, f: UrFile) {.importcpp: "#.LoadXML(@)", header:
   "File.h".}

@@ -6,7 +6,7 @@ import
 type 
   FileMode* {.importcpp: "Urho3D::FileMode".} = enum 
     FILE_READ = 0, FILE_WRITE, FILE_READWRITE
-  UrFile* {.importc: "Urho3D::File", header: "File.h".} = object of UrObject
+  UrFile* {.importcpp: "Urho3D::File", header: "File.h".} = object of UrObject
     fileName* {.importc: "fileName_".}: UrString
     mode* {.importc: "mode_".}: FileMode
     handle* {.importc: "handle_".}: pointer

@@ -42,8 +42,8 @@ proc getEventDataMap*(this: var Context): var VariantMap {.
 proc copyBaseAttributes*(this: var Context; baseType: StringHash; 
                          derivedType: StringHash) {.
     importcpp: "CopyBaseAttributes", header: "Context.h".}
-proc registerFactory*[T](this: var Context) {.
-  importcpp: "#.RegisterFactory<'1>(@)", header: "Context.h".}
+proc registerFactory*[T](this: var Context; dummy: ptr T) {.
+  importcpp: "#.RegisterFactory<'*2>()", header: "Context.h".}
 
 when false:
   proc registerFactory*[T](this: var Context; category: cstring) {.

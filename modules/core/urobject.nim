@@ -5,25 +5,25 @@ import
   attribute, hashset
 
 type 
-  ObjectFactory* {.importc: "Urho3D::ObjectFactory", header: "Object.h".} = object of RefCounted
+  ObjectFactory* {.importcpp: "Urho3D::ObjectFactory", header: "Object.h".} = object of RefCounted
     context* {.importc: "context_".}: ptr Context
     `type`* {.importc: "type_".}: StringHash
     baseType* {.importc: "baseType_".}: StringHash
     typeName* {.importc: "typeName_".}: UrString
 
 
-  EventHandler* {.importc: "Urho3D::EventHandler", header: "Object.h".} = object of LinkedListNode
+  EventHandler* {.importcpp: "Urho3D::EventHandler", header: "Object.h".} = object of LinkedListNode
     receiver* {.importc: "receiver_".}: ptr UrObject
     sender* {.importc: "sender_".}: ptr UrObject
     eventType* {.importc: "eventType_".}: StringHash
     userData* {.importc: "userData_".}: pointer
 
 
-  UrObject* {.importc: "Urho3D::Object", header: "Object.h".} = object of RefCounted
+  UrObject* {.importcpp: "Urho3D::Object", header: "Object.h".} = object of RefCounted
     context* {.importc: "context_".}: ptr Context
     eventHandlers* {.importc: "eventHandlers_".}: LinkedList[EventHandler]
 
-  Context* {.importc: "Urho3D::Context", header: "Context.h".} = object of RefCounted
+  Context* {.importcpp: "Urho3D::Context", header: "Context.h".} = object of RefCounted
     factories* {.importc: "factories_".}: HashMap[StringHash, 
         SharedPtr[ObjectFactory]]
     subsystems* {.importc: "subsystems_".}: HashMap[StringHash, 

@@ -5,7 +5,7 @@ import
   color, matrix3, matrix4, boundingbox, urstr, vector
 
 type 
-  Serializer* {.importc: "Urho3D::Serializer", header: "Serializer.h".} = object 
+  Serializer* {.importcpp: "Urho3D::Serializer", header: "Serializer.h".} = object 
   
 
 proc destroySerializer*(this: var Serializer) {.importcpp: "#.~Serializer()", 

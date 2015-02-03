@@ -39,7 +39,7 @@ type
     attrBuffer* {.importc: "attrBuffer_".}: VectorBuffer
 
   Component* {.importcpp: "Urho3D::Component", header: "Component.h".} = object of Animatable
-    node* {.importc: "node_".}: ptr Node
+    #node* {.importc: "node_".}: ptr Node # is protected!
     id* {.importc: "id_".}: cuint
     networkUpdate* {.importc: "networkUpdate_".}: bool
     enabled* {.importc: "enabled_".}: bool
@@ -142,7 +142,7 @@ proc getComponents*(this: Component; dest: var PODVector[ptr Component];
                     `type`: StringHash) {.noSideEffect, 
     importcpp: "GetComponents", header: "Component.h".}
 proc getComponentFromComponent*[T](this: Component): ptr T {.noSideEffect, 
-    importcpp: "#.GetComponent<'0>(@)", header: "Component.h".}
+    importcpp: "#.GetComponent<'*0>(@)", header: "Component.h".}
 proc getComponents*[T](this: Component; dest: var PODVector[ptr T]) {.
     noSideEffect, importcpp: "GetComponents", header: "Component.h".}
 proc addReplicationState*(this: var Component; 

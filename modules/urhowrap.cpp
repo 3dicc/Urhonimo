@@ -16,7 +16,7 @@
 using namespace Urho3D;
 
 typedef void(*__cdecl HandlerFunc)(void* userData, StringHash eventType, 
-                                   VariantMap* eventData);
+                                   VariantMap& eventData);
 
 class EventHandlerForC: public EventHandler
 {
@@ -24,7 +24,7 @@ public:
   /// Invoke event handler function.
   virtual void Invoke(VariantMap& eventData)
   {
-    function_(GetUserData(), eventType_, &eventData);
+    function_(GetUserData(), eventType_, eventData);
   }
 
   EventHandlerForC(Object* receiver, HandlerFunc func, void* userData) : 

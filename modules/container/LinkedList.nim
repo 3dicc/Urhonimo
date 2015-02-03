@@ -1,7 +1,7 @@
 
 
 type 
-  LinkedListNode* {.importc: "Urho3D::LinkedListNode", 
+  LinkedListNode* {.importcpp: "Urho3D::LinkedListNode", 
                     header: "LinkedList.h", inheritable.} = object 
     next* {.importc: "next_".}: ptr LinkedListNode
 
@@ -10,7 +10,7 @@ proc constructLinkedListNode*(): LinkedListNode {.
     importcpp: "Urho3D::LinkedListNode(@)", header: "LinkedList.h".}
 
 type 
-  LinkedList* {.importc: "Urho3D::LinkedList", header: "LinkedList.h".}[T] = object 
+  LinkedList* {.importcpp: "Urho3D::LinkedList", header: "LinkedList.h".}[T] = object 
     head* {.importc: "head_".}: ptr T
 
 

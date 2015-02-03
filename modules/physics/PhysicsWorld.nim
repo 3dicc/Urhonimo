@@ -46,7 +46,7 @@ type
 
 
 var DEFAULT_MAX_NETWORK_ANGULAR_VELOCITY* {.
-    importc: "DEFAULT_MAX_NETWORK_ANGULAR_VELOCITY", header: "PhysicsWorld.h".}: cfloat = 100.0
+    importc: "DEFAULT_MAX_NETWORK_ANGULAR_VELOCITY", header: "PhysicsWorld.h".}: cfloat #= 100.0
 
 
 type 

@@ -16,12 +16,12 @@ type
 
 
 type 
-  VariantValue* {.importc: "Urho3D::VariantValue", header: "Variant.h".} = object 
+  VariantValue* {.importcpp: "Urho3D::VariantValue", header: "Variant.h".} = object 
   
 
 
 type 
-  ResourceRef* {.importc: "Urho3D::ResourceRef", header: "Variant.h".} = object 
+  ResourceRef* {.importcpp: "Urho3D::ResourceRef", header: "Variant.h".} = object 
     `type`* {.importc: "type_".}: StringHash
     name* {.importc: "name_".}: UrString
 
@@ -54,7 +54,7 @@ proc `==`*(this: ResourceRefList; rhs: ResourceRefList): bool {.noSideEffect,
 discard "forward decl of Variant"
 
 type 
-  Variant* {.importc: "Urho3D::Variant", header: "Variant.h".} = object 
+  Variant* {.importcpp: "Urho3D::Variant", header: "Variant.h".} = object 
     `type`* {.importc: "type_".}: VariantType
     value* {.importc: "value_".}: VariantValue
 

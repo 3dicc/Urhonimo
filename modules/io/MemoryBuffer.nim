@@ -5,7 +5,7 @@ import
 
 
 type 
-  MemoryBuffer* {.importc: "Urho3D::MemoryBuffer", header: "MemoryBuffer.h".} = object of Deserializer
+  MemoryBuffer* {.importcpp: "Urho3D::MemoryBuffer", header: "MemoryBuffer.h".} = object of Deserializer
     buffer* {.importc: "buffer_".}: ptr cuchar
     readOnly* {.importc: "readOnly_".}: bool
 

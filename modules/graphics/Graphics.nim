@@ -8,4 +8,4 @@ else:
 type Graphics* {.importc: "Urho3D::Graphics", header: Header.} = object
 
 proc getHeight*(g: var Graphics): cint {.
-  importcpp: "getHeight", header: Header.}
+  importcpp: "GetHeight", header: Header.}

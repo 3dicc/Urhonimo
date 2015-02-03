@@ -15,7 +15,7 @@
 using namespace Urho3D;
 
 typedef void(*HandlerFunc)(void* userData, StringHash eventType,
-                           VariantMap* eventData);
+                           VariantMap& eventData);
 
 void openUrho3D(bool fullScreen);
 
@@ -28,10 +28,10 @@ Urho3D::UI* getSubsystemUI(void);
 Urho3D::ResourceCache* getSubsystemResourceCache(void);
 
 Urho3D::Font* getFont(const Urho3D::String& fontName);
-void registerEvent(HandlerFunc func, void* userData, StringHash eventType);
 void parseArguments(void);
 
-float getTimeStep(void* eventData);
+void subscribeToEvent(StringHash eventType, HandlerFunc func, void* userData);
+void unsubscribeFromEvent(StringHash eventType);
 
 int runMainLoop(void);
 
@@ -42,5 +42,5 @@ Urho3D::Input* getSubsystemInput(void);
 Urho3D::Application* getApp(void);
 
 template<class T> T* getSubsystem(void) {
-  return getApp()->getSubsystem<T>();
+  return getApp()->GetSubsystem<T>();
 }

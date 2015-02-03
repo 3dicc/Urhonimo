@@ -2,7 +2,7 @@
 
 
 type 
-  RefCount* {.importc: "Urho3D::RefCount", header: "RefCounted.h".} = object 
+  RefCount* {.importcpp: "Urho3D::RefCount", header: "RefCounted.h".} = object 
     refs* {.importc: "refs_".}: cint
     weakRefs* {.importc: "weakRefs_".}: cint
 
@@ -13,7 +13,7 @@ proc destroyRefCount*(this: var RefCount) {.importcpp: "#.~RefCount()",
     header: "RefCounted.h".}
 
 type 
-  RefCounted* {.importc: "Urho3D::RefCounted", header: "RefCounted.h",
+  RefCounted* {.importcpp: "Urho3D::RefCounted", header: "RefCounted.h",
                 inheritable.} = object 
     refCount* {.importc: "refCount_".}: ptr RefCount
 
