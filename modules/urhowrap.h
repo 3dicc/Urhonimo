@@ -14,7 +14,11 @@
 
 using namespace Urho3D;
 
-typedef void(*HandlerFunc)(void* userData, StringHash eventType,
+#if !(defined(WIN32) || defined(_WIN32))
+#  define __cdecl
+#endif
+
+typedef void(*__cdecl HandlerFunc)(void* userData, StringHash eventType,
                            VariantMap& eventData);
 
 void openUrho3D(bool fullScreen);
