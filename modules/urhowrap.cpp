@@ -15,6 +15,10 @@
 
 using namespace Urho3D;
 
+#if !(defined(WIN32) || defined(_WIN32))
+#  define __cdecl
+#endif
+
 typedef void(*__cdecl HandlerFunc)(void* userData, StringHash eventType, 
                                    VariantMap& eventData);
 
@@ -51,11 +55,6 @@ public:
 };
 
 MainApplication* mainApp;
-
-float getTimeStep(void* eventData) {
-  auto v = (Urho3D::VariantMap*)eventData;
-  return (*v)["TimeStep"].GetFloat();
-}
 
 void openUrho3D(bool fullScreen) {
   mainApp = new MainApplication(new Urho3D::Context());
@@ -101,7 +100,9 @@ void unsubscribeFromEvent(StringHash eventType) {
 }
 
 void parseArguments(void) {
+#if defined(WIN32) || defined(_WIN32)
   Urho3D::ParseArguments(GetCommandLineW());
+#endif
 }
 
 int runMainLoop(void) {

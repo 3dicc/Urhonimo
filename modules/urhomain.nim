@@ -23,8 +23,10 @@ else:
     {.link: r"imm32.lib".}
     {.link: r"ws2_32.lib".}
     {.link: r"dbghelp.lib".}
-  when defined(unix):
-    {.link: "../Urho3D-1.32/Lib/libUrho3D.a".}
+  when defined(linux):
+    {.passL: "-lGL".}
+    {.passL: "-lX11".}
+    {.passL: "../lib/libUrho3D.a".}
 #  {.passL: "/MD".}
 
 import urobject, ui, resourcecache, urstr, font, stringHash, variant, input,
