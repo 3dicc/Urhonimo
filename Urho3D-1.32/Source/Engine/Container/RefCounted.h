@@ -71,7 +71,7 @@ public:
     /// Return pointer to the reference count structure.
     RefCount* RefCountPtr() { return refCount_; }
     
-private:
+//private:
     /// Prevent copy construction.
     RefCounted(const RefCounted& rhs);
     /// Prevent assignment.
