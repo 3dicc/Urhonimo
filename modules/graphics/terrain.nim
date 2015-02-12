@@ -73,7 +73,7 @@ proc setSpacing*(this: var Terrain; spacing: Vector3) {.importcpp: "SetSpacing",
 proc setSmoothing*(this: var Terrain; enable: bool) {.importcpp: "SetSmoothing", 
     header: "Terrain.h".}
 proc setHeightMap*(this: var Terrain; image: ptr Image): bool {.
-    importcpp: "SetHeightMap", header: "Terrain.h".}
+    importcpp: "SetHeightMap", header: "Terrain.h", discardable.}
 proc setMaterial*(this: var Terrain; material: ptr Material) {.
     importcpp: "SetMaterial", header: "Terrain.h".}
 proc setDrawDistance*(this: var Terrain; distance: cfloat) {.

@@ -5,7 +5,7 @@ import ui, urhomain, processutils, color, urstr, stringHash, variant, text,
   camera, view, input, inputevents, controls, urobject, logiccomponent, context,
   memorybuffer, deserializer, rigidbody, animationcontroller, physicsworld,
   zone, boundingbox, drawable, collisionshape, animatedModel, skeleton, ptrs,
-  unsigned, graphics, file, filesystem, ray, skybox
+  unsigned, graphics, file, filesystem, ray, skybox, terrain, image
 
 import hashmap except Node
 from math import random
@@ -295,13 +295,41 @@ proc createScene() =
     10.0f32, 50.0f32, 200.0f32, 0.0f32, 0.8f32))
   light.setSpecularIntensity(0.5f32)
 
-  # Create the floor object
-  let floorNode = sc.createChild("Floor")
-  floorNode.setPosition(vec3(0.0f32, -0.5f32, 0.0f32))
-  floorNode.setScale(vec3(200.0f32, 1.0f32, 200.0f32))
-  let obj = createComponent[StaticModel](floorNode)
-  obj.setModel(getResource[Model](cache, "Models/Box.mdl"))
-  obj.setMaterial(getResource[Material](cache, "Materials/Stone.xml"))
+  when true:
+    # Create heightmap terrain
+    let terrainNode = sc.createChild("Terrain")
+    terrainNode.setPosition(vec3(0.0, 0.0, 0.0))
+    let terrain = createComponent[Terrain](terrainNode)
+    terrain.setPatchSize(64)
+    # Spacing between vertices and vertical resolution of the height map
+    terrain.setSpacing(vec3(2.0, 0.5, 2.0))
+    terrain.setSmoothing(true)
+    terrain.setHeightMap(getResource[Image](cache, "Textures/HeightMap.png"))
+    terrain.setMaterial(getResource[Material](cache, "Materials/Terrain.xml"))
+    # The terrain consists of large triangles, which fits well for occlusion
+    # rendering, as a hill can occlude all terrain patches and other objects
+    # behind it
+    terrain.setOccluder(true)
+    let floorNode = terrainNode
+  else:
+    # Create the floor object
+    let floorNode = sc.createChild("Floor")
+    floorNode.setPosition(vec3(0.0f32, -0.5f32, 0.0f32))
+    floorNode.setScale(vec3(200.0f32, 1.0f32, 200.0f32))
+    let obj = createComponent[StaticModel](floorNode)
+    obj.setModel(getResource[Model](cache, "Models/Box.mdl"))
+    obj.setMaterial(getResource[Material](cache, "Materials/Stone.xml"))
+
+  # Create a water plane object that is as large as the terrain
+  let waterNode = sc.createChild("Water")
+  waterNode.setScale(vec3(2048.0, 1.0, 2048.0))
+  waterNode.setPosition(vec3(0.0, 5.0, 0.0))
+  let water = createComponent[StaticModel](waterNode)
+  water.setModel(getResource[Model](cache, "Models/Plane.mdl"))
+  water.setMaterial(getResource[Material](cache, "Materials/Water.xml"))
+  # Set a different viewmask on the water plane to be able to hide it
+  # from the reflection camera
+  water.setViewMask(cuint(0x80000000))
 
   let skyNode = sc.createChild("Sky")
   skyNode.setScale(500.0f32)
@@ -314,12 +342,16 @@ proc createScene() =
   # raycast against to prevent camera from going inside geometry
   body.setCollisionLayer(2)
   let shape = createComponent[CollisionShape](floorNode)
-  shape.setBox(vector3.ONE)
+  #shape.setBox(vector3.ONE)
+  shape.setTerrain()
 
   # Create mushrooms of varying sizes
   for i in 0 .. < 60:
     let objectNode = sc.createChild("Mushroom")
-    objectNode.setPosition(vec3(random(180.0f32) - 90.0f32, 0.0f32, random(180.0f32) - 90.0f32))
+    var pos = vec3(random(180.0f32) - 90.0f32, 0.0f32, random(180.0f32) - 90.0f32)
+    pos.y = terrain.getHeight(pos)
+
+    objectNode.setPosition(pos)
     objectNode.setRotation(quat(0.0f32, random(360.0f32), 0.0f32))
     objectNode.setScale(2.0f32 + random(5.0f32))
     let obj = createComponent[StaticModel](objectNode)
@@ -337,7 +369,12 @@ proc createScene() =
     let scale = random(2.0f32) + 0.5f32
 
     let objectNode = sc.createChild("Box")
-    objectNode.setPosition(vec3(random(180.0f32) - 90.0f32, random(10.0f32) + 10.0f32, random(180.0f32) - 90.0f32))
+
+    var pos = vec3(random(180.0f32) - 90.0f32, 0.0f32, random(180.0f32) - 90.0f32)
+    pos.y = terrain.getHeight(pos) + 10.0f32
+
+    #objectNode.setPosition(vec3(random(180.0f32) - 90.0f32, random(10.0f32) + 10.0f32, random(180.0f32) - 90.0f32))
+    objectNode.setPosition(pos)
     objectNode.setRotation(quat(random(360.0f32), random(360.0f32), random(360.0f32)))
     objectNode.setScale(scale)
     let obj = createComponent[StaticModel](objectNode)
