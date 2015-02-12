@@ -27,6 +27,16 @@ else:
     {.passL: "-lGL".}
     {.passL: "-lX11".}
     {.passL: "../lib/libUrho3D.a".}
+  when defined(macosx):
+    {.passL: "-framework OpenGL".}
+    {.passL: "-framework CoreAudio".}
+    {.passL: "-framework AudioToolbox".}
+    {.passL: "-framework AudioUnit".}
+    {.passL: "-framework Carbon".}
+    {.passL: "-framework IOKit".}
+    {.passL: "-framework Cocoa".}
+    {.passL: "-framework ForceFeedback".}
+    {.passL: "../lib/libUrho3D.a".}
 #  {.passL: "/MD".}
 
 import urobject, ui, resourcecache, urstr, font, stringHash, variant, input,
