@@ -24,10 +24,11 @@ else:
     {.link: r"ws2_32.lib".}
     {.link: r"dbghelp.lib".}
   when defined(linux):
+    {.passL: "../lib/libUrho3D.a".}
     {.passL: "-lGL".}
     {.passL: "-lX11".}
-    {.passL: "../lib/libUrho3D.a".}
   when defined(macosx):
+    {.passL: "../lib/libUrho3D.a".}
     {.passL: "-framework OpenGL".}
     {.passL: "-framework CoreAudio".}
     {.passL: "-framework AudioToolbox".}
@@ -36,7 +37,6 @@ else:
     {.passL: "-framework IOKit".}
     {.passL: "-framework Cocoa".}
     {.passL: "-framework ForceFeedback".}
-    {.passL: "../lib/libUrho3D.a".}
 #  {.passL: "/MD".}
 
 import urobject, ui, resourcecache, urstr, font, stringHash, variant, input,
