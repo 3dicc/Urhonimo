@@ -1,7 +1,8 @@
 
 
 import 
-  staticModel
+  staticModel, urobject, urstr, hashmap, camera, matrix4, stringHash,
+  octreequery, vector, drawable
 
 
 type 
@@ -11,15 +12,15 @@ type
     lastFrame* {.importc: "lastFrame_".}: cuint
 
 
-proc getType*(this: Skybox): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: Skybox): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "Skybox.h".}
-proc getBaseType*(this: Skybox): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: Skybox): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "Skybox.h".}
-proc getTypeName*(this: Skybox): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: Skybox): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "Skybox.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::Skybox::GetTypeStatic(@)", header: "Skybox.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::Skybox::GetTypeNameStatic(@)", header: "Skybox.h".}
 proc constructSkybox*(context: ptr Context): Skybox {.
     importcpp: "Urho3D::Skybox(@)", header: "Skybox.h".}

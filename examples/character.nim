@@ -5,7 +5,7 @@ import ui, urhomain, processutils, color, urstr, stringHash, variant, text,
   camera, view, input, inputevents, controls, urobject, logiccomponent, context,
   memorybuffer, deserializer, rigidbody, animationcontroller, physicsworld,
   zone, boundingbox, drawable, collisionshape, animatedModel, skeleton, ptrs,
-  unsigned, graphics, file, filesystem, ray
+  unsigned, graphics, file, filesystem, ray, skybox
 
 import hashmap except Node
 from math import random
@@ -30,7 +30,7 @@ const
 
   TOUCH_SENSITIVITY = 2.0f32
 
-  CAMERA_MIN_DIST = 10.0f32
+  CAMERA_MIN_DIST = 5.0f32
   CAMERA_INITIAL_DIST = 5.0f32
   CAMERA_MAX_DIST = 20.0f32
 
@@ -303,6 +303,12 @@ proc createScene() =
   obj.setModel(getResource[Model](cache, "Models/Box.mdl"))
   obj.setMaterial(getResource[Material](cache, "Materials/Stone.xml"))
 
+  let skyNode = sc.createChild("Sky")
+  skyNode.setScale(500.0f32)
+  let skybox = createComponent[Skybox](skyNode)
+  skybox.setModel(getResource[Model](cache, "Models/Box.mdl"))
+  skybox.setMaterial(getResource[Material](cache, "Materials/Skybox.xml"))
+
   let body = createComponent[RigidBody](floorNode)
   # Use collision layer bit 2 to mark world scenery. This is what we will
   # raycast against to prevent camera from going inside geometry
@@ -494,7 +500,7 @@ proc handlePostUpdate(userData: pointer; eventType: StringHash;
     # Collide camera ray with static physics objects (layer bitmask 2) to
     # ensure we see the character properly
     let rayDir = dir * vector3.BACK
-    var rayDistance = touch.cameraDistance
+    var rayDistance = if touchEnabled: touch.cameraDistance else: CAMERA_INITIAL_DIST
     var result: PhysicsRaycastResult
     getComponentFromScene[PhysicsWorld](sc).raycastSingle(
       result, constructRay(aimPoint, rayDir), rayDistance, 2)
@@ -509,6 +515,8 @@ proc main =
   parseArguments()
 
   openUrho3D(false)
+
+  touch.cameraDistance = CAMERA_INITIAL_DIST
 
   registerCharacterClass(getContext())
   createScene()
