@@ -1,4 +1,4 @@
-To run the demo, you need to compile Urho3D via cmake. Read Urho's instructions
+To run the examples, you need to compile Urho3D via cmake. Read Urho's instructions
 for how to do that. Then copy the resulting ``libUrho3D.a`` or ``urho3D.dll``
 into ``lib/``.
 
@@ -6,10 +6,13 @@ into ``lib/``.
 Then type::
 
   cd examples
-  nim cpp --threads:on character.nim
+  nim cpp character.nim
 
-On Windows ``--threads:on`` is not required. On Linux ``--threads:on`` is
-required so that it links with pthreads support which is what Urho3D requires.
+...or any other example like hello.nim.
 
 Note that ``nim c`` does NOT work and produces strange errors. You need to do
 ``nim cpp``.
+
+To run you need CoreData and Data from Urho3D, just copy or link from your
+Urho3D directory into examples directory.
+
