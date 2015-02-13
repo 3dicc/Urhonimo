@@ -25,6 +25,7 @@ else:
     {.link: r"dbghelp.lib".}
   when defined(linux):
     {.passL: "../lib/libUrho3D.a".}
+    {.passL: "-pthread".}
     {.passL: "-lGL".}
     {.passL: "-lX11".}
   when defined(macosx):
