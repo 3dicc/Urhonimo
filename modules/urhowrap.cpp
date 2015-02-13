@@ -74,6 +74,10 @@ Urho3D::UI* getSubsystemUI(void) {
   return mainApp->GetSubsystem<UI>();
 }
 
+Urho3D::Engine* getEngine(void) {
+  return mainApp->GetEngine();
+}
+
 Urho3D::ResourceCache* getSubsystemResourceCache(void) {
   return mainApp->GetSubsystem<Urho3D::ResourceCache>();
 }

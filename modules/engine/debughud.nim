@@ -1,22 +1,19 @@
 
 
 import 
-  UrObject, timer
+  UrObject, timer, urstr, stringHash, xmlelement, font, ptrs, text, variant
+
+import hashmap except Node
 
 discard "forward decl of Engine"
 discard "forward decl of Font"
 discard "forward decl of Text"
-discard "forward decl of XMLFile"
-var DEBUGHUD_SHOW_NONE* {.importc: "DEBUGHUD_SHOW_NONE", header: "DebugHud.h".}: cuint = 0x00000000
-
-var DEBUGHUD_SHOW_STATS* {.importc: "DEBUGHUD_SHOW_STATS", header: "DebugHud.h".}: cuint = 0x00000001
-
-var DEBUGHUD_SHOW_MODE* {.importc: "DEBUGHUD_SHOW_MODE", header: "DebugHud.h".}: cuint = 0x00000002
-
+var DEBUGHUD_SHOW_NONE* {.importc: "DEBUGHUD_SHOW_NONE", header: "DebugHud.h".}: cuint #= 0x00000000
+var DEBUGHUD_SHOW_STATS* {.importc: "DEBUGHUD_SHOW_STATS", header: "DebugHud.h".}: cuint #= 0x00000001
+var DEBUGHUD_SHOW_MODE* {.importc: "DEBUGHUD_SHOW_MODE", header: "DebugHud.h".}: cuint #= 0x00000002
 var DEBUGHUD_SHOW_PROFILER* {.importc: "DEBUGHUD_SHOW_PROFILER", 
-                              header: "DebugHud.h".}: cuint = 0x00000004
-
-var DEBUGHUD_SHOW_ALL* {.importc: "DEBUGHUD_SHOW_ALL", header: "DebugHud.h".}: cuint = 0x00000007
+                              header: "DebugHud.h".}: cuint #= 0x00000004
+var DEBUGHUD_SHOW_ALL* {.importc: "DEBUGHUD_SHOW_ALL", header: "DebugHud.h".}: cuint #= 0x00000007
 
 
 type 
@@ -32,15 +29,15 @@ type
     mode* {.importc: "mode_".}: cuint
 
 
-proc getType*(this: DebugHud): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: DebugHud): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "DebugHud.h".}
-proc getBaseType*(this: DebugHud): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: DebugHud): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "DebugHud.h".}
-proc getTypeName*(this: DebugHud): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: DebugHud): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "DebugHud.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::DebugHud::GetTypeStatic(@)", header: "DebugHud.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::DebugHud::GetTypeNameStatic(@)", header: "DebugHud.h".}
 proc constructDebugHud*(context: ptr Context): DebugHud {.
     importcpp: "Urho3D::DebugHud(@)", header: "DebugHud.h".}

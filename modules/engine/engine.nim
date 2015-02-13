@@ -1,10 +1,8 @@
 
 
 import 
-  UrObject, timer
+  UrObject, timer, debughud, console, vector, stringHash, urstr, variant
 
-discard "forward decl of Console"
-discard "forward decl of DebugHud"
 type 
   Engine* {.importc: "Urho3D::Engine", header: "Engine.h".} = object of UrObject
     frameTimer* {.importc: "frameTimer_".}: HiresTimer
@@ -22,15 +20,15 @@ type
     audioPaused* {.importc: "audioPaused_".}: bool
 
 
-proc getType*(this: Engine): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: Engine): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "Engine.h".}
-proc getBaseType*(this: Engine): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: Engine): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "Engine.h".}
-proc getTypeName*(this: Engine): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: Engine): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "Engine.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::Engine::GetTypeStatic(@)", header: "Engine.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::Engine::GetTypeNameStatic(@)", header: "Engine.h".}
 proc constructEngine*(context: ptr Context): Engine {.
     importcpp: "Urho3D::Engine(@)", header: "Engine.h".}
@@ -92,5 +90,5 @@ proc parseParameters*(arguments: Vector[UrString]): VariantMap {.
 proc hasParameter*(parameters: VariantMap; parameter: UrString): bool {.
     importcpp: "Urho3D::Engine::HasParameter(@)", header: "Engine.h".}
 proc getParameter*(parameters: VariantMap; parameter: UrString; 
-                   defaultValue: Variant = variant.empty): Variant {.
+                   defaultValue: Variant): Variant {.
     importcpp: "Urho3D::Engine::GetParameter(@)", header: "Engine.h".}

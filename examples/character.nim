@@ -5,7 +5,8 @@ import ui, urhomain, processutils, color, urstr, stringHash, variant, text,
   camera, view, input, inputevents, controls, urobject, logiccomponent, context,
   memorybuffer, deserializer, rigidbody, animationcontroller, physicsworld,
   zone, boundingbox, drawable, collisionshape, animatedModel, skeleton, ptrs,
-  unsigned, graphics, file, filesystem, ray, skybox, terrain, image
+  unsigned, graphics, file, filesystem, ray, skybox, terrain, image, xmlelement,
+  engine, console, debughud
 
 import hashmap except Node
 from math import random
@@ -247,6 +248,16 @@ proc handleFixedUpdate(userData: pointer; eventType: StringHash;
   # Reset grounded flag for next frame
   this.onGround = false
 
+proc createConsole() =
+  var cache = urhomain.getSubsystemResourceCache()
+  let xmlFile = getResource[XMLFile](cache, "UI/DefaultStyle.xml")
+  let console = getEngine().createConsole()
+  console.setDefaultStyle(xmlFile)
+  console.getBackground().setOpacity(0.8f32)
+  # Create debug HUD.
+  let debugHud = getEngine().createDebugHud()
+  debugHud.setDefaultStyle(xmlFile)
+
 proc createScene() =
   var cache = urhomain.getSubsystemResourceCache()
 
@@ -438,7 +449,7 @@ proc createCharacter() =
 proc handleUpdate(userData: pointer; eventType: StringHash;
                   eventData: var VariantMap) {.cdecl.} =
   let input = getSubsystemInput()
-  if input.getKeyDown(KEY_ESC): closeUrho3D()
+  #if input.getKeyDown(KEY_ESC): closeUrho3D()
 
   if chr != nil:
     # Clear previous controls
@@ -548,6 +559,21 @@ proc handlePostUpdate(userData: pointer; eventType: StringHash;
     cameraNode.setPosition(aimPoint + rayDir * rayDistance)
     cameraNode.setRotation(dir)
 
+
+proc onKeyDown(userData: pointer; eventType: StringHash;
+                      eventData: var VariantMap) {.cdecl.} =
+  let key = eventData["Key"].getInt()
+  if key == KEY_ESC:
+    let console = getSubsystem[Console]()
+    if console.isVisible():
+      console.setVisible(false)
+    else:
+      closeUrho3D()
+  elif key == KEY_F1:
+    getSubsystem[Console]().toggle()
+  elif key == KEY_F2:
+    getSubsystem[DebugHud]().toggleAll()
+
 proc main =
   parseArguments()
 
@@ -558,10 +584,13 @@ proc main =
   registerCharacterClass(getContext())
   createScene()
   createCharacter()
+  createConsole()
 
   # Subscribe to Update event for setting the character controls
   # before physics simulation
   subscribeToEvent("Update", handleUpdate)
+
+  subscribeToEvent("KeyDown", onKeyDown)
 
   # Subscribe to PostUpdate event for updating the camera position
   # after physics simulation

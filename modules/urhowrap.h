@@ -44,6 +44,7 @@ Urho3D::Renderer* getSubsystemRenderer(void);
 Urho3D::Input* getSubsystemInput(void);
 
 Urho3D::Application* getApp(void);
+Urho3D::Engine* getEngine(void);
 
 template<class T> T* getSubsystem(void) {
   return getApp()->GetSubsystem<T>();

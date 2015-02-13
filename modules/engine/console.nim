@@ -1,18 +1,9 @@
 
 
 import 
-  UrObject
+  UrObject, urstr, stringHash, xmlelement, ptrs, uielement, button,
+  dropdownlist, font, lineedit, listview, text, xmlelement, vector, pair
 
-discard "forward decl of Button"
-discard "forward decl of BorderImage"
-discard "forward decl of DropDownList"
-discard "forward decl of Engine"
-discard "forward decl of Font"
-discard "forward decl of LineEdit"
-discard "forward decl of ListView"
-discard "forward decl of Text"
-discard "forward decl of UIElement"
-discard "forward decl of XMLFile"
 type 
   Console* {.importc: "Urho3D::Console", header: "Console.h".} = object of UrObject
     autoVisibleOnError* {.importc: "autoVisibleOnError_".}: bool
@@ -33,15 +24,15 @@ type
     focusOnShow* {.importc: "focusOnShow_".}: bool
 
 
-proc getType*(this: Console): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: Console): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "Console.h".}
-proc getBaseType*(this: Console): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: Console): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "Console.h".}
-proc getTypeName*(this: Console): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: Console): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "Console.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::Console::GetTypeStatic(@)", header: "Console.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::Console::GetTypeNameStatic(@)", header: "Console.h".}
 proc constructConsole*(context: ptr Context): Console {.
     importcpp: "Urho3D::Console(@)", header: "Console.h".}

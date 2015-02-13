@@ -40,7 +40,7 @@ else:
 #  {.passL: "/MD".}
 
 import urobject, ui, resourcecache, urstr, font, stringHash, variant, input,
-  renderer, vector3, quaternion, color, file, component
+  renderer, vector3, quaternion, color, file, component, engine
 
 proc getSubsystem*[T](): ptr T {.importcpp: "getSubsystem<'*0>()", cdecl,
   header: "urhowrap.h".}
@@ -54,6 +54,8 @@ proc closeUrho3D*() {.urh.}
 proc getContext*(): ptr Context {.urh.}
 
 proc getSubsystemUI*(): ptr UI {.urh.}
+
+proc getEngine*(): ptr Engine {.urh.}
 
 proc getSubsystemResourceCache*(): ptr ResourceCache {.urh.}
 proc getSubsystemRenderer*(): ptr Renderer {.urh.}
