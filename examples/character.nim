@@ -252,6 +252,7 @@ proc createConsole() =
   var cache = urhomain.getSubsystemResourceCache()
   let xmlFile = getResource[XMLFile](cache, "UI/DefaultStyle.xml")
   let console = getEngine().createConsole()
+  console.setCommandInterpreter("MainApplication")
   console.setDefaultStyle(xmlFile)
   console.getBackground().setOpacity(0.8f32)
   # Create debug HUD.
@@ -574,6 +575,12 @@ proc onKeyDown(userData: pointer; eventType: StringHash;
   elif key == KEY_F2:
     getSubsystem[DebugHud]().toggleAll()
 
+proc onConsoleCommand(userData: pointer; eventType: StringHash;
+                     eventData: var VariantMap) {.cdecl.} =
+  let x = $eventData["Command"].getString()
+  
+  echo x
+
 proc main =
   parseArguments()
 
@@ -591,6 +598,8 @@ proc main =
   subscribeToEvent("Update", handleUpdate)
 
   subscribeToEvent("KeyDown", onKeyDown)
+  subscribeToEvent("ConsoleCommand", onConsoleCommand)
+
 
   # Subscribe to PostUpdate event for updating the camera position
   # after physics simulation

@@ -12,9 +12,9 @@ var MATRIX_CONVERSION_BUFFER_LENGTH* {.importc: "MATRIX_CONVERSION_BUFFER_LENGTH
 discard "forward decl of WString"
 type 
   UrString* {.importc: "Urho3D::String", header: "Str.h".} = object 
-    length* {.importc: "length_".}: cuint
-    capacity* {.importc: "capacity_".}: cuint
-    buffer* {.importc: "buffer_".}: cstring
+#    length* {.importc: "length_".}: cuint
+#    capacity* {.importc: "capacity_".}: cuint
+#    buffer* {.importc: "buffer_".}: cstring
 
 
 type 
@@ -189,8 +189,9 @@ proc startsWith*(this: UrString; str: UrString; caseSensitive: bool = true): boo
     noSideEffect, importcpp: "StartsWith", header: "Str.h".}
 proc endsWith*(this: UrString; str: UrString; caseSensitive: bool = true): bool {.
     noSideEffect, importcpp: "EndsWith", header: "Str.h".}
-proc toCString*(this: UrString): cstring {.noSideEffect, importcpp: "CString",
-    header: "Str.h".}
+proc toCString*(this: UrString): cstring {.noSideEffect,
+  importcpp: "(NCSTRING)(#.CString())", header: "Str.h".}
+
 proc length*(this: UrString): cuint {.noSideEffect, importcpp: "Length", 
                                       header: "Str.h".}
 proc capacity*(this: UrString): cuint {.noSideEffect, importcpp: "Capacity", 
@@ -245,6 +246,11 @@ proc compare*(str1: cstring; str2: cstring; caseSensitive: bool): cint {.
 
 proc `+`*(lhs: cstring; rhs: UrString): UrString {.
   importcpp: "# + #", header: "Str.h".}
+
+proc `$`*(this: UrString): string =
+  let L = this.length.int
+  result = newString(L)
+  copyMem(addr(result[0]), this.toCString(), L)
 
 when false:
   type 
