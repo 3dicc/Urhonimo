@@ -27,8 +27,8 @@ If all works out running ``nim --version`` should show 0.10.3.
 To compile Urho3D for your platform we refer to [Urho3D build documentation](http://urho3d.github.io/documentation/1.32/_building.html)
 which is very specific and not that hard to perform. On Linux and OSX ``cmake_gcc.sh`` works fine, your mileage may vary.
 
-When Urho3D is built (no need to install it) you will find the library - ``libUrho3D.a`` or ``urho3D.dll`` - in the ``Lib`` directory.
-Copy it into the ``lib`` directory here in Urhonimo.
+When Urho3D is built (no need to install it) you will find the library (``libUrho3D.a`` for example) in the ``Lib`` directory.
+Copy it into the ``lib`` directory (create it if missing) here in Urhonimo.
 
 On Windows you will need both a ``.dll`` as well as a ``.lib`` file. The DLL
 can be downloaded from Urho3D's website. See the following instructions for
@@ -48,7 +48,7 @@ After running ``cmake_vs2013.bat`` you should see a ``Urho3D.sln`` file in the
 You should then be able to build Urho3D by pressing Ctrl+Shift+B.
 
 You can then copy the resulting .lib file from the ``lib`` directory into
-Urhonimo's ``lib`` directory replacing the .lib file already present there.
+Urhonimo's ``lib`` directory.
 
 After that you should be able to compile the examples. If you get linker errors
 similar to ``'_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0'`` then
