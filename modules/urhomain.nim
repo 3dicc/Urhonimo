@@ -1,3 +1,5 @@
+when not defined(cpp):
+  {.error: "Urhonimo requires that you compile in cpp mode".}
 
 {.compile: "urhowrap.cpp".}
 when defined(release):
