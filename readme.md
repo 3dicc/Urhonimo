@@ -5,7 +5,7 @@ c2nim in a largely automated fashion, and its currently built against version
 1.32 of Urho3D. You also need the latest Nim devel as of this time.
 
 To run the examples, you need to compile Urho3D via cmake. Read Urho's instructions
-for how to do that, its not hard. Then copy the resulting ``libUrho3D.a`` or ``urho3D.dll``
+for how to do that, it's not hard. Then copy the resulting ``libUrho3D.a`` or ``urho3D.dll``
 into ``lib/``.
 
 
