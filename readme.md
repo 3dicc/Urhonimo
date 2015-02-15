@@ -30,6 +30,30 @@ which is very specific and not that hard to perform. On Linux and OSX ``cmake_gc
 When Urho3D is built (no need to install it) you will find the library - ``libUrho3D.a`` or ``urho3D.dll`` - in the ``Lib`` directory.
 Copy it into the ``lib`` directory here in Urhonimo.
 
+On Windows you will need both a ``.dll`` as well as a ``.lib`` file. The DLL
+can be downloaded from Urho3D's website. See the following instructions for
+building the ``.lib`` file.
+
+### Compiling Urho3D on Windows
+
+On Windows, this wrapper requires Visual Studio 2013 to be installed
+together with the Visual C++ compiler (``cl.exe``).
+
+You must compile the examples from the "Developer Command Prompt" which
+can be found in your start menu (if you are on Windows 8+ you may need to
+perform the actions described [here](http://stackoverflow.com/a/22702405/492186)).
+
+After running ``cmake_vs2013.bat`` you should see a ``Urho3D.sln`` file in the
+``build`` directory of where Urho3D resides. Open this solution file in VS 2013.
+You should then be able to build Urho3D by pressing Ctrl+Shift+B.
+
+You can then copy the resulting .lib file from the ``lib`` directory into
+Urhonimo's ``lib`` directory replacing the .lib file already present there.
+
+After that you should be able to compile the examples. If you get linker errors
+similar to ``'_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0'`` then
+you may need to compile Urho3D in release mode or vice versa.
+
 ## Compiling and running examples
 
 To compile an example, go into the examples directory and compile like this:
