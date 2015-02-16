@@ -1,43 +1,11 @@
-import ui, urhomain, processutils, color, urstr, stringHash, variant, text,
-  uielement, octree, staticmodel, renderer, component, urhomain, 
-  resourcecache, scene, node, vector3, quaternion, model, material, light,
-  camera, view, input, inputevents, controls, urobject, logiccomponent, context,
-  zone, boundingbox, drawable, ptrs,drawable2d,
-  unsigned, graphics, file, filesystem, image, xmlelement,
-  particleemitter2d, particleeffect2d, engine, vector2
+import urhomain, stringHash, variant, octree, renderer, component,
+  resourcecache, scene, node, vector3, camera, view, input, context,
+  ptrs, drawable2d, graphics, particleemitter2d, particleeffect2d, engine
 
 import hashmap except Node
 
-#import ui, urhomain, processutils, color, urstr, stringHash, variant, text,
-#  uielement, octree, renderer, component, vector3, 
-#  resourcecache, scene, node, quaternion, 
-#  camera, view, input, inputevents, urobject, logiccomponent,
-#  boundingbox, drawable, ptrs, unsigned, graphics, file, filesystem, engine,
-#  urho2d, particleemitter2d, particleeffect2d
-
-
-#include <Urho3D/Graphics/Camera.h>
-#include <Urho3D/Core/CoreEvents.h>
-#include <Urho3D/Engine/Engine.h>
-#include <Urho3D/UI/Font.h>
-#include <Urho3D/Graphics/Graphics.h>
-#include <Urho3D/Input/Input.h>
-#include <Urho3D/Input/InputEvents.h>
-#include <Urho3D/Graphics/Octree.h>
-#include <Urho3D/Urho2D/ParticleEmitter2D.h>
-#include <Urho3D/Urho2D/ParticleEffect2D.h>
-#include <Urho3D/Graphics/Renderer.h>
-#include <Urho3D/Resource/ResourceCache.h>
-#include <Urho3D/Scene/Scene.h>
-#include <Urho3D/UI/Text.h>
-#include <Urho3D/Graphics/Zone.h>
-
-
 # enable auto-deref:
 {.experimental.}
-
-const
-  PIXEL_SIZE = 0.01f32
 
 var
   cam: ptr Camera
@@ -45,20 +13,33 @@ var
   sc: ptr Scene
   
 proc createScene() =
-  var cache = urhomain.getSubsystemResourceCache()
-  sc = cnew constructScene(getContext())
-  discard createComponent[Octree](sc[])
+  # Get it so we can load resources
+  var cache = getSubsystemResourceCache()
 
+  # Create a Scene, cnew is a special proc we use to call wrapped C++ constructors.
+  sc = cnew constructScene(getContext())
+  
+  # We just need to add the Octree. At the moment we can't write this as:
+  #   sc.createComponent[Octree]()
+  # But Andreas is fixing that.
+  discard createComponent[Octree](sc)
+
+  # Urho uses this style to instantiate specific types of Nodes 
   var cameraNode = sc.createChild("Camera")
+  # vec3 is Vector3 in Urho3D
   cameraNode.setPosition(vec3(0.0f32, 0.0f32, -10.0f32))
 
+  # Attaching a Camera component (behavior) to the node
   cam = createComponent[Camera](cameraNode)
   cam.setOrthographic(true)
 
+  # Another style of getting a subsystem, not sure why we use generics sometimes
   var graphics = getSubsystem[Graphics]()
   cam.setOrthoSize(graphics.getHeight().float * PIXEL_SIZE)
 
-  var particleEffect = getResource[ParticleEffect2D](cache, "Urho3D/sun.pex")
+  # Again, since we use generics we must pass cache as first param instead
+  # of writing it in OOP style
+  var particleEffect = getResource[ParticleEffect2D](cache, "Urho2D/sun.pex")
   if particleEffect.isNil: return
 
   particleNode = sc.createChild("ParticleEmitter2D")
@@ -72,51 +53,26 @@ proc createScene() =
   var greenSpiralEmitter = createComponent[ParticleEmitter2D](greenSpiralNode)
   greenSpiralEmitter.setEffect(greenSpiralEffect)
 
-  var renderer = urhomain.getSubsystemRenderer()
+  # Construc a viewport and set it for the renderer
   var viewport = cnew constructViewport(getContext(), sc, cam)
-  renderer[].setViewport(0, viewport)
+  getSubsystemRenderer().setViewport(0, viewport)
 
-#void Urho2DParticle::CreateInstructions()
-#{
-#    ResourceCache* cache = GetSubsystem<ResourceCache>();
-#    UI* ui = GetSubsystem<UI>();
-#
-#    // Construct new Text object, set string to display and font to use
-#    Text* instructionText = ui->GetRoot()->CreateChild<Text>();
-#    instructionText->SetText("Use mouse/touch to move the particle.");
-#    instructionText->SetFont(cache->GetResource<Font>("Fonts/Anonymous Pro.ttf"), 15);
-#
-#    // Position the text relative to the screen center
-#    instructionText->SetHorizontalAlignment(HA_CENTER);
-#    instructionText->SetVerticalAlignment(VA_CENTER);
-#    instructionText->SetPosition(0, ui->GetRoot()->GetHeight() / 4);
-#}
-
+# A handler for MouseMove that we subscribe to
 proc handleMouseMove(userData: pointer; eventType: StringHash;
                   eventData: var VariantMap) {.cdecl.} =
   if not particleNode.isNil:
     let x = eventData["x"].getInt().float
     let y = eventData["y"].getInt().float
-    var graphics = urhomain.getSubsystem[Graphics]()
-    #var camera = getComponent[Camera](cameraNode)
+    var graphics = getSubsystem[Graphics]()
     particleNode.setPosition(cam.screenToWorldPoint(
       vec3(x / graphics.getWidth().float, y / graphics.getHeight().float, 10.0f32)))
 
-
 proc main =
   parseArguments()
-
   openUrho3D(false)
-
-  #registerParticleClass(getContext())
-
-  urhomain.getSubsystemInput().setMouseVisible(true)
-
+  getSubsystemInput().setMouseVisible(true)
   createScene()
-
   subscribeToEvent("MouseMove", handleMouseMove)
-
-  let exitCode = runMainLoop()
-  quit exitCode
+  quit runMainLoop()
 
 main()
