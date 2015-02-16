@@ -1,7 +1,7 @@
 
 
 import 
-  graphicsDefs, resource
+  graphicsDefs, resource, vector3, vector2
 
 discard "forward decl of SpriteSheet2D"
 discard "forward decl of Texture2D"
