@@ -1,7 +1,7 @@
 
 
 import 
-  graphicsDefs, resource, vector3, vector2
+  graphicsDefs, resource, vector3, vector2, ptrs, texture2d, rect, spritesheet2d
 
 discard "forward decl of SpriteSheet2D"
 discard "forward decl of Texture2D"
@@ -12,8 +12,7 @@ type
     uv* {.importc: "uv_".}: Vector2
 
 
-var MASK_VERTEX2D* {.importc: "MASK_VERTEX2D", header: "Sprite2D.h".}: cuint = mask_Position or
-    mask_Color or mask_Texcoord1
+var MASK_VERTEX2D* {.importc: "MASK_VERTEX2D", header: "Sprite2D.h".}: cuint
 
 
 type 

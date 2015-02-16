@@ -1,7 +1,9 @@
 
 
 import 
-  resource
+  resource, texture2d, ptrs, sprite2d, xmlfile, urstr
+
+import hashmap except Node
 
 discard "forward decl of PListFile"
 discard "forward decl of Sprite2D"
