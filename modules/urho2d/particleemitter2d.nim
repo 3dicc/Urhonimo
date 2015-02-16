@@ -1,7 +1,8 @@
 
 
 import 
-  drawable2D
+  drawable2D, urobject, urstr, vector, vector2, vector3, color, ptrs,
+  particleeffect2d, stringhash, drawable, variant
 
 discard "forward decl of ParticleEffect2D"
 type 
@@ -37,16 +38,16 @@ type
     boundingBoxMaxPoint* {.importc: "boundingBoxMaxPoint_".}: Vector3
 
 
-proc getType*(this: ParticleEmitter2D): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: ParticleEmitter2D): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "ParticleEmitter2D.h".}
-proc getBaseType*(this: ParticleEmitter2D): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: ParticleEmitter2D): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "ParticleEmitter2D.h".}
-proc getTypeName*(this: ParticleEmitter2D): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: ParticleEmitter2D): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "ParticleEmitter2D.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::ParticleEmitter2D::GetTypeStatic(@)", 
     header: "ParticleEmitter2D.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::ParticleEmitter2D::GetTypeNameStatic(@)", 
     header: "ParticleEmitter2D.h".}
 proc constructParticleEmitter2D*(context: ptr Context): ParticleEmitter2D {.

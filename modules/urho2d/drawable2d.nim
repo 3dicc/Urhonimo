@@ -1,7 +1,8 @@
 
 
 import 
-  drawable, material, sprite2D
+  drawable, material, sprite2D, ptrs, graphicsdefs, vector, materialcache2d,
+  drawableproxy2d, stringHash, urstr, urobject, texture2d, variant
 
 discard "forward decl of DrawableProxy2D"
 discard "forward decl of MaterialCache2D"
@@ -25,15 +26,15 @@ type
     visibility* {.importc: "visibility_".}: bool
 
 
-proc getType*(this: Drawable2D): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: Drawable2D): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "Drawable2D.h".}
-proc getBaseType*(this: Drawable2D): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: Drawable2D): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "Drawable2D.h".}
-proc getTypeName*(this: Drawable2D): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: Drawable2D): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "Drawable2D.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::Drawable2D::GetTypeStatic(@)", header: "Drawable2D.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::Drawable2D::GetTypeNameStatic(@)", 
     header: "Drawable2D.h".}
 proc constructDrawable2D*(context: ptr Context): Drawable2D {.
@@ -87,4 +88,11 @@ proc setMaterialAttr*(this: var Drawable2D; value: ResourceRef) {.
 proc getMaterialAttr*(this: Drawable2D): ResourceRef {.noSideEffect, 
     importcpp: "GetMaterialAttr", header: "Drawable2D.h".}
 proc compareDrawable2Ds*(lhs: ptr Drawable2D; rhs: ptr Drawable2D): bool {.
-    inline.}
+    noSideEffect, importcpp: "compareDrawable2Ds(@)", header: "Drawable2D.h".}
+
+proc addDrawable*(this: var DrawableProxy2D; drawable: ptr Drawable2D) {.
+    importcpp: "AddDrawable", header: "DrawableProxy2D.h".}
+proc removeDrawable*(this: var DrawableProxy2D; drawable: ptr Drawable2D) {.
+    importcpp: "RemoveDrawable", header: "DrawableProxy2D.h".}
+proc checkVisibility*(this: DrawableProxy2D; drawable: ptr Drawable2D): bool {.
+    noSideEffect, importcpp: "CheckVisibility", header: "DrawableProxy2D.h".}

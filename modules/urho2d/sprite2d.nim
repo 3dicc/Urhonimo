@@ -1,7 +1,8 @@
 
 
 import 
-  graphicsDefs, resource, vector3, vector2, ptrs, texture2d, rect, spritesheet2d
+  graphicsDefs, resource, vector3, vector2, ptrs, texture2d, rect, stringHash,
+  urstr, urobject, deserializer
 
 discard "forward decl of SpriteSheet2D"
 discard "forward decl of Texture2D"
@@ -21,19 +22,19 @@ type
     rectangle* {.importc: "rectangle_".}: IntRect
     hotSpot* {.importc: "hotSpot_".}: Vector2
     offset* {.importc: "offset_".}: IntVector2
-    spriteSheet* {.importc: "spriteSheet_".}: WeakPtr[SpriteSheet2D]
+    #spriteSheet* {.importc: "spriteSheet_".}: WeakPtr[SpriteSheet2D]
     loadTexture* {.importc: "loadTexture_".}: SharedPtr[Texture2D]
 
 
-proc getType*(this: Sprite2D): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: Sprite2D): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "Sprite2D.h".}
-proc getBaseType*(this: Sprite2D): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: Sprite2D): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "Sprite2D.h".}
-proc getTypeName*(this: Sprite2D): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: Sprite2D): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "Sprite2D.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::Sprite2D::GetTypeStatic(@)", header: "Sprite2D.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::Sprite2D::GetTypeNameStatic(@)", header: "Sprite2D.h".}
 proc constructSprite2D*(context: ptr Context): Sprite2D {.
     importcpp: "Urho3D::Sprite2D(@)", header: "Sprite2D.h".}
@@ -53,8 +54,6 @@ proc setHotSpot*(this: var Sprite2D; hotSpot: Vector2) {.
     importcpp: "SetHotSpot", header: "Sprite2D.h".}
 proc setOffset*(this: var Sprite2D; offset: IntVector2) {.
     importcpp: "SetOffset", header: "Sprite2D.h".}
-proc setSpriteSheet*(this: var Sprite2D; spriteSheet: ptr SpriteSheet2D) {.
-    importcpp: "SetSpriteSheet", header: "Sprite2D.h".}
 proc getTexture*(this: Sprite2D): ptr Texture2D {.noSideEffect, 
     importcpp: "GetTexture", header: "Sprite2D.h".}
 proc getRectangle*(this: Sprite2D): IntRect {.noSideEffect, 
@@ -63,5 +62,3 @@ proc getHotSpot*(this: Sprite2D): Vector2 {.noSideEffect,
     importcpp: "GetHotSpot", header: "Sprite2D.h".}
 proc getOffset*(this: Sprite2D): IntVector2 {.noSideEffect, 
     importcpp: "GetOffset", header: "Sprite2D.h".}
-proc getSpriteSheet*(this: Sprite2D): ptr SpriteSheet2D {.noSideEffect, 
-    importcpp: "GetSpriteSheet", header: "Sprite2D.h".}

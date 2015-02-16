@@ -4,7 +4,9 @@ import ui, urhomain, processutils, color, urstr, stringHash, variant, text,
   camera, view, input, inputevents, controls, urobject, logiccomponent, context,
   zone, boundingbox, drawable, ptrs,drawable2d,
   unsigned, graphics, file, filesystem, image, xmlelement,
-  particleemitter2d, particleeffect2d, engine
+  particleemitter2d, particleeffect2d, engine, vector2
+
+import hashmap except Node
 
 #import ui, urhomain, processutils, color, urstr, stringHash, variant, text,
 #  uielement, octree, renderer, component, vector3, 
@@ -57,21 +59,21 @@ proc createScene() =
   cam.setOrthoSize(graphics.getHeight().float * PIXEL_SIZE)
 
   var particleEffect = getResource[ParticleEffect2D](cache, "Urho3D/sun.pex")
-  if not particleEffect: return
+  if particleEffect.isNil: return
 
   particleNode = sc.createChild("ParticleEmitter2D")
   var particleEmitter = createComponent[ParticleEmitter2D](particleNode)
   particleEmitter.setEffect(particleEffect)
 
   var greenSpiralEffect = getResource[ParticleEffect2D](cache, "Urho2D/greenspiral.pex")
-  if not greenSpiralEffect: return
+  if greenSpiralEffect.isNil: return
 
   var greenSpiralNode = sc.createChild("GreenSpiral")
   var greenSpiralEmitter = createComponent[ParticleEmitter2D](greenSpiralNode)
   greenSpiralEmitter.setEffect(greenSpiralEffect)
 
   var renderer = urhomain.getSubsystemRenderer()
-  var viewport = cnew constructViewport(getContext(), sc, camera)
+  var viewport = cnew constructViewport(getContext(), sc, cam)
   renderer[].setViewport(0, viewport)
 
 #void Urho2DParticle::CreateInstructions()
@@ -92,12 +94,13 @@ proc createScene() =
 
 proc handleMouseMove(userData: pointer; eventType: StringHash;
                   eventData: var VariantMap) {.cdecl.} =
-  if not particleNode isNil:
-    let x = eventData["P_X"].getInt().float
-    let y = eventData["P_Y"].getInt().float
-    var graphics = urhomain.getSubsystemGraphics();
+  if not particleNode.isNil:
+    let x = eventData["x"].getInt().float
+    let y = eventData["y"].getInt().float
+    var graphics = urhomain.getSubsystem[Graphics]()
     #var camera = getComponent[Camera](cameraNode)
-    particleNode.setPosition(cam.screenToWorldPoint(vec3(x / graphics.getWidth(), y / graphics.getHeight(), 10.0f)))
+    particleNode.setPosition(cam.screenToWorldPoint(
+      vec3(x / graphics.getWidth().float, y / graphics.getHeight().float, 10.0f32)))
 
 
 proc main =

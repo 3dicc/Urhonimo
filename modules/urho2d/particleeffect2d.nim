@@ -1,7 +1,8 @@
 
 
 import 
-  resource, graphicsDefs
+  resource, graphicsDefs, vector2, ptrs, sprite2d, color, urstr, stringHash,
+  urobject, deserializer, serializer
 
 discard "forward decl of XMLElement"
 discard "forward decl of Sprite2D"
@@ -52,16 +53,16 @@ type
     loadSpriteName* {.importc: "loadSpriteName_".}: UrString
 
 
-proc getType*(this: ParticleEffect2D): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: ParticleEffect2D): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "ParticleEffect2D.h".}
-proc getBaseType*(this: ParticleEffect2D): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: ParticleEffect2D): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "ParticleEffect2D.h".}
-proc getTypeName*(this: ParticleEffect2D): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: ParticleEffect2D): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "ParticleEffect2D.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::ParticleEffect2D::GetTypeStatic(@)", 
     header: "ParticleEffect2D.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::ParticleEffect2D::GetTypeNameStatic(@)", 
     header: "ParticleEffect2D.h".}
 proc constructParticleEffect2D*(context: ptr Context): ParticleEffect2D {.

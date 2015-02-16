@@ -1,7 +1,7 @@
 
 
 import 
-  resource, texture2d, ptrs, sprite2d, xmlfile, urstr
+  resource, texture2d, ptrs, sprite2d, xmlfile, urstr, sprite2d
 
 import hashmap except Node
 
@@ -18,17 +18,21 @@ type
     loadXMLFile* {.importc: "loadXMLFile_".}: SharedPtr[XMLFile]
     loadTextureName* {.importc: "loadTextureName_".}: UrString
 
+proc getSpriteSheet*(this: Sprite2D): ptr SpriteSheet2D {.noSideEffect, 
+    importcpp: "GetSpriteSheet", header: "Sprite2D.h".}
+proc setSpriteSheet*(this: var Sprite2D; spriteSheet: ptr SpriteSheet2D) {.
+    importcpp: "SetSpriteSheet", header: "Sprite2D.h".}
 
-proc getType*(this: SpriteSheet2D): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: SpriteSheet2D): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "SpriteSheet2D.h".}
-proc getBaseType*(this: SpriteSheet2D): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: SpriteSheet2D): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "SpriteSheet2D.h".}
-proc getTypeName*(this: SpriteSheet2D): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: SpriteSheet2D): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "SpriteSheet2D.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::SpriteSheet2D::GetTypeStatic(@)", 
     header: "SpriteSheet2D.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::SpriteSheet2D::GetTypeNameStatic(@)", 
     header: "SpriteSheet2D.h".}
 proc constructSpriteSheet2D*(context: ptr Context): SpriteSheet2D {.
