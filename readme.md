@@ -1,8 +1,8 @@
 # Welcome to the Nim wrapper of Urho3D!
 
 This is a Nim wrapper of the full Urho3D game engine. It has been built using
-c2nim in a largely automated fashion, and its currently built against version
-1.32 of Urho3D. Its verified to work on Linux, OSX and Windows.
+c2nim in a largely automated fashion, and it's currently built against version
+1.32 of Urho3D. It's verified to work on Linux, OSX and Windows.
 
 To use it you need:
 
@@ -25,9 +25,11 @@ If all works out running ``nim --version`` should show 0.10.3.
 ## Install Urho3D
 
 To compile Urho3D for your platform we refer to [Urho3D build documentation](http://urho3d.github.io/documentation/1.32/_building.html)
-which is very specific and not that hard to perform. On Linux and OSX ``cmake_gcc.sh`` works fine, your mileage may vary.
+which is very specific and not that hard to perform. On Linux and OSX 
+``cmake_gcc.sh`` works fine, your mileage may vary.
 
-When Urho3D is built (no need to install it) you will find the library (``libUrho3D.a`` for example) in the ``Lib`` directory.
+When Urho3D is built (no need to install it) you will find the library
+(``libUrho3D.a`` for example) in the ``Lib`` directory.
 Copy it into the ``lib`` directory (create it if missing) here in Urhonimo.
 
 On Windows you will need both a ``.dll`` as well as a ``.lib`` file. The DLL
@@ -64,11 +66,13 @@ $ nim cpp character.nim
 ```
 ...or any other example like hello.nim.
 
-Note that ``nim c`` (compiling by generating C) does NOT work and produces strange errors. You need to compile via C++ using ``nim cpp``.
+Note that ``nim c`` (compiling by generating C) does NOT work and produces strange
+errors. You need to compile via C++ using ``nim cpp``.
 
 To run the resulting binary you need the ``CoreData`` and ``Data`` directories from
 Urho3D, just copy or link from your Urho3D directory into the examples directory.
 
-Then you should be able to run ``hello`` and ``character``, and it should work on Windows, Linux and OSX.
+Then you should be able to run ``hello`` and ``character``, and it should work on
+Windows, Linux and OSX.
 
 Happy hacking!
