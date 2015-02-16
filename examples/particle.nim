@@ -1,4 +1,4 @@
-import urhomain, stringHash, variant, octree, renderer, component,
+import urhomain, ui, stringHash, variant, octree, renderer, component, color, text, uielement,
   resourcecache, scene, node, vector3, camera, view, input, context,
   ptrs, drawable2d, graphics, particleemitter2d, particleeffect2d, engine
 
@@ -56,6 +56,17 @@ proc createScene() =
   # Construc a viewport and set it for the renderer
   var viewport = cnew constructViewport(getContext(), sc, cam)
   getSubsystemRenderer().setViewport(0, viewport)
+  
+  # Add some instruction text
+  let text = cnew constructText(getContext())
+  text.setText("Use mouse/touch to move the particle.")
+  text.setColor(color.WHITE)
+  text.setFont(getFont("Fonts/Anonymous Pro.ttf"), 15)
+  text.setHorizontalAlignment(HA_CENTER)
+  text.setVerticalAlignment(VA_CENTER)
+  let root = getSubsystemUI().getRoot()
+  text.setPosition(0, (root.getHeight() / 4).cint)
+  root.addChild(text)
 
 # A handler for MouseMove that we subscribe to
 proc handleMouseMove(userData: pointer; eventType: StringHash;
