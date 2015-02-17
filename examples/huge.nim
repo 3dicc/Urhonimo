@@ -111,8 +111,7 @@ proc createScene() =
 
 proc moveCamera(timeStep: float32) =
   # Do not move if the UI has a focused element (the console)
-  let ui = getSubsystemUI()
-  if not ui.getFocusElement().isNil:
+  if not getSubsystemUI().getFocusElement().isNil:
     return
   
   let input = getSubsystemInput()

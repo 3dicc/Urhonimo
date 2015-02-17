@@ -4,6 +4,8 @@ import ui, urhomain, processutils, color, urstr, stringHash, variant, text,
   resourcecache, scene, node, vector3, quaternion, model, material, light,
   camera, view, input
 
+import sample
+
 import hashmap except Node
 
 from math import random
@@ -143,8 +145,10 @@ proc main =
   openUrho3D(false)
 
   createScene()
+  createConsole()
+  subscribeToEvent("KeyDown", handleConsole)
   setupViewport()
-  subscribeToEvent("SceneUpdate", handleUpdate, nil)
+  subscribeToEvent("SceneUpdate", handleUpdate)
   let exitCode = runMainLoop()
   quit exitCode
 
