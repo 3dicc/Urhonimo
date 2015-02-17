@@ -2,6 +2,8 @@ import urhomain, ui, stringHash, variant, octree, renderer, component, color, te
   resourcecache, scene, node, vector3, camera, view, input, context,
   ptrs, drawable2d, graphics, particleemitter2d, particleeffect2d, engine
 
+import sample
+
 import hashmap except Node
 
 # enable auto-deref:
@@ -83,6 +85,8 @@ proc main =
   openUrho3D(false)
   getSubsystemInput().setMouseVisible(true)
   createScene()
+  createConsole()
+  subscribeToEvent("KeyDown", handleConsole)
   subscribeToEvent("MouseMove", handleMouseMove)
   quit runMainLoop()
 

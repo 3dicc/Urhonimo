@@ -14,7 +14,7 @@ proc main =
 
   openUrho3D(false)
 
-  subscribeToEvent("KeyDown", onKeyDown, nil)
+  subscribeToEvent("KeyDown", onKeyDown)
 
   let text = cnew constructText(getContext())
   text.setText("Hello Cruel World!")
