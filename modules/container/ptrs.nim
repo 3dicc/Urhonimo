@@ -9,12 +9,12 @@ type
     `ptr`* {.importc: "ptr_".}: ptr T
 
 
-proc constructSharedPtr*[T](): SharedPtr[T] {.importcpp: "Urho3D::SharedPtr(@)", 
+proc constructSharedPtr*[T](): SharedPtr[T] {.importcpp: "Urho3D::SharedPtr<'*0>(@)", 
     header: "Ptr.h".}
 proc constructSharedPtr*[T](rhs: SharedPtr[T]): SharedPtr[T] {.
-    importcpp: "Urho3D::SharedPtr(@)", header: "Ptr.h".}
+    importcpp: "Urho3D::SharedPtr<'*0>(@)", header: "Ptr.h".}
 proc constructSharedPtr*[T](`ptr`: ptr T): SharedPtr[T] {.
-    importcpp: "Urho3D::SharedPtr(@)", header: "Ptr.h".}
+    importcpp: "Urho3D::SharedPtr<'*0>(@)", header: "Ptr.h".}
 proc destroySharedPtr*[T](this: var SharedPtr[T]) {.importcpp: "#.~SharedPtr()", 
     header: "Ptr.h".}
 proc `->`*[T](this: SharedPtr[T]): ptr T {.noSideEffect, importcpp: "# -> #", 
