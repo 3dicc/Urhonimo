@@ -1,7 +1,8 @@
 
 
 import 
-  staticModel
+  staticModel, vector, ptrs, component, matrix4, stringHash, variant, urstr, urobject,
+  octreequery, drawable, occlusionbuffer
 
 
 type 
@@ -14,16 +15,16 @@ type
     nodeIDsDirty* {.importc: "nodeIDsDirty_".}: bool
 
 
-proc getType*(this: StaticModelGroup): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: StaticModelGroup): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "StaticModelGroup.h".}
-proc getBaseType*(this: StaticModelGroup): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: StaticModelGroup): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "StaticModelGroup.h".}
-proc getTypeName*(this: StaticModelGroup): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: StaticModelGroup): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "StaticModelGroup.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::StaticModelGroup::GetTypeStatic(@)", 
     header: "StaticModelGroup.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::StaticModelGroup::GetTypeNameStatic(@)", 
     header: "StaticModelGroup.h".}
 proc constructStaticModelGroup*(context: ptr Context): StaticModelGroup {.
