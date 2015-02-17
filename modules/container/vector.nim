@@ -10,14 +10,14 @@ type
   VIterator* {.importcpp: "Urho3D::Vector::Iterator", header: "Vector.h".}[T] = RandomAccessIterator[T]
   ConstVIterator* {.importcpp: "Urho3D::Vector::ConstIterator", header: "Vector.h".}[T] = RandomAccessConstIterator[T]
 
-proc constructVector*[T](): Vector[T] {.importcpp: "Urho3D::Vector(@)", 
+proc constructVector*[T](): Vector[T] {.importcpp: "Urho3D::Vector<'*0>(@)", 
                                         header: "Vector.h".}
 proc constructVector*[T](size: cuint): Vector[T] {.
-    importcpp: "Urho3D::Vector(@)", header: "Vector.h".}
+    importcpp: "Urho3D::Vector<'*0>(@)", header: "Vector.h".}
 proc constructVector*[T](data: ptr T; size: cuint): Vector[T] {.
-    importcpp: "Urho3D::Vector(@)", header: "Vector.h".}
+    importcpp: "Urho3D::Vector<'*0>(@)", header: "Vector.h".}
 proc constructVector*[T](vector: Vector[T]): Vector[T] {.
-    importcpp: "Urho3D::Vector(@)", header: "Vector.h".}
+    importcpp: "Urho3D::Vector<'*0>(@)", header: "Vector.h".}
 proc destroyVector*[T](this: var Vector[T]) {.importcpp: "#.~Vector()", 
     header: "Vector.h".}
 proc `+=`*[T](this: var Vector[T]; rhs: T) {.importcpp: "# += #", 
@@ -32,12 +32,12 @@ proc `==`*[T](this: Vector[T]; rhs: Vector[T]): bool {.noSideEffect,
     importcpp: "# == #", header: "Vector.h".}
 proc `[]`*[T](this: var Vector[T]; index: cuint): var T {.importcpp: "#[@]", 
     header: "Vector.h".}
-proc `[]`*[T](this: Vector[T]; index: cuint): T {.noSideEffect, 
-    importcpp: "#[@]", header: "Vector.h".}
+#proc `[]`*[T](this: Vector[T]; index: cuint): T {.noSideEffect, 
+#    importcpp: "#[@]", header: "Vector.h".}
 proc at*[T](this: var Vector[T]; index: cuint): var T {.importcpp: "At", 
     header: "Vector.h".}
-proc at*[T](this: Vector[T]; index: cuint): T {.noSideEffect, importcpp: "At", 
-    header: "Vector.h".}
+#proc at*[T](this: Vector[T]; index: cuint): T {.noSideEffect, importcpp: "At", 
+#    header: "Vector.h".}
 proc push*[T](this: var Vector[T]; value: T) {.importcpp: "Push", 
     header: "Vector.h".}
 proc push*[T](this: var Vector[T]; vector: Vector[T]) {.importcpp: "Push", 
@@ -104,14 +104,14 @@ type
   PodIterator* {.importcpp: "Urho3D::PODVector::Iterator", header: "Vector.h".}[T] = RandomAccessIterator[T]
   ConstPodIterator* {.importcpp: "Urho3D::PODVector::ConstIterator", header: "Vector.h".}[T] = RandomAccessConstIterator[T]
 
-proc constructPODVector*[T](): PODVector[T] {.importcpp: "Urho3D::PODVector(@)", 
+proc constructPODVector*[T](): PODVector[T] {.importcpp: "Urho3D::PODVector<'*0>(@)", 
     header: "Vector.h".}
 proc constructPODVector*[T](size: cuint): PODVector[T] {.
-    importcpp: "Urho3D::PODVector(@)", header: "Vector.h".}
+    importcpp: "Urho3D::PODVector<'*0>(@)", header: "Vector.h".}
 proc constructPODVector*[T](data: ptr T; size: cuint): PODVector[T] {.
-    importcpp: "Urho3D::PODVector(@)", header: "Vector.h".}
+    importcpp: "Urho3D::PODVector<'*0>(@)", header: "Vector.h".}
 proc constructPODVector*[T](vector: PODVector[T]): PODVector[T] {.
-    importcpp: "Urho3D::PODVector(@)", header: "Vector.h".}
+    importcpp: "Urho3D::PODVector<'*0>(@)", header: "Vector.h".}
 proc destroyPODVector*[T](this: var PODVector[T]) {.importcpp: "#.~PODVector()", 
     header: "Vector.h".}
 proc `+=`*[T](this: var PODVector[T]; rhs: T) {.importcpp: "# += #", 
