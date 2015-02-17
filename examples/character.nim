@@ -6,7 +6,9 @@ import ui, urhomain, processutils, color, urstr, stringHash, variant, text,
   memorybuffer, deserializer, rigidbody, animationcontroller, physicsworld,
   zone, boundingbox, drawable, collisionshape, animatedModel, skeleton, ptrs,
   unsigned, graphics, file, filesystem, ray, skybox, terrain, image, xmlelement,
-  engine, console, debughud
+  engine
+
+import sample
 
 import hashmap except Node
 from math import random
@@ -248,16 +250,6 @@ proc handleFixedUpdate(userData: pointer; eventType: StringHash;
   # Reset grounded flag for next frame
   this.onGround = false
 
-proc createConsole() =
-  var cache = urhomain.getSubsystemResourceCache()
-  let xmlFile = getResource[XMLFile](cache, "UI/DefaultStyle.xml")
-  let console = getEngine().createConsole()
-  console.setCommandInterpreter("MainApplication")
-  console.setDefaultStyle(xmlFile)
-  console.getBackground().setOpacity(0.8f32)
-  # Create debug HUD.
-  let debugHud = getEngine().createDebugHud()
-  debugHud.setDefaultStyle(xmlFile)
 
 proc createScene() =
   var cache = urhomain.getSubsystemResourceCache()
@@ -561,24 +553,9 @@ proc handlePostUpdate(userData: pointer; eventType: StringHash;
     cameraNode.setRotation(dir)
 
 
-proc onKeyDown(userData: pointer; eventType: StringHash;
-                      eventData: var VariantMap) {.cdecl.} =
-  let key = eventData["Key"].getInt()
-  if key == KEY_ESC:
-    let console = getSubsystem[Console]()
-    if console.isVisible():
-      console.setVisible(false)
-    else:
-      closeUrho3D()
-  elif key == KEY_F1:
-    getSubsystem[Console]().toggle()
-  elif key == KEY_F2:
-    getSubsystem[DebugHud]().toggleAll()
-
 proc onConsoleCommand(userData: pointer; eventType: StringHash;
                      eventData: var VariantMap) {.cdecl.} =
   let x = $eventData["Command"].getString()
-  
   echo x
 
 proc main =
@@ -597,7 +574,7 @@ proc main =
   # before physics simulation
   subscribeToEvent("Update", handleUpdate)
 
-  subscribeToEvent("KeyDown", onKeyDown)
+  subscribeToEvent("KeyDown", handleConsole)
   subscribeToEvent("ConsoleCommand", onConsoleCommand)
 
 
