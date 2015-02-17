@@ -1,6 +1,6 @@
 import urhomain, ui, stringHash, variant, octree, renderer, component, color, text, uielement,
-  resourcecache, scene, node, vector3, camera, view, input, context, material, staticmodelgroup,
-  ptrs, drawable2d, graphics, engine
+  resourcecache, scene, node, boundingbox, vector3, camera, view, input, context, material, staticmodelgroup,
+  ptrs, drawable2d, graphics, zone, light, model, staticmodel, quaternion, engine
 
 import hashmap except Node
 
@@ -12,7 +12,7 @@ var
   cam: ptr Camera
   sc: ptr Scene
   # Box scene nodes.
-  boxNodes = newSeq[ptr Node]()
+  boxNodes = newSeq[SharedPtr[Node]]()
   animate: bool
   useGroups: bool
   pitch: float32
@@ -36,9 +36,9 @@ proc createScene() =
 
   # Create a Zone for ambient light & fog control
   let zoneNode = sc.createChild("Zone")
-  let zone = ceateComponent[Zone](zoneNode)
+  let zone = createComponent[Zone](zoneNode)
   zone.setBoundingBox(constructBoundingBox(-1000.0f32, 1000.0f32))
-  zone.setFogColor(Color(0.2f32, 0.2f32, 0.2f32))
+  zone.setFogColor(col(0.2f32, 0.2f32, 0.2f32))
   zone.setFogStart(200.0)
   zone.setFogEnd(300.0)
   
@@ -55,7 +55,7 @@ proc createScene() =
     for y in -125 .. < 125:
       for x in -125 .. < 125:
         let boxNode = sc.createChild("Box")
-        boxNode.setPosition(vec3(x * 0.3f32, 0.0f32, y * 0.3f32))
+        boxNode.setPosition(vec3(x.float * 0.3f32, 0.0f32, y.float * 0.3f32))
         boxNode.setScale(0.25f32)
         let boxObject = createComponent[StaticModel](boxNode)
         boxObject.setModel(getResource[Model](cache, "Models/Box.mdl"))
@@ -72,19 +72,19 @@ proc createScene() =
         # Create new group if no group yet, or the group has already "enough" objects. The tradeoff is between culling
         # accuracy and the amount of CPU processing needed for all the objects. Note that the group's own transform
         # does not matter, and it does not render anything if instance nodes are not added to it
-        if (not lastGroup or lastGroup.getNumInstanceNodes() >= 25 * 25):
+        if (not lastGroup.isNil or lastGroup.getNumInstanceNodes().int >= 25 * 25):
           let boxGroupNode = sc.createChild("BoxGroup")
           lastGroup = createComponent[StaticModelGroup](boxGroupNode)
           lastGroup.setModel(getResource[Model](cache, "Models/Box.mdl"))
         
         let boxNode = sc.createChild("Box")
-        boxNode.setPosition(vec3(x * 0.3f32, 0.0f32, y * 0.3f32))
+        boxNode.setPosition(vec3(x.float * 0.3f32, 0.0f32, y.float * 0.3f32))
         boxNode.setScale(0.25f32)
         boxNodes.add(constructSharedPtr[Node](boxNode))
         lastGroup.addInstanceNode(boxNode)
 
     # Create the camera. Create it outside the scene so that we can clear the whole scene without affecting it
-    if not cam:
+    if not cam.isNil:
       cameraNode = cnew constructNode(getContext())
       cameraNode.setPosition(vec3(0.0f32, 10.0f32, -100.0f32))
       cam = createComponent[Camera](cameraNode)
@@ -143,7 +143,7 @@ proc animateObjects(timeStep: float32) =
   # Rotate about the Z axis (roll)
   let rotateQuat = constructQuaternion(ROTATE_SPEED * timeStep, vector3.FORWARD)
   for box in boxNodes:
-    box.rotate(rotateQuat)
+    box.get().rotate(rotateQuat)
 
 proc handleUpdate(userData: pointer; eventType: StringHash;
                   eventData: var VariantMap) {.cdecl.} =
@@ -173,7 +173,7 @@ proc main =
   parseArguments()
   openUrho3D(false)
   createScene()
-  subscribeToEvent("Update", handleMouseMove)
+  subscribeToEvent("Update", handleUpdate)
   quit runMainLoop()
 
 main()
