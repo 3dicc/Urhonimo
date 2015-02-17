@@ -53,7 +53,7 @@ proc createScene() =
   var greenSpiralEmitter = createComponent[ParticleEmitter2D](greenSpiralNode)
   greenSpiralEmitter.setEffect(greenSpiralEffect)
 
-  # Construc a viewport and set it for the renderer
+  # Construct a viewport and set it for the renderer
   var viewport = cnew constructViewport(getContext(), sc, cam)
   getSubsystemRenderer().setViewport(0, viewport)
   
