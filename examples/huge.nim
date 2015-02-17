@@ -1,6 +1,6 @@
 import urhomain, ui, stringHash, variant, octree, renderer, component, color, text, uielement,
-  resourcecache, scene, node, boundingbox, vector, vector3, camera, view, input, context, material, staticmodelgroup,
-  ptrs, drawable2d, graphics, zone, light, model, staticmodel, quaternion, engine, unsigned
+  resourcecache, scene, node, boundingbox, vector, vector3, camera, view, input, inputevents, context, material, staticmodelgroup,
+  ptrs, drawable2d, graphics, zone, light, model, staticmodel, quaternion, engine, unsigned, xmlelement, console, debughud
 
 import hashmap except Node
 
@@ -173,12 +173,38 @@ proc handleUpdate(userData: pointer; eventType: StringHash;
   if animate:
     animateObjects(timeStep)
 
+proc onKeyDown(userData: pointer; eventType: StringHash;
+                      eventData: var VariantMap) {.cdecl.} =
+  let key = eventData["Key"].getInt()
+  if key == KEY_ESC:
+    let console = getSubsystem[Console]()
+    if console.isVisible():
+      console.setVisible(false)
+    else:
+      closeUrho3D()
+  elif key == KEY_F1:
+    getSubsystem[Console]().toggle()
+  elif key == KEY_F2:
+    getSubsystem[DebugHud]().toggleAll()
+
+proc createConsole() =
+  var cache = urhomain.getSubsystemResourceCache()
+  let xmlFile = getResource[XMLFile](cache, "UI/DefaultStyle.xml")
+  let console = getEngine().createConsole()
+  console.setCommandInterpreter("MainApplication")
+  console.setDefaultStyle(xmlFile)
+  console.getBackground().setOpacity(0.8f32)
+  # Create debug HUD.
+  let debugHud = getEngine().createDebugHud()
+  debugHud.setDefaultStyle(xmlFile)
 
 proc main =
   parseArguments()
   openUrho3D(false)
   createScene()
+  createConsole()
   subscribeToEvent("Update", handleUpdate)
+  subscribeToEvent("KeyDown", onKeyDown)
   quit runMainLoop()
 
 main()
