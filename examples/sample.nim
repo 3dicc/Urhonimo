@@ -37,7 +37,7 @@ proc handleConsole*(userData: pointer; eventType: StringHash;
   elif getSubsystemUI().getFocusElement().isNil:
     # Common rendering quality controls, only when UI has no focused element
     let renderer = getSubsystem[Renderer]()
-    var ckey = key.char
+    var ckey = if key <% 255: key.char else: '\0'
  
     # Texture quality
     if ckey == '1':
