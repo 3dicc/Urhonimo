@@ -37,46 +37,45 @@ proc handleConsole*(userData: pointer; eventType: StringHash;
   elif getSubsystemUI().getFocusElement().isNil:
     # Common rendering quality controls, only when UI has no focused element
     let renderer = getSubsystem[Renderer]()
-    var ckey = key.char
- 
+
     # Texture quality
-    if ckey == '1':
+    if key == '1'.int:
       var quality = renderer.getTextureQuality() + 1
       if quality > QUALITY_HIGH:
         quality = QUALITY_LOW
       renderer.setTextureQuality(quality)
     
     # Material quality
-    elif ckey == '2':
+    elif key == '2'.int:
       var quality = renderer.getMaterialQuality() + 1
       if quality > QUALITY_HIGH:
         quality = QUALITY_LOW
       renderer.setMaterialQuality(quality)
     
     # Specular lighting
-    elif ckey == '3':
+    elif key == '3'.int:
       renderer.setSpecularLighting(not renderer.getSpecularLighting())
     
     # Shadow rendering
-    elif ckey == '4':
+    elif key == '4'.int:
       renderer.setDrawShadows(not renderer.getDrawShadows())
     
     # Shadow map resolution
-    elif ckey == '5':
+    elif key == '5'.int:
       var shadowMapSize = renderer.getShadowMapSize() * 2
       if shadowMapSize > 2048:
         shadowMapSize = 512
       renderer.setShadowMapSize(shadowMapSize)
 
     # Shadow depth and filtering quality
-    elif ckey == '6':
+    elif key == '6'.int:
       var quality = renderer.getShadowQuality() + 1
       if quality > SHADOWQUALITY_HIGH_24BIT:
           quality = SHADOWQUALITY_LOW_16BIT
       renderer.setShadowQuality(quality)
     
     # Occlusion culling
-    elif ckey == '7':
+    elif key == '7'.int:
       var triangles = renderer.getMaxOccluderTriangles()
       if triangles > 0:
         triangles = 0
@@ -85,7 +84,7 @@ proc handleConsole*(userData: pointer; eventType: StringHash;
       renderer.setMaxOccluderTriangles(triangles)
     
     # Instancing
-    elif ckey == '8':
+    elif key == '8'.int:
       renderer.setDynamicInstancing(not renderer.getDynamicInstancing())
     
     # Take screenshot - not yet, takeScreenShot is a special deal...
