@@ -6,7 +6,7 @@ when defined(release):
   {.error: "we have no release build of Urho3D.lib yet".}
 else:
   when defined(windows):
-    {.link: "../lib/Urho3D_d.lib".}
+    {.link: "../lib/Urho3D.lib".}
     {.link: r"C:\Program Files (x86)\Windows Kits\8.1\Lib\winv6.3\um\x86\d3d9.lib".}
     {.link: r"C:\Program Files (x86)\Windows Kits\8.1\Lib\winv6.3\um\x86\d3dcompiler.lib".}
     {.link: r"kernel32.lib".}
