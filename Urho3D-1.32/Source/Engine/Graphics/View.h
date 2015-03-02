@@ -40,6 +40,7 @@ class Drawable;
 class OcclusionBuffer;
 class Octree;
 class RenderPath;
+class Renderer;
 class RenderSurface;
 class Technique;
 class Texture2D;
@@ -110,22 +111,22 @@ class URHO3D_API View : public Object
 {
     friend void CheckVisibilityWork(const WorkItem* item, unsigned threadIndex);
     friend void ProcessLightWork(const WorkItem* item, unsigned threadIndex);
-    
+
     OBJECT(View);
-    
+
 public:
     /// Construct.
     View(Context* context);
     /// Destruct.
     virtual ~View();
-    
+
     /// Define with rendertarget and viewport. Return true if successful.
     bool Define(RenderSurface* renderTarget, Viewport* viewport);
     /// Update and cull objects and construct rendering batches.
     void Update(const FrameInfo& frame);
     /// Render batches.
     void Render();
-    
+
     /// Return graphics subsystem.
     Graphics* GetGraphics() const;
     /// Return renderer subsystem.
@@ -156,7 +157,7 @@ public:
     void SetCameraShaderParameters(Camera* camera, bool setProjectionMatrix, bool overrideView);
     /// Set G-buffer offset and inverse size shader parameters. Called by Batch and internally by View.
     void SetGBufferShaderParameters(const IntVector2& texSize, const IntRect& viewRect);
-    
+
 private:
     /// Query the octree for drawable objects.
     void GetDrawables();
@@ -224,7 +225,7 @@ private:
     void RenderShadowMap(const LightBatchQueue& queue);
     /// Return the proper depth-stencil surface to use for a rendertarget.
     RenderSurface* GetDepthStencil(RenderSurface* renderTarget);
-    
+
     /// Return the drawable's zone, or camera zone if it has override mode enabled.
     Zone* GetZone(Drawable* drawable)
     {

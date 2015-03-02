@@ -1,7 +1,6 @@
 when not defined(cpp):
   {.error: "Urhonimo requires that you compile in cpp mode".}
 
-{.compile: "urhowrap.cpp".}
 when defined(release):
   {.error: "we have no release build of Urho3D.lib yet".}
 else:
@@ -42,14 +41,122 @@ else:
     {.passL: "-framework ForceFeedback".}
 #  {.passL: "/MD".}
 
+{.emit: """
+#include "Application.h"
+#include "Engine.h"
+#include "Graphics.h"
+#include "Input.h"
+#include "InputEvents.h"
+#include "ResourceCache.h"
+#include "UI.h"
+#include "Font.h"
+#include "Text.h"
+#include "Variant.h"
+#include "Renderer.h"
+
+using namespace Urho3D;
+
+#if !(defined(WIN32) || defined(_WIN32))
+#  define __cdecl
+#endif
+
+typedef void(*__cdecl HandlerFunc)(void* userData, StringHash eventType,
+                                   VariantMap& eventData);
+
+class EventHandlerForC: public EventHandler
+{
+public:
+  /// Invoke event handler function.
+  virtual void Invoke(VariantMap& eventData)
+  {
+    function_(GetUserData(), eventType_, eventData);
+  }
+
+  EventHandlerForC(Object* receiver, HandlerFunc func, void* userData) :
+    EventHandler(receiver, userData), function_(func) {}
+
+private:
+  HandlerFunc function_;
+};
+
+class MainApplication: public Urho3D::Application {
+  OBJECT(MainApplication);
+
+public:
+  MainApplication(Urho3D::Context* context): Application(context){
+  }
+
+  virtual void Setup(){
+  }
+  virtual void Start() {
+  }
+  virtual void Stop() {}
+  Engine* GetEngine() { return engine_; }
+  VariantMap& GetEngineParams() { return engineParameters_; }
+};
+
+MainApplication* mainApp;
+
+void openUrho3D(bool fullScreen) {
+  mainApp = new MainApplication(new Urho3D::Context());
+  mainApp->GetEngineParams()["FullScreen"] = fullScreen;
+  if (!mainApp->GetEngine()->Initialize(mainApp->GetEngineParams()))
+    ErrorExit();
+}
+
+void closeUrho3D(void) {
+  mainApp->GetEngine()->Exit();
+}
+
+Urho3D::Context* getContext(void) { return mainApp->GetContext(); }
+Urho3D::Application* getApp(void) { return mainApp; }
+
+Urho3D::UI* getSubsystemUI(void) {
+  return mainApp->GetSubsystem<UI>();
+}
+
+Urho3D::Engine* getEngine(void) {
+  return mainApp->GetEngine();
+}
+
+Urho3D::ResourceCache* getSubsystemResourceCache(void) {
+  return mainApp->GetSubsystem<Urho3D::ResourceCache>();
+}
+
+Urho3D::Renderer* getSubsystemRenderer(void) {
+  return mainApp->GetSubsystem<Urho3D::Renderer>();
+}
+
+Urho3D::Input* getSubsystemInput(void) {
+  return mainApp->GetSubsystem<Urho3D::Input>();
+}
+
+void subscribeToEvent(StringHash eventType, HandlerFunc func, void* userData) {
+  mainApp->SubscribeToEvent(eventType, new EventHandlerForC(mainApp, func, userData));
+}
+
+void unsubscribeFromEvent(StringHash eventType) {
+  mainApp->UnsubscribeFromEvent(eventType);
+}
+
+void parseArguments(void) {
+#if defined(WIN32) || defined(_WIN32)
+  Urho3D::ParseArguments(GetCommandLineW());
+#endif
+}
+
+int runMainLoop(void) {
+  return mainApp->Run();
+}
+""".}
+
+
 import urobject, ui, resourcecache, urstr, font, stringHash, variant, input,
-  renderer, vector3, quaternion, color, file, component, engine
+  renderer, vector3, quaternion, color, file, component, engine, application
 
-proc getSubsystem*[T](): ptr T {.importcpp: "getSubsystem<'*0>()", cdecl,
-  header: "urhowrap.h".}
+{.pragma: urh, importc, cdecl.}
 
-{.pragma: urh, importc, cdecl, header: "urhowrap.h".}
-
+proc getApp(): ptr Application {.urh.}
 proc openUrho3D*(fullScreen: bool) {.urh.}
 
 proc closeUrho3D*() {.urh.}
@@ -63,9 +170,12 @@ proc getEngine*(): ptr Engine {.urh.}
 proc getSubsystemResourceCache*(): ptr ResourceCache {.urh.}
 proc getSubsystemRenderer*(): ptr Renderer {.urh.}
 proc getSubsystemInput*(): ptr Input {.urh.}
+proc getSubsystem*[T](): ptr T = getSubsystem[T](getApp())
+# {.importcpp: "getSubsystem<'*0>()", cdecl,
+#  nodecl.}
 
-
-proc getFont*(fontName: UrString): ptr Font {.urh.}
+proc getFont*(fontName: UrString): ptr Font =
+  getResource[Font](getSubsystemResourceCache()[], fontname, true)
 
 type
   HandlerFunc* = proc (userData: pointer, eventType: StringHash;
