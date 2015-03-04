@@ -3,6 +3,7 @@ import urhomain, ui, stringHash, variant, component, uielement, renderer, graphi
   image
 
 import hashmap except Node
+include urholink
 
 # enable auto-deref:
 {.experimental.}
@@ -44,22 +45,22 @@ proc handleConsole*(userData: pointer; eventType: StringHash;
       if quality > QUALITY_HIGH:
         quality = QUALITY_LOW
       renderer.setTextureQuality(quality)
-    
+
     # Material quality
     elif key == '2'.int:
       var quality = renderer.getMaterialQuality() + 1
       if quality > QUALITY_HIGH:
         quality = QUALITY_LOW
       renderer.setMaterialQuality(quality)
-    
+
     # Specular lighting
     elif key == '3'.int:
       renderer.setSpecularLighting(not renderer.getSpecularLighting())
-    
+
     # Shadow rendering
     elif key == '4'.int:
       renderer.setDrawShadows(not renderer.getDrawShadows())
-    
+
     # Shadow map resolution
     elif key == '5'.int:
       var shadowMapSize = renderer.getShadowMapSize() * 2
@@ -73,7 +74,7 @@ proc handleConsole*(userData: pointer; eventType: StringHash;
       if quality > SHADOWQUALITY_HIGH_24BIT:
           quality = SHADOWQUALITY_LOW_16BIT
       renderer.setShadowQuality(quality)
-    
+
     # Occlusion culling
     elif key == '7'.int:
       var triangles = renderer.getMaxOccluderTriangles()
@@ -82,11 +83,11 @@ proc handleConsole*(userData: pointer; eventType: StringHash;
       else:
         triangles = 5000
       renderer.setMaxOccluderTriangles(triangles)
-    
+
     # Instancing
     elif key == '8'.int:
       renderer.setDynamicInstancing(not renderer.getDynamicInstancing())
-    
+
     # Take screenshot - not yet, takeScreenShot is a special deal...
     #elif ckey == '9':
     #  let graphics = getSubsystem[Graphics]()
