@@ -44,6 +44,7 @@ else:
 {.emit: """
 #include "Application.h"
 #include "Engine.h"
+#include "Log.h"
 #include "Graphics.h"
 #include "Input.h"
 #include "InputEvents.h"
@@ -100,6 +101,7 @@ MainApplication* mainApp;
 void openUrho3D(bool fullScreen) {
   mainApp = new MainApplication(new Urho3D::Context());
   mainApp->GetEngineParams()["FullScreen"] = fullScreen;
+  mainApp->GetEngineParams()["LogLevel"] = LOG_DEBUG;
   if (!mainApp->GetEngine()->Initialize(mainApp->GetEngineParams()))
     ErrorExit();
 }
