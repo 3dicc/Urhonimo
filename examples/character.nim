@@ -65,10 +65,10 @@ public:
 
   //virtual void Start();
   //virtual void FixedUpdate(float timeStep);
-  
+
   /// Movement controls. Assigned by the main program each frame.
   Controls controls;
-    
+
   //void HandleNodeCollision(StringHash eventType, VariantMap& eventData);
   bool onGround;
   bool okToJump;
@@ -113,7 +113,7 @@ proc updateTouches(this: var Touch; controls: var Controls) =
     # Check for zoom pattern (touches moving in opposite
     # directions and on empty space)
     if touch1.touchedElement.isNil and touch2.touchedElement.isNil and
-       ((touch1.delta.y > 0 and touch2.delta.y < 0) or 
+       ((touch1.delta.y > 0 and touch2.delta.y < 0) or
         (touch1.delta.y < 0 and touch2.delta.y > 0)):
       this.zoom = true
     else:
@@ -121,8 +121,8 @@ proc updateTouches(this: var Touch; controls: var Controls) =
 
     if this.zoom:
       # Check for zoom direction (in/out)
-      let sens = 
-        if abs(touch1.position.y - touch2.position.y) > 
+      let sens =
+        if abs(touch1.position.y - touch2.position.y) >
            abs(touch1.lastPosition.y - touch2.lastPosition.y):
           -1f32
         else:
@@ -150,7 +150,7 @@ proc offsetof(a, b: expr): int {.importcpp: "offsetof(@)".}
 
 template attr(className, typ, name, variable, defaultValue, mode) {.
              immediate,dirty.} =
-  ctx.registerAttribute[className](constructAttributeInfo(typ, name, 
+  ctx.registerAttribute[className](constructAttributeInfo(typ, name,
     offsetof(className, className.variable), defaultValue, mode))
 
 proc registerCharacterClass(ctx: ptr Context) {.
@@ -179,7 +179,7 @@ proc handleNodeCollision(userData: pointer; eventType: StringHash;
     let contactNormal = contacts.readVector3()
     discard contacts.readFloat() # contactDistance
     discard contacts.readFloat() # contactImpulse
-    
+
     # If contact is below node center and mostly vertical,
     # assume it's a ground contact
     if contactPosition.y < chr.getNode.getPosition().y + 1.0f32:
@@ -195,7 +195,7 @@ proc handleFixedUpdate(userData: pointer; eventType: StringHash;
   # finding them each frame
   let body = getComponentFromComponent[RigidBody](this[])
   let animCtrl = getComponentFromComponent[AnimationController](this[])
-  
+
   # Update the in air timer. Reset if grounded
   if not this.onGround:
     this.inAirTimer += timeStep
@@ -204,14 +204,14 @@ proc handleFixedUpdate(userData: pointer; eventType: StringHash;
   # When character has been in air less than 1/10 second,
   # it's still interpreted as being on ground
   let softGrounded = this.inAirTimer < INAIR_THRESHOLD_TIME
-  
+
   # Update movement & animation
   let rot = this.getNode.getRotation()
   var moveDir = vector3.ZERO
   let velocity = body.getLinearVelocity()
   # Velocity on the XZ plane
   let planeVelocity = vec3(velocity.x, 0.0f32, velocity.z)
-  
+
   if this.controls.isDown(CTRL_FORWARD):
     moveDir += vector3.FORWARD
   if this.controls.isDown(CTRL_BACK):
@@ -220,18 +220,18 @@ proc handleFixedUpdate(userData: pointer; eventType: StringHash;
     moveDir += vector3.LEFT
   if this.controls.isDown(CTRL_RIGHT):
     moveDir += vector3.RIGHT
-  
+
   # Normalize move vector so that diagonal strafing is not faster
   if moveDir.lengthSquared() > 0.0f32: moveDir.normalize()
-  
+
   # If in air, allow control, but slower than when on ground
   body.applyImpulse(rot * moveDir * (if softGrounded: MOVE_FORCE else: INAIR_MOVE_FORCE))
-  
+
   if softGrounded:
     # When on ground, apply a braking force to limit maximum ground velocity
     let brakeForce: Vector3 = -planeVelocity * BRAKE_FORCE
     body.applyImpulse(brakeForce)
-    
+
     # Jump. Must release jump control inbetween jumps
     if this.controls.isDown(CTRL_JUMP):
       if this.okToJump:
@@ -239,7 +239,7 @@ proc handleFixedUpdate(userData: pointer; eventType: StringHash;
         this.okToJump = false
     else:
       this.okToJump = true
-  
+
   # Play walk animation if moving on ground, otherwise fade it out
   if softGrounded and not moveDir.equals(vector3.ZERO):
     discard animCtrl.playExclusive("Models/Jack_Walk.ani", 0.cuchar, true, 0.2f32)
@@ -491,11 +491,11 @@ proc handleUpdate(userData: pointer; eventType: StringHash;
 
       # Check for loading / saving the scene
       if input.getKeyPress(KEY_F5):
-        let saveFile = constructFile(getContext(), 
+        let saveFile = constructFile(getContext(),
           os.getAppDir() / "MySave.xml", FILE_WRITE)
         sc.saveXML(saveFile)
       if input.getKeyPress(KEY_F7):
-        let loadFile = constructFile(getContext(), 
+        let loadFile = constructFile(getContext(),
           os.getAppDir() / "MySave.xml", FILE_READ)
         sc.loadXML(loadFile)
         # After loading we have to reacquire the weak pointer to the
