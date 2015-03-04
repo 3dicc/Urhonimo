@@ -94,6 +94,8 @@ public:
     void SetWindowPosition(const IntVector2& position);
     /// Set window position.
     void SetWindowPosition(int x, int y);
+    /// Set window hidden flag.
+    void SetWindowHidden(bool hidden);
     /// Set screen mode. Return true if successful.
     bool SetMode(int width, int height, bool fullscreen, bool borderless, bool resizable, bool vsync, bool tripleBuffer, int multiSample);
     /// Set screen resolution only. Return true if successful.
@@ -241,6 +243,8 @@ public:
     const String& GetWindowTitle() const { return windowTitle_; }
     /// Return window position.
     IntVector2 GetWindowPosition() const;
+    /// Return window hidden flag
+    bool GetWindowHidden() const;
     /// Return window width.
     int GetWidth() const { return width_; }
     /// Return window height.
@@ -406,6 +410,10 @@ public:
     void CleanupRenderSurface(RenderSurface* surface);
     /// Mark the FBO needing an update.
     void MarkFBODirty();
+    /// Set the default render target
+    void SetDefaultRenderTarget(RenderSurface *defaultRenderTarget);
+    /// Set the default depth stencil
+    void SetDefaultDepthStencil(RenderSurface *defaultDepthStencil);
     
     /// Return the API-specific alpha texture format.
     static unsigned GetAlphaFormat();
@@ -614,6 +622,12 @@ private:
     SharedPtr<ShaderPrecache> shaderPrecache_;
     /// Allowed screen orientations.
     String orientations_;
+    /// Hidden window.
+    bool windowHidden_;
+    /// Default render target
+    RenderSurface* defaultRenderTarget_;
+    /// Default depth stencil
+    RenderSurface* defaultDepthStencil_;
 };
 
 /// Register Graphics library objects.
