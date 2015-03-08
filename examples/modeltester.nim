@@ -23,11 +23,17 @@ from math import random
 const
   USAGE = """
 Usage:
-  modeltester [options] modelfile animationfile
+  modeltester [options] modelfile animationfile materiallist
+
+Arguments:
+  modelfile      - A Urho3D .mdl file
+  animationfile  - An optional Urho3D .ani file
 
 Options:
-  --static    Use a StaticModel instead, no animation
-  -h, --help  shows this help
+  -s,--static                  - Use a StaticModel instead, no animation
+  -m,--materials materiallist  - An optional file listing material filepaths to load
+
+  -h,--help                    - Shows this help
   
 Keys:
   WASD + mouse
@@ -36,18 +42,20 @@ Keys:
   1-8 - Turn on/off various things
   JKL - Rotate model in each axis
   NM  - Turn on/off animation
+  ZX  - Scale model +/- 10%
 """
 
 
 var
   useStaticModel: bool = false
-  modelFn, animationFn: string
+  modelFn, animationFn, materialsFn: string
   sc: ptr Scene
   cameraNode: ptr Node
   objectNode: ptr Node
   obj: ptr AnimatedModel
   objStatic: ptr StaticModel
   animCtrl: ptr AnimationController
+  scale: float32 = 1.0
 
 
 proc startAnimation() =
@@ -100,9 +108,13 @@ proc createScene() =
   if useStaticModel:
     objStatic = createComponent[StaticModel](objectNode)
     objStatic.setModel(getResource[Model](cache, modelFn))
+    if not materialsFn.isNil:
+      objStatic.applyMaterialList(materialsFn)
   else:
     obj = createComponent[AnimatedModel](objectNode)
     obj.setModel(getResource[Model](cache, modelFn))
+    if not materialsFn.isNil:
+      obj.applyMaterialList(materialsFn)
     animCtrl = createComponent[AnimationController](objectNode)
     startAnimation()
   
@@ -264,11 +276,19 @@ proc handleConsole*(userData: pointer; eventType: StringHash;
     elif key == 'L'.int:
       objectNode.rotate(quat(0.0, 0.0, 90.0))
 
+    # Control animation
     elif key == 'N'.int:
       startAnimation()
     elif key == 'M'.int:
       stopAnimation()
-
+      
+    # Scale model
+    elif key == 'Z'.int:
+      scale *= 0.9
+      objectNode.setScale(scale)
+    elif key == 'X'.int:
+      scale *= 1.1
+      objectNode.setScale(scale)
 
 proc parseCommandLine() =
   var
@@ -292,6 +312,8 @@ proc parseCommandLine() =
           quit 0
         of "static", "s":
           useStaticModel = true
+        of "materials", "m":
+          materialsFn = val
         else:
           stdout.write USAGE
           quit "Unexpected option: " & key, 2
