@@ -21,3 +21,27 @@ The samba directory is just a sample model to show it works:
 
 	cd samba
 	../modeltester *.mdl *.txt *.ani
+
+If that works then you could try converting a file of your own. Make a directory to work in:
+
+mkdir mymodel
+cd mymodel
+
+Then run AssetImporter (try --help for more options) perhaps like this:
+
+../AssetImporter model /some/path/to/mymodel.fbx mymodel.mdl -t -l
+
+Then you should typically get:
+
+mymodel.mdl
+mymodel.txt
+mymodel_something.ani
+Textures/*.png
+Materials/*.xml
+
+The txt file is the material list, its created since we used "-l". modeltester will use it to load the materials.
+
+...and then you can try it:
+
+../modeltester mymodel.mdl mymodel.txt mymode_something.ani
+
