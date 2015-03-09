@@ -92,8 +92,6 @@ public:
     void SetWindowPosition(const IntVector2& position);
     /// Set window position. Sets initial position if window is not created yet.
     void SetWindowPosition(int x, int y);
-	/// Set window hidden flag.
-	void SetWindowHidden(bool hidden);
     /// Set screen mode. Return true if successful.
     bool SetMode(int width, int height, bool fullscreen, bool borderless, bool resizable, bool vsync, bool tripleBuffer, int multiSample);
     /// Set screen resolution only. Return true if successful.
@@ -239,8 +237,6 @@ public:
     const String& GetWindowTitle() const { return windowTitle_; }
     /// Return window position.
     IntVector2 GetWindowPosition() const;
-	/// Return window hidden flag.
-	bool GetWindowHidden() const;
     /// Return window width.
     int GetWidth() const { return width_; }
     /// Return window height.
@@ -395,11 +391,6 @@ public:
     /// Clean up too large scratch buffers.
     void CleanupScratchBuffers();
     
-	/// Set the default render target
-	void SetDefaultRenderTarget(RenderSurface *defaultRenderTarget);
-	/// Set the default depth stencil
-	void SetDefaultDepthStencil(RenderSurface *defaultDepthStencil);
-
     /// Return the API-specific alpha texture format.
     static unsigned GetAlphaFormat();
     /// Return the API-specific luminance texture format.
@@ -611,12 +602,6 @@ private:
     SharedPtr<ShaderPrecache> shaderPrecache_;
     /// Allowed screen orientations.
     String orientations_;
-	/// Window hidden flag
-	bool windowHidden_;
-	/// Default render target
-	RenderSurface* defaultRenderTarget_;
-	/// Default depth stencil
-	RenderSurface* defaultDepthStencil_;
 };
 
 /// Register Graphics library objects.

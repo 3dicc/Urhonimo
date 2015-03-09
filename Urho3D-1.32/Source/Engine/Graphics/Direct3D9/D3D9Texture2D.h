@@ -69,9 +69,6 @@ public:
     RenderSurface* GetRenderSurface() const { return renderSurface_; }
     
 private:
-    /// Releases the read surface.
-    void ReleaseReadSurface();
-
     /// Create texture.
     bool Create();
     /// Handle render surface update event.
@@ -83,10 +80,6 @@ private:
     SharedPtr<Image> loadImage_;
     /// Parameter file acquired during BeginLoad.
     SharedPtr<XMLFile> loadParameters_;
-    /// Intermediate surface for reading render target data.
-    mutable SharedPtr<Texture2D> readTexture_;
-	/// Intermediate surface for reading render target data.
-	mutable void *readSurface_;
 };
 
 }
