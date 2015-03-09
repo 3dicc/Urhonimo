@@ -23,16 +23,15 @@ from math import random
 const
   USAGE = """
 Usage:
-  modeltester [options] modelfile animationfile materiallist
+  modeltester [options] modelfile materialsfile [animationfile]
 
 Arguments:
   modelfile      - A Urho3D .mdl file
+  materialsfile  - A Urho3D .txt material list file
   animationfile  - An optional Urho3D .ani file
 
 Options:
   -s,--static                  - Use a StaticModel instead, no animation
-  -m,--materials materiallist  - An optional file listing material filepaths to load
-
   -h,--help                    - Shows this help
   
 Keys:
@@ -109,7 +108,7 @@ proc createScene() =
     objStatic = createComponent[StaticModel](objectNode)
     objStatic.setModel(getResource[Model](cache, modelFn))
     if not materialsFn.isNil:
-      objStatic.applyMaterialList(materialsFn)
+      obj.applyMaterialList(materialsFn)
   else:
     obj = createComponent[AnimatedModel](objectNode)
     obj.setModel(getResource[Model](cache, modelFn))
@@ -304,7 +303,10 @@ proc parseCommandLine() =
         if modelFn.isNil:
           modelFn = key
         else:
-          animationFn = key
+          if materialsFn.isNil:
+            materialsFn = key
+          else:
+            animationFn = key
       of cmdLongOption, cmdShortOption:
         case key.normalize
         of "help", "h":
@@ -312,8 +314,6 @@ proc parseCommandLine() =
           quit 0
         of "static", "s":
           useStaticModel = true
-        of "materials", "m":
-          materialsFn = val
         else:
           stdout.write USAGE
           quit "Unexpected option: " & key, 2

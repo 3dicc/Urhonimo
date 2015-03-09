@@ -1,0 +1,7 @@
+Materials/JoinedMaterial_#1.xml
+Materials/JoinedMaterial_#1.xml
+Materials/JoinedMaterial_#1.xml
+Materials/Shoesmat.xml
+Materials/Topmat.xml
+Materials/Hairmat.xml
+Materials/Bottommat.xml
