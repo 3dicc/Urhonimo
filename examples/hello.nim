@@ -2,6 +2,7 @@
 import ui, urhomain, processutils, color, urstr, stringHash, variant, text,
   uielement
 
+include urholink
 # enable auto-deref for this module:
 {.experimental.}
 
