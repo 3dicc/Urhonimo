@@ -64,7 +64,7 @@ MainApplication* mainApp;
 void openUrho3D(bool fullScreen) {
   mainApp = new MainApplication(new Urho3D::Context());
   mainApp->GetEngineParams()["FullScreen"] = fullScreen;
-  mainApp->GetEngineParams()["LogLevel"] = LOG_DEBUG;
+  // mainApp->GetEngineParams()["LogLevel"] = LOG_DEBUG;
   if (!mainApp->GetEngine()->Initialize(mainApp->GetEngineParams()))
     ErrorExit();
 }
