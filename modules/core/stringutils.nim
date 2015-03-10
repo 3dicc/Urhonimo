@@ -1,7 +1,8 @@
 
 
 import 
-  variant
+  variant, urstr, color, rect, vector2, quaternion, vector3,
+  vector4, matrix3, matrix4, vector
 
 
 proc toBool*(source: UrString): bool {.importcpp: "Urho3D::ToBool(@)", 

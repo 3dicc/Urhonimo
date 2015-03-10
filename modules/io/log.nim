@@ -1,7 +1,7 @@
 
 
 import 
-  list, mutex, UrObject, stringUtils
+  list, mutex, UrObject, stringUtils, urstr, ptrs, stringHash
 
 
 var LOG_RAW* {.importc: "LOG_RAW", header: "Log.h".}: cint = - 1
@@ -46,15 +46,15 @@ type
     quiet* {.importc: "quiet_".}: bool
 
 
-proc getType*(this: Log): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: Log): StringHash {.noSideEffect, 
     importcpp: "GetType", header: "Log.h".}
-proc getBaseType*(this: Log): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: Log): StringHash {.noSideEffect, 
     importcpp: "GetBaseType", header: "Log.h".}
-proc getTypeName*(this: Log): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: Log): UrString {.noSideEffect, 
     importcpp: "GetTypeName", header: "Log.h".}
-proc getTypeStatic*(): Urho3D.StringHash {.
+proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::Log::GetTypeStatic(@)", header: "Log.h".}
-proc getTypeNameStatic*(): Urho3D.UrString {.
+proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::Log::GetTypeNameStatic(@)", header: "Log.h".}
 proc constructLog*(context: ptr Context): Log {.importcpp: "Urho3D::Log(@)", 
     header: "Log.h".}
