@@ -1,18 +1,19 @@
 
 
-import 
+import
   hashMap, stringHash, variant, rect, vector2, quaternion, vector3, vector4,
   color, matrix3, matrix4, boundingbox, urstr, vector
 
-type 
-  Serializer* {.importcpp: "Urho3D::Serializer", header: "Serializer.h".} = object 
-  
+type
+  Serializer* {.importcpp: "Urho3D::Serializer", header: "Serializer.h",
+                inheritable.} = object
 
-proc destroySerializer*(this: var Serializer) {.importcpp: "#.~Serializer()", 
+
+proc destroySerializer*(this: var Serializer) {.importcpp: "#.~Serializer()",
     header: "Serializer.h".}
 proc write*(this: var Serializer; data: pointer; size: cuint): cuint {.
     importcpp: "Write", header: "Serializer.h".}
-proc writeInt*(this: var Serializer; value: cint): bool {.importcpp: "WriteInt", 
+proc writeInt*(this: var Serializer; value: cint): bool {.importcpp: "WriteInt",
     header: "Serializer.h".}
 proc writeShort*(this: var Serializer; value: cshort): bool {.
     importcpp: "WriteShort", header: "Serializer.h".}
@@ -38,7 +39,7 @@ proc writeVector2*(this: var Serializer; value: Vector2): bool {.
     importcpp: "WriteVector2", header: "Serializer.h".}
 proc writeVector3*(this: var Serializer; value: Vector3): bool {.
     importcpp: "WriteVector3", header: "Serializer.h".}
-proc writePackedVector3*(this: var Serializer; value: Vector3; 
+proc writePackedVector3*(this: var Serializer; value: Vector3;
                          maxAbsCoord: cfloat): bool {.
     importcpp: "WritePackedVector3", header: "Serializer.h".}
 proc writeVector4*(this: var Serializer; value: Vector4): bool {.
