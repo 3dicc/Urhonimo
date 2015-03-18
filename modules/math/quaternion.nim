@@ -5,7 +5,7 @@ import
 
 
 type
-  Quaternion* {.importc: "Urho3D::Quaternion", header: "Quaternion.h".} = object
+  Quaternion* {.importcpp: "Urho3D::Quaternion", header: "Quaternion.h".} = object
     w* {.importc: "w_".}: cfloat
     x* {.importc: "x_".}: cfloat
     y* {.importc: "y_".}: cfloat
@@ -15,24 +15,24 @@ var Identity* {.importc: "Urho3D::Quaternion::IDENTITY",
                 header: "Quaternion.h".}: Quaternion
 
 proc constructQuaternion*(): Quaternion {.importcpp: "Urho3D::Quaternion(@)",
-    header: "Quaternion.h".}
-proc constructQuaternion*(quat: Quaternion): Quaternion {.
+    header: "Quaternion.h", constructor.}
+proc constructQuaternion*(quat: Quaternion): Quaternion {.constructor,
     importcpp: "Urho3D::Quaternion(@)", header: "Quaternion.h".}
 proc constructQuaternion*(w: cfloat; x: cfloat; y: cfloat; z: cfloat): Quaternion {.
-    importcpp: "Urho3D::Quaternion(@)", header: "Quaternion.h".}
-proc constructQuaternion*(data: ptr cfloat): Quaternion {.
+    importcpp: "Urho3D::Quaternion(@)", header: "Quaternion.h", constructor.}
+proc constructQuaternion*(data: ptr cfloat): Quaternion {.constructor,
     importcpp: "Urho3D::Quaternion(@)", header: "Quaternion.h".}
 proc constructQuaternion*(angle: cfloat; axis: Vector3): Quaternion {.
-    importcpp: "Urho3D::Quaternion(@)", header: "Quaternion.h".}
-proc constructQuaternion*(angle: cfloat): Quaternion {.
+    importcpp: "Urho3D::Quaternion(@)", header: "Quaternion.h", constructor.}
+proc constructQuaternion*(angle: cfloat): Quaternion {.constructor,
     importcpp: "Urho3D::Quaternion(@)", header: "Quaternion.h".}
 proc constructQuaternion*(x: cfloat; y: cfloat; z: cfloat): Quaternion {.
-    importcpp: "Urho3D::Quaternion(@)", header: "Quaternion.h".}
+    importcpp: "Urho3D::Quaternion(@)", header: "Quaternion.h", constructor.}
 proc constructQuaternion*(start: Vector3; `end`: Vector3): Quaternion {.
-    importcpp: "Urho3D::Quaternion(@)", header: "Quaternion.h".}
+    importcpp: "Urho3D::Quaternion(@)", header: "Quaternion.h", constructor.}
 proc constructQuaternion*(xAxis: Vector3; yAxis: Vector3; zAxis: Vector3): Quaternion {.
-    importcpp: "Urho3D::Quaternion(@)", header: "Quaternion.h".}
-proc constructQuaternion*(matrix: Matrix3): Quaternion {.
+    importcpp: "Urho3D::Quaternion(@)", header: "Quaternion.h", constructor.}
+proc constructQuaternion*(matrix: Matrix3): Quaternion {.constructor,
     importcpp: "Urho3D::Quaternion(@)", header: "Quaternion.h".}
 proc `+=`*(this: var Quaternion; rhs: Quaternion) {.importcpp: "(# += #)",
     header: "Quaternion.h".}

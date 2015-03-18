@@ -19,10 +19,10 @@ type
     error* {.importc: "error_".}: bool
 
 
-proc constructStoredLogMessage*(): StoredLogMessage {.
+proc constructStoredLogMessage*(): StoredLogMessage {.constructor,
     importcpp: "Urho3D::StoredLogMessage(@)", header: "Log.h".}
 proc constructStoredLogMessage*(message: UrString; level: cint; error: bool): StoredLogMessage {.
-    importcpp: "Urho3D::StoredLogMessage(@)", header: "Log.h".}
+    importcpp: "Urho3D::StoredLogMessage(@)", header: "Log.h", constructor.}
 
 type
   Log* {.importcpp: "Urho3D::Log", header: "Log.h".} = object of UrObject
@@ -47,7 +47,7 @@ proc getTypeStatic*(): StringHash {.
 proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::Log::GetTypeNameStatic(@)", header: "Log.h".}
 proc constructLog*(context: ptr Context): Log {.importcpp: "Urho3D::Log(@)",
-    header: "Log.h".}
+    header: "Log.h", constructor.}
 proc destroyLog*(this: var Log) {.importcpp: "#.~Log()", header: "Log.h".}
 proc open*(this: var Log; fileName: UrString) {.importcpp: "Open",
     header: "Log.h".}

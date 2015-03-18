@@ -1,6 +1,6 @@
 
 
-import 
+import
   component, vectorBuffer, urstr, urobject, stringHash, attribute, variant,
   vector3, quaternion, vector
 
@@ -11,10 +11,10 @@ discard "forward decl of Constraint"
 discard "forward decl of PhysicsWorld"
 discard "forward decl of SmoothedTransform"
 type
-  CollisionEventMode* {.importcpp: "Urho3D::CollisionEventMode".} = enum 
+  CollisionEventMode* {.importcpp: "Urho3D::CollisionEventMode".} = enum
     COLLISION_NEVER = 0, COLLISION_ACTIVE, COLLISION_ALWAYS
- 
-  RigidBody* {.importc: "Urho3D::RigidBody", header: "RigidBody.h".} = object of Component
+
+  RigidBody* {.importcpp: "Urho3D::RigidBody", header: "RigidBody.h".} = object of Component
     #body* {.importc: "body_".}: ptr BtRigidBody
     #compoundShape* {.importc: "compoundShape_".}: ptr BtCompoundShape
     #shiftedCompoundShape* {.importc: "shiftedCompoundShape_".}: ptr BtCompoundShape
@@ -39,27 +39,27 @@ type
       enableMassUpdate* {.importc: "enableMassUpdate_".}: bool
 
 
-proc getType*(this: RigidBody): StringHash {.noSideEffect, 
+proc getType*(this: RigidBody): StringHash {.noSideEffect,
     importcpp: "GetType", header: "RigidBody.h".}
-proc getBaseType*(this: RigidBody): StringHash {.noSideEffect, 
+proc getBaseType*(this: RigidBody): StringHash {.noSideEffect,
     importcpp: "GetBaseType", header: "RigidBody.h".}
-proc getTypeName*(this: RigidBody): UrString {.noSideEffect, 
+proc getTypeName*(this: RigidBody): UrString {.noSideEffect,
     importcpp: "GetTypeName", header: "RigidBody.h".}
 proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::RigidBody::GetTypeStatic(@)", header: "RigidBody.h".}
 proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::RigidBody::GetTypeNameStatic(@)", header: "RigidBody.h".}
-proc constructRigidBody*(context: ptr Context): RigidBody {.
+proc constructRigidBody*(context: ptr Context): RigidBody {.constructor,
     importcpp: "Urho3D::RigidBody(@)", header: "RigidBody.h".}
-proc destroyRigidBody*(this: var RigidBody) {.importcpp: "#.~RigidBody()", 
+proc destroyRigidBody*(this: var RigidBody) {.importcpp: "#.~RigidBody()",
     header: "RigidBody.h".}
 proc registerObject*(context: ptr Context) {.
     importcpp: "Urho3D::RigidBody::RegisterObject(@)", header: "RigidBody.h".}
 proc onSetAttribute*(this: var RigidBody; attr: AttributeInfo; src: Variant) {.
     importcpp: "OnSetAttribute", header: "RigidBody.h".}
-proc applyAttributes*(this: var RigidBody) {.importcpp: "ApplyAttributes", 
+proc applyAttributes*(this: var RigidBody) {.importcpp: "ApplyAttributes",
     header: "RigidBody.h".}
-proc onSetEnabled*(this: var RigidBody) {.importcpp: "OnSetEnabled", 
+proc onSetEnabled*(this: var RigidBody) {.importcpp: "OnSetEnabled",
     header: "RigidBody.h".}
 
 when false:
@@ -67,11 +67,11 @@ when false:
       noSideEffect, importcpp: "getWorldTransform", header: "RigidBody.h".}
   proc setWorldTransform*(this: var RigidBody; worldTrans: BtTransform) {.
       importcpp: "setWorldTransform", header: "RigidBody.h".}
-  proc drawDebugGeometry*(this: var RigidBody; debug: ptr DebugRenderer; 
-                          depthTest: bool) {.importcpp: "DrawDebugGeometry", 
+  proc drawDebugGeometry*(this: var RigidBody; debug: ptr DebugRenderer;
+                          depthTest: bool) {.importcpp: "DrawDebugGeometry",
       header: "RigidBody.h".}
 
-proc setMass*(this: var RigidBody; mass: cfloat) {.importcpp: "SetMass", 
+proc setMass*(this: var RigidBody; mass: cfloat) {.importcpp: "SetMass",
     header: "RigidBody.h".}
 proc setPosition*(this: var RigidBody; position: Vector3) {.
     importcpp: "SetPosition", header: "RigidBody.h".}
@@ -115,7 +115,7 @@ proc setGravityOverride*(this: var RigidBody; gravity: Vector3) {.
     importcpp: "SetGravityOverride", header: "RigidBody.h".}
 proc setKinematic*(this: var RigidBody; enable: bool) {.
     importcpp: "SetKinematic", header: "RigidBody.h".}
-proc setTrigger*(this: var RigidBody; enable: bool) {.importcpp: "SetTrigger", 
+proc setTrigger*(this: var RigidBody; enable: bool) {.importcpp: "SetTrigger",
     header: "RigidBody.h".}
 proc setCollisionLayer*(this: var RigidBody; layer: cuint) {.
     importcpp: "SetCollisionLayer", header: "RigidBody.h".}
@@ -125,7 +125,7 @@ proc setCollisionLayerAndMask*(this: var RigidBody; layer: cuint; mask: cuint) {
     importcpp: "SetCollisionLayerAndMask", header: "RigidBody.h".}
 proc setCollisionEventMode*(this: var RigidBody; mode: CollisionEventMode) {.
     importcpp: "SetCollisionEventMode", header: "RigidBody.h".}
-proc applyForce*(this: var RigidBody; force: Vector3) {.importcpp: "ApplyForce", 
+proc applyForce*(this: var RigidBody; force: Vector3) {.importcpp: "ApplyForce",
     header: "RigidBody.h".}
 proc applyForce*(this: var RigidBody; force: Vector3; position: Vector3) {.
     importcpp: "ApplyForce", header: "RigidBody.h".}
@@ -137,89 +137,89 @@ proc applyImpulse*(this: var RigidBody; impulse: Vector3; position: Vector3) {.
     importcpp: "ApplyImpulse", header: "RigidBody.h".}
 proc applyTorqueImpulse*(this: var RigidBody; torque: Vector3) {.
     importcpp: "ApplyTorqueImpulse", header: "RigidBody.h".}
-proc resetForces*(this: var RigidBody) {.importcpp: "ResetForces", 
+proc resetForces*(this: var RigidBody) {.importcpp: "ResetForces",
     header: "RigidBody.h".}
-proc activate*(this: var RigidBody) {.importcpp: "Activate", 
+proc activate*(this: var RigidBody) {.importcpp: "Activate",
                                       header: "RigidBody.h".}
-proc reAddBodyToWorld*(this: var RigidBody) {.importcpp: "ReAddBodyToWorld", 
+proc reAddBodyToWorld*(this: var RigidBody) {.importcpp: "ReAddBodyToWorld",
     header: "RigidBody.h".}
-proc disableMassUpdate*(this: var RigidBody) {.importcpp: "DisableMassUpdate", 
+proc disableMassUpdate*(this: var RigidBody) {.importcpp: "DisableMassUpdate",
     header: "RigidBody.h".}
-proc enableMassUpdate*(this: var RigidBody) {.importcpp: "EnableMassUpdate", 
+proc enableMassUpdate*(this: var RigidBody) {.importcpp: "EnableMassUpdate",
     header: "RigidBody.h".}
 
 when false:
-  proc getPhysicsWorld*(this: RigidBody): ptr PhysicsWorld {.noSideEffect, 
+  proc getPhysicsWorld*(this: RigidBody): ptr PhysicsWorld {.noSideEffect,
       importcpp: "GetPhysicsWorld", header: "RigidBody.h".}
-  proc getBody*(this: RigidBody): ptr BtRigidBody {.noSideEffect, 
+  proc getBody*(this: RigidBody): ptr BtRigidBody {.noSideEffect,
       importcpp: "GetBody", header: "RigidBody.h".}
-  proc getCompoundShape*(this: RigidBody): ptr BtCompoundShape {.noSideEffect, 
+  proc getCompoundShape*(this: RigidBody): ptr BtCompoundShape {.noSideEffect,
       importcpp: "GetCompoundShape", header: "RigidBody.h".}
 
-proc getMass*(this: RigidBody): cfloat {.noSideEffect, importcpp: "GetMass", 
+proc getMass*(this: RigidBody): cfloat {.noSideEffect, importcpp: "GetMass",
     header: "RigidBody.h".}
-proc getPosition*(this: RigidBody): Vector3 {.noSideEffect, 
+proc getPosition*(this: RigidBody): Vector3 {.noSideEffect,
     importcpp: "GetPosition", header: "RigidBody.h".}
-proc getRotation*(this: RigidBody): Quaternion {.noSideEffect, 
+proc getRotation*(this: RigidBody): Quaternion {.noSideEffect,
     importcpp: "GetRotation", header: "RigidBody.h".}
-proc getLinearVelocity*(this: RigidBody): Vector3 {.noSideEffect, 
+proc getLinearVelocity*(this: RigidBody): Vector3 {.noSideEffect,
     importcpp: "GetLinearVelocity", header: "RigidBody.h".}
-proc getLinearFactor*(this: RigidBody): Vector3 {.noSideEffect, 
+proc getLinearFactor*(this: RigidBody): Vector3 {.noSideEffect,
     importcpp: "GetLinearFactor", header: "RigidBody.h".}
 proc getVelocityAtPoint*(this: RigidBody; position: Vector3): Vector3 {.
     noSideEffect, importcpp: "GetVelocityAtPoint", header: "RigidBody.h".}
-proc getLinearRestThreshold*(this: RigidBody): cfloat {.noSideEffect, 
+proc getLinearRestThreshold*(this: RigidBody): cfloat {.noSideEffect,
     importcpp: "GetLinearRestThreshold", header: "RigidBody.h".}
-proc getLinearDamping*(this: RigidBody): cfloat {.noSideEffect, 
+proc getLinearDamping*(this: RigidBody): cfloat {.noSideEffect,
     importcpp: "GetLinearDamping", header: "RigidBody.h".}
-proc getAngularVelocity*(this: RigidBody): Vector3 {.noSideEffect, 
+proc getAngularVelocity*(this: RigidBody): Vector3 {.noSideEffect,
     importcpp: "GetAngularVelocity", header: "RigidBody.h".}
-proc getAngularFactor*(this: RigidBody): Vector3 {.noSideEffect, 
+proc getAngularFactor*(this: RigidBody): Vector3 {.noSideEffect,
     importcpp: "GetAngularFactor", header: "RigidBody.h".}
-proc getAngularRestThreshold*(this: RigidBody): cfloat {.noSideEffect, 
+proc getAngularRestThreshold*(this: RigidBody): cfloat {.noSideEffect,
     importcpp: "GetAngularRestThreshold", header: "RigidBody.h".}
-proc getAngularDamping*(this: RigidBody): cfloat {.noSideEffect, 
+proc getAngularDamping*(this: RigidBody): cfloat {.noSideEffect,
     importcpp: "GetAngularDamping", header: "RigidBody.h".}
-proc getFriction*(this: RigidBody): cfloat {.noSideEffect, 
+proc getFriction*(this: RigidBody): cfloat {.noSideEffect,
     importcpp: "GetFriction", header: "RigidBody.h".}
-proc getAnisotropicFriction*(this: RigidBody): Vector3 {.noSideEffect, 
+proc getAnisotropicFriction*(this: RigidBody): Vector3 {.noSideEffect,
     importcpp: "GetAnisotropicFriction", header: "RigidBody.h".}
-proc getRollingFriction*(this: RigidBody): cfloat {.noSideEffect, 
+proc getRollingFriction*(this: RigidBody): cfloat {.noSideEffect,
     importcpp: "GetRollingFriction", header: "RigidBody.h".}
-proc getRestitution*(this: RigidBody): cfloat {.noSideEffect, 
+proc getRestitution*(this: RigidBody): cfloat {.noSideEffect,
     importcpp: "GetRestitution", header: "RigidBody.h".}
-proc getContactProcessingThreshold*(this: RigidBody): cfloat {.noSideEffect, 
+proc getContactProcessingThreshold*(this: RigidBody): cfloat {.noSideEffect,
     importcpp: "GetContactProcessingThreshold", header: "RigidBody.h".}
-proc getCcdRadius*(this: RigidBody): cfloat {.noSideEffect, 
+proc getCcdRadius*(this: RigidBody): cfloat {.noSideEffect,
     importcpp: "GetCcdRadius", header: "RigidBody.h".}
-proc getCcdMotionThreshold*(this: RigidBody): cfloat {.noSideEffect, 
+proc getCcdMotionThreshold*(this: RigidBody): cfloat {.noSideEffect,
     importcpp: "GetCcdMotionThreshold", header: "RigidBody.h".}
-proc getUseGravity*(this: RigidBody): bool {.noSideEffect, 
+proc getUseGravity*(this: RigidBody): bool {.noSideEffect,
     importcpp: "GetUseGravity", header: "RigidBody.h".}
-proc getGravityOverride*(this: RigidBody): Vector3 {.noSideEffect, 
+proc getGravityOverride*(this: RigidBody): Vector3 {.noSideEffect,
     importcpp: "GetGravityOverride", header: "RigidBody.h".}
-proc getCenterOfMass*(this: RigidBody): Vector3 {.noSideEffect, 
+proc getCenterOfMass*(this: RigidBody): Vector3 {.noSideEffect,
     importcpp: "GetCenterOfMass", header: "RigidBody.h".}
-proc isKinematic*(this: RigidBody): bool {.noSideEffect, 
+proc isKinematic*(this: RigidBody): bool {.noSideEffect,
     importcpp: "IsKinematic", header: "RigidBody.h".}
-proc isTrigger*(this: RigidBody): bool {.noSideEffect, importcpp: "IsTrigger", 
+proc isTrigger*(this: RigidBody): bool {.noSideEffect, importcpp: "IsTrigger",
     header: "RigidBody.h".}
-proc isActive*(this: RigidBody): bool {.noSideEffect, importcpp: "IsActive", 
+proc isActive*(this: RigidBody): bool {.noSideEffect, importcpp: "IsActive",
                                         header: "RigidBody.h".}
-proc getCollisionLayer*(this: RigidBody): cuint {.noSideEffect, 
+proc getCollisionLayer*(this: RigidBody): cuint {.noSideEffect,
     importcpp: "GetCollisionLayer", header: "RigidBody.h".}
-proc getCollisionMask*(this: RigidBody): cuint {.noSideEffect, 
+proc getCollisionMask*(this: RigidBody): cuint {.noSideEffect,
     importcpp: "GetCollisionMask", header: "RigidBody.h".}
-proc getCollisionEventMode*(this: RigidBody): CollisionEventMode {.noSideEffect, 
+proc getCollisionEventMode*(this: RigidBody): CollisionEventMode {.noSideEffect,
     importcpp: "GetCollisionEventMode", header: "RigidBody.h".}
 proc getCollidingBodies*(this: RigidBody; result: var PODVector[ptr RigidBody]) {.
     noSideEffect, importcpp: "GetCollidingBodies", header: "RigidBody.h".}
-proc applyWorldTransform*(this: var RigidBody; newWorldPosition: Vector3; 
+proc applyWorldTransform*(this: var RigidBody; newWorldPosition: Vector3;
                           newWorldRotation: Quaternion) {.
     importcpp: "ApplyWorldTransform", header: "RigidBody.h".}
-proc updateMass*(this: var RigidBody) {.importcpp: "UpdateMass", 
+proc updateMass*(this: var RigidBody) {.importcpp: "UpdateMass",
                                         header: "RigidBody.h".}
-proc updateGravity*(this: var RigidBody) {.importcpp: "UpdateGravity", 
+proc updateGravity*(this: var RigidBody) {.importcpp: "UpdateGravity",
     header: "RigidBody.h".}
 proc setNetAngularVelocityAttr*(this: var RigidBody; value: PODVector[cuchar]) {.
     importcpp: "SetNetAngularVelocityAttr", header: "RigidBody.h".}
@@ -232,5 +232,5 @@ when false:
   proc removeConstraint*(this: var RigidBody; constraint: ptr Constraint) {.
       importcpp: "RemoveConstraint", header: "RigidBody.h".}
 
-proc releaseBody*(this: var RigidBody) {.importcpp: "ReleaseBody", 
+proc releaseBody*(this: var RigidBody) {.importcpp: "ReleaseBody",
     header: "RigidBody.h".}

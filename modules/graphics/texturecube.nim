@@ -1,5 +1,5 @@
 
 when defined(windows):
-  type TextureCube* {.importc: "Urho3D::TextureCube", header: "D3D9TextureCube.h".} = object
+  type TextureCube* {.importcpp: "Urho3D::TextureCube", header: "D3D9TextureCube.h".} = object
 else:
-  type TextureCube* {.importc: "Urho3D::TextureCube", header: "OGLTextureCube.h".} = object
+  type TextureCube* {.importcpp: "Urho3D::TextureCube", header: "OGLTextureCube.h".} = object

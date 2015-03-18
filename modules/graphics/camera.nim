@@ -1,6 +1,6 @@
 
 
-import 
+import
   boundingBox, component, graphicsDefs, ray, matrix4, vector2, plane,
   stringHash, urstr, urobject, vector3, quaternion, vector4
 
@@ -9,14 +9,14 @@ var DEFAULT_FARCLIP* {.importc: "DEFAULT_FARCLIP", header: "Camera.h".}: cfloat 
 var DEFAULT_CAMERA_FOV* {.importc: "DEFAULT_CAMERA_FOV", header: "Camera.h".}: cfloat #= 45.0
 var DEFAULT_ORTHOSIZE* {.importc: "DEFAULT_ORTHOSIZE", header: "Camera.h".}: cfloat #= 20.0
 var VO_NONE* {.importc: "VO_NONE", header: "Camera.h".}: cuint #= 0x00000000
-var VO_LOW_MATERIAL_QUALITY* {.importc: "VO_LOW_MATERIAL_QUALITY", 
+var VO_LOW_MATERIAL_QUALITY* {.importc: "VO_LOW_MATERIAL_QUALITY",
                                header: "Camera.h".}: cuint #= 0x00000001
 var VO_DISABLE_SHADOWS* {.importc: "VO_DISABLE_SHADOWS", header: "Camera.h".}: cuint #= 0x00000002
 var VO_DISABLE_OCCLUSION* {.importc: "VO_DISABLE_OCCLUSION", header: "Camera.h".}: cuint #= 0x00000004
 
 
-type 
-  Camera* {.importc: "Urho3D::Camera", header: "Camera.h".} = object of Component
+type
+  Camera* {.importcpp: "Urho3D::Camera", header: "Camera.h".} = object of Component
     view* {.importc: "view_".}: Matrix3x4
     projection* {.importc: "projection_".}: Matrix4
     frustum* {.importc: "frustum_".}: Frustum
@@ -44,28 +44,28 @@ type
     useClipping* {.importc: "useClipping_".}: bool
 
 
-proc getType*(this: Camera): StringHash {.noSideEffect, 
+proc getType*(this: Camera): StringHash {.noSideEffect,
     importcpp: "GetType", header: "Camera.h".}
-proc getBaseType*(this: Camera): StringHash {.noSideEffect, 
+proc getBaseType*(this: Camera): StringHash {.noSideEffect,
     importcpp: "GetBaseType", header: "Camera.h".}
-proc getTypeName*(this: Camera): UrString {.noSideEffect, 
+proc getTypeName*(this: Camera): UrString {.noSideEffect,
     importcpp: "GetTypeName", header: "Camera.h".}
 proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::Camera::GetTypeStatic(@)", header: "Camera.h".}
 proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::Camera::GetTypeNameStatic(@)", header: "Camera.h".}
 proc constructCamera*(context: ptr Context): Camera {.
-    importcpp: "Urho3D::Camera(@)", header: "Camera.h".}
-proc destroyCamera*(this: var Camera) {.importcpp: "#.~Camera()", 
+    importcpp: "Urho3D::Camera(@)", header: "Camera.h", constructor.}
+proc destroyCamera*(this: var Camera) {.importcpp: "#.~Camera()",
                                         header: "Camera.h".}
 proc registerObject*(context: ptr Context) {.
     importcpp: "Urho3D::Camera::RegisterObject(@)", header: "Camera.h".}
 
 proc setNearClip*(this: var Camera; nearClip: cfloat) {.
     importcpp: "SetNearClip", header: "Camera.h".}
-proc setFarClip*(this: var Camera; farClip: cfloat) {.importcpp: "SetFarClip", 
+proc setFarClip*(this: var Camera; farClip: cfloat) {.importcpp: "SetFarClip",
     header: "Camera.h".}
-proc setFov*(this: var Camera; fov: cfloat) {.importcpp: "SetFov", 
+proc setFov*(this: var Camera; fov: cfloat) {.importcpp: "SetFov",
     header: "Camera.h".}
 proc setOrthoSize*(this: var Camera; orthoSize: cfloat) {.
     importcpp: "SetOrthoSize", header: "Camera.h".}
@@ -73,13 +73,13 @@ proc setOrthoSize*(this: var Camera; orthoSize: Vector2) {.
     importcpp: "SetOrthoSize", header: "Camera.h".}
 proc setAspectRatio*(this: var Camera; aspectRatio: cfloat) {.
     importcpp: "SetAspectRatio", header: "Camera.h".}
-proc setFillMode*(this: var Camera; mode: FillMode) {.importcpp: "SetFillMode", 
+proc setFillMode*(this: var Camera; mode: FillMode) {.importcpp: "SetFillMode",
     header: "Camera.h".}
-proc setZoom*(this: var Camera; zoom: cfloat) {.importcpp: "SetZoom", 
+proc setZoom*(this: var Camera; zoom: cfloat) {.importcpp: "SetZoom",
     header: "Camera.h".}
-proc setLodBias*(this: var Camera; bias: cfloat) {.importcpp: "SetLodBias", 
+proc setLodBias*(this: var Camera; bias: cfloat) {.importcpp: "SetLodBias",
     header: "Camera.h".}
-proc setViewMask*(this: var Camera; mask: cuint) {.importcpp: "SetViewMask", 
+proc setViewMask*(this: var Camera; mask: cuint) {.importcpp: "SetViewMask",
     header: "Camera.h".}
 proc setViewOverrideFlags*(this: var Camera; flags: cuint) {.
     importcpp: "SetViewOverrideFlags", header: "Camera.h".}
@@ -95,93 +95,93 @@ proc setReflectionPlane*(this: var Camera; plane: Plane) {.
     importcpp: "SetReflectionPlane", header: "Camera.h".}
 proc setUseClipping*(this: var Camera; enable: bool) {.
     importcpp: "SetUseClipping", header: "Camera.h".}
-proc setClipPlane*(this: var Camera; plane: Plane) {.importcpp: "SetClipPlane", 
+proc setClipPlane*(this: var Camera; plane: Plane) {.importcpp: "SetClipPlane",
     header: "Camera.h".}
 proc setFlipVertical*(this: var Camera; enable: bool) {.
     importcpp: "SetFlipVertical", header: "Camera.h".}
-proc getFarClip*(this: Camera): cfloat {.noSideEffect, importcpp: "GetFarClip", 
+proc getFarClip*(this: Camera): cfloat {.noSideEffect, importcpp: "GetFarClip",
     header: "Camera.h".}
-proc getNearClip*(this: Camera): cfloat {.noSideEffect, 
+proc getNearClip*(this: Camera): cfloat {.noSideEffect,
     importcpp: "GetNearClip", header: "Camera.h".}
-proc getFov*(this: Camera): cfloat {.noSideEffect, importcpp: "GetFov", 
+proc getFov*(this: Camera): cfloat {.noSideEffect, importcpp: "GetFov",
                                      header: "Camera.h".}
-proc getOrthoSize*(this: Camera): cfloat {.noSideEffect, 
+proc getOrthoSize*(this: Camera): cfloat {.noSideEffect,
     importcpp: "GetOrthoSize", header: "Camera.h".}
-proc getAspectRatio*(this: Camera): cfloat {.noSideEffect, 
+proc getAspectRatio*(this: Camera): cfloat {.noSideEffect,
     importcpp: "GetAspectRatio", header: "Camera.h".}
-proc getZoom*(this: Camera): cfloat {.noSideEffect, importcpp: "GetZoom", 
+proc getZoom*(this: Camera): cfloat {.noSideEffect, importcpp: "GetZoom",
                                       header: "Camera.h".}
-proc getLodBias*(this: Camera): cfloat {.noSideEffect, importcpp: "GetLodBias", 
+proc getLodBias*(this: Camera): cfloat {.noSideEffect, importcpp: "GetLodBias",
     header: "Camera.h".}
-proc getViewMask*(this: Camera): cuint {.noSideEffect, importcpp: "GetViewMask", 
+proc getViewMask*(this: Camera): cuint {.noSideEffect, importcpp: "GetViewMask",
     header: "Camera.h".}
-proc getViewOverrideFlags*(this: Camera): cuint {.noSideEffect, 
+proc getViewOverrideFlags*(this: Camera): cuint {.noSideEffect,
     importcpp: "GetViewOverrideFlags", header: "Camera.h".}
-proc getFillMode*(this: Camera): FillMode {.noSideEffect, 
+proc getFillMode*(this: Camera): FillMode {.noSideEffect,
     importcpp: "GetFillMode", header: "Camera.h".}
-proc isOrthographic*(this: Camera): bool {.noSideEffect, 
+proc isOrthographic*(this: Camera): bool {.noSideEffect,
     importcpp: "IsOrthographic", header: "Camera.h".}
-proc getAutoAspectRatio*(this: Camera): bool {.noSideEffect, 
+proc getAutoAspectRatio*(this: Camera): bool {.noSideEffect,
     importcpp: "GetAutoAspectRatio", header: "Camera.h".}
-proc getFrustum*(this: Camera): Frustum {.noSideEffect, importcpp: "GetFrustum", 
+proc getFrustum*(this: Camera): Frustum {.noSideEffect, importcpp: "GetFrustum",
     header: "Camera.h".}
-proc getProjection*(this: Camera): Matrix4 {.noSideEffect, 
+proc getProjection*(this: Camera): Matrix4 {.noSideEffect,
     importcpp: "GetProjection", header: "Camera.h".}
-proc getProjection*(this: Camera; apiSpecific: bool): Matrix4 {.noSideEffect, 
+proc getProjection*(this: Camera; apiSpecific: bool): Matrix4 {.noSideEffect,
     importcpp: "GetProjection", header: "Camera.h".}
-proc getView*(this: Camera): Matrix3x4 {.noSideEffect, importcpp: "GetView", 
+proc getView*(this: Camera): Matrix3x4 {.noSideEffect, importcpp: "GetView",
     header: "Camera.h".}
 proc getFrustumSize*(this: Camera; near: var Vector3; far: var Vector3) {.
     noSideEffect, importcpp: "GetFrustumSize", header: "Camera.h".}
-proc getHalfViewSize*(this: Camera): cfloat {.noSideEffect, 
+proc getHalfViewSize*(this: Camera): cfloat {.noSideEffect,
     importcpp: "GetHalfViewSize", header: "Camera.h".}
 proc getSplitFrustum*(this: Camera; nearClip: cfloat; farClip: cfloat): Frustum {.
     noSideEffect, importcpp: "GetSplitFrustum", header: "Camera.h".}
-proc getViewSpaceFrustum*(this: Camera): Frustum {.noSideEffect, 
+proc getViewSpaceFrustum*(this: Camera): Frustum {.noSideEffect,
     importcpp: "GetViewSpaceFrustum", header: "Camera.h".}
 proc getViewSpaceSplitFrustum*(this: Camera; nearClip: cfloat; farClip: cfloat): Frustum {.
     noSideEffect, importcpp: "GetViewSpaceSplitFrustum", header: "Camera.h".}
-proc getScreenRay*(this: Camera; x: cfloat; y: cfloat): Ray {.noSideEffect, 
+proc getScreenRay*(this: Camera; x: cfloat; y: cfloat): Ray {.noSideEffect,
     importcpp: "GetScreenRay", header: "Camera.h".}
 proc worldToScreenPoint*(this: Camera; worldPos: Vector3): Vector2 {.
     noSideEffect, importcpp: "WorldToScreenPoint", header: "Camera.h".}
 proc screenToWorldPoint*(this: Camera; screenPos: Vector3): Vector3 {.
     noSideEffect, importcpp: "ScreenToWorldPoint", header: "Camera.h".}
-proc getProjectionOffset*(this: Camera): Vector2 {.noSideEffect, 
+proc getProjectionOffset*(this: Camera): Vector2 {.noSideEffect,
     importcpp: "GetProjectionOffset", header: "Camera.h".}
-proc getUseReflection*(this: Camera): bool {.noSideEffect, 
+proc getUseReflection*(this: Camera): bool {.noSideEffect,
     importcpp: "GetUseReflection", header: "Camera.h".}
-proc getReflectionPlane*(this: Camera): Plane {.noSideEffect, 
+proc getReflectionPlane*(this: Camera): Plane {.noSideEffect,
     importcpp: "GetReflectionPlane", header: "Camera.h".}
-proc getUseClipping*(this: Camera): bool {.noSideEffect, 
+proc getUseClipping*(this: Camera): bool {.noSideEffect,
     importcpp: "GetUseClipping", header: "Camera.h".}
-proc getClipPlane*(this: Camera): Plane {.noSideEffect, 
+proc getClipPlane*(this: Camera): Plane {.noSideEffect,
     importcpp: "GetClipPlane", header: "Camera.h".}
-proc getFlipVertical*(this: Camera): bool {.noSideEffect, 
+proc getFlipVertical*(this: Camera): bool {.noSideEffect,
     importcpp: "GetFlipVertical", header: "Camera.h".}
-proc getReverseCulling*(this: Camera): bool {.noSideEffect, 
+proc getReverseCulling*(this: Camera): bool {.noSideEffect,
     importcpp: "GetReverseCulling", header: "Camera.h".}
-proc getDistance*(this: Camera; worldPos: Vector3): cfloat {.noSideEffect, 
+proc getDistance*(this: Camera; worldPos: Vector3): cfloat {.noSideEffect,
     importcpp: "GetDistance", header: "Camera.h".}
 proc getDistanceSquared*(this: Camera; worldPos: Vector3): cfloat {.
     noSideEffect, importcpp: "GetDistanceSquared", header: "Camera.h".}
 proc getLodDistance*(this: Camera; distance: cfloat; scale: cfloat; bias: cfloat): cfloat {.
     noSideEffect, importcpp: "GetLodDistance", header: "Camera.h".}
-proc getFaceCameraRotation*(this: var Camera; position: Vector3; 
+proc getFaceCameraRotation*(this: var Camera; position: Vector3;
                             rotation: Quaternion; mode: FaceCameraMode): Quaternion {.
     importcpp: "GetFaceCameraRotation", header: "Camera.h".}
-proc getEffectiveWorldTransform*(this: Camera): Matrix3x4 {.noSideEffect, 
+proc getEffectiveWorldTransform*(this: Camera): Matrix3x4 {.noSideEffect,
     importcpp: "GetEffectiveWorldTransform", header: "Camera.h".}
-proc isProjectionValid*(this: Camera): bool {.noSideEffect, 
+proc isProjectionValid*(this: Camera): bool {.noSideEffect,
     importcpp: "IsProjectionValid", header: "Camera.h".}
 proc setAspectRatioInternal*(this: var Camera; aspectRatio: cfloat) {.
     importcpp: "SetAspectRatioInternal", header: "Camera.h".}
 proc setReflectionPlaneAttr*(this: var Camera; value: Vector4) {.
     importcpp: "SetReflectionPlaneAttr", header: "Camera.h".}
-proc getReflectionPlaneAttr*(this: Camera): Vector4 {.noSideEffect, 
+proc getReflectionPlaneAttr*(this: Camera): Vector4 {.noSideEffect,
     importcpp: "GetReflectionPlaneAttr", header: "Camera.h".}
 proc setClipPlaneAttr*(this: var Camera; value: Vector4) {.
     importcpp: "SetClipPlaneAttr", header: "Camera.h".}
-proc getClipPlaneAttr*(this: Camera): Vector4 {.noSideEffect, 
+proc getClipPlaneAttr*(this: Camera): Vector4 {.noSideEffect,
     importcpp: "GetClipPlaneAttr", header: "Camera.h".}
 

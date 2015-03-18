@@ -5,7 +5,7 @@ import
 
 
 type
-  Vector4* {.importc: "Urho3D::Vector4", header: "Vector4.h".} = object
+  Vector4* {.importcpp: "Urho3D::Vector4", header: "Vector4.h".} = object
     x* {.importc: "x_".}: cfloat
     y* {.importc: "y_".}: cfloat
     z* {.importc: "z_".}: cfloat
@@ -13,14 +13,14 @@ type
 
 
 proc constructVector4*(): Vector4 {.importcpp: "Urho3D::Vector4(@)",
-                                    header: "Vector4.h".}
+                                    header: "Vector4.h", constructor.}
 proc constructVector4*(vector: Vector4): Vector4 {.
-    importcpp: "Urho3D::Vector4(@)", header: "Vector4.h".}
+    importcpp: "Urho3D::Vector4(@)", header: "Vector4.h", constructor.}
 proc constructVector4*(vector: Vector3; w: cfloat): Vector4 {.
-    importcpp: "Urho3D::Vector4(@)", header: "Vector4.h".}
+    importcpp: "Urho3D::Vector4(@)", header: "Vector4.h", constructor.}
 proc constructVector4*(x: cfloat; y: cfloat; z: cfloat; w: cfloat): Vector4 {.
-    importcpp: "Urho3D::Vector4(@)", header: "Vector4.h".}
-proc constructVector4*(data: ptr cfloat): Vector4 {.
+    importcpp: "Urho3D::Vector4(@)", header: "Vector4.h", constructor.}
+proc constructVector4*(data: ptr cfloat): Vector4 {.constructor,
     importcpp: "Urho3D::Vector4(@)", header: "Vector4.h".}
 proc `==`*(this: Vector4; rhs: Vector4): bool {.noSideEffect,
     importcpp: "(# == #)", header: "Vector4.h".}

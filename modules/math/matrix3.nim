@@ -5,7 +5,7 @@ import
 
 
 type
-  Matrix3* {.importc: "Urho3D::Matrix3", header: "Matrix3.h".} = object
+  Matrix3* {.importcpp: "Urho3D::Matrix3", header: "Matrix3.h".} = object
     m00* {.importc: "m00_".}: cfloat
     m01* {.importc: "m01_".}: cfloat
     m02* {.importc: "m02_".}: cfloat
@@ -18,14 +18,14 @@ type
 
 
 proc constructMatrix3*(): Matrix3 {.importcpp: "Urho3D::Matrix3(@)",
-                                    header: "Matrix3.h".}
-proc constructMatrix3*(matrix: Matrix3): Matrix3 {.
+                                    constructor, header: "Matrix3.h".}
+proc constructMatrix3*(matrix: Matrix3): Matrix3 {.constructor,
     importcpp: "Urho3D::Matrix3(@)", header: "Matrix3.h".}
 proc constructMatrix3*(v00: cfloat; v01: cfloat; v02: cfloat; v10: cfloat;
                        v11: cfloat; v12: cfloat; v20: cfloat; v21: cfloat;
                        v22: cfloat): Matrix3 {.importcpp: "Urho3D::Matrix3(@)",
-    header: "Matrix3.h".}
-proc constructMatrix3*(data: ptr cfloat): Matrix3 {.
+    header: "Matrix3.h", constructor.}
+proc constructMatrix3*(data: ptr cfloat): Matrix3 {.constructor,
     importcpp: "Urho3D::Matrix3(@)", header: "Matrix3.h".}
 proc `==`*(this: Matrix3; rhs: Matrix3): bool {.noSideEffect,
     importcpp: "(# == #)", header: "Matrix3.h".}

@@ -5,18 +5,18 @@ import
 
 
 type
-  Vector2* {.importc: "Urho3D::Vector2", header: "Vector2.h".} = object
+  Vector2* {.importcpp: "Urho3D::Vector2", header: "Vector2.h".} = object
     x* {.importc: "x_".}: cfloat
     y* {.importc: "y_".}: cfloat
 
 
 proc constructVector2*(): Vector2 {.importcpp: "Urho3D::Vector2(@)",
-                                    header: "Vector2.h".}
-proc constructVector2*(vector: Vector2): Vector2 {.
+                                    header: "Vector2.h", constructor.}
+proc constructVector2*(vector: Vector2): Vector2 {.constructor,
     importcpp: "Urho3D::Vector2(@)", header: "Vector2.h".}
-proc constructVector2*(x: cfloat; y: cfloat): Vector2 {.
+proc constructVector2*(x: cfloat; y: cfloat): Vector2 {.constructor,
     importcpp: "Urho3D::Vector2(@)", header: "Vector2.h".}
-proc constructVector2*(data: ptr cfloat): Vector2 {.
+proc constructVector2*(data: ptr cfloat): Vector2 {.constructor,
     importcpp: "Urho3D::Vector2(@)", header: "Vector2.h".}
 proc `==`*(this: Vector2; rhs: Vector2): bool {.noSideEffect,
     importcpp: "(# == #)", header: "Vector2.h".}
@@ -74,18 +74,18 @@ proc `*`*(lhs: cfloat; rhs: Vector2): Vector2 {.noSideEffect,
     importcpp: "(# * #)", header: "Vector2.h".}
 
 type
-  IntVector2* {.importc: "Urho3D::IntVector2", header: "Vector2.h".} = object
+  IntVector2* {.importcpp: "Urho3D::IntVector2", header: "Vector2.h".} = object
     x* {.importc: "x_".}: cint
     y* {.importc: "y_".}: cint
 
 
 proc constructIntVector2*(): IntVector2 {.importcpp: "Urho3D::IntVector2(@)",
-    header: "Vector2.h".}
+    header: "Vector2.h", constructor.}
 proc constructIntVector2*(x: cint; y: cint): IntVector2 {.
-    importcpp: "Urho3D::IntVector2(@)", header: "Vector2.h".}
+    importcpp: "Urho3D::IntVector2(@)", header: "Vector2.h", constructor.}
 proc constructIntVector2*(data: ptr cint): IntVector2 {.
-    importcpp: "Urho3D::IntVector2(@)", header: "Vector2.h".}
-proc constructIntVector2*(rhs: IntVector2): IntVector2 {.
+    importcpp: "Urho3D::IntVector2(@)", header: "Vector2.h", constructor.}
+proc constructIntVector2*(rhs: IntVector2): IntVector2 {.constructor,
     importcpp: "Urho3D::IntVector2(@)", header: "Vector2.h".}
 proc `==`*(this: IntVector2; rhs: IntVector2): bool {.noSideEffect,
     importcpp: "(# == #)", header: "Vector2.h".}

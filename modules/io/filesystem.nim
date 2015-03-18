@@ -1,6 +1,6 @@
 
 
-import 
+import
   hashSet, list, UrObject, urstr, stringHash, vector
 
 discard "forward decl of AsyncExecRequest"
@@ -8,28 +8,28 @@ var SCAN_FILES* {.importc: "SCAN_FILES", header: "FileSystem.h".}: cuint #= 0x00
 var SCAN_DIRS* {.importc: "SCAN_DIRS", header: "FileSystem.h".}: cuint #= 0x00000002
 var SCAN_HIDDEN* {.importc: "SCAN_HIDDEN", header: "FileSystem.h".}: cuint #= 0x00000004
 
-type 
-  FileSystem* {.importc: "Urho3D::FileSystem", header: "FileSystem.h".} = object of UrObject
+type
+  FileSystem* {.importcpp: "Urho3D::FileSystem", header: "FileSystem.h".} = object of UrObject
     allowedPaths* {.importc: "allowedPaths_".}: HashSet[UrString]
     programDir* {.importc: "programDir_".}: UrString
     #asyncExecQueue* {.importc: "asyncExecQueue_".}: List[ptr AsyncExecRequest]
     nextAsyncExecID* {.importc: "nextAsyncExecID_".}: cuint
     executeConsoleCommands* {.importc: "executeConsoleCommands_".}: bool
 
-proc getType*(this: FileSystem): StringHash {.noSideEffect, 
+proc getType*(this: FileSystem): StringHash {.noSideEffect,
     importcpp: "GetType", header: "FileSystem.h".}
-proc getBaseType*(this: FileSystem): StringHash {.noSideEffect, 
+proc getBaseType*(this: FileSystem): StringHash {.noSideEffect,
     importcpp: "GetBaseType", header: "FileSystem.h".}
-proc getTypeName*(this: FileSystem): UrString {.noSideEffect, 
+proc getTypeName*(this: FileSystem): UrString {.noSideEffect,
     importcpp: "GetTypeName", header: "FileSystem.h".}
 proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::FileSystem::GetTypeStatic(@)", header: "FileSystem.h".}
 proc getTypeNameStatic*(): UrString {.
-    importcpp: "Urho3D::FileSystem::GetTypeNameStatic(@)", 
+    importcpp: "Urho3D::FileSystem::GetTypeNameStatic(@)",
     header: "FileSystem.h".}
-proc constructFileSystem*(context: ptr Context): FileSystem {.
+proc constructFileSystem*(context: ptr Context): FileSystem {.constructor,
     importcpp: "Urho3D::FileSystem(@)", header: "FileSystem.h".}
-proc destroyFileSystem*(this: var FileSystem) {.importcpp: "#.~FileSystem()", 
+proc destroyFileSystem*(this: var FileSystem) {.importcpp: "#.~FileSystem()",
     header: "FileSystem.h".}
 proc setCurrentDir*(this: var FileSystem; pathName: UrString): bool {.
     importcpp: "SetCurrentDir", header: "FileSystem.h".}
@@ -37,18 +37,18 @@ proc createDir*(this: var FileSystem; pathName: UrString): bool {.
     importcpp: "CreateDir", header: "FileSystem.h".}
 proc setExecuteConsoleCommands*(this: var FileSystem; enable: bool) {.
     importcpp: "SetExecuteConsoleCommands", header: "FileSystem.h".}
-proc systemCommand*(this: var FileSystem; commandLine: UrString; 
+proc systemCommand*(this: var FileSystem; commandLine: UrString;
                     redirectStdOutToLog: bool = false): cint {.
     importcpp: "SystemCommand", header: "FileSystem.h".}
-proc systemRun*(this: var FileSystem; fileName: UrString; 
-                arguments: Vector[UrString]): cint {.importcpp: "SystemRun", 
+proc systemRun*(this: var FileSystem; fileName: UrString;
+                arguments: Vector[UrString]): cint {.importcpp: "SystemRun",
     header: "FileSystem.h".}
 proc systemCommandAsync*(this: var FileSystem; commandLine: UrString): cuint {.
     importcpp: "SystemCommandAsync", header: "FileSystem.h".}
-proc systemRunAsync*(this: var FileSystem; fileName: UrString; 
+proc systemRunAsync*(this: var FileSystem; fileName: UrString;
                      arguments: Vector[UrString]): cuint {.
     importcpp: "SystemRunAsync", header: "FileSystem.h".}
-proc systemOpen*(this: var FileSystem; fileName: UrString; 
+proc systemOpen*(this: var FileSystem; fileName: UrString;
                  mode: UrString): bool {.
     importcpp: "SystemOpen", header: "FileSystem.h".}
 proc copy*(this: var FileSystem; srcFileName: UrString; destFileName: UrString): bool {.
@@ -59,40 +59,40 @@ proc delete*(this: var FileSystem; fileName: UrString): bool {.
     importcpp: "Delete", header: "FileSystem.h".}
 proc registerPath*(this: var FileSystem; pathName: UrString) {.
     importcpp: "RegisterPath", header: "FileSystem.h".}
-proc setLastModifiedTime*(this: var FileSystem; fileName: UrString; 
+proc setLastModifiedTime*(this: var FileSystem; fileName: UrString;
                           newTime: cuint): bool {.
     importcpp: "SetLastModifiedTime", header: "FileSystem.h".}
-proc getCurrentDir*(this: FileSystem): UrString {.noSideEffect, 
+proc getCurrentDir*(this: FileSystem): UrString {.noSideEffect,
     importcpp: "GetCurrentDir", header: "FileSystem.h".}
-proc getExecuteConsoleCommands*(this: FileSystem): bool {.noSideEffect, 
+proc getExecuteConsoleCommands*(this: FileSystem): bool {.noSideEffect,
     importcpp: "GetExecuteConsoleCommands", header: "FileSystem.h".}
-proc hasRegisteredPaths*(this: FileSystem): bool {.noSideEffect, 
+proc hasRegisteredPaths*(this: FileSystem): bool {.noSideEffect,
     importcpp: "HasRegisteredPaths", header: "FileSystem.h".}
-proc checkAccess*(this: FileSystem; pathName: UrString): bool {.noSideEffect, 
+proc checkAccess*(this: FileSystem; pathName: UrString): bool {.noSideEffect,
     importcpp: "CheckAccess", header: "FileSystem.h".}
 proc getLastModifiedTime*(this: FileSystem; fileName: UrString): cuint {.
     noSideEffect, importcpp: "GetLastModifiedTime", header: "FileSystem.h".}
-proc fileExists*(this: FileSystem; fileName: UrString): bool {.noSideEffect, 
+proc fileExists*(this: FileSystem; fileName: UrString): bool {.noSideEffect,
     importcpp: "FileExists", header: "FileSystem.h".}
-proc dirExists*(this: FileSystem; pathName: UrString): bool {.noSideEffect, 
+proc dirExists*(this: FileSystem; pathName: UrString): bool {.noSideEffect,
     importcpp: "DirExists", header: "FileSystem.h".}
-proc scanDir*(this: FileSystem; result: var Vector[UrString]; 
-              pathName: UrString; filter: UrString; flags: cuint; 
-              recursive: bool) {.noSideEffect, importcpp: "ScanDir", 
+proc scanDir*(this: FileSystem; result: var Vector[UrString];
+              pathName: UrString; filter: UrString; flags: cuint;
+              recursive: bool) {.noSideEffect, importcpp: "ScanDir",
                                  header: "FileSystem.h".}
-proc getProgramDir*(this: FileSystem): UrString {.noSideEffect, 
+proc getProgramDir*(this: FileSystem): UrString {.noSideEffect,
     importcpp: "GetProgramDir", header: "FileSystem.h".}
-proc getUserDocumentsDir*(this: FileSystem): UrString {.noSideEffect, 
+proc getUserDocumentsDir*(this: FileSystem): UrString {.noSideEffect,
     importcpp: "GetUserDocumentsDir", header: "FileSystem.h".}
 proc getAppPreferencesDir*(this: FileSystem; org: UrString; app: UrString): UrString {.
     noSideEffect, importcpp: "GetAppPreferencesDir", header: "FileSystem.h".}
 
-proc splitPath*(fullPath: UrString; pathName: var UrString; 
-                fileName: var UrString; extension: var UrString; 
+proc splitPath*(fullPath: UrString; pathName: var UrString;
+                fileName: var UrString; extension: var UrString;
                 lowercaseExtension: bool = true) {.
     importcpp: "Urho3D::SplitPath(@)", header: "FileSystem.h".}
 
-proc getPath*(fullPath: UrString): UrString {.importcpp: "Urho3D::GetPath(@)", 
+proc getPath*(fullPath: UrString): UrString {.importcpp: "Urho3D::GetPath(@)",
     header: "FileSystem.h".}
 
 proc getFileName*(fullPath: UrString): UrString {.
@@ -101,7 +101,7 @@ proc getFileName*(fullPath: UrString): UrString {.
 proc getExtension*(fullPath: UrString; lowercaseExtension: bool = true): UrString {.
     importcpp: "Urho3D::GetExtension(@)", header: "FileSystem.h".}
 
-proc getFileNameAndExtension*(fullPath: UrString; 
+proc getFileNameAndExtension*(fullPath: UrString;
                               lowercaseExtension: bool = false): UrString {.
     importcpp: "Urho3D::GetFileNameAndExtension(@)", header: "FileSystem.h".}
 

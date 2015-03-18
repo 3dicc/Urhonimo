@@ -5,25 +5,25 @@ import
 
 
 type
-  Vector3* {.importc: "Urho3D::Vector3", header: "Vector3.h".} = object
+  Vector3* {.importcpp: "Urho3D::Vector3", header: "Vector3.h".} = object
     x* {.importc: "x_".}: cfloat
     y* {.importc: "y_".}: cfloat
     z* {.importc: "z_".}: cfloat
 
 
 proc constructVector3*(): Vector3 {.importcpp: "Urho3D::Vector3(@)",
-                                    header: "Vector3.h".}
-proc constructVector3*(vector: Vector3): Vector3 {.
+                                    header: "Vector3.h", constructor.}
+proc constructVector3*(vector: Vector3): Vector3 {.constructor,
     importcpp: "Urho3D::Vector3(@)", header: "Vector3.h".}
-proc constructVector3*(vector: Vector2; z: cfloat): Vector3 {.
+proc constructVector3*(vector: Vector2; z: cfloat): Vector3 {.constructor,
     importcpp: "Urho3D::Vector3(@)", header: "Vector3.h".}
-proc constructVector3*(vector: Vector2): Vector3 {.
+proc constructVector3*(vector: Vector2): Vector3 {.constructor,
     importcpp: "Urho3D::Vector3(@)", header: "Vector3.h".}
-proc constructVector3*(x: cfloat; y: cfloat; z: cfloat): Vector3 {.
+proc constructVector3*(x: cfloat; y: cfloat; z: cfloat): Vector3 {.constructor,
     importcpp: "Urho3D::Vector3(@)", header: "Vector3.h".}
-proc constructVector3*(x: cfloat; y: cfloat): Vector3 {.
+proc constructVector3*(x: cfloat; y: cfloat): Vector3 {.constructor,
     importcpp: "Urho3D::Vector3(@)", header: "Vector3.h".}
-proc constructVector3*(data: ptr cfloat): Vector3 {.
+proc constructVector3*(data: ptr cfloat): Vector3 {.constructor,
     importcpp: "Urho3D::Vector3(@)", header: "Vector3.h".}
 proc `==`*(this: Vector3; rhs: Vector3): bool {.noSideEffect,
     importcpp: "(# == #)", header: "Vector3.h".}

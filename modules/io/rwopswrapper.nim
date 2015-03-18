@@ -1,15 +1,15 @@
 
 
-import 
+import
   file
 
 
-type 
-  RWOpsWrapper* {.importc: "Urho3D::RWOpsWrapper", header: "RWOpsWrapper.h".}[T] = object 
+type
+  RWOpsWrapper* {.importcpp: "Urho3D::RWOpsWrapper", header: "RWOpsWrapper.h".}[T] = object
     ops* {.importc: "ops_".}: SDL_RWops
 
 
-proc constructRWOpsWrapper*[T](`object`: var T): RWOpsWrapper[T] {.
+proc constructRWOpsWrapper*[T](`object`: var T): RWOpsWrapper[T] {.constructor,
     importcpp: "Urho3D::RWOpsWrapper(@)", header: "RWOpsWrapper.h".}
 proc getRWOps*[T](this: var RWOpsWrapper[T]): ptr SDL_RWops {.
     importcpp: "GetRWOps", header: "RWOpsWrapper.h".}

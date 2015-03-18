@@ -1,6 +1,6 @@
 
 
-import 
+import
   model, skeleton, staticModel, vector, ptrs, vertexbuffer, animation,
   animationstate, matrix4, boundingbox, vectorbuffer, stringHash, urstr,
   urobject, deserializer, xmlelement, octreequery, drawable, debugrenderer,
@@ -8,8 +8,8 @@ import
 
 discard "forward decl of Animation"
 discard "forward decl of AnimationState"
-type 
-  AnimatedModel* {.importc: "Urho3D::AnimatedModel", header: "AnimatedModel.h".} = object of StaticModel
+type
+  AnimatedModel* {.importcpp: "Urho3D::AnimatedModel", header: "AnimatedModel.h".} = object of StaticModel
     skeleton* {.importc: "skeleton_".}: Skeleton
     morphVertexBuffers* {.importc: "morphVertexBuffers_".}: Vector[
         SharedPtr[VertexBuffer]]
@@ -41,37 +41,37 @@ type
     assignBonesPending* {.importc: "assignBonesPending_".}: bool
 
 
-proc getType*(this: AnimatedModel): StringHash {.noSideEffect, 
+proc getType*(this: AnimatedModel): StringHash {.noSideEffect,
     importcpp: "GetType", header: "AnimatedModel.h".}
-proc getBaseType*(this: AnimatedModel): StringHash {.noSideEffect, 
+proc getBaseType*(this: AnimatedModel): StringHash {.noSideEffect,
     importcpp: "GetBaseType", header: "AnimatedModel.h".}
-proc getTypeName*(this: AnimatedModel): UrString {.noSideEffect, 
+proc getTypeName*(this: AnimatedModel): UrString {.noSideEffect,
     importcpp: "GetTypeName", header: "AnimatedModel.h".}
 proc getTypeStatic*(): StringHash {.
-    importcpp: "Urho3D::AnimatedModel::GetTypeStatic(@)", 
+    importcpp: "Urho3D::AnimatedModel::GetTypeStatic(@)",
     header: "AnimatedModel.h".}
 proc getTypeNameStatic*(): UrString {.
-    importcpp: "Urho3D::AnimatedModel::GetTypeNameStatic(@)", 
+    importcpp: "Urho3D::AnimatedModel::GetTypeNameStatic(@)",
     header: "AnimatedModel.h".}
-proc constructAnimatedModel*(context: ptr Context): AnimatedModel {.
+proc constructAnimatedModel*(context: ptr Context): AnimatedModel {.constructor,
     importcpp: "Urho3D::AnimatedModel(@)", header: "AnimatedModel.h".}
 proc destroyAnimatedModel*(this: var AnimatedModel) {.
     importcpp: "#.~AnimatedModel()", header: "AnimatedModel.h".}
 proc registerObject*(context: ptr Context) {.
-    importcpp: "Urho3D::AnimatedModel::RegisterObject(@)", 
+    importcpp: "Urho3D::AnimatedModel::RegisterObject(@)",
     header: "AnimatedModel.h".}
-proc load*(this: var AnimatedModel; source: var Deserializer; 
-           setInstanceDefault: bool = false): bool {.importcpp: "Load", 
+proc load*(this: var AnimatedModel; source: var Deserializer;
+           setInstanceDefault: bool = false): bool {.importcpp: "Load",
     header: "AnimatedModel.h".}
-proc loadXML*(this: var AnimatedModel; source: XMLElement; 
-              setInstanceDefault: bool = false): bool {.importcpp: "LoadXML", 
+proc loadXML*(this: var AnimatedModel; source: XMLElement;
+              setInstanceDefault: bool = false): bool {.importcpp: "LoadXML",
     header: "AnimatedModel.h".}
-proc applyAttributes*(this: var AnimatedModel) {.importcpp: "ApplyAttributes", 
+proc applyAttributes*(this: var AnimatedModel) {.importcpp: "ApplyAttributes",
     header: "AnimatedModel.h".}
-proc processRayQuery*(this: var AnimatedModel; query: RayOctreeQuery; 
+proc processRayQuery*(this: var AnimatedModel; query: RayOctreeQuery;
                       results: var PODVector[RayQueryResult]) {.
     importcpp: "ProcessRayQuery", header: "AnimatedModel.h".}
-proc update*(this: var AnimatedModel; frame: FrameInfo) {.importcpp: "Update", 
+proc update*(this: var AnimatedModel; frame: FrameInfo) {.importcpp: "Update",
     header: "AnimatedModel.h".}
 proc updateBatches*(this: var AnimatedModel; frame: FrameInfo) {.
     importcpp: "UpdateBatches", header: "AnimatedModel.h".}
@@ -79,11 +79,11 @@ proc updateGeometry*(this: var AnimatedModel; frame: FrameInfo) {.
     importcpp: "UpdateGeometry", header: "AnimatedModel.h".}
 proc getUpdateGeometryType*(this: var AnimatedModel): UpdateGeometryType {.
     importcpp: "GetUpdateGeometryType", header: "AnimatedModel.h".}
-proc drawDebugGeometry*(this: var AnimatedModel; debug: ptr DebugRenderer; 
-                        depthTest: bool) {.importcpp: "DrawDebugGeometry", 
+proc drawDebugGeometry*(this: var AnimatedModel; debug: ptr DebugRenderer;
+                        depthTest: bool) {.importcpp: "DrawDebugGeometry",
     header: "AnimatedModel.h".}
-proc setModel*(this: var AnimatedModel; model: ptr Model; 
-               createBones: bool = true) {.importcpp: "SetModel", 
+proc setModel*(this: var AnimatedModel; model: ptr Model;
+               createBones: bool = true) {.importcpp: "SetModel",
     header: "AnimatedModel.h".}
 proc addAnimationState*(this: var AnimatedModel; animation: ptr Animation): ptr AnimationState {.
     importcpp: "AddAnimationState", header: "AnimatedModel.h".}
@@ -91,7 +91,7 @@ proc removeAnimationState*(this: var AnimatedModel; animation: ptr Animation) {.
     importcpp: "RemoveAnimationState", header: "AnimatedModel.h".}
 proc removeAnimationState*(this: var AnimatedModel; animationName: UrString) {.
     importcpp: "RemoveAnimationState", header: "AnimatedModel.h".}
-proc removeAnimationState*(this: var AnimatedModel; 
+proc removeAnimationState*(this: var AnimatedModel;
                            animationNameHash: StringHash) {.
     importcpp: "RemoveAnimationState", header: "AnimatedModel.h".}
 proc removeAnimationState*(this: var AnimatedModel; state: ptr AnimationState) {.
@@ -108,8 +108,8 @@ proc setMorphWeight*(this: var AnimatedModel; index: cuint; weight: cfloat) {.
     importcpp: "SetMorphWeight", header: "AnimatedModel.h".}
 proc setMorphWeight*(this: var AnimatedModel; name: UrString; weight: cfloat) {.
     importcpp: "SetMorphWeight", header: "AnimatedModel.h".}
-proc setMorphWeight*(this: var AnimatedModel; nameHash: StringHash; 
-                     weight: cfloat) {.importcpp: "SetMorphWeight", 
+proc setMorphWeight*(this: var AnimatedModel; nameHash: StringHash;
+                     weight: cfloat) {.importcpp: "SetMorphWeight",
                                        header: "AnimatedModel.h".}
 proc resetMorphWeights*(this: var AnimatedModel) {.
     importcpp: "ResetMorphWeights", header: "AnimatedModel.h".}
@@ -117,7 +117,7 @@ proc getSkeleton*(this: var AnimatedModel): var Skeleton {.
     importcpp: "GetSkeleton", header: "AnimatedModel.h".}
 proc getAnimationStates*(this: AnimatedModel): Vector[SharedPtr[AnimationState]] {.
     noSideEffect, importcpp: "GetAnimationStates", header: "AnimatedModel.h".}
-proc getNumAnimationStates*(this: AnimatedModel): cuint {.noSideEffect, 
+proc getNumAnimationStates*(this: AnimatedModel): cuint {.noSideEffect,
     importcpp: "GetNumAnimationStates", header: "AnimatedModel.h".}
 proc getAnimationState*(this: AnimatedModel; animation: ptr Animation): ptr AnimationState {.
     noSideEffect, importcpp: "GetAnimationState", header: "AnimatedModel.h".}
@@ -127,23 +127,23 @@ proc getAnimationState*(this: AnimatedModel; animationNameHash: StringHash): ptr
     noSideEffect, importcpp: "GetAnimationState", header: "AnimatedModel.h".}
 proc getAnimationState*(this: AnimatedModel; index: cuint): ptr AnimationState {.
     noSideEffect, importcpp: "GetAnimationState", header: "AnimatedModel.h".}
-proc getAnimationLodBias*(this: AnimatedModel): cfloat {.noSideEffect, 
+proc getAnimationLodBias*(this: AnimatedModel): cfloat {.noSideEffect,
     importcpp: "GetAnimationLodBias", header: "AnimatedModel.h".}
-proc getUpdateInvisible*(this: AnimatedModel): bool {.noSideEffect, 
+proc getUpdateInvisible*(this: AnimatedModel): bool {.noSideEffect,
     importcpp: "GetUpdateInvisible", header: "AnimatedModel.h".}
-proc getMorphs*(this: AnimatedModel): Vector[ModelMorph] {.noSideEffect, 
+proc getMorphs*(this: AnimatedModel): Vector[ModelMorph] {.noSideEffect,
     importcpp: "GetMorphs", header: "AnimatedModel.h".}
 proc getMorphVertexBuffers*(this: AnimatedModel): Vector[SharedPtr[VertexBuffer]] {.
     noSideEffect, importcpp: "GetMorphVertexBuffers", header: "AnimatedModel.h".}
-proc getNumMorphs*(this: AnimatedModel): cuint {.noSideEffect, 
+proc getNumMorphs*(this: AnimatedModel): cuint {.noSideEffect,
     importcpp: "GetNumMorphs", header: "AnimatedModel.h".}
-proc getMorphWeight*(this: AnimatedModel; index: cuint): cfloat {.noSideEffect, 
+proc getMorphWeight*(this: AnimatedModel; index: cuint): cfloat {.noSideEffect,
     importcpp: "GetMorphWeight", header: "AnimatedModel.h".}
 proc getMorphWeight*(this: AnimatedModel; name: UrString): cfloat {.
     noSideEffect, importcpp: "GetMorphWeight", header: "AnimatedModel.h".}
 proc getMorphWeight*(this: AnimatedModel; nameHash: StringHash): cfloat {.
     noSideEffect, importcpp: "GetMorphWeight", header: "AnimatedModel.h".}
-proc isMaster*(this: AnimatedModel): bool {.noSideEffect, importcpp: "IsMaster", 
+proc isMaster*(this: AnimatedModel): bool {.noSideEffect, importcpp: "IsMaster",
     header: "AnimatedModel.h".}
 proc setModelAttr*(this: var AnimatedModel; value: ResourceRef) {.
     importcpp: "SetModelAttr", header: "AnimatedModel.h".}
@@ -153,17 +153,17 @@ proc setAnimationStatesAttr*(this: var AnimatedModel; value: VariantVector) {.
     importcpp: "SetAnimationStatesAttr", header: "AnimatedModel.h".}
 proc setMorphsAttr*(this: var AnimatedModel; value: PODVector[cuchar]) {.
     importcpp: "SetMorphsAttr", header: "AnimatedModel.h".}
-proc getModelAttr*(this: AnimatedModel): ResourceRef {.noSideEffect, 
+proc getModelAttr*(this: AnimatedModel): ResourceRef {.noSideEffect,
     importcpp: "GetModelAttr", header: "AnimatedModel.h".}
-proc getBonesEnabledAttr*(this: AnimatedModel): VariantVector {.noSideEffect, 
+proc getBonesEnabledAttr*(this: AnimatedModel): VariantVector {.noSideEffect,
     importcpp: "GetBonesEnabledAttr", header: "AnimatedModel.h".}
-proc getAnimationStatesAttr*(this: AnimatedModel): VariantVector {.noSideEffect, 
+proc getAnimationStatesAttr*(this: AnimatedModel): VariantVector {.noSideEffect,
     importcpp: "GetAnimationStatesAttr", header: "AnimatedModel.h".}
-proc getMorphsAttr*(this: AnimatedModel): PODVector[cuchar] {.noSideEffect, 
+proc getMorphsAttr*(this: AnimatedModel): PODVector[cuchar] {.noSideEffect,
     importcpp: "GetMorphsAttr", header: "AnimatedModel.h".}
 proc getGeometryBoneMappings*(this: AnimatedModel): Vector[PODVector[cuint]] {.
-    noSideEffect, importcpp: "GetGeometryBoneMappings", 
+    noSideEffect, importcpp: "GetGeometryBoneMappings",
     header: "AnimatedModel.h".}
 proc getGeometrySkinMatrices*(this: AnimatedModel): Vector[PODVector[Matrix3x4]] {.
-    noSideEffect, importcpp: "GetGeometrySkinMatrices", 
+    noSideEffect, importcpp: "GetGeometrySkinMatrices",
     header: "AnimatedModel.h".}

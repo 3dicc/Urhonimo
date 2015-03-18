@@ -4,24 +4,24 @@ import
   vector3, vector4, matrix3, matrix4, quaternion, urstr
 
 proc constructMatrix3x4*(): Matrix3x4 {.importcpp: "Urho3D::Matrix3x4(@)",
-                                        header: "Matrix3x4.h".}
-proc constructMatrix3x4*(matrix: Matrix3x4): Matrix3x4 {.
+                                        header: "Matrix3x4.h", constructor.}
+proc constructMatrix3x4*(matrix: Matrix3x4): Matrix3x4 {.constructor,
     importcpp: "Urho3D::Matrix3x4(@)", header: "Matrix3x4.h".}
-proc constructMatrix3x4*(matrix: Matrix3): Matrix3x4 {.
+proc constructMatrix3x4*(matrix: Matrix3): Matrix3x4 {.constructor,
     importcpp: "Urho3D::Matrix3x4(@)", header: "Matrix3x4.h".}
-proc constructMatrix3x4*(matrix: Matrix4): Matrix3x4 {.
+proc constructMatrix3x4*(matrix: Matrix4): Matrix3x4 {.constructor,
     importcpp: "Urho3D::Matrix3x4(@)", header: "Matrix3x4.h".}
 proc constructMatrix3x4*(v00: cfloat; v01: cfloat; v02: cfloat; v03: cfloat;
                          v10: cfloat; v11: cfloat; v12: cfloat; v13: cfloat;
                          v20: cfloat; v21: cfloat; v22: cfloat; v23: cfloat): Matrix3x4 {.
-    importcpp: "Urho3D::Matrix3x4(@)", header: "Matrix3x4.h".}
-proc constructMatrix3x4*(data: ptr cfloat): Matrix3x4 {.
-    importcpp: "Urho3D::Matrix3x4(@)", header: "Matrix3x4.h".}
-proc constructMatrix3x4*(translation: Vector3; rotation: Quaternion;
-                         scale: cfloat): Matrix3x4 {.
+    importcpp: "Urho3D::Matrix3x4(@)", header: "Matrix3x4.h", constructor.}
+proc constructMatrix3x4*(data: ptr cfloat): Matrix3x4 {.constructor,
     importcpp: "Urho3D::Matrix3x4(@)", header: "Matrix3x4.h".}
 proc constructMatrix3x4*(translation: Vector3; rotation: Quaternion;
-                         scale: Vector3): Matrix3x4 {.
+                         scale: cfloat): Matrix3x4 {.constructor,
+    importcpp: "Urho3D::Matrix3x4(@)", header: "Matrix3x4.h".}
+proc constructMatrix3x4*(translation: Vector3; rotation: Quaternion;
+                         scale: Vector3): Matrix3x4 {.constructor,
     importcpp: "Urho3D::Matrix3x4(@)", header: "Matrix3x4.h".}
 proc `==`*(this: Matrix3x4; rhs: Matrix3x4): bool {.noSideEffect,
     importcpp: "(# == #)", header: "Matrix3x4.h".}

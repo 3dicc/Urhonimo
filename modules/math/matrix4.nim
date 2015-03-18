@@ -4,7 +4,7 @@ import
   quaternion, vector3, vector4, matrix3, urstr
 
 type
-  Matrix3x4* {.importc: "Urho3D::Matrix3x4", header: "Matrix3x4.h".} = object
+  Matrix3x4* {.importcpp: "Urho3D::Matrix3x4", header: "Matrix3x4.h".} = object
     m00* {.importc: "m00_".}: cfloat
     m01* {.importc: "m01_".}: cfloat
     m02* {.importc: "m02_".}: cfloat
@@ -19,7 +19,7 @@ type
     m23* {.importc: "m23_".}: cfloat
 
 type
-  Matrix4* {.importc: "Urho3D::Matrix4", header: "Matrix4.h".} = object
+  Matrix4* {.importcpp: "Urho3D::Matrix4", header: "Matrix4.h".} = object
     m00* {.importc: "m00_".}: cfloat
     m01* {.importc: "m01_".}: cfloat
     m02* {.importc: "m02_".}: cfloat
@@ -39,17 +39,17 @@ type
 
 
 proc constructMatrix4*(): Matrix4 {.importcpp: "Urho3D::Matrix4(@)",
-                                    header: "Matrix4.h".}
-proc constructMatrix4*(matrix: Matrix4): Matrix4 {.
+                                    header: "Matrix4.h", constructor.}
+proc constructMatrix4*(matrix: Matrix4): Matrix4 {.constructor,
     importcpp: "Urho3D::Matrix4(@)", header: "Matrix4.h".}
-proc constructMatrix4*(matrix: Matrix3): Matrix4 {.
+proc constructMatrix4*(matrix: Matrix3): Matrix4 {.constructor,
     importcpp: "Urho3D::Matrix4(@)", header: "Matrix4.h".}
 proc constructMatrix4*(v00: cfloat; v01: cfloat; v02: cfloat; v03: cfloat;
                        v10: cfloat; v11: cfloat; v12: cfloat; v13: cfloat;
                        v20: cfloat; v21: cfloat; v22: cfloat; v23: cfloat;
                        v30: cfloat; v31: cfloat; v32: cfloat; v33: cfloat): Matrix4 {.
-    importcpp: "Urho3D::Matrix4(@)", header: "Matrix4.h".}
-proc constructMatrix4*(data: ptr cfloat): Matrix4 {.
+    importcpp: "Urho3D::Matrix4(@)", header: "Matrix4.h", constructor.}
+proc constructMatrix4*(data: ptr cfloat): Matrix4 {.constructor,
     importcpp: "Urho3D::Matrix4(@)", header: "Matrix4.h".}
 proc `==`*(this: Matrix4; rhs: Matrix4): bool {.noSideEffect,
     importcpp: "(# == #)", header: "Matrix4.h".}

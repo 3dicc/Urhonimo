@@ -1,12 +1,12 @@
 
 
-import 
+import
   staticModel, vector, ptrs, component, matrix4, stringHash, variant, urstr, urobject,
   octreequery, drawable, occlusionbuffer
 
 
-type 
-  StaticModelGroup* {.importc: "Urho3D::StaticModelGroup", 
+type
+  StaticModelGroup* {.importcpp: "Urho3D::StaticModelGroup",
                       header: "StaticModelGroup.h".} = object of StaticModel
     instanceNodes* {.importc: "instanceNodes_".}: Vector[WeakPtr[Node]]
     worldTransforms* {.importc: "worldTransforms_".}: PODVector[Matrix3x4]
@@ -15,28 +15,29 @@ type
     nodeIDsDirty* {.importc: "nodeIDsDirty_".}: bool
 
 
-proc getType*(this: StaticModelGroup): StringHash {.noSideEffect, 
+proc getType*(this: StaticModelGroup): StringHash {.noSideEffect,
     importcpp: "GetType", header: "StaticModelGroup.h".}
-proc getBaseType*(this: StaticModelGroup): StringHash {.noSideEffect, 
+proc getBaseType*(this: StaticModelGroup): StringHash {.noSideEffect,
     importcpp: "GetBaseType", header: "StaticModelGroup.h".}
-proc getTypeName*(this: StaticModelGroup): UrString {.noSideEffect, 
+proc getTypeName*(this: StaticModelGroup): UrString {.noSideEffect,
     importcpp: "GetTypeName", header: "StaticModelGroup.h".}
 proc getTypeStatic*(): StringHash {.
-    importcpp: "Urho3D::StaticModelGroup::GetTypeStatic(@)", 
+    importcpp: "Urho3D::StaticModelGroup::GetTypeStatic(@)",
     header: "StaticModelGroup.h".}
 proc getTypeNameStatic*(): UrString {.
-    importcpp: "Urho3D::StaticModelGroup::GetTypeNameStatic(@)", 
+    importcpp: "Urho3D::StaticModelGroup::GetTypeNameStatic(@)",
     header: "StaticModelGroup.h".}
 proc constructStaticModelGroup*(context: ptr Context): StaticModelGroup {.
-    importcpp: "Urho3D::StaticModelGroup(@)", header: "StaticModelGroup.h".}
+    importcpp: "Urho3D::StaticModelGroup(@)", header: "StaticModelGroup.h",
+    constructor.}
 proc destroyStaticModelGroup*(this: var StaticModelGroup) {.
     importcpp: "#.~StaticModelGroup()", header: "StaticModelGroup.h".}
 proc registerObject*(context: ptr Context) {.
-    importcpp: "Urho3D::StaticModelGroup::RegisterObject(@)", 
+    importcpp: "Urho3D::StaticModelGroup::RegisterObject(@)",
     header: "StaticModelGroup.h".}
 proc applyAttributes*(this: var StaticModelGroup) {.
     importcpp: "ApplyAttributes", header: "StaticModelGroup.h".}
-proc processRayQuery*(this: var StaticModelGroup; query: RayOctreeQuery; 
+proc processRayQuery*(this: var StaticModelGroup; query: RayOctreeQuery;
                       results: var PODVector[RayQueryResult]) {.
     importcpp: "ProcessRayQuery", header: "StaticModelGroup.h".}
 proc updateBatches*(this: var StaticModelGroup; frame: FrameInfo) {.
@@ -51,11 +52,11 @@ proc removeInstanceNode*(this: var StaticModelGroup; node: ptr Node) {.
     importcpp: "RemoveInstanceNode", header: "StaticModelGroup.h".}
 proc removeAllInstanceNodes*(this: var StaticModelGroup) {.
     importcpp: "RemoveAllInstanceNodes", header: "StaticModelGroup.h".}
-proc getNumInstanceNodes*(this: StaticModelGroup): cuint {.noSideEffect, 
+proc getNumInstanceNodes*(this: StaticModelGroup): cuint {.noSideEffect,
     importcpp: "GetNumInstanceNodes", header: "StaticModelGroup.h".}
 proc getInstanceNode*(this: StaticModelGroup; index: cuint): ptr Node {.
     noSideEffect, importcpp: "GetInstanceNode", header: "StaticModelGroup.h".}
 proc setNodeIDsAttr*(this: var StaticModelGroup; value: VariantVector) {.
     importcpp: "SetNodeIDsAttr", header: "StaticModelGroup.h".}
-proc getNodeIDsAttr*(this: StaticModelGroup): VariantVector {.noSideEffect, 
+proc getNodeIDsAttr*(this: StaticModelGroup): VariantVector {.noSideEffect,
     importcpp: "GetNodeIDsAttr", header: "StaticModelGroup.h".}
