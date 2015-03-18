@@ -1,18 +1,18 @@
 
 
-import 
+import
   scrollView, ptrs,
   uielement, vector2, stringHash, urstr, urobject, vector, rect
 
 
-type 
-  HighlightMode* {.importcpp: "Urho3D::HighlightMode".} = enum 
+type
+  HighlightMode* {.importcpp: "Urho3D::HighlightMode".} = enum
     HM_NEVER, HM_FOCUS, HM_ALWAYS
 
 
 
-type 
-  ListView* {.importc: "Urho3D::ListView", header: "ListView.h".} = object of ScrollView
+type
+  ListView* {.importcpp: "Urho3D::ListView", header: "ListView.h".} = object of ScrollView
     selections* {.importc: "selections_".}: PODVector[cuint]
     highlightMode* {.importc: "highlightMode_".}: HighlightMode
     multiselect* {.importc: "multiselect_".}: bool
@@ -23,35 +23,35 @@ type
     selectOnClickEnd* {.importc: "selectOnClickEnd_".}: bool
 
 
-proc getType*(this: ListView): StringHash {.noSideEffect, 
+proc getType*(this: ListView): StringHash {.noSideEffect,
     importcpp: "GetType", header: "ListView.h".}
-proc getBaseType*(this: ListView): StringHash {.noSideEffect, 
+proc getBaseType*(this: ListView): StringHash {.noSideEffect,
     importcpp: "GetBaseType", header: "ListView.h".}
-proc getTypeName*(this: ListView): UrString {.noSideEffect, 
+proc getTypeName*(this: ListView): UrString {.noSideEffect,
     importcpp: "GetTypeName", header: "ListView.h".}
 proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::ListView::GetTypeStatic(@)", header: "ListView.h".}
 proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::ListView::GetTypeNameStatic(@)", header: "ListView.h".}
-proc constructListView*(context: ptr Context): ListView {.
+proc constructListView*(context: ptr Context): ListView {.constructor,
     importcpp: "Urho3D::ListView(@)", header: "ListView.h".}
-proc destroyListView*(this: var ListView) {.importcpp: "#.~ListView()", 
+proc destroyListView*(this: var ListView) {.importcpp: "#.~ListView()",
     header: "ListView.h".}
 proc registerObject*(context: ptr Context) {.
     importcpp: "Urho3D::ListView::RegisterObject(@)", header: "ListView.h".}
 proc onKey*(this: var ListView; key: cint; buttons: cint; qualifiers: cint) {.
     importcpp: "OnKey", header: "ListView.h".}
 proc onResize*(this: var ListView) {.importcpp: "OnResize", header: "ListView.h".}
-proc addItem*(this: var ListView; item: ptr UIElement) {.importcpp: "AddItem", 
+proc addItem*(this: var ListView; item: ptr UIElement) {.importcpp: "AddItem",
     header: "ListView.h".}
-proc insertItem*(this: var ListView; index: cuint; item: ptr UIElement; 
-                 parentItem: ptr UIElement = nil) {.importcpp: "InsertItem", 
+proc insertItem*(this: var ListView; index: cuint; item: ptr UIElement;
+                 parentItem: ptr UIElement = nil) {.importcpp: "InsertItem",
     header: "ListView.h".}
 proc removeItem*(this: var ListView; item: ptr UIElement; index: cuint = 0) {.
     importcpp: "RemoveItem", header: "ListView.h".}
-proc removeItem*(this: var ListView; index: cuint) {.importcpp: "RemoveItem", 
+proc removeItem*(this: var ListView; index: cuint) {.importcpp: "RemoveItem",
     header: "ListView.h".}
-proc removeAllItems*(this: var ListView) {.importcpp: "RemoveAllItems", 
+proc removeAllItems*(this: var ListView) {.importcpp: "RemoveAllItems",
     header: "ListView.h".}
 proc setSelection*(this: var ListView; index: cuint) {.
     importcpp: "SetSelection", header: "ListView.h".}
@@ -65,7 +65,7 @@ proc toggleSelection*(this: var ListView; index: cuint) {.
     importcpp: "ToggleSelection", header: "ListView.h".}
 proc changeSelection*(this: var ListView; delta: cint; additive: bool = false) {.
     importcpp: "ChangeSelection", header: "ListView.h".}
-proc clearSelection*(this: var ListView) {.importcpp: "ClearSelection", 
+proc clearSelection*(this: var ListView) {.importcpp: "ClearSelection",
     header: "ListView.h".}
 proc setHighlightMode*(this: var ListView; mode: HighlightMode) {.
     importcpp: "SetHighlightMode", header: "ListView.h".}
@@ -79,44 +79,44 @@ proc setClearSelectionOnDefocus*(this: var ListView; enable: bool) {.
     importcpp: "SetClearSelectionOnDefocus", header: "ListView.h".}
 proc setSelectOnClickEnd*(this: var ListView; enable: bool) {.
     importcpp: "SetSelectOnClickEnd", header: "ListView.h".}
-proc expand*(this: var ListView; index: cuint; enable: bool; 
-             recursive: bool = false) {.importcpp: "Expand", 
+proc expand*(this: var ListView; index: cuint; enable: bool;
+             recursive: bool = false) {.importcpp: "Expand",
                                         header: "ListView.h".}
 proc toggleExpand*(this: var ListView; index: cuint; recursive: bool = false) {.
     importcpp: "ToggleExpand", header: "ListView.h".}
-proc getNumItems*(this: ListView): cuint {.noSideEffect, 
+proc getNumItems*(this: ListView): cuint {.noSideEffect,
     importcpp: "GetNumItems", header: "ListView.h".}
-proc getItem*(this: ListView; index: cuint): ptr UIElement {.noSideEffect, 
+proc getItem*(this: ListView; index: cuint): ptr UIElement {.noSideEffect,
     importcpp: "GetItem", header: "ListView.h".}
-proc getItems*(this: ListView): PODVector[ptr UIElement] {.noSideEffect, 
+proc getItems*(this: ListView): PODVector[ptr UIElement] {.noSideEffect,
     importcpp: "GetItems", header: "ListView.h".}
-proc findItem*(this: ListView; item: ptr UIElement): cuint {.noSideEffect, 
+proc findItem*(this: ListView; item: ptr UIElement): cuint {.noSideEffect,
     importcpp: "FindItem", header: "ListView.h".}
-proc getSelection*(this: ListView): cuint {.noSideEffect, 
+proc getSelection*(this: ListView): cuint {.noSideEffect,
     importcpp: "GetSelection", header: "ListView.h".}
-proc getSelections*(this: ListView): PODVector[cuint] {.noSideEffect, 
+proc getSelections*(this: ListView): PODVector[cuint] {.noSideEffect,
     importcpp: "GetSelections", header: "ListView.h".}
-proc copySelectedItemsToClipboard*(this: ListView) {.noSideEffect, 
+proc copySelectedItemsToClipboard*(this: ListView) {.noSideEffect,
     importcpp: "CopySelectedItemsToClipboard", header: "ListView.h".}
-proc getSelectedItem*(this: ListView): ptr UIElement {.noSideEffect, 
+proc getSelectedItem*(this: ListView): ptr UIElement {.noSideEffect,
     importcpp: "GetSelectedItem", header: "ListView.h".}
-proc getSelectedItems*(this: ListView): PODVector[ptr UIElement] {.noSideEffect, 
+proc getSelectedItems*(this: ListView): PODVector[ptr UIElement] {.noSideEffect,
     importcpp: "GetSelectedItems", header: "ListView.h".}
-proc isSelected*(this: ListView; index: cuint): bool {.noSideEffect, 
+proc isSelected*(this: ListView; index: cuint): bool {.noSideEffect,
     importcpp: "IsSelected", header: "ListView.h".}
-proc isExpanded*(this: ListView; index: cuint): bool {.noSideEffect, 
+proc isExpanded*(this: ListView; index: cuint): bool {.noSideEffect,
     importcpp: "IsExpanded", header: "ListView.h".}
-proc getHighlightMode*(this: ListView): HighlightMode {.noSideEffect, 
+proc getHighlightMode*(this: ListView): HighlightMode {.noSideEffect,
     importcpp: "GetHighlightMode", header: "ListView.h".}
-proc getMultiselect*(this: ListView): bool {.noSideEffect, 
+proc getMultiselect*(this: ListView): bool {.noSideEffect,
     importcpp: "GetMultiselect", header: "ListView.h".}
-proc getClearSelectionOnDefocus*(this: ListView): bool {.noSideEffect, 
+proc getClearSelectionOnDefocus*(this: ListView): bool {.noSideEffect,
     importcpp: "GetClearSelectionOnDefocus", header: "ListView.h".}
-proc getSelectOnClickEnd*(this: ListView): bool {.noSideEffect, 
+proc getSelectOnClickEnd*(this: ListView): bool {.noSideEffect,
     importcpp: "GetSelectOnClickEnd", header: "ListView.h".}
-proc getHierarchyMode*(this: ListView): bool {.noSideEffect, 
+proc getHierarchyMode*(this: ListView): bool {.noSideEffect,
     importcpp: "GetHierarchyMode", header: "ListView.h".}
-proc getBaseIndent*(this: ListView): cint {.noSideEffect, 
+proc getBaseIndent*(this: ListView): cint {.noSideEffect,
     importcpp: "GetBaseIndent", header: "ListView.h".}
 proc ensureItemVisibility*(this: var ListView; index: cuint) {.
     importcpp: "EnsureItemVisibility", header: "ListView.h".}

@@ -1,6 +1,6 @@
 
 
-import 
+import
   UrObject, uielement, ptrs, graphics, vector, vertexbuffer, urstr, timer,
   hashMap, stringHash, urobject, vector2, serializer, deserializer, xmlelement
 
@@ -13,8 +13,8 @@ discard "forward decl of UIElement"
 discard "forward decl of VertexBuffer"
 discard "forward decl of XMLElement"
 discard "forward decl of XMLFile"
-type 
-  DragData* {.importc: "Urho3D::UI::DragData", header: "UI.h".} = object 
+type
+  DragData* {.importcpp: "Urho3D::UI::DragData", header: "UI.h".} = object
     dragButtons* {.importc: "dragButtons".}: cint
     numDragButtons* {.importc: "numDragButtons".}: cint
     sumPos* {.importc: "sumPos".}: IntVector2
@@ -22,7 +22,7 @@ type
     dragBeginTimer* {.importc: "dragBeginTimer".}: Timer
     dragBeginSumPos* {.importc: "dragBeginSumPos".}: IntVector2
 
-  Ui* {.importc: "Urho3D::UI", header: "UI.h".} = object of UrObject
+  Ui* {.importcpp: "Urho3D::UI", header: "UI.h".} = object of UrObject
     graphics* {.importc: "graphics_".}: WeakPtr[Graphics]
     rootElement* {.importc: "rootElement_".}: SharedPtr[UIElement]
     rootModalElement* {.importc: "rootModalElement_".}: SharedPtr[UIElement]
@@ -56,7 +56,7 @@ type
     doubleClickElement* {.importc: "doubleClickElement_".}: WeakPtr[UIElement]
     hoveredElements* {.importc: "hoveredElements_".}: HashMap[
         WeakPtr[UIElement], bool]
-    dragElements* {.importc: "dragElements_".}: HashMap[WeakPtr[UIElement], 
+    dragElements* {.importc: "dragElements_".}: HashMap[WeakPtr[UIElement],
         ptr DragData]
     dragElementsCount* {.importc: "dragElementsCount_".}: cint
     dragConfirmedCount* {.importc: "dragConfirmedCount_".}: cint
@@ -66,33 +66,33 @@ type
         ptr UIElement]
 
 
-proc getType*(this: Ui): StringHash {.noSideEffect, importcpp: "GetType", 
+proc getType*(this: Ui): StringHash {.noSideEffect, importcpp: "GetType",
     header: "UI.h".}
-proc getBaseType*(this: Ui): StringHash {.noSideEffect, 
+proc getBaseType*(this: Ui): StringHash {.noSideEffect,
     importcpp: "GetBaseType", header: "UI.h".}
-proc getTypeName*(this: Ui): UrString {.noSideEffect, 
+proc getTypeName*(this: Ui): UrString {.noSideEffect,
     importcpp: "GetTypeName", header: "UI.h".}
 proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::UI::GetTypeStatic(@)", header: "UI.h".}
 proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::UI::GetTypeNameStatic(@)", header: "UI.h".}
-proc constructUI*(context: ptr Context): Ui {.importcpp: "Urho3D::UI(@)", 
-    header: "UI.h".}
+proc constructUI*(context: ptr Context): Ui {.importcpp: "Urho3D::UI(@)",
+    header: "UI.h", constructor.}
 proc destroyUI*(this: var Ui) {.importcpp: "#.~UI()", header: "UI.h".}
-proc setCursor*(this: var Ui; cursor: ptr Cursor) {.importcpp: "SetCursor", 
+proc setCursor*(this: var Ui; cursor: ptr Cursor) {.importcpp: "SetCursor",
     header: "UI.h".}
 proc setFocusElement*(this: var Ui; element: ptr UIElement; byKey: bool = false) {.
     importcpp: "SetFocusElement", header: "UI.h".}
 proc setModalElement*(this: var Ui; modalElement: ptr UIElement; enable: bool): bool {.
     importcpp: "SetModalElement", header: "UI.h".}
 proc clear*(this: var Ui) {.importcpp: "Clear", header: "UI.h".}
-proc update*(this: var Ui; timeStep: cfloat) {.importcpp: "Update", 
+proc update*(this: var Ui; timeStep: cfloat) {.importcpp: "Update",
     header: "UI.h".}
 proc renderUpdate*(this: var Ui) {.importcpp: "RenderUpdate", header: "UI.h".}
 proc render*(this: var Ui) {.importcpp: "Render", header: "UI.h".}
-proc debugDraw*(this: var Ui; element: ptr UIElement) {.importcpp: "DebugDraw", 
+proc debugDraw*(this: var Ui; element: ptr UIElement) {.importcpp: "DebugDraw",
     header: "UI.h".}
-proc loadLayout*(this: var Ui; source: var Deserializer; 
+proc loadLayout*(this: var Ui; source: var Deserializer;
                  styleFile: ptr XMLFile = nil): SharedPtr[UIElement] {.
     importcpp: "LoadLayout", header: "UI.h".}
 proc loadLayout*(this: var Ui; file: ptr XMLFile; styleFile: ptr XMLFile = nil): SharedPtr[
@@ -121,54 +121,54 @@ proc setUseMutableGlyphs*(this: var Ui; enable: bool) {.
     importcpp: "SetUseMutableGlyphs", header: "UI.h".}
 proc setForceAutoHint*(this: var Ui; enable: bool) {.
     importcpp: "SetForceAutoHint", header: "UI.h".}
-proc getRoot*(this: Ui): ptr UIElement {.noSideEffect, importcpp: "GetRoot", 
+proc getRoot*(this: Ui): ptr UIElement {.noSideEffect, importcpp: "GetRoot",
     header: "UI.h".}
-proc getRootModalElement*(this: Ui): ptr UIElement {.noSideEffect, 
+proc getRootModalElement*(this: Ui): ptr UIElement {.noSideEffect,
     importcpp: "GetRootModalElement", header: "UI.h".}
-proc getCursor*(this: Ui): ptr Cursor {.noSideEffect, importcpp: "GetCursor", 
+proc getCursor*(this: Ui): ptr Cursor {.noSideEffect, importcpp: "GetCursor",
                                         header: "UI.h".}
-proc getCursorPosition*(this: Ui): IntVector2 {.noSideEffect, 
+proc getCursorPosition*(this: Ui): IntVector2 {.noSideEffect,
     importcpp: "GetCursorPosition", header: "UI.h".}
 proc getElementAt*(this: var Ui; position: IntVector2; enabledOnly: bool = true): ptr UIElement {.
     importcpp: "GetElementAt", header: "UI.h".}
 proc getElementAt*(this: var Ui; x: cint; y: cint; enabledOnly: bool = true): ptr UIElement {.
     importcpp: "GetElementAt", header: "UI.h".}
-proc getFocusElement*(this: Ui): ptr UIElement {.noSideEffect, 
+proc getFocusElement*(this: Ui): ptr UIElement {.noSideEffect,
     importcpp: "GetFocusElement", header: "UI.h".}
-proc getFrontElement*(this: Ui): ptr UIElement {.noSideEffect, 
+proc getFrontElement*(this: Ui): ptr UIElement {.noSideEffect,
     importcpp: "GetFrontElement", header: "UI.h".}
 proc getDragElements*(this: var Ui): Vector[ptr UIElement] {.
     importcpp: "GetDragElements", header: "UI.h".}
-proc getNumDragElements*(this: Ui): cuint {.noSideEffect, 
+proc getNumDragElements*(this: Ui): cuint {.noSideEffect,
     importcpp: "GetNumDragElements", header: "UI.h".}
 proc getDragElement*(this: var Ui; index: cuint): ptr UIElement {.
     importcpp: "GetDragElement", header: "UI.h".}
-proc getClipboardText*(this: Ui): UrString {.noSideEffect, 
+proc getClipboardText*(this: Ui): UrString {.noSideEffect,
     importcpp: "GetClipboardText", header: "UI.h".}
-proc getDoubleClickInterval*(this: Ui): cfloat {.noSideEffect, 
+proc getDoubleClickInterval*(this: Ui): cfloat {.noSideEffect,
     importcpp: "GetDoubleClickInterval", header: "UI.h".}
-proc getDragBeginInterval*(this: Ui): cfloat {.noSideEffect, 
+proc getDragBeginInterval*(this: Ui): cfloat {.noSideEffect,
     importcpp: "GetDragBeginInterval", header: "UI.h".}
-proc getDragBeginDistance*(this: Ui): cint {.noSideEffect, 
+proc getDragBeginDistance*(this: Ui): cint {.noSideEffect,
     importcpp: "GetDragBeginDistance", header: "UI.h".}
-proc getDefaultToolTipDelay*(this: Ui): cfloat {.noSideEffect, 
+proc getDefaultToolTipDelay*(this: Ui): cfloat {.noSideEffect,
     importcpp: "GetDefaultToolTipDelay", header: "UI.h".}
-proc getMaxFontTextureSize*(this: Ui): cint {.noSideEffect, 
+proc getMaxFontTextureSize*(this: Ui): cint {.noSideEffect,
     importcpp: "GetMaxFontTextureSize", header: "UI.h".}
-proc isNonFocusedMouseWheel*(this: Ui): bool {.noSideEffect, 
+proc isNonFocusedMouseWheel*(this: Ui): bool {.noSideEffect,
     importcpp: "IsNonFocusedMouseWheel", header: "UI.h".}
-proc getUseSystemClipboard*(this: Ui): bool {.noSideEffect, 
+proc getUseSystemClipboard*(this: Ui): bool {.noSideEffect,
     importcpp: "GetUseSystemClipboard", header: "UI.h".}
-proc getUseScreenKeyboard*(this: Ui): bool {.noSideEffect, 
+proc getUseScreenKeyboard*(this: Ui): bool {.noSideEffect,
     importcpp: "GetUseScreenKeyboard", header: "UI.h".}
-proc getUseMutableGlyphs*(this: Ui): bool {.noSideEffect, 
+proc getUseMutableGlyphs*(this: Ui): bool {.noSideEffect,
     importcpp: "GetUseMutableGlyphs", header: "UI.h".}
-proc getForceAutoHint*(this: Ui): bool {.noSideEffect, 
+proc getForceAutoHint*(this: Ui): bool {.noSideEffect,
     importcpp: "GetForceAutoHint", header: "UI.h".}
-proc hasModalElement*(this: Ui): bool {.noSideEffect, 
-                                        importcpp: "HasModalElement", 
+proc hasModalElement*(this: Ui): bool {.noSideEffect,
+                                        importcpp: "HasModalElement",
                                         header: "UI.h".}
-proc isDragging*(this: Ui): bool {.noSideEffect, importcpp: "IsDragging", 
+proc isDragging*(this: Ui): bool {.noSideEffect, importcpp: "IsDragging",
                                    header: "UI.h".}
 
 proc registerUILibrary*(context: ptr Context) {.

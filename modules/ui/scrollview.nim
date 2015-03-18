@@ -5,8 +5,8 @@ import
 
 discard "forward decl of BorderImage"
 discard "forward decl of ScrollBar"
-type 
-  ScrollView* {.importc: "Urho3D::ScrollView", header: "ScrollView.h".} = object of UIElement
+type
+  ScrollView* {.importcpp: "Urho3D::ScrollView", header: "ScrollView.h".} = object of UIElement
     contentElement* {.importc: "contentElement_".}: SharedPtr[UIElement]
     horizontalScrollBar* {.importc: "horizontalScrollBar_".}: SharedPtr[
         ScrollBar]
@@ -31,32 +31,32 @@ type
     autoDisableThreshold* {.importc: "autoDisableThreshold_".}: cfloat
 
 
-proc getType*(this: ScrollView): StringHash {.noSideEffect, 
+proc getType*(this: ScrollView): StringHash {.noSideEffect,
     importcpp: "GetType", header: "ScrollView.h".}
-proc getBaseType*(this: ScrollView): StringHash {.noSideEffect, 
+proc getBaseType*(this: ScrollView): StringHash {.noSideEffect,
     importcpp: "GetBaseType", header: "ScrollView.h".}
-proc getTypeName*(this: ScrollView): UrString {.noSideEffect, 
+proc getTypeName*(this: ScrollView): UrString {.noSideEffect,
     importcpp: "GetTypeName", header: "ScrollView.h".}
 proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::ScrollView::GetTypeStatic(@)", header: "ScrollView.h".}
 proc getTypeNameStatic*(): UrString {.
-    importcpp: "Urho3D::ScrollView::GetTypeNameStatic(@)", 
+    importcpp: "Urho3D::ScrollView::GetTypeNameStatic(@)",
     header: "ScrollView.h".}
-proc constructScrollView*(context: ptr Context): ScrollView {.
+proc constructScrollView*(context: ptr Context): ScrollView {.constructor,
     importcpp: "Urho3D::ScrollView(@)", header: "ScrollView.h".}
-proc destroyScrollView*(this: var ScrollView) {.importcpp: "#.~ScrollView()", 
+proc destroyScrollView*(this: var ScrollView) {.importcpp: "#.~ScrollView()",
     header: "ScrollView.h".}
 proc registerObject*(context: ptr Context) {.
     importcpp: "Urho3D::ScrollView::RegisterObject(@)", header: "ScrollView.h".}
-proc update*(this: var ScrollView; timeStep: cfloat) {.importcpp: "Update", 
+proc update*(this: var ScrollView; timeStep: cfloat) {.importcpp: "Update",
     header: "ScrollView.h".}
-proc applyAttributes*(this: var ScrollView) {.importcpp: "ApplyAttributes", 
+proc applyAttributes*(this: var ScrollView) {.importcpp: "ApplyAttributes",
     header: "ScrollView.h".}
 proc onWheel*(this: var ScrollView; delta: cint; buttons: cint; qualifiers: cint) {.
     importcpp: "OnWheel", header: "ScrollView.h".}
 proc onKey*(this: var ScrollView; key: cint; buttons: cint; qualifiers: cint) {.
     importcpp: "OnKey", header: "ScrollView.h".}
-proc onResize*(this: var ScrollView) {.importcpp: "OnResize", 
+proc onResize*(this: var ScrollView) {.importcpp: "OnResize",
                                        header: "ScrollView.h".}
 proc setContentElement*(this: var ScrollView; element: ptr UIElement) {.
     importcpp: "SetContentElement", header: "ScrollView.h".}
@@ -64,8 +64,8 @@ proc setViewPosition*(this: var ScrollView; position: IntVector2) {.
     importcpp: "SetViewPosition", header: "ScrollView.h".}
 proc setViewPosition*(this: var ScrollView; x: cint; y: cint) {.
     importcpp: "SetViewPosition", header: "ScrollView.h".}
-proc setScrollBarsVisible*(this: var ScrollView; horizontal: bool; 
-                           vertical: bool) {.importcpp: "SetScrollBarsVisible", 
+proc setScrollBarsVisible*(this: var ScrollView; horizontal: bool;
+                           vertical: bool) {.importcpp: "SetScrollBarsVisible",
     header: "ScrollView.h".}
 proc setScrollBarsAutoVisible*(this: var ScrollView; enable: bool) {.
     importcpp: "SetScrollBarsAutoVisible", header: "ScrollView.h".}
@@ -81,29 +81,29 @@ proc setAutoDisableChildren*(this: var ScrollView; disable: bool) {.
     importcpp: "SetAutoDisableChildren", header: "ScrollView.h".}
 proc setAutoDisableThreshold*(this: var ScrollView; amount: cfloat) {.
     importcpp: "SetAutoDisableThreshold", header: "ScrollView.h".}
-proc getViewPosition*(this: ScrollView): IntVector2 {.noSideEffect, 
+proc getViewPosition*(this: ScrollView): IntVector2 {.noSideEffect,
     importcpp: "GetViewPosition", header: "ScrollView.h".}
-proc getContentElement*(this: ScrollView): ptr UIElement {.noSideEffect, 
+proc getContentElement*(this: ScrollView): ptr UIElement {.noSideEffect,
     importcpp: "GetContentElement", header: "ScrollView.h".}
-proc getHorizontalScrollBar*(this: ScrollView): ptr ScrollBar {.noSideEffect, 
+proc getHorizontalScrollBar*(this: ScrollView): ptr ScrollBar {.noSideEffect,
     importcpp: "GetHorizontalScrollBar", header: "ScrollView.h".}
-proc getVerticalScrollBar*(this: ScrollView): ptr ScrollBar {.noSideEffect, 
+proc getVerticalScrollBar*(this: ScrollView): ptr ScrollBar {.noSideEffect,
     importcpp: "GetVerticalScrollBar", header: "ScrollView.h".}
-proc getScrollPanel*(this: ScrollView): ptr BorderImage {.noSideEffect, 
+proc getScrollPanel*(this: ScrollView): ptr BorderImage {.noSideEffect,
     importcpp: "GetScrollPanel", header: "ScrollView.h".}
-proc getScrollBarsAutoVisible*(this: ScrollView): bool {.noSideEffect, 
+proc getScrollBarsAutoVisible*(this: ScrollView): bool {.noSideEffect,
     importcpp: "GetScrollBarsAutoVisible", header: "ScrollView.h".}
-proc getScrollStep*(this: ScrollView): cfloat {.noSideEffect, 
+proc getScrollStep*(this: ScrollView): cfloat {.noSideEffect,
     importcpp: "GetScrollStep", header: "ScrollView.h".}
-proc getPageStep*(this: ScrollView): cfloat {.noSideEffect, 
+proc getPageStep*(this: ScrollView): cfloat {.noSideEffect,
     importcpp: "GetPageStep", header: "ScrollView.h".}
-proc getScrollDeceleration*(this: ScrollView): cfloat {.noSideEffect, 
+proc getScrollDeceleration*(this: ScrollView): cfloat {.noSideEffect,
     importcpp: "GetScrollDeceleration", header: "ScrollView.h".}
-proc getScrollSnapEpsilon*(this: ScrollView): cfloat {.noSideEffect, 
+proc getScrollSnapEpsilon*(this: ScrollView): cfloat {.noSideEffect,
     importcpp: "GetScrollSnapEpsilon", header: "ScrollView.h".}
-proc getAutoDisableChildren*(this: ScrollView): bool {.noSideEffect, 
+proc getAutoDisableChildren*(this: ScrollView): bool {.noSideEffect,
     importcpp: "GetAutoDisableChildren", header: "ScrollView.h".}
-proc getAutoDisableThreshold*(this: ScrollView): cfloat {.noSideEffect, 
+proc getAutoDisableThreshold*(this: ScrollView): cfloat {.noSideEffect,
     importcpp: "GetAutoDisableThreshold", header: "ScrollView.h".}
 proc setViewPositionAttr*(this: var ScrollView; value: IntVector2) {.
     importcpp: "SetViewPositionAttr", header: "ScrollView.h".}

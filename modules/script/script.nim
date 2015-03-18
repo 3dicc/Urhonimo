@@ -1,6 +1,6 @@
 
 
-import 
+import
   mutex, UrObject
 
 discard "forward decl of asIObjectType"
@@ -13,14 +13,14 @@ var LOGIC_CATEGORY* {.importc: "LOGIC_CATEGORY", header: "Script.h".}: cstring
 discard "forward decl of Scene"
 discard "forward decl of ScriptFile"
 discard "forward decl of ScriptInstance"
-type 
-  DumpMode* {.importcpp: "Urho3D::DumpMode".} = enum 
+type
+  DumpMode* {.importcpp: "Urho3D::DumpMode".} = enum
     DOXYGEN = 0, C_HEADER, MAX_DUMP_MODES
 
 
 
-type 
-  Script* {.importc: "Urho3D::Script", header: "Script.h".} = object of UrObject
+type
+  Script* {.importcpp: "Urho3D::Script", header: "Script.h".} = object of UrObject
     scriptEngine* {.importc: "scriptEngine_".}: ptr AsIScriptEngine
     immediateContext* {.importc: "immediateContext_".}: ptr AsIScriptContext
     defaultScriptFile* {.importc: "defaultScriptFile_".}: WeakPtr[ScriptFile]
@@ -33,21 +33,21 @@ type
     executeConsoleCommands* {.importc: "executeConsoleCommands_".}: bool
 
 
-proc getType*(this: Script): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: Script): Urho3D.StringHash {.noSideEffect,
     importcpp: "GetType", header: "Script.h".}
-proc getBaseType*(this: Script): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: Script): Urho3D.StringHash {.noSideEffect,
     importcpp: "GetBaseType", header: "Script.h".}
-proc getTypeName*(this: Script): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: Script): Urho3D.UrString {.noSideEffect,
     importcpp: "GetTypeName", header: "Script.h".}
 proc getTypeStatic*(): Urho3D.StringHash {.
     importcpp: "Urho3D::Script::GetTypeStatic(@)", header: "Script.h".}
 proc getTypeNameStatic*(): Urho3D.UrString {.
     importcpp: "Urho3D::Script::GetTypeNameStatic(@)", header: "Script.h".}
-proc constructScript*(context: ptr Context): Script {.
+proc constructScript*(context: ptr Context): Script {.constructor,
     importcpp: "Urho3D::Script(@)", header: "Script.h".}
-proc destroyScript*(this: var Script) {.importcpp: "#.~Script()", 
+proc destroyScript*(this: var Script) {.importcpp: "#.~Script()",
                                         header: "Script.h".}
-proc execute*(this: var Script; line: UrString): bool {.importcpp: "Execute", 
+proc execute*(this: var Script; line: UrString): bool {.importcpp: "Execute",
     header: "Script.h".}
 proc setDefaultScriptFile*(this: var Script; file: ptr ScriptFile) {.
     importcpp: "SetDefaultScriptFile", header: "Script.h".}
@@ -63,21 +63,21 @@ proc exceptionCallback*(this: var Script; context: ptr AsIScriptContext) {.
     importcpp: "ExceptionCallback", header: "Script.h".}
 proc getCallStack*(context: ptr AsIScriptContext): UrString {.
     importcpp: "Urho3D::Script::GetCallStack(@)", header: "Script.h".}
-proc getScriptEngine*(this: Script): ptr AsIScriptEngine {.noSideEffect, 
+proc getScriptEngine*(this: Script): ptr AsIScriptEngine {.noSideEffect,
     importcpp: "GetScriptEngine", header: "Script.h".}
-proc getImmediateContext*(this: Script): ptr AsIScriptContext {.noSideEffect, 
+proc getImmediateContext*(this: Script): ptr AsIScriptContext {.noSideEffect,
     importcpp: "GetImmediateContext", header: "Script.h".}
-proc getDefaultScriptFile*(this: Script): ptr ScriptFile {.noSideEffect, 
+proc getDefaultScriptFile*(this: Script): ptr ScriptFile {.noSideEffect,
     importcpp: "GetDefaultScriptFile", header: "Script.h".}
-proc getDefaultScene*(this: Script): ptr Scene {.noSideEffect, 
+proc getDefaultScene*(this: Script): ptr Scene {.noSideEffect,
     importcpp: "GetDefaultScene", header: "Script.h".}
-proc getExecuteConsoleCommands*(this: Script): bool {.noSideEffect, 
+proc getExecuteConsoleCommands*(this: Script): bool {.noSideEffect,
     importcpp: "GetExecuteConsoleCommands", header: "Script.h".}
 proc clearObjectTypeCache*(this: var Script) {.
     importcpp: "ClearObjectTypeCache", header: "Script.h".}
 proc getObjectType*(this: var Script; declaration: cstring): ptr AsIObjectType {.
     importcpp: "GetObjectType", header: "Script.h".}
-proc getModuleMutex*(this: var Script): var Mutex {.importcpp: "GetModuleMutex", 
+proc getModuleMutex*(this: var Script): var Mutex {.importcpp: "GetModuleMutex",
     header: "Script.h".}
 
 proc registerScriptLibrary*(context: ptr Context) {.
