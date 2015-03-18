@@ -7,9 +7,11 @@ type
 
 
 proc constructRandomAccessIterator*[T](): RandomAccessIterator[T] {.
-    importcpp: "Urho3D::RandomAccessIterator(@)", header: "VectorBase.h".}
+    importcpp: "Urho3D::RandomAccessIterator(@)", header: "VectorBase.h",
+    constructor.}
 proc constructRandomAccessIterator*[T](`ptr`: ptr T): RandomAccessIterator[T] {.
-    importcpp: "Urho3D::RandomAccessIterator(@)", header: "VectorBase.h".}
+    importcpp: "Urho3D::RandomAccessIterator(@)", header: "VectorBase.h",
+    constructor.}
 proc `->`*[T](this: RandomAccessIterator[T]): ptr T {.noSideEffect,
     importcpp: "# -> #", header: "VectorBase.h".}
 proc `*`*[T](this: RandomAccessIterator[T]): var T {.noSideEffect,
@@ -46,13 +48,14 @@ type
 
 
 proc constructRandomAccessConstIterator*[T](): RandomAccessConstIterator[T] {.
-    importcpp: "Urho3D::RandomAccessConstIterator(@)", header: "VectorBase.h".}
+    importcpp: "Urho3D::RandomAccessConstIterator(@)", header: "VectorBase.h",
+    constructor.}
 proc constructRandomAccessConstIterator*[T](`ptr`: ptr T): RandomAccessConstIterator[
     T] {.importcpp: "Urho3D::RandomAccessConstIterator(@)",
-         header: "VectorBase.h".}
+         header: "VectorBase.h", constructor.}
 proc constructRandomAccessConstIterator*[T](rhs: RandomAccessIterator[T]): RandomAccessConstIterator[
     T] {.importcpp: "Urho3D::RandomAccessConstIterator(@)",
-         header: "VectorBase.h".}
+         header: "VectorBase.h", constructor.}
 proc `->`*[T](this: RandomAccessConstIterator[T]): ptr T {.noSideEffect,
     importcpp: "# -> #", header: "VectorBase.h".}
 proc `*`*[T](this: RandomAccessConstIterator[T]): T {.noSideEffect,
@@ -91,6 +94,6 @@ type
 
 
 proc constructVectorBase*(): VectorBase {.importcpp: "Urho3D::VectorBase(@)",
-    header: "VectorBase.h".}
+    header: "VectorBase.h", constructor.}
 proc swap*(this: var VectorBase; rhs: var VectorBase) {.importcpp: "Swap",
     header: "VectorBase.h".}

@@ -23,7 +23,7 @@ proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::Application::GetTypeNameStatic(@)",
     header: "Application.h".}
 proc constructApplication*(context: ptr Context): Application {.
-    importcpp: "Urho3D::Application(@)", header: "Application.h".}
+    importcpp: "Urho3D::Application(@)", header: "Application.h", constructor.}
 proc setup*(this: var Application) {.importcpp: "Setup", header: "Application.h".}
 proc start*(this: var Application) {.importcpp: "Start", header: "Application.h".}
 proc stop*(this: var Application) {.importcpp: "Stop", header: "Application.h".}

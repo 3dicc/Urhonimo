@@ -1,11 +1,11 @@
 
 
-import 
+import
   UrObject, urstr, stringHash, xmlelement, ptrs, uielement, button,
   dropdownlist, font, lineedit, listview, text, xmlelement, vector, pair
 
-type 
-  Console* {.importc: "Urho3D::Console", header: "Console.h".} = object of UrObject
+type
+  Console* {.importcpp: "Urho3D::Console", header: "Console.h".} = object of UrObject
     autoVisibleOnError* {.importc: "autoVisibleOnError_".}: bool
     background* {.importc: "background_".}: SharedPtr[BorderImage]
     rowContainer* {.importc: "rowContainer_".}: ptr ListView
@@ -24,23 +24,23 @@ type
     focusOnShow* {.importc: "focusOnShow_".}: bool
 
 
-proc getType*(this: Console): StringHash {.noSideEffect, 
+proc getType*(this: Console): StringHash {.noSideEffect,
     importcpp: "GetType", header: "Console.h".}
-proc getBaseType*(this: Console): StringHash {.noSideEffect, 
+proc getBaseType*(this: Console): StringHash {.noSideEffect,
     importcpp: "GetBaseType", header: "Console.h".}
-proc getTypeName*(this: Console): UrString {.noSideEffect, 
+proc getTypeName*(this: Console): UrString {.noSideEffect,
     importcpp: "GetTypeName", header: "Console.h".}
 proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::Console::GetTypeStatic(@)", header: "Console.h".}
 proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::Console::GetTypeNameStatic(@)", header: "Console.h".}
 proc constructConsole*(context: ptr Context): Console {.
-    importcpp: "Urho3D::Console(@)", header: "Console.h".}
-proc destroyConsole*(this: var Console) {.importcpp: "#.~Console()", 
+    importcpp: "Urho3D::Console(@)", header: "Console.h", constructor.}
+proc destroyConsole*(this: var Console) {.importcpp: "#.~Console()",
     header: "Console.h".}
 proc setDefaultStyle*(this: var Console; style: ptr XMLFile) {.
     importcpp: "SetDefaultStyle", header: "Console.h".}
-proc setVisible*(this: var Console; enable: bool) {.importcpp: "SetVisible", 
+proc setVisible*(this: var Console; enable: bool) {.importcpp: "SetVisible",
     header: "Console.h".}
 proc toggle*(this: var Console) {.importcpp: "Toggle", header: "Console.h".}
 proc setAutoVisibleOnError*(this: var Console; enable: bool) {.
@@ -49,40 +49,40 @@ proc setCommandInterpreter*(this: var Console; interpreter: UrString) {.
     importcpp: "SetCommandInterpreter", header: "Console.h".}
 proc setNumBufferedRows*(this: var Console; rows: cuint) {.
     importcpp: "SetNumBufferedRows", header: "Console.h".}
-proc setNumRows*(this: var Console; rows: cuint) {.importcpp: "SetNumRows", 
+proc setNumRows*(this: var Console; rows: cuint) {.importcpp: "SetNumRows",
     header: "Console.h".}
 proc setNumHistoryRows*(this: var Console; rows: cuint) {.
     importcpp: "SetNumHistoryRows", header: "Console.h".}
 proc setFocusOnShow*(this: var Console; enable: bool) {.
     importcpp: "SetFocusOnShow", header: "Console.h".}
-proc updateElements*(this: var Console) {.importcpp: "UpdateElements", 
+proc updateElements*(this: var Console) {.importcpp: "UpdateElements",
     header: "Console.h".}
-proc getDefaultStyle*(this: Console): ptr XMLFile {.noSideEffect, 
+proc getDefaultStyle*(this: Console): ptr XMLFile {.noSideEffect,
     importcpp: "GetDefaultStyle", header: "Console.h".}
-proc getBackground*(this: Console): ptr BorderImage {.noSideEffect, 
+proc getBackground*(this: Console): ptr BorderImage {.noSideEffect,
     importcpp: "GetBackground", header: "Console.h".}
-proc getLineEdit*(this: Console): ptr LineEdit {.noSideEffect, 
+proc getLineEdit*(this: Console): ptr LineEdit {.noSideEffect,
     importcpp: "GetLineEdit", header: "Console.h".}
-proc getCloseButton*(this: Console): ptr Button {.noSideEffect, 
+proc getCloseButton*(this: Console): ptr Button {.noSideEffect,
     importcpp: "GetCloseButton", header: "Console.h".}
-proc isVisible*(this: Console): bool {.noSideEffect, importcpp: "IsVisible", 
+proc isVisible*(this: Console): bool {.noSideEffect, importcpp: "IsVisible",
                                        header: "Console.h".}
-proc isAutoVisibleOnError*(this: Console): bool {.noSideEffect, 
+proc isAutoVisibleOnError*(this: Console): bool {.noSideEffect,
     importcpp: "IsAutoVisibleOnError", header: "Console.h".}
-proc getCommandInterpreter*(this: Console): UrString {.noSideEffect, 
+proc getCommandInterpreter*(this: Console): UrString {.noSideEffect,
     importcpp: "GetCommandInterpreter", header: "Console.h".}
-proc getNumBufferedRows*(this: Console): cuint {.noSideEffect, 
+proc getNumBufferedRows*(this: Console): cuint {.noSideEffect,
     importcpp: "GetNumBufferedRows", header: "Console.h".}
-proc getNumRows*(this: Console): cuint {.noSideEffect, importcpp: "GetNumRows", 
+proc getNumRows*(this: Console): cuint {.noSideEffect, importcpp: "GetNumRows",
     header: "Console.h".}
-proc copySelectedRows*(this: Console) {.noSideEffect, 
-                                        importcpp: "CopySelectedRows", 
+proc copySelectedRows*(this: Console) {.noSideEffect,
+                                        importcpp: "CopySelectedRows",
                                         header: "Console.h".}
-proc getNumHistoryRows*(this: Console): cuint {.noSideEffect, 
+proc getNumHistoryRows*(this: Console): cuint {.noSideEffect,
     importcpp: "GetNumHistoryRows", header: "Console.h".}
-proc getHistoryPosition*(this: Console): cuint {.noSideEffect, 
+proc getHistoryPosition*(this: Console): cuint {.noSideEffect,
     importcpp: "GetHistoryPosition", header: "Console.h".}
-proc getHistoryRow*(this: Console; index: cuint): UrString {.noSideEffect, 
+proc getHistoryRow*(this: Console; index: cuint): UrString {.noSideEffect,
     importcpp: "GetHistoryRow", header: "Console.h".}
-proc getFocusOnShow*(this: Console): bool {.noSideEffect, 
+proc getFocusOnShow*(this: Console): bool {.noSideEffect,
     importcpp: "GetFocusOnShow", header: "Console.h".}

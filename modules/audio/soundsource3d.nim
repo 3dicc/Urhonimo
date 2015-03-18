@@ -1,10 +1,10 @@
 
 
-import 
+import
   soundSource
 
 discard "forward decl of Audio"
-type 
+type
   SoundSource3D* {.importc: "Urho3D::SoundSource3D", header: "SoundSource3D.h".} = object of SoundSource
     nearDistance* {.importc: "nearDistance_".}: cfloat
     farDistance* {.importc: "farDistance_".}: cfloat
@@ -13,32 +13,33 @@ type
     rolloffFactor* {.importc: "rolloffFactor_".}: cfloat
 
 
-proc getType*(this: SoundSource3D): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: SoundSource3D): Urho3D.StringHash {.noSideEffect,
     importcpp: "GetType", header: "SoundSource3D.h".}
-proc getBaseType*(this: SoundSource3D): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: SoundSource3D): Urho3D.StringHash {.noSideEffect,
     importcpp: "GetBaseType", header: "SoundSource3D.h".}
-proc getTypeName*(this: SoundSource3D): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: SoundSource3D): Urho3D.UrString {.noSideEffect,
     importcpp: "GetTypeName", header: "SoundSource3D.h".}
 proc getTypeStatic*(): Urho3D.StringHash {.
-    importcpp: "Urho3D::SoundSource3D::GetTypeStatic(@)", 
+    importcpp: "Urho3D::SoundSource3D::GetTypeStatic(@)",
     header: "SoundSource3D.h".}
 proc getTypeNameStatic*(): Urho3D.UrString {.
-    importcpp: "Urho3D::SoundSource3D::GetTypeNameStatic(@)", 
+    importcpp: "Urho3D::SoundSource3D::GetTypeNameStatic(@)",
     header: "SoundSource3D.h".}
 proc constructSoundSource3D*(context: ptr Context): SoundSource3D {.
-    importcpp: "Urho3D::SoundSource3D(@)", header: "SoundSource3D.h".}
+    importcpp: "Urho3D::SoundSource3D(@)", header: "SoundSource3D.h",
+    constructor.}
 proc registerObject*(context: ptr Context) {.
-    importcpp: "Urho3D::SoundSource3D::RegisterObject(@)", 
+    importcpp: "Urho3D::SoundSource3D::RegisterObject(@)",
     header: "SoundSource3D.h".}
-proc drawDebugGeometry*(this: var SoundSource3D; debug: ptr DebugRenderer; 
-                        depthTest: bool) {.importcpp: "DrawDebugGeometry", 
+proc drawDebugGeometry*(this: var SoundSource3D; debug: ptr DebugRenderer;
+                        depthTest: bool) {.importcpp: "DrawDebugGeometry",
     header: "SoundSource3D.h".}
-proc update*(this: var SoundSource3D; timeStep: cfloat) {.importcpp: "Update", 
+proc update*(this: var SoundSource3D; timeStep: cfloat) {.importcpp: "Update",
     header: "SoundSource3D.h".}
-proc setDistanceAttenuation*(this: var SoundSource3D; nearDistance: cfloat; 
+proc setDistanceAttenuation*(this: var SoundSource3D; nearDistance: cfloat;
                              farDistance: cfloat; rolloffFactor: cfloat) {.
     importcpp: "SetDistanceAttenuation", header: "SoundSource3D.h".}
-proc setAngleAttenuation*(this: var SoundSource3D; innerAngle: cfloat; 
+proc setAngleAttenuation*(this: var SoundSource3D; innerAngle: cfloat;
                           outerAngle: cfloat) {.
     importcpp: "SetAngleAttenuation", header: "SoundSource3D.h".}
 proc setNearDistance*(this: var SoundSource3D; distance: cfloat) {.
@@ -53,13 +54,13 @@ proc setRolloffFactor*(this: var SoundSource3D; factor: cfloat) {.
     importcpp: "SetRolloffFactor", header: "SoundSource3D.h".}
 proc calculateAttenuation*(this: var SoundSource3D) {.
     importcpp: "CalculateAttenuation", header: "SoundSource3D.h".}
-proc getNearDistance*(this: SoundSource3D): cfloat {.noSideEffect, 
+proc getNearDistance*(this: SoundSource3D): cfloat {.noSideEffect,
     importcpp: "GetNearDistance", header: "SoundSource3D.h".}
-proc getFarDistance*(this: SoundSource3D): cfloat {.noSideEffect, 
+proc getFarDistance*(this: SoundSource3D): cfloat {.noSideEffect,
     importcpp: "GetFarDistance", header: "SoundSource3D.h".}
-proc getInnerAngle*(this: SoundSource3D): cfloat {.noSideEffect, 
+proc getInnerAngle*(this: SoundSource3D): cfloat {.noSideEffect,
     importcpp: "GetInnerAngle", header: "SoundSource3D.h".}
-proc getOuterAngle*(this: SoundSource3D): cfloat {.noSideEffect, 
+proc getOuterAngle*(this: SoundSource3D): cfloat {.noSideEffect,
     importcpp: "GetOuterAngle", header: "SoundSource3D.h".}
-proc rollAngleoffFactor*(this: SoundSource3D): cfloat {.noSideEffect, 
+proc rollAngleoffFactor*(this: SoundSource3D): cfloat {.noSideEffect,
     importcpp: "RollAngleoffFactor", header: "SoundSource3D.h".}

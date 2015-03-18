@@ -1,6 +1,6 @@
 
 
-import 
+import
   UrObject
 
 
@@ -37,6 +37,4 @@ var P_TIMESTEP* {.importc: "P_TIMESTEP", header: "CoreEvents.h".}: Urho3D.String
 
 
 
-var E_ENDFRAME* {.importc: "E_ENDFRAME", header: "CoreEvents.h".}: Urho3D.StringHash = "EndFrame"
-
-discard 
+var E_ENDFRAME* {.importc: "E_ENDFRAME", header: "CoreEvents.h".}: StringHash #= "EndFrame"
