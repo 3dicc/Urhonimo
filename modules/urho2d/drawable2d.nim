@@ -38,7 +38,7 @@ proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::Drawable2D::GetTypeNameStatic(@)",
     header: "Drawable2D.h".}
 proc constructDrawable2D*(context: ptr Context): Drawable2D {.
-    importcpp: "Urho3D::Drawable2D(@)", header: "Drawable2D.h".}
+    constructor, importcpp: "Urho3D::Drawable2D(@)", header: "Drawable2D.h".}
 proc destroyDrawable2D*(this: var Drawable2D) {.importcpp: "#.~Drawable2D()",
     header: "Drawable2D.h".}
 proc registerObject*(context: ptr Context) {.
