@@ -62,9 +62,10 @@ proc beginLoad*(this: var Image; source: var Deserializer): bool {.
 proc save*(this: Image; dest: var Serializer): bool {.noSideEffect,
     importcpp: "Save", header: "Image.h".}
 proc setSize*(this: var Image; width: cint; height: cint; components: cuint): bool {.
-    importcpp: "SetSize", header: "Image.h".}
+    importcpp: "SetSize", header: "Image.h", discardable.}
 proc setSize*(this: var Image; width: cint; height: cint; depth: cint;
-              components: cuint): bool {.importcpp: "SetSize", header: "Image.h".}
+              components: cuint): bool {.
+    importcpp: "SetSize", header: "Image.h", discardable.}
 proc setData*(this: var Image; pixelData: ptr cuchar) {.importcpp: "SetData",
     header: "Image.h".}
 proc setPixel*(this: var Image; x: cint; y: cint; color: Color) {.

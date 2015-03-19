@@ -1,6 +1,10 @@
 
 
+
 when defined(windows):
-  type Texture* {.importcpp: "Urho3D::Texture", header: "D3D9Texture.h".} = object
+  const Header = "D3D9Texture2D.h"
 else:
-  type Texture* {.importcpp: "Urho3D::Texture", header: "OGLTexture.h".} = object
+  const Header = "OGLTexture2D.h"
+
+type Texture* {.importcpp: "Urho3D::Texture", header: Header,
+                inheritable.} = object
