@@ -5,7 +5,7 @@ when defined(windows):
 else:
   const Header = "OGLGraphics.h"
 
-type Graphics* {.importc: "Urho3D::Graphics", header: Header.} = object
+type Graphics* {.importcpp: "Urho3D::Graphics", header: Header.} = object
 
 proc getHeight*(g: var Graphics): cint {.
   importcpp: "GetHeight", header: Header.}

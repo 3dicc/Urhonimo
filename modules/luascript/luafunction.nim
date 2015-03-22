@@ -1,13 +1,13 @@
 
 
-import 
+import
   refCounted
 
 discard "forward decl of lua_State"
 discard "forward decl of LuaScript"
 discard "forward decl of LuaScriptInstance"
-type 
-  LuaFunction* {.importc: "Urho3D::LuaFunction", header: "LuaFunction.h".} = object of RefCounted
+type
+  LuaFunction* {.importcpp: "Urho3D::LuaFunction", header: "LuaFunction.h".} = object of RefCounted
     luaState* {.importc: "luaState_".}: ptr LuaState
     functionRef* {.importc: "functionRef_".}: cint
     needUnref* {.importc: "needUnref_".}: bool
@@ -15,24 +15,24 @@ type
     numArguments* {.importc: "numArguments_".}: cint
 
 
-proc constructLuaFunction*(lusState: ptr LuaState; functionRef: cint; 
+proc constructLuaFunction*(lusState: ptr LuaState; functionRef: cint;
                            needUnref: bool = true): LuaFunction {.
-    importcpp: "Urho3D::LuaFunction(@)", header: "LuaFunction.h".}
-proc destroyLuaFunction*(this: var LuaFunction) {.importcpp: "#.~LuaFunction()", 
+    importcpp: "Urho3D::LuaFunction(@)", header: "LuaFunction.h", constructor.}
+proc destroyLuaFunction*(this: var LuaFunction) {.importcpp: "#.~LuaFunction()",
     header: "LuaFunction.h".}
-proc isValid*(this: LuaFunction): bool {.noSideEffect, importcpp: "IsValid", 
+proc isValid*(this: LuaFunction): bool {.noSideEffect, importcpp: "IsValid",
     header: "LuaFunction.h".}
-proc beginCall*(this: var LuaFunction): bool {.importcpp: "BeginCall", 
+proc beginCall*(this: var LuaFunction): bool {.importcpp: "BeginCall",
     header: "LuaFunction.h".}
 proc beginCall*(this: var LuaFunction; instance: ptr LuaScriptInstance): bool {.
     importcpp: "BeginCall", header: "LuaFunction.h".}
 proc endCall*(this: var LuaFunction; numReturns: cint = 0): bool {.
     importcpp: "EndCall", header: "LuaFunction.h".}
-proc pushInt*(this: var LuaFunction; value: cint) {.importcpp: "PushInt", 
+proc pushInt*(this: var LuaFunction; value: cint) {.importcpp: "PushInt",
     header: "LuaFunction.h".}
-proc pushBool*(this: var LuaFunction; value: bool) {.importcpp: "PushBool", 
+proc pushBool*(this: var LuaFunction; value: bool) {.importcpp: "PushBool",
     header: "LuaFunction.h".}
-proc pushFloat*(this: var LuaFunction; value: cfloat) {.importcpp: "PushFloat", 
+proc pushFloat*(this: var LuaFunction; value: cfloat) {.importcpp: "PushFloat",
     header: "LuaFunction.h".}
 proc pushString*(this: var LuaFunction; string: UrString) {.
     importcpp: "PushString", header: "LuaFunction.h".}
@@ -50,5 +50,5 @@ proc pushVariant*(this: var LuaFunction; variant: Variant): bool {.
     importcpp: "PushVariant", header: "LuaFunction.h".}
 proc pushLuaTable*(this: var LuaFunction; tableName: UrString): bool {.
     importcpp: "PushLuaTable", header: "LuaFunction.h".}
-proc getFunctionRef*(this: LuaFunction): cint {.noSideEffect, 
+proc getFunctionRef*(this: LuaFunction): cint {.noSideEffect,
     importcpp: "GetFunctionRef", header: "LuaFunction.h".}

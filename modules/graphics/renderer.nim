@@ -1,6 +1,6 @@
 
 
-import 
+import
   batch, color, drawable, hashSet, mutex, viewport, urobject, ptrs, urstr,
   stringHash, graphics, renderpath, zone, graphics.geometry, vertexbuffer,
   material, texture2d, texturecube, vector, occlusionbuffer, hashmap,
@@ -26,57 +26,57 @@ discard "forward decl of View"
 discard "forward decl of Zone"
 var SHADOW_MIN_PIXELS* {.importc: "SHADOW_MIN_PIXELS", header: "Renderer.h".}: cint #= 64
 
-var INSTANCING_BUFFER_DEFAULT_SIZE* {.importc: "INSTANCING_BUFFER_DEFAULT_SIZE", 
+var INSTANCING_BUFFER_DEFAULT_SIZE* {.importc: "INSTANCING_BUFFER_DEFAULT_SIZE",
                                       header: "Renderer.h".}: cint #= 1024
 
 
-type 
-  LightVSVariation* {.importcpp: "Urho3D::LightVSVariation".} = enum 
-    LVS_DIR = 0, LVS_SPOT, LVS_POINT, LVS_SHADOW, LVS_SPOTSHADOW, 
+type
+  LightVSVariation* {.importcpp: "Urho3D::LightVSVariation".} = enum
+    LVS_DIR = 0, LVS_SPOT, LVS_POINT, LVS_SHADOW, LVS_SPOTSHADOW,
     LVS_POINTSHADOW, MAX_LIGHT_VS_VARIATIONS
 
 
 
-type 
-  VertexLightVSVariation* {.importcpp: "Urho3D::VertexLightVSVariation".} = enum 
-    VLVS_NOLIGHTS = 0, VLVS_1LIGHT, VLVS_2LIGHTS, VLVS_3LIGHTS, VLVS_4LIGHTS, 
+type
+  VertexLightVSVariation* {.importcpp: "Urho3D::VertexLightVSVariation".} = enum
+    VLVS_NOLIGHTS = 0, VLVS_1LIGHT, VLVS_2LIGHTS, VLVS_3LIGHTS, VLVS_4LIGHTS,
     MAX_VERTEXLIGHT_VS_VARIATIONS
 
 
 
-type 
-  LightPSVariation* {.importcpp: "Urho3D::LightPSVariation".} = enum 
-    LPS_NONE = 0, LPS_SPOT, LPS_POINT, LPS_POINTMASK, LPS_SPEC, LPS_SPOTSPEC, 
-    LPS_POINTSPEC, LPS_POINTMASKSPEC, LPS_SHADOW, LPS_SPOTSHADOW, 
-    LPS_POINTSHADOW, LPS_POINTMASKSHADOW, LPS_SHADOWSPEC, LPS_SPOTSHADOWSPEC, 
+type
+  LightPSVariation* {.importcpp: "Urho3D::LightPSVariation".} = enum
+    LPS_NONE = 0, LPS_SPOT, LPS_POINT, LPS_POINTMASK, LPS_SPEC, LPS_SPOTSPEC,
+    LPS_POINTSPEC, LPS_POINTMASKSPEC, LPS_SHADOW, LPS_SPOTSHADOW,
+    LPS_POINTSHADOW, LPS_POINTMASKSHADOW, LPS_SHADOWSPEC, LPS_SPOTSHADOWSPEC,
     LPS_POINTSHADOWSPEC, LPS_POINTMASKSHADOWSPEC, MAX_LIGHT_PS_VARIATIONS
 
 
 
-type 
-  DeferredLightVSVariation* {.importcpp: "Urho3D::DeferredLightVSVariation".} = enum 
-    DLVS_NONE = 0, DLVS_DIR, DLVS_ORTHO, DLVS_ORTHODIR, 
+type
+  DeferredLightVSVariation* {.importcpp: "Urho3D::DeferredLightVSVariation".} = enum
+    DLVS_NONE = 0, DLVS_DIR, DLVS_ORTHO, DLVS_ORTHODIR,
     MAX_DEFERRED_LIGHT_VS_VARIATIONS
 
 
 
-type 
-  DeferredLightPSVariation* {.importcpp: "Urho3D::DeferredLightPSVariation".} = enum 
-    DLPS_NONE = 0, DLPS_SPOT, DLPS_POINT, DLPS_POINTMASK, DLPS_SPEC, 
-    DLPS_SPOTSPEC, DLPS_POINTSPEC, DLPS_POINTMASKSPEC, DLPS_SHADOW, 
-    DLPS_SPOTSHADOW, DLPS_POINTSHADOW, DLPS_POINTMASKSHADOW, DLPS_SHADOWSPEC, 
-    DLPS_SPOTSHADOWSPEC, DLPS_POINTSHADOWSPEC, DLPS_POINTMASKSHADOWSPEC, 
-    DLPS_ORTHO, DLPS_ORTHOSPOT, DLPS_ORTHOPOINT, DLPS_ORTHOPOINTMASK, 
-    DLPS_ORTHOSPEC, DLPS_ORTHOSPOTSPEC, DLPS_ORTHOPOINTSPEC, 
-    DLPS_ORTHOPOINTMASKSPEC, DLPS_ORTHOSHADOW, DLPS_ORTHOSPOTSHADOW, 
-    DLPS_ORTHOPOINTSHADOW, DLPS_ORTHOPOINTMASKSHADOW, DLPS_ORTHOSHADOWSPEC, 
-    DLPS_ORTHOSPOTSHADOWSPEC, DLPS_ORTHOPOINTSHADOWSPEC, 
+type
+  DeferredLightPSVariation* {.importcpp: "Urho3D::DeferredLightPSVariation".} = enum
+    DLPS_NONE = 0, DLPS_SPOT, DLPS_POINT, DLPS_POINTMASK, DLPS_SPEC,
+    DLPS_SPOTSPEC, DLPS_POINTSPEC, DLPS_POINTMASKSPEC, DLPS_SHADOW,
+    DLPS_SPOTSHADOW, DLPS_POINTSHADOW, DLPS_POINTMASKSHADOW, DLPS_SHADOWSPEC,
+    DLPS_SPOTSHADOWSPEC, DLPS_POINTSHADOWSPEC, DLPS_POINTMASKSHADOWSPEC,
+    DLPS_ORTHO, DLPS_ORTHOSPOT, DLPS_ORTHOPOINT, DLPS_ORTHOPOINTMASK,
+    DLPS_ORTHOSPEC, DLPS_ORTHOSPOTSPEC, DLPS_ORTHOPOINTSPEC,
+    DLPS_ORTHOPOINTMASKSPEC, DLPS_ORTHOSHADOW, DLPS_ORTHOSPOTSHADOW,
+    DLPS_ORTHOPOINTSHADOW, DLPS_ORTHOPOINTMASKSHADOW, DLPS_ORTHOSHADOWSPEC,
+    DLPS_ORTHOSPOTSHADOWSPEC, DLPS_ORTHOPOINTSHADOWSPEC,
     DLPS_ORTHOPOINTMASKSHADOWSPEC, MAX_DEFERRED_LIGHT_PS_VARIATIONS
 
 
 
-type 
-  Renderer* {.importc: "Urho3D::Renderer", header: "Renderer.h".} = object of UrObject
+type
+  Renderer* {.importcpp: "Urho3D::Renderer", header: "Renderer.h".} = object of UrObject
     graphics* {.importc: "graphics_".}: WeakPtr[Graphics]
     defaultRenderPath* {.importc: "defaultRenderPath_".}: SharedPtr[RenderPath]
     defaultZone* {.importc: "defaultZone_".}: SharedPtr[Zone]
@@ -93,13 +93,13 @@ type
     shadowCameraNodes* {.importc: "shadowCameraNodes_".}: Vector[SharedPtr[component.Node]]
     occlusionBuffers* {.importc: "occlusionBuffers_".}: Vector[
         SharedPtr[OcclusionBuffer]]
-    shadowMaps* {.importc: "shadowMaps_".}: HashMap[cint, 
+    shadowMaps* {.importc: "shadowMaps_".}: HashMap[cint,
         Vector[SharedPtr[Texture2D]]]
-    colorShadowMaps* {.importc: "colorShadowMaps_".}: HashMap[cint, 
+    colorShadowMaps* {.importc: "colorShadowMaps_".}: HashMap[cint,
         SharedPtr[Texture2D]]
-    shadowMapAllocations* {.importc: "shadowMapAllocations_".}: HashMap[cint, 
+    shadowMapAllocations* {.importc: "shadowMapAllocations_".}: HashMap[cint,
         PODVector[ptr Light]]
-    screenBuffers* {.importc: "screenBuffers_".}: HashMap[clonglong, 
+    screenBuffers* {.importc: "screenBuffers_".}: HashMap[clonglong,
         Vector[SharedPtr[Texture2D]]]
     screenBufferAllocations* {.importc: "screenBufferAllocations_".}: HashMap[
         clonglong, cuint]
@@ -149,19 +149,19 @@ type
     resetViews* {.importc: "resetViews_".}: bool
 
 
-proc getType*(this: Renderer): StringHash {.noSideEffect, 
+proc getType*(this: Renderer): StringHash {.noSideEffect,
     importcpp: "GetType", header: "Renderer.h".}
-proc getBaseType*(this: Renderer): StringHash {.noSideEffect, 
+proc getBaseType*(this: Renderer): StringHash {.noSideEffect,
     importcpp: "GetBaseType", header: "Renderer.h".}
-proc getTypeName*(this: Renderer): UrString {.noSideEffect, 
+proc getTypeName*(this: Renderer): UrString {.noSideEffect,
     importcpp: "GetTypeName", header: "Renderer.h".}
 proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::Renderer::GetTypeStatic(@)", header: "Renderer.h".}
 proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::Renderer::GetTypeNameStatic(@)", header: "Renderer.h".}
-proc constructRenderer*(context: ptr Context): Renderer {.
+proc constructRenderer*(context: ptr Context): Renderer {.constructor,
     importcpp: "Urho3D::Renderer(@)", header: "Renderer.h".}
-proc destroyRenderer*(this: var Renderer) {.importcpp: "#.~Renderer()", 
+proc destroyRenderer*(this: var Renderer) {.importcpp: "#.~Renderer()",
     header: "Renderer.h".}
 proc setNumViewports*(this: var Renderer; num: cuint) {.
     importcpp: "SetNumViewports", header: "Renderer.h".}
@@ -211,59 +211,59 @@ proc setMobileShadowBiasMul*(this: var Renderer; mul: cfloat) {.
     importcpp: "SetMobileShadowBiasMul", header: "Renderer.h".}
 proc setMobileShadowBiasAdd*(this: var Renderer; add: cfloat) {.
     importcpp: "SetMobileShadowBiasAdd", header: "Renderer.h".}
-proc reloadShaders*(this: var Renderer) {.importcpp: "ReloadShaders", 
+proc reloadShaders*(this: var Renderer) {.importcpp: "ReloadShaders",
     header: "Renderer.h".}
-proc getNumViewports*(this: Renderer): cuint {.noSideEffect, 
+proc getNumViewports*(this: Renderer): cuint {.noSideEffect,
     importcpp: "GetNumViewports", header: "Renderer.h".}
-proc getViewport*(this: Renderer; index: cuint): ptr Viewport {.noSideEffect, 
+proc getViewport*(this: Renderer; index: cuint): ptr Viewport {.noSideEffect,
     importcpp: "GetViewport", header: "Renderer.h".}
-proc getDefaultRenderPath*(this: Renderer): ptr RenderPath {.noSideEffect, 
+proc getDefaultRenderPath*(this: Renderer): ptr RenderPath {.noSideEffect,
     importcpp: "GetDefaultRenderPath", header: "Renderer.h".}
-proc getHDRRendering*(this: Renderer): bool {.noSideEffect, 
+proc getHDRRendering*(this: Renderer): bool {.noSideEffect,
     importcpp: "GetHDRRendering", header: "Renderer.h".}
-proc getSpecularLighting*(this: Renderer): bool {.noSideEffect, 
+proc getSpecularLighting*(this: Renderer): bool {.noSideEffect,
     importcpp: "GetSpecularLighting", header: "Renderer.h".}
-proc getDrawShadows*(this: Renderer): bool {.noSideEffect, 
+proc getDrawShadows*(this: Renderer): bool {.noSideEffect,
     importcpp: "GetDrawShadows", header: "Renderer.h".}
-proc getTextureAnisotropy*(this: Renderer): cint {.noSideEffect, 
+proc getTextureAnisotropy*(this: Renderer): cint {.noSideEffect,
     importcpp: "GetTextureAnisotropy", header: "Renderer.h".}
-proc getTextureFilterMode*(this: Renderer): TextureFilterMode {.noSideEffect, 
+proc getTextureFilterMode*(this: Renderer): TextureFilterMode {.noSideEffect,
     importcpp: "GetTextureFilterMode", header: "Renderer.h".}
-proc getTextureQuality*(this: Renderer): cint {.noSideEffect, 
+proc getTextureQuality*(this: Renderer): cint {.noSideEffect,
     importcpp: "GetTextureQuality", header: "Renderer.h".}
-proc getMaterialQuality*(this: Renderer): cint {.noSideEffect, 
+proc getMaterialQuality*(this: Renderer): cint {.noSideEffect,
     importcpp: "GetMaterialQuality", header: "Renderer.h".}
-proc getShadowMapSize*(this: Renderer): cint {.noSideEffect, 
+proc getShadowMapSize*(this: Renderer): cint {.noSideEffect,
     importcpp: "GetShadowMapSize", header: "Renderer.h".}
-proc getShadowQuality*(this: Renderer): cint {.noSideEffect, 
+proc getShadowQuality*(this: Renderer): cint {.noSideEffect,
     importcpp: "GetShadowQuality", header: "Renderer.h".}
-proc getReuseShadowMaps*(this: Renderer): bool {.noSideEffect, 
+proc getReuseShadowMaps*(this: Renderer): bool {.noSideEffect,
     importcpp: "GetReuseShadowMaps", header: "Renderer.h".}
-proc getMaxShadowMaps*(this: Renderer): cint {.noSideEffect, 
+proc getMaxShadowMaps*(this: Renderer): cint {.noSideEffect,
     importcpp: "GetMaxShadowMaps", header: "Renderer.h".}
-proc getDynamicInstancing*(this: Renderer): bool {.noSideEffect, 
+proc getDynamicInstancing*(this: Renderer): bool {.noSideEffect,
     importcpp: "GetDynamicInstancing", header: "Renderer.h".}
-proc getMinInstances*(this: Renderer): cint {.noSideEffect, 
+proc getMinInstances*(this: Renderer): cint {.noSideEffect,
     importcpp: "GetMinInstances", header: "Renderer.h".}
-proc getMaxInstanceTriangles*(this: Renderer): cint {.noSideEffect, 
+proc getMaxInstanceTriangles*(this: Renderer): cint {.noSideEffect,
     importcpp: "GetMaxInstanceTriangles", header: "Renderer.h".}
-proc getMaxSortedInstances*(this: Renderer): cint {.noSideEffect, 
+proc getMaxSortedInstances*(this: Renderer): cint {.noSideEffect,
     importcpp: "GetMaxSortedInstances", header: "Renderer.h".}
-proc getMaxOccluderTriangles*(this: Renderer): cint {.noSideEffect, 
+proc getMaxOccluderTriangles*(this: Renderer): cint {.noSideEffect,
     importcpp: "GetMaxOccluderTriangles", header: "Renderer.h".}
-proc getOcclusionBufferSize*(this: Renderer): cint {.noSideEffect, 
+proc getOcclusionBufferSize*(this: Renderer): cint {.noSideEffect,
     importcpp: "GetOcclusionBufferSize", header: "Renderer.h".}
-proc getOccluderSizeThreshold*(this: Renderer): cfloat {.noSideEffect, 
+proc getOccluderSizeThreshold*(this: Renderer): cfloat {.noSideEffect,
     importcpp: "GetOccluderSizeThreshold", header: "Renderer.h".}
-proc getMobileShadowBiasMul*(this: Renderer): cfloat {.noSideEffect, 
+proc getMobileShadowBiasMul*(this: Renderer): cfloat {.noSideEffect,
     importcpp: "GetMobileShadowBiasMul", header: "Renderer.h".}
-proc getMobileShadowBiasAdd*(this: Renderer): cfloat {.noSideEffect, 
+proc getMobileShadowBiasAdd*(this: Renderer): cfloat {.noSideEffect,
     importcpp: "GetMobileShadowBiasAdd", header: "Renderer.h".}
-proc getNumViews*(this: Renderer): cuint {.noSideEffect, 
+proc getNumViews*(this: Renderer): cuint {.noSideEffect,
     importcpp: "GetNumViews", header: "Renderer.h".}
-proc getNumPrimitives*(this: Renderer): cuint {.noSideEffect, 
+proc getNumPrimitives*(this: Renderer): cuint {.noSideEffect,
     importcpp: "GetNumPrimitives", header: "Renderer.h".}
-proc getNumBatches*(this: Renderer): cuint {.noSideEffect, 
+proc getNumBatches*(this: Renderer): cuint {.noSideEffect,
     importcpp: "GetNumBatches", header: "Renderer.h".}
 proc getNumGeometries*(this: Renderer; allViews: bool = false): cuint {.
     noSideEffect, importcpp: "GetNumGeometries", header: "Renderer.h".}
@@ -273,41 +273,41 @@ proc getNumShadowMaps*(this: Renderer; allViews: bool = false): cuint {.
     noSideEffect, importcpp: "GetNumShadowMaps", header: "Renderer.h".}
 proc getNumOccluders*(this: Renderer; allViews: bool = false): cuint {.
     noSideEffect, importcpp: "GetNumOccluders", header: "Renderer.h".}
-proc getDefaultZone*(this: Renderer): ptr Zone {.noSideEffect, 
+proc getDefaultZone*(this: Renderer): ptr Zone {.noSideEffect,
     importcpp: "GetDefaultZone", header: "Renderer.h".}
-proc getDefaultMaterial*(this: Renderer): ptr Material {.noSideEffect, 
+proc getDefaultMaterial*(this: Renderer): ptr Material {.noSideEffect,
     importcpp: "GetDefaultMaterial", header: "Renderer.h".}
-proc getDefaultLightRamp*(this: Renderer): ptr Texture2D {.noSideEffect, 
+proc getDefaultLightRamp*(this: Renderer): ptr Texture2D {.noSideEffect,
     importcpp: "GetDefaultLightRamp", header: "Renderer.h".}
-proc getDefaultLightSpot*(this: Renderer): ptr Texture2D {.noSideEffect, 
+proc getDefaultLightSpot*(this: Renderer): ptr Texture2D {.noSideEffect,
     importcpp: "GetDefaultLightSpot", header: "Renderer.h".}
-proc getFaceSelectCubeMap*(this: Renderer): ptr TextureCube {.noSideEffect, 
+proc getFaceSelectCubeMap*(this: Renderer): ptr TextureCube {.noSideEffect,
     importcpp: "GetFaceSelectCubeMap", header: "Renderer.h".}
-proc getIndirectionCubeMap*(this: Renderer): ptr TextureCube {.noSideEffect, 
+proc getIndirectionCubeMap*(this: Renderer): ptr TextureCube {.noSideEffect,
     importcpp: "GetIndirectionCubeMap", header: "Renderer.h".}
-proc getInstancingBuffer*(this: Renderer): ptr VertexBuffer {.noSideEffect, 
+proc getInstancingBuffer*(this: Renderer): ptr VertexBuffer {.noSideEffect,
     importcpp: "GetInstancingBuffer", header: "Renderer.h".}
-proc getFrameInfo*(this: Renderer): FrameInfo {.noSideEffect, 
+proc getFrameInfo*(this: Renderer): FrameInfo {.noSideEffect,
     importcpp: "GetFrameInfo", header: "Renderer.h".}
-proc update*(this: var Renderer; timeStep: cfloat) {.importcpp: "Update", 
+proc update*(this: var Renderer; timeStep: cfloat) {.importcpp: "Update",
     header: "Renderer.h".}
 proc render*(this: var Renderer) {.importcpp: "Render", header: "Renderer.h".}
 proc drawDebugGeometry*(this: var Renderer; depthTest: bool) {.
     importcpp: "DrawDebugGeometry", header: "Renderer.h".}
 proc queueRenderSurface*(this: var Renderer; renderTarget: ptr RenderSurface) {.
     importcpp: "QueueRenderSurface", header: "Renderer.h".}
-proc queueViewport*(this: var Renderer; renderTarget: ptr RenderSurface; 
-                    viewport: ptr Viewport) {.importcpp: "QueueViewport", 
+proc queueViewport*(this: var Renderer; renderTarget: ptr RenderSurface;
+                    viewport: ptr Viewport) {.importcpp: "QueueViewport",
     header: "Renderer.h".}
 proc getLightGeometry*(this: var Renderer; light: ptr Light): ptr Geometry {.
     importcpp: "GetLightGeometry", header: "Renderer.h".}
 proc getQuadGeometry*(this: var Renderer): ptr Geometry {.
     importcpp: "GetQuadGeometry", header: "Renderer.h".}
-proc getShadowMap*(this: var Renderer; light: ptr Light; camera: ptr Camera; 
+proc getShadowMap*(this: var Renderer; light: ptr Light; camera: ptr Camera;
                    viewWidth: cuint; viewHeight: cuint): ptr Texture2D {.
     importcpp: "GetShadowMap", header: "Renderer.h".}
-proc getScreenBuffer*(this: var Renderer; width: cint; height: cint; 
-                      format: cuint; filtered: bool; srgb: bool; 
+proc getScreenBuffer*(this: var Renderer; width: cint; height: cint;
+                      format: cuint; filtered: bool; srgb: bool;
                       persistentKey: cuint = 0): ptr Texture2D {.
     importcpp: "GetScreenBuffer", header: "Renderer.h".}
 proc getDepthStencil*(this: var Renderer; width: cint; height: cint): ptr RenderSurface {.
@@ -316,10 +316,10 @@ proc getOcclusionBuffer*(this: var Renderer; camera: ptr Camera): ptr OcclusionB
     importcpp: "GetOcclusionBuffer", header: "Renderer.h".}
 proc getShadowCamera*(this: var Renderer): ptr Camera {.
     importcpp: "GetShadowCamera", header: "Renderer.h".}
-proc setBatchShaders*(this: var Renderer; batch: var Batch; tech: ptr Technique; 
-                      allowShadows: bool = true) {.importcpp: "SetBatchShaders", 
+proc setBatchShaders*(this: var Renderer; batch: var Batch; tech: ptr Technique;
+                      allowShadows: bool = true) {.importcpp: "SetBatchShaders",
     header: "Renderer.h".}
-proc setLightVolumeBatchShaders*(this: var Renderer; batch: var Batch; 
+proc setLightVolumeBatchShaders*(this: var Renderer; batch: var Batch;
                                  vsName: UrString; psName: UrString) {.
     importcpp: "SetLightVolumeBatchShaders", header: "Renderer.h".}
 proc setCullMode*(this: var Renderer; mode: CullMode; camera: ptr Camera) {.
@@ -330,10 +330,10 @@ proc saveScreenBufferAllocations*(this: var Renderer) {.
     importcpp: "SaveScreenBufferAllocations", header: "Renderer.h".}
 proc restoreScreenBufferAllocations*(this: var Renderer) {.
     importcpp: "RestoreScreenBufferAllocations", header: "Renderer.h".}
-proc optimizeLightByScissor*(this: var Renderer; light: ptr Light; 
+proc optimizeLightByScissor*(this: var Renderer; light: ptr Light;
                              camera: ptr Camera) {.
     importcpp: "OptimizeLightByScissor", header: "Renderer.h".}
-proc optimizeLightByStencil*(this: var Renderer; light: ptr Light; 
+proc optimizeLightByStencil*(this: var Renderer; light: ptr Light;
                              camera: ptr Camera) {.
     importcpp: "OptimizeLightByStencil", header: "Renderer.h".}
 proc getLightScissor*(this: var Renderer; light: ptr Light; camera: ptr Camera): Rect {.

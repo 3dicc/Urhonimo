@@ -1,6 +1,6 @@
 
 
-import 
+import
   ptrs, variant, refcounted, urstr
 
 
@@ -15,18 +15,18 @@ var AM_COMPONENTID* {.importc: "AM_COMPONENTID", header: "Attribute.h".}: cuint 
 var AM_NODEIDVECTOR* {.importc: "AM_NODEIDVECTOR", header: "Attribute.h".}: cuint #= 0x00000040
 
 discard "forward decl of Serializable"
-type 
-  AttributeAccessor* {.importc: "Urho3D::AttributeAccessor", 
+type
+  AttributeAccessor* {.importc: "Urho3D::AttributeAccessor",
                        header: "Attribute.h".} = object of RefCounted
-  
+
 when false:
   proc get*(this: AttributeAccessor; `ptr`: ptr Serializable; dest: var Variant) {.
       noSideEffect, importcpp: "Get", header: "Attribute.h".}
   proc set*(this: var AttributeAccessor; `ptr`: ptr Serializable; src: Variant) {.
       importcpp: "Set", header: "Attribute.h".}
 
-type 
-  AttributeInfo* {.importc: "Urho3D::AttributeInfo", header: "Attribute.h".} = object 
+type
+  AttributeInfo* {.importcpp: "Urho3D::AttributeInfo", header: "Attribute.h".} = object
     `type`* {.importc: "type_".}: VariantType
     name* {.importc: "name_".}: UrString
     offset* {.importc: "offset_".}: cuint
@@ -38,19 +38,19 @@ type
 
 
 proc constructAttributeInfo*(): AttributeInfo {.
-    importcpp: "Urho3D::AttributeInfo(@)", header: "Attribute.h".}
-proc constructAttributeInfo*(`type`: VariantType; name: cstring; offset: csize; 
+    importcpp: "Urho3D::AttributeInfo(@)", header: "Attribute.h", constructor.}
+proc constructAttributeInfo*(`type`: VariantType; name: cstring; offset: csize;
                              defaultValue: Variant; mode: cuint): AttributeInfo {.
-    importcpp: "Urho3D::AttributeInfo(@)", header: "Attribute.h".}
-proc constructAttributeInfo*(name: cstring; offset: csize; 
-                             enumNames: cstringArray; defaultValue: Variant; 
+    importcpp: "Urho3D::AttributeInfo(@)", header: "Attribute.h", constructor.}
+proc constructAttributeInfo*(name: cstring; offset: csize;
+                             enumNames: cstringArray; defaultValue: Variant;
                              mode: cuint): AttributeInfo {.
-    importcpp: "Urho3D::AttributeInfo(@)", header: "Attribute.h".}
-proc constructAttributeInfo*(`type`: VariantType; name: cstring; 
-                             accessor: ptr AttributeAccessor; 
+    importcpp: "Urho3D::AttributeInfo(@)", header: "Attribute.h", constructor.}
+proc constructAttributeInfo*(`type`: VariantType; name: cstring;
+                             accessor: ptr AttributeAccessor;
                              defaultValue: Variant; mode: cuint): AttributeInfo {.
-    importcpp: "Urho3D::AttributeInfo(@)", header: "Attribute.h".}
-proc constructAttributeInfo*(name: cstring; accessor: ptr AttributeAccessor; 
-                             enumNames: cstringArray; defaultValue: Variant; 
+    importcpp: "Urho3D::AttributeInfo(@)", header: "Attribute.h", constructor.}
+proc constructAttributeInfo*(name: cstring; accessor: ptr AttributeAccessor;
+                             enumNames: cstringArray; defaultValue: Variant;
                              mode: cuint): AttributeInfo {.
-    importcpp: "Urho3D::AttributeInfo(@)", header: "Attribute.h".}
+    importcpp: "Urho3D::AttributeInfo(@)", header: "Attribute.h", constructor.}

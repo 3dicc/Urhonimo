@@ -1,6 +1,6 @@
 
 
-import 
+import
   boundingBox, component, serializer, deserializer, resourcecache, urstr,
   stringhash, vector3, quaternion, matrix4, ptrs, vector
 
@@ -12,8 +12,8 @@ var BONECOLLISION_BOX* {.importc: "BONECOLLISION_BOX", header: "Skeleton.h".}: c
 discard "forward decl of Deserializer"
 discard "forward decl of ResourceCache"
 discard "forward decl of Serializer"
-type 
-  Bone* {.importc: "Urho3D::Bone", header: "Skeleton.h".} = object 
+type
+  Bone* {.importcpp: "Urho3D::Bone", header: "Skeleton.h".} = object
     name* {.importc: "name_".}: UrString
     nameHash* {.importc: "nameHash_".}: StringHash
     parentIndex* {.importc: "parentIndex_".}: cuint
@@ -28,36 +28,37 @@ type
     node* {.importc: "node_".}: WeakPtr[Node]
 
 
-proc constructBone*(): Bone {.importcpp: "Urho3D::Bone(@)", header: "Skeleton.h".}
+proc constructBone*(): Bone {.importcpp: "Urho3D::Bone(@)", header: "Skeleton.h",
+  constructor.}
 
-type 
-  Skeleton* {.importc: "Urho3D::Skeleton", header: "Skeleton.h".} = object 
+type
+  Skeleton* {.importcpp: "Urho3D::Skeleton", header: "Skeleton.h".} = object
     bones* {.importc: "bones_".}: Vector[Bone]
     rootBoneIndex* {.importc: "rootBoneIndex_".}: cuint
 
 
-proc constructSkeleton*(): Skeleton {.importcpp: "Urho3D::Skeleton(@)", 
-                                      header: "Skeleton.h".}
-proc destroySkeleton*(this: var Skeleton) {.importcpp: "#.~Skeleton()", 
+proc constructSkeleton*(): Skeleton {.importcpp: "Urho3D::Skeleton(@)",
+                                      header: "Skeleton.h", constructor.}
+proc destroySkeleton*(this: var Skeleton) {.importcpp: "#.~Skeleton()",
     header: "Skeleton.h".}
 proc load*(this: var Skeleton; source: var Deserializer): bool {.
     importcpp: "Load", header: "Skeleton.h".}
-proc save*(this: Skeleton; dest: var Serializer): bool {.noSideEffect, 
+proc save*(this: Skeleton; dest: var Serializer): bool {.noSideEffect,
     importcpp: "Save", header: "Skeleton.h".}
-proc define*(this: var Skeleton; src: Skeleton) {.importcpp: "Define", 
+proc define*(this: var Skeleton; src: Skeleton) {.importcpp: "Define",
     header: "Skeleton.h".}
 proc setRootBoneIndex*(this: var Skeleton; index: cuint) {.
     importcpp: "SetRootBoneIndex", header: "Skeleton.h".}
-proc clearBones*(this: var Skeleton) {.importcpp: "ClearBones", 
+proc clearBones*(this: var Skeleton) {.importcpp: "ClearBones",
                                        header: "Skeleton.h".}
 proc reset*(this: var Skeleton) {.importcpp: "Reset", header: "Skeleton.h".}
-proc getBones*(this: Skeleton): Vector[Bone] {.noSideEffect, 
+proc getBones*(this: Skeleton): Vector[Bone] {.noSideEffect,
     importcpp: "GetBones", header: "Skeleton.h".}
 proc getModifiableBones*(this: var Skeleton): var Vector[Bone] {.
     importcpp: "GetModifiableBones", header: "Skeleton.h".}
-proc getNumBones*(this: Skeleton): cuint {.noSideEffect, 
+proc getNumBones*(this: Skeleton): cuint {.noSideEffect,
     importcpp: "GetNumBones", header: "Skeleton.h".}
-proc getRootBone*(this: var Skeleton): ptr Bone {.importcpp: "GetRootBone", 
+proc getRootBone*(this: var Skeleton): ptr Bone {.importcpp: "GetRootBone",
     header: "Skeleton.h".}
 proc getBone*(this: var Skeleton; index: cuint): ptr Bone {.
     importcpp: "GetBone", header: "Skeleton.h".}
@@ -67,5 +68,5 @@ proc getBone*(this: var Skeleton; boneName: cstring): ptr Bone {.
     importcpp: "GetBone", header: "Skeleton.h".}
 proc getBone*(this: var Skeleton; boneNameHash: StringHash): ptr Bone {.
     importcpp: "GetBone", header: "Skeleton.h".}
-proc resetSilent*(this: var Skeleton) {.importcpp: "ResetSilent", 
+proc resetSilent*(this: var Skeleton) {.importcpp: "ResetSilent",
                                         header: "Skeleton.h".}

@@ -2,7 +2,7 @@
 import ui, urhomain, processutils, color, urstr, stringHash, variant, text,
   uielement, octree, staticmodel, renderer, component, urhomain,
   resourcecache, scene, node, vector3, quaternion, model, material, light,
-  camera, view, input
+  camera, view, input, log
 
 import sample
 
@@ -46,7 +46,7 @@ proc createScene() =
   # direction vector.
   # The light will use default settings (white light, no shadows)
   var lightNode: ptr Node = sc.createChild("DirectionalLight")
-  lightNode.setDirection(constructVector3(0.6f32, -1.0f32, 0.8f32)) 
+  lightNode.setDirection(constructVector3(0.6f32, -1.0f32, 0.8f32))
   # The direction vector does not need to be normalized
   var light: ptr Light = createComponent[Light](lightNode)
   light.setLightType(LIGHT_DIRECTIONAL)
@@ -144,6 +144,7 @@ proc main =
 
   openUrho3D(false)
 
+  log.write(LOG_INFO, "Test log")
   createScene()
   createConsole()
   subscribeToEvent("KeyDown", handleConsole)

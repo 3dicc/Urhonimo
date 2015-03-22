@@ -1,11 +1,11 @@
 
 
-import 
+import
   arrayPtr, soundStream
 
 discard "forward decl of Sound"
-type 
-  OggVorbisSoundStream* {.importc: "Urho3D::OggVorbisSoundStream", 
+type
+  OggVorbisSoundStream* {.importc: "Urho3D::OggVorbisSoundStream",
                           header: "OggVorbisSoundStream.h".} = object of SoundStream
     decoder* {.importc: "decoder_".}: pointer
     data* {.importc: "data_".}: SharedArrayPtr[cchar]
@@ -13,8 +13,8 @@ type
 
 
 proc constructOggVorbisSoundStream*(sound: ptr Sound): OggVorbisSoundStream {.
-    importcpp: "Urho3D::OggVorbisSoundStream(@)", 
-    header: "OggVorbisSoundStream.h".}
+    importcpp: "Urho3D::OggVorbisSoundStream(@)",
+    header: "OggVorbisSoundStream.h", constructor.}
 proc destroyOggVorbisSoundStream*(this: var OggVorbisSoundStream) {.
     importcpp: "#.~OggVorbisSoundStream()", header: "OggVorbisSoundStream.h".}
 proc getData*(this: var OggVorbisSoundStream; dest: ptr cchar; numBytes: cuint): cuint {.

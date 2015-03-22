@@ -1,14 +1,14 @@
 
 
-import 
+import
   areaAllocator, arrayPtr, list, image, texture2d, refcounted, hashMap, vector,
   ptrs
 
 discard "forward decl of Font"
 discard "forward decl of Image"
 discard "forward decl of Texture2D"
-type 
-  FontGlyph* {.importc: "Urho3D::FontGlyph", header: "FontFace.h".} = object 
+type
+  FontGlyph* {.importcpp: "Urho3D::FontGlyph", header: "FontFace.h".} = object
     x* {.importc: "x_".}: cshort
     y* {.importc: "y_".}: cshort
     width* {.importc: "width_".}: cshort
@@ -20,11 +20,11 @@ type
     used* {.importc: "used_".}: bool
 
 
-proc constructFontGlyph*(): FontGlyph {.importcpp: "Urho3D::FontGlyph(@)", 
-                                        header: "FontFace.h".}
+proc constructFontGlyph*(): FontGlyph {.importcpp: "Urho3D::FontGlyph(@)",
+                                        header: "FontFace.h", constructor.}
 
-type 
-  FontFace* {.importc: "Urho3D::FontFace", header: "FontFace.h".} = object of RefCounted
+type
+  FontFace* {.importcpp: "Urho3D::FontFace", header: "FontFace.h".} = object of RefCounted
     #font* {.importc: "font_".}: ptr Font
     glyphMapping* {.importc: "glyphMapping_".}: HashMap[cuint, FontGlyph]
     kerningMapping* {.importc: "kerningMapping_".}: HashMap[cuint, cshort]
@@ -32,19 +32,19 @@ type
     pointSize* {.importc: "pointSize_".}: cint
     rowHeight* {.importc: "rowHeight_".}: cint
 
-proc load*(this: var FontFace; fontData: ptr cuchar; fontDataSize: cuint; 
+proc load*(this: var FontFace; fontData: ptr cuchar; fontDataSize: cuint;
            pointSize: cint): bool {.importcpp: "Load", header: "FontFace.h".}
 proc getGlyph*(this: var FontFace; c: cuint): ptr FontGlyph {.
     importcpp: "GetGlyph", header: "FontFace.h".}
-proc hasMutableGlyphs*(this: FontFace): bool {.noSideEffect, 
+proc hasMutableGlyphs*(this: FontFace): bool {.noSideEffect,
     importcpp: "HasMutableGlyphs", header: "FontFace.h".}
-proc getKerning*(this: FontFace; c: cuint; d: cuint): cshort {.noSideEffect, 
+proc getKerning*(this: FontFace; c: cuint; d: cuint): cshort {.noSideEffect,
     importcpp: "GetKerning", header: "FontFace.h".}
-proc isDataLost*(this: FontFace): bool {.noSideEffect, importcpp: "IsDataLost", 
+proc isDataLost*(this: FontFace): bool {.noSideEffect, importcpp: "IsDataLost",
     header: "FontFace.h".}
-proc getPointSize*(this: FontFace): cint {.noSideEffect, 
+proc getPointSize*(this: FontFace): cint {.noSideEffect,
     importcpp: "GetPointSize", header: "FontFace.h".}
-proc getRowHeight*(this: FontFace): cint {.noSideEffect, 
+proc getRowHeight*(this: FontFace): cint {.noSideEffect,
     importcpp: "GetRowHeight", header: "FontFace.h".}
-proc getTextures*(this: FontFace): Vector[SharedPtr[Texture2D]] {.noSideEffect, 
+proc getTextures*(this: FontFace): Vector[SharedPtr[Texture2D]] {.noSideEffect,
     importcpp: "GetTextures", header: "FontFace.h".}

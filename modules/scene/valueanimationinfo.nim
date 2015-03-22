@@ -1,10 +1,10 @@
 
 
-import 
+import
   animationDefs, refCounted, urobject, valueanimation, ptrs
 
-type 
-  ValueAnimationInfo* {.importc: "Urho3D::ValueAnimationInfo", 
+type
+  ValueAnimationInfo* {.importcpp: "Urho3D::ValueAnimationInfo",
                         header: "ValueAnimationInfo.h".} = object of RefCounted
     target* {.importc: "target_".}: WeakPtr[UrObject]
     animation* {.importc: "animation_".}: SharedPtr[ValueAnimation]
@@ -14,15 +14,18 @@ type
     lastScaledTime* {.importc: "lastScaledTime_".}: cfloat
 
 
-proc constructValueAnimationInfo*(animation: ptr ValueAnimation; 
+proc constructValueAnimationInfo*(animation: ptr ValueAnimation;
                                   wrapMode: WrapMode; speed: cfloat): ValueAnimationInfo {.
-    importcpp: "Urho3D::ValueAnimationInfo(@)", header: "ValueAnimationInfo.h".}
-proc constructValueAnimationInfo*(target: ptr UrObject; 
-                                  animation: ptr ValueAnimation; 
+    importcpp: "Urho3D::ValueAnimationInfo(@)", header: "ValueAnimationInfo.h",
+    constructor.}
+proc constructValueAnimationInfo*(target: ptr UrObject;
+                                  animation: ptr ValueAnimation;
                                   wrapMode: WrapMode; speed: cfloat): ValueAnimationInfo {.
-    importcpp: "Urho3D::ValueAnimationInfo(@)", header: "ValueAnimationInfo.h".}
+    importcpp: "Urho3D::ValueAnimationInfo(@)", header: "ValueAnimationInfo.h",
+    constructor.}
 proc constructValueAnimationInfo*(other: ValueAnimationInfo): ValueAnimationInfo {.
-    importcpp: "Urho3D::ValueAnimationInfo(@)", header: "ValueAnimationInfo.h".}
+    importcpp: "Urho3D::ValueAnimationInfo(@)", header: "ValueAnimationInfo.h",
+    constructor.}
 proc destroyValueAnimationInfo*(this: var ValueAnimationInfo) {.
     importcpp: "#.~ValueAnimationInfo()", header: "ValueAnimationInfo.h".}
 proc update*(this: var ValueAnimationInfo; timeStep: cfloat): bool {.
@@ -31,11 +34,11 @@ proc setWrapMode*(this: var ValueAnimationInfo; wrapMode: WrapMode) {.
     importcpp: "SetWrapMode", header: "ValueAnimationInfo.h".}
 proc setSpeed*(this: var ValueAnimationInfo; speed: cfloat) {.
     importcpp: "SetSpeed", header: "ValueAnimationInfo.h".}
-proc getTarget*(this: ValueAnimationInfo): ptr UrObject {.noSideEffect, 
+proc getTarget*(this: ValueAnimationInfo): ptr UrObject {.noSideEffect,
     importcpp: "GetTarget", header: "ValueAnimationInfo.h".}
-proc getAnimation*(this: ValueAnimationInfo): ptr ValueAnimation {.noSideEffect, 
+proc getAnimation*(this: ValueAnimationInfo): ptr ValueAnimation {.noSideEffect,
     importcpp: "GetAnimation", header: "ValueAnimationInfo.h".}
-proc getWrapMode*(this: ValueAnimationInfo): WrapMode {.noSideEffect, 
+proc getWrapMode*(this: ValueAnimationInfo): WrapMode {.noSideEffect,
     importcpp: "GetWrapMode", header: "ValueAnimationInfo.h".}
-proc getSpeed*(this: ValueAnimationInfo): cfloat {.noSideEffect, 
+proc getSpeed*(this: ValueAnimationInfo): cfloat {.noSideEffect,
     importcpp: "GetSpeed", header: "ValueAnimationInfo.h".}

@@ -1,46 +1,47 @@
 
 
-import 
+import
   resource
 
 
-type 
-  EmitterType* {.importcpp: "Urho3D::EmitterType".} = enum 
+type
+  EmitterType* {.importcpp: "Urho3D::EmitterType".} = enum
     EMITTER_SPHERE, EMITTER_BOX
 
 
 
-type 
-  ColorFrame* {.importc: "Urho3D::ColorFrame", header: "ParticleEffect.h".} = object 
+type
+  ColorFrame* {.importcpp: "Urho3D::ColorFrame", header: "ParticleEffect.h".} = object
     color* {.importc: "color_".}: Color
     time* {.importc: "time_".}: cfloat
 
 
-proc constructColorFrame*(): ColorFrame {.importcpp: "Urho3D::ColorFrame(@)", 
-    header: "ParticleEffect.h".}
-proc constructColorFrame*(color: Color): ColorFrame {.
+proc constructColorFrame*(): ColorFrame {.importcpp: "Urho3D::ColorFrame(@)",
+    header: "ParticleEffect.h", constructor.}
+proc constructColorFrame*(color: Color): ColorFrame {.constructor,
     importcpp: "Urho3D::ColorFrame(@)", header: "ParticleEffect.h".}
-proc constructColorFrame*(color: Color; time: cfloat): ColorFrame {.
+proc constructColorFrame*(color: Color; time: cfloat): ColorFrame {.constructor,
     importcpp: "Urho3D::ColorFrame(@)", header: "ParticleEffect.h".}
 proc interpolate*(this: ColorFrame; next: ColorFrame; time: cfloat): Color {.
     noSideEffect, importcpp: "Interpolate", header: "ParticleEffect.h".}
 
-type 
-  TextureFrame* {.importc: "Urho3D::TextureFrame", header: "ParticleEffect.h".} = object 
+type
+  TextureFrame* {.importc: "Urho3D::TextureFrame", header: "ParticleEffect.h".} = object
     uv* {.importc: "uv_".}: Rect
     time* {.importc: "time_".}: cfloat
 
 
 proc constructTextureFrame*(): TextureFrame {.
-    importcpp: "Urho3D::TextureFrame(@)", header: "ParticleEffect.h".}
-var DEFAULT_NUM_PARTICLES* {.importc: "DEFAULT_NUM_PARTICLES", 
+    importcpp: "Urho3D::TextureFrame(@)", header: "ParticleEffect.h",
+    constructor.}
+var DEFAULT_NUM_PARTICLES* {.importc: "DEFAULT_NUM_PARTICLES",
                              header: "ParticleEffect.h".}: cuint = 10
 
 discard "forward decl of Material"
 discard "forward decl of XMLFile"
 discard "forward decl of XMLElement"
-type 
-  ParticleEffect* {.importc: "Urho3D::ParticleEffect", 
+type
+  ParticleEffect* {.importcpp: "Urho3D::ParticleEffect",
                     header: "ParticleEffect.h".} = object of Resource
     material* {.importc: "material_".}: SharedPtr[Material]
     numParticles* {.importc: "numParticles_".}: cuint
@@ -76,30 +77,31 @@ type
     loadMaterialName* {.importc: "loadMaterialName_".}: UrString
 
 
-proc getType*(this: ParticleEffect): Urho3D.StringHash {.noSideEffect, 
+proc getType*(this: ParticleEffect): Urho3D.StringHash {.noSideEffect,
     importcpp: "GetType", header: "ParticleEffect.h".}
-proc getBaseType*(this: ParticleEffect): Urho3D.StringHash {.noSideEffect, 
+proc getBaseType*(this: ParticleEffect): Urho3D.StringHash {.noSideEffect,
     importcpp: "GetBaseType", header: "ParticleEffect.h".}
-proc getTypeName*(this: ParticleEffect): Urho3D.UrString {.noSideEffect, 
+proc getTypeName*(this: ParticleEffect): Urho3D.UrString {.noSideEffect,
     importcpp: "GetTypeName", header: "ParticleEffect.h".}
 proc getTypeStatic*(): Urho3D.StringHash {.
-    importcpp: "Urho3D::ParticleEffect::GetTypeStatic(@)", 
+    importcpp: "Urho3D::ParticleEffect::GetTypeStatic(@)",
     header: "ParticleEffect.h".}
 proc getTypeNameStatic*(): Urho3D.UrString {.
-    importcpp: "Urho3D::ParticleEffect::GetTypeNameStatic(@)", 
+    importcpp: "Urho3D::ParticleEffect::GetTypeNameStatic(@)",
     header: "ParticleEffect.h".}
 proc constructParticleEffect*(context: ptr Context): ParticleEffect {.
-    importcpp: "Urho3D::ParticleEffect(@)", header: "ParticleEffect.h".}
+    importcpp: "Urho3D::ParticleEffect(@)", header: "ParticleEffect.h",
+    constructor.}
 proc destroyParticleEffect*(this: var ParticleEffect) {.
     importcpp: "#.~ParticleEffect()", header: "ParticleEffect.h".}
 proc registerObject*(context: ptr Context) {.
-    importcpp: "Urho3D::ParticleEffect::RegisterObject(@)", 
+    importcpp: "Urho3D::ParticleEffect::RegisterObject(@)",
     header: "ParticleEffect.h".}
 proc beginLoad*(this: var ParticleEffect; source: var Deserializer): bool {.
     importcpp: "BeginLoad", header: "ParticleEffect.h".}
-proc endLoad*(this: var ParticleEffect): bool {.importcpp: "EndLoad", 
+proc endLoad*(this: var ParticleEffect): bool {.importcpp: "EndLoad",
     header: "ParticleEffect.h".}
-proc save*(this: ParticleEffect; dest: var Serializer): bool {.noSideEffect, 
+proc save*(this: ParticleEffect; dest: var Serializer): bool {.noSideEffect,
     importcpp: "Save", header: "ParticleEffect.h".}
 proc setMaterial*(this: var ParticleEffect; material: ptr Material) {.
     importcpp: "SetMaterial", header: "ParticleEffect.h".}
@@ -161,93 +163,93 @@ proc setSizeMul*(this: var ParticleEffect; sizeMul: cfloat) {.
     importcpp: "SetSizeMul", header: "ParticleEffect.h".}
 proc setColorFrames*(this: var ParticleEffect; colorFrames: Vector[ColorFrame]) {.
     importcpp: "SetColorFrames", header: "ParticleEffect.h".}
-proc setColorFrame*(this: var ParticleEffect; index: cuint; 
-                    colorFrame: ColorFrame) {.importcpp: "SetColorFrame", 
+proc setColorFrame*(this: var ParticleEffect; index: cuint;
+                    colorFrame: ColorFrame) {.importcpp: "SetColorFrame",
     header: "ParticleEffect.h".}
 proc setTextureFrames*(this: var ParticleEffect; animation: Vector[TextureFrame]) {.
     importcpp: "SetTextureFrames", header: "ParticleEffect.h".}
-proc setTextureFrame*(this: var ParticleEffect; index: cuint; 
+proc setTextureFrame*(this: var ParticleEffect; index: cuint;
                       textureFrame: TextureFrame) {.
     importcpp: "SetTextureFrame", header: "ParticleEffect.h".}
-proc getMaterial*(this: ParticleEffect): ptr Material {.noSideEffect, 
+proc getMaterial*(this: ParticleEffect): ptr Material {.noSideEffect,
     importcpp: "GetMaterial", header: "ParticleEffect.h".}
-proc getNumParticles*(this: ParticleEffect): cuint {.noSideEffect, 
+proc getNumParticles*(this: ParticleEffect): cuint {.noSideEffect,
     importcpp: "GetNumParticles", header: "ParticleEffect.h".}
-proc getUpdateInvisible*(this: ParticleEffect): bool {.noSideEffect, 
+proc getUpdateInvisible*(this: ParticleEffect): bool {.noSideEffect,
     importcpp: "GetUpdateInvisible", header: "ParticleEffect.h".}
-proc isRelative*(this: ParticleEffect): bool {.noSideEffect, 
+proc isRelative*(this: ParticleEffect): bool {.noSideEffect,
     importcpp: "IsRelative", header: "ParticleEffect.h".}
-proc isScaled*(this: ParticleEffect): bool {.noSideEffect, 
+proc isScaled*(this: ParticleEffect): bool {.noSideEffect,
     importcpp: "IsScaled", header: "ParticleEffect.h".}
-proc isSorted*(this: ParticleEffect): bool {.noSideEffect, 
+proc isSorted*(this: ParticleEffect): bool {.noSideEffect,
     importcpp: "IsSorted", header: "ParticleEffect.h".}
-proc getAnimationLodBias*(this: ParticleEffect): cfloat {.noSideEffect, 
+proc getAnimationLodBias*(this: ParticleEffect): cfloat {.noSideEffect,
     importcpp: "GetAnimationLodBias", header: "ParticleEffect.h".}
-proc getEmitterType*(this: ParticleEffect): EmitterType {.noSideEffect, 
+proc getEmitterType*(this: ParticleEffect): EmitterType {.noSideEffect,
     importcpp: "GetEmitterType", header: "ParticleEffect.h".}
-proc getEmitterSize*(this: ParticleEffect): Vector3 {.noSideEffect, 
+proc getEmitterSize*(this: ParticleEffect): Vector3 {.noSideEffect,
     importcpp: "GetEmitterSize", header: "ParticleEffect.h".}
-proc getMinDirection*(this: ParticleEffect): Vector3 {.noSideEffect, 
+proc getMinDirection*(this: ParticleEffect): Vector3 {.noSideEffect,
     importcpp: "GetMinDirection", header: "ParticleEffect.h".}
-proc getMaxDirection*(this: ParticleEffect): Vector3 {.noSideEffect, 
+proc getMaxDirection*(this: ParticleEffect): Vector3 {.noSideEffect,
     importcpp: "GetMaxDirection", header: "ParticleEffect.h".}
-proc getConstantForce*(this: ParticleEffect): Vector3 {.noSideEffect, 
+proc getConstantForce*(this: ParticleEffect): Vector3 {.noSideEffect,
     importcpp: "GetConstantForce", header: "ParticleEffect.h".}
-proc getDampingForce*(this: ParticleEffect): cfloat {.noSideEffect, 
+proc getDampingForce*(this: ParticleEffect): cfloat {.noSideEffect,
     importcpp: "GetDampingForce", header: "ParticleEffect.h".}
-proc getActiveTime*(this: ParticleEffect): cfloat {.noSideEffect, 
+proc getActiveTime*(this: ParticleEffect): cfloat {.noSideEffect,
     importcpp: "GetActiveTime", header: "ParticleEffect.h".}
-proc getInactiveTime*(this: ParticleEffect): cfloat {.noSideEffect, 
+proc getInactiveTime*(this: ParticleEffect): cfloat {.noSideEffect,
     importcpp: "GetInactiveTime", header: "ParticleEffect.h".}
-proc getMinEmissionRate*(this: ParticleEffect): cfloat {.noSideEffect, 
+proc getMinEmissionRate*(this: ParticleEffect): cfloat {.noSideEffect,
     importcpp: "GetMinEmissionRate", header: "ParticleEffect.h".}
-proc getMaxEmissionRate*(this: ParticleEffect): cfloat {.noSideEffect, 
+proc getMaxEmissionRate*(this: ParticleEffect): cfloat {.noSideEffect,
     importcpp: "GetMaxEmissionRate", header: "ParticleEffect.h".}
-proc getMinParticleSize*(this: ParticleEffect): Vector2 {.noSideEffect, 
+proc getMinParticleSize*(this: ParticleEffect): Vector2 {.noSideEffect,
     importcpp: "GetMinParticleSize", header: "ParticleEffect.h".}
-proc getMaxParticleSize*(this: ParticleEffect): Vector2 {.noSideEffect, 
+proc getMaxParticleSize*(this: ParticleEffect): Vector2 {.noSideEffect,
     importcpp: "GetMaxParticleSize", header: "ParticleEffect.h".}
-proc getMinTimeToLive*(this: ParticleEffect): cfloat {.noSideEffect, 
+proc getMinTimeToLive*(this: ParticleEffect): cfloat {.noSideEffect,
     importcpp: "GetMinTimeToLive", header: "ParticleEffect.h".}
-proc getMaxTimeToLive*(this: ParticleEffect): cfloat {.noSideEffect, 
+proc getMaxTimeToLive*(this: ParticleEffect): cfloat {.noSideEffect,
     importcpp: "GetMaxTimeToLive", header: "ParticleEffect.h".}
-proc getMinVelocity*(this: ParticleEffect): cfloat {.noSideEffect, 
+proc getMinVelocity*(this: ParticleEffect): cfloat {.noSideEffect,
     importcpp: "GetMinVelocity", header: "ParticleEffect.h".}
-proc getMaxVelocity*(this: ParticleEffect): cfloat {.noSideEffect, 
+proc getMaxVelocity*(this: ParticleEffect): cfloat {.noSideEffect,
     importcpp: "GetMaxVelocity", header: "ParticleEffect.h".}
-proc getMinRotation*(this: ParticleEffect): cfloat {.noSideEffect, 
+proc getMinRotation*(this: ParticleEffect): cfloat {.noSideEffect,
     importcpp: "GetMinRotation", header: "ParticleEffect.h".}
-proc getMaxRotation*(this: ParticleEffect): cfloat {.noSideEffect, 
+proc getMaxRotation*(this: ParticleEffect): cfloat {.noSideEffect,
     importcpp: "GetMaxRotation", header: "ParticleEffect.h".}
-proc getMinRotationSpeed*(this: ParticleEffect): cfloat {.noSideEffect, 
+proc getMinRotationSpeed*(this: ParticleEffect): cfloat {.noSideEffect,
     importcpp: "GetMinRotationSpeed", header: "ParticleEffect.h".}
-proc getMaxRotationSpeed*(this: ParticleEffect): cfloat {.noSideEffect, 
+proc getMaxRotationSpeed*(this: ParticleEffect): cfloat {.noSideEffect,
     importcpp: "GetMaxRotationSpeed", header: "ParticleEffect.h".}
-proc getSizeAdd*(this: ParticleEffect): cfloat {.noSideEffect, 
+proc getSizeAdd*(this: ParticleEffect): cfloat {.noSideEffect,
     importcpp: "GetSizeAdd", header: "ParticleEffect.h".}
-proc getSizeMul*(this: ParticleEffect): cfloat {.noSideEffect, 
+proc getSizeMul*(this: ParticleEffect): cfloat {.noSideEffect,
     importcpp: "GetSizeMul", header: "ParticleEffect.h".}
-proc getColorFrames*(this: ParticleEffect): Vector[ColorFrame] {.noSideEffect, 
+proc getColorFrames*(this: ParticleEffect): Vector[ColorFrame] {.noSideEffect,
     importcpp: "GetColorFrames", header: "ParticleEffect.h".}
-proc getNumColorFrames*(this: ParticleEffect): cuint {.noSideEffect, 
+proc getNumColorFrames*(this: ParticleEffect): cuint {.noSideEffect,
     importcpp: "GetNumColorFrames", header: "ParticleEffect.h".}
 proc getColorFrame*(this: ParticleEffect; index: cuint): ptr ColorFrame {.
     noSideEffect, importcpp: "GetColorFrame", header: "ParticleEffect.h".}
 proc getTextureFrames*(this: ParticleEffect): Vector[TextureFrame] {.
     noSideEffect, importcpp: "GetTextureFrames", header: "ParticleEffect.h".}
-proc getNumTextureFrames*(this: ParticleEffect): cuint {.noSideEffect, 
+proc getNumTextureFrames*(this: ParticleEffect): cuint {.noSideEffect,
     importcpp: "GetNumTextureFrames", header: "ParticleEffect.h".}
 proc getTextureFrame*(this: ParticleEffect; index: cuint): ptr TextureFrame {.
     noSideEffect, importcpp: "GetTextureFrame", header: "ParticleEffect.h".}
-proc getRandomDirection*(this: ParticleEffect): Vector3 {.noSideEffect, 
+proc getRandomDirection*(this: ParticleEffect): Vector3 {.noSideEffect,
     importcpp: "GetRandomDirection", header: "ParticleEffect.h".}
-proc getRandomSize*(this: ParticleEffect): Vector2 {.noSideEffect, 
+proc getRandomSize*(this: ParticleEffect): Vector2 {.noSideEffect,
     importcpp: "GetRandomSize", header: "ParticleEffect.h".}
-proc getRandomVelocity*(this: ParticleEffect): cfloat {.noSideEffect, 
+proc getRandomVelocity*(this: ParticleEffect): cfloat {.noSideEffect,
     importcpp: "GetRandomVelocity", header: "ParticleEffect.h".}
-proc getRandomTimeToLive*(this: ParticleEffect): cfloat {.noSideEffect, 
+proc getRandomTimeToLive*(this: ParticleEffect): cfloat {.noSideEffect,
     importcpp: "GetRandomTimeToLive", header: "ParticleEffect.h".}
-proc getRandomRotationSpeed*(this: ParticleEffect): cfloat {.noSideEffect, 
+proc getRandomRotationSpeed*(this: ParticleEffect): cfloat {.noSideEffect,
     importcpp: "GetRandomRotationSpeed", header: "ParticleEffect.h".}
-proc getRandomRotation*(this: ParticleEffect): cfloat {.noSideEffect, 
+proc getRandomRotation*(this: ParticleEffect): cfloat {.noSideEffect,
     importcpp: "GetRandomRotation", header: "ParticleEffect.h".}

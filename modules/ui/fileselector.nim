@@ -15,16 +15,16 @@ discard "forward decl of Text"
 discard "forward decl of UIElement"
 discard "forward decl of Window"
 discard "forward decl of XMLFile"
-type 
-  FileSelectorEntry* {.importc: "Urho3D::FileSelectorEntry", 
-                       header: "FileSelector.h".} = object 
+type
+  FileSelectorEntry* {.importcpp: "Urho3D::FileSelectorEntry",
+                       header: "FileSelector.h".} = object
     name* {.importc: "name_".}: UrString
     directory* {.importc: "directory_".}: bool
 
 
 
-type 
-  FileSelector* {.importc: "Urho3D::FileSelector", header: "FileSelector.h".} = object of UrObject
+type
+  FileSelector* {.importcpp: "Urho3D::FileSelector", header: "FileSelector.h".} = object of UrObject
     window* {.importc: "window_".}: SharedPtr[Window]
     titleLayout* {.importc: "titleLayout".}: ptr UIElement
     titleText* {.importc: "titleText_".}: ptr Text
@@ -48,72 +48,72 @@ type
     ignoreEvents* {.importc: "ignoreEvents_".}: bool
 
 
-proc getType*(this: FileSelector): StringHash {.noSideEffect, 
+proc getType*(this: FileSelector): StringHash {.noSideEffect,
     importcpp: "GetType", header: "FileSelector.h".}
-proc getBaseType*(this: FileSelector): StringHash {.noSideEffect, 
+proc getBaseType*(this: FileSelector): StringHash {.noSideEffect,
     importcpp: "GetBaseType", header: "FileSelector.h".}
-proc getTypeName*(this: FileSelector): UrString {.noSideEffect, 
+proc getTypeName*(this: FileSelector): UrString {.noSideEffect,
     importcpp: "GetTypeName", header: "FileSelector.h".}
 proc getTypeStatic*(): StringHash {.
-    importcpp: "Urho3D::FileSelector::GetTypeStatic(@)", 
+    importcpp: "Urho3D::FileSelector::GetTypeStatic(@)",
     header: "FileSelector.h".}
 proc getTypeNameStatic*():   UrString {.
-    importcpp: "Urho3D::FileSelector::GetTypeNameStatic(@)", 
+    importcpp: "Urho3D::FileSelector::GetTypeNameStatic(@)",
     header: "FileSelector.h".}
-proc constructFileSelector*(context: ptr Context): FileSelector {.
+proc constructFileSelector*(context: ptr Context): FileSelector {.constructor,
     importcpp: "Urho3D::FileSelector(@)", header: "FileSelector.h".}
 proc destroyFileSelector*(this: var FileSelector) {.
     importcpp: "#.~FileSelector()", header: "FileSelector.h".}
 proc registerObject*(context: ptr Context) {.
-    importcpp: "Urho3D::FileSelector::RegisterObject(@)", 
+    importcpp: "Urho3D::FileSelector::RegisterObject(@)",
     header: "FileSelector.h".}
 proc setDefaultStyle*(this: var FileSelector; style: ptr XMLFile) {.
     importcpp: "SetDefaultStyle", header: "FileSelector.h".}
-proc setTitle*(this: var FileSelector; text: UrString) {.importcpp: "SetTitle", 
+proc setTitle*(this: var FileSelector; text: UrString) {.importcpp: "SetTitle",
     header: "FileSelector.h".}
-proc setButtonTexts*(this: var FileSelector; okText: UrString; 
-                     cancelText: UrString) {.importcpp: "SetButtonTexts", 
+proc setButtonTexts*(this: var FileSelector; okText: UrString;
+                     cancelText: UrString) {.importcpp: "SetButtonTexts",
     header: "FileSelector.h".}
-proc setPath*(this: var FileSelector; path: UrString) {.importcpp: "SetPath", 
+proc setPath*(this: var FileSelector; path: UrString) {.importcpp: "SetPath",
     header: "FileSelector.h".}
 proc setFileName*(this: var FileSelector; fileName: UrString) {.
     importcpp: "SetFileName", header: "FileSelector.h".}
-proc setFilters*(this: var FileSelector; filters: Vector[UrString]; 
-                 defaultIndex: cuint) {.importcpp: "SetFilters", 
+proc setFilters*(this: var FileSelector; filters: Vector[UrString];
+                 defaultIndex: cuint) {.importcpp: "SetFilters",
                                         header: "FileSelector.h".}
 proc setDirectoryMode*(this: var FileSelector; enable: bool) {.
     importcpp: "SetDirectoryMode", header: "FileSelector.h".}
-proc updateElements*(this: var FileSelector) {.importcpp: "UpdateElements", 
+proc updateElements*(this: var FileSelector) {.importcpp: "UpdateElements",
     header: "FileSelector.h".}
-proc getDefaultStyle*(this: FileSelector): ptr XMLFile {.noSideEffect, 
+proc getDefaultStyle*(this: FileSelector): ptr XMLFile {.noSideEffect,
     importcpp: "GetDefaultStyle", header: "FileSelector.h".}
-proc getWindow*(this: FileSelector): ptr Window {.noSideEffect, 
+proc getWindow*(this: FileSelector): ptr Window {.noSideEffect,
     importcpp: "GetWindow", header: "FileSelector.h".}
-proc getTitleText*(this: FileSelector): ptr Text {.noSideEffect, 
+proc getTitleText*(this: FileSelector): ptr Text {.noSideEffect,
     importcpp: "GetTitleText", header: "FileSelector.h".}
-proc getFileList*(this: FileSelector): ptr ListView {.noSideEffect, 
+proc getFileList*(this: FileSelector): ptr ListView {.noSideEffect,
     importcpp: "GetFileList", header: "FileSelector.h".}
-proc getPathEdit*(this: FileSelector): ptr LineEdit {.noSideEffect, 
+proc getPathEdit*(this: FileSelector): ptr LineEdit {.noSideEffect,
     importcpp: "GetPathEdit", header: "FileSelector.h".}
-proc getFileNameEdit*(this: FileSelector): ptr LineEdit {.noSideEffect, 
+proc getFileNameEdit*(this: FileSelector): ptr LineEdit {.noSideEffect,
     importcpp: "GetFileNameEdit", header: "FileSelector.h".}
-proc getFilterList*(this: FileSelector): ptr DropDownList {.noSideEffect, 
+proc getFilterList*(this: FileSelector): ptr DropDownList {.noSideEffect,
     importcpp: "GetFilterList", header: "FileSelector.h".}
-proc getOKButton*(this: FileSelector): ptr Button {.noSideEffect, 
+proc getOKButton*(this: FileSelector): ptr Button {.noSideEffect,
     importcpp: "GetOKButton", header: "FileSelector.h".}
-proc getCancelButton*(this: FileSelector): ptr Button {.noSideEffect, 
+proc getCancelButton*(this: FileSelector): ptr Button {.noSideEffect,
     importcpp: "GetCancelButton", header: "FileSelector.h".}
-proc getCloseButton*(this: FileSelector): ptr Button {.noSideEffect, 
+proc getCloseButton*(this: FileSelector): ptr Button {.noSideEffect,
     importcpp: "GetCloseButton", header: "FileSelector.h".}
-proc getTitle*(this: FileSelector): UrString {.noSideEffect, 
+proc getTitle*(this: FileSelector): UrString {.noSideEffect,
     importcpp: "GetTitle", header: "FileSelector.h".}
-proc getPath*(this: FileSelector): UrString {.noSideEffect, 
+proc getPath*(this: FileSelector): UrString {.noSideEffect,
     importcpp: "GetPath", header: "FileSelector.h".}
-proc getFileName*(this: FileSelector): UrString {.noSideEffect, 
+proc getFileName*(this: FileSelector): UrString {.noSideEffect,
     importcpp: "GetFileName", header: "FileSelector.h".}
-proc getFilter*(this: FileSelector): UrString {.noSideEffect, 
+proc getFilter*(this: FileSelector): UrString {.noSideEffect,
     importcpp: "GetFilter", header: "FileSelector.h".}
-proc getFilterIndex*(this: FileSelector): cuint {.noSideEffect, 
+proc getFilterIndex*(this: FileSelector): cuint {.noSideEffect,
     importcpp: "GetFilterIndex", header: "FileSelector.h".}
-proc getDirectoryMode*(this: FileSelector): bool {.noSideEffect, 
+proc getDirectoryMode*(this: FileSelector): bool {.noSideEffect,
     importcpp: "GetDirectoryMode", header: "FileSelector.h".}

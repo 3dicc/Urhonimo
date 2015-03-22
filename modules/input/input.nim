@@ -46,7 +46,7 @@ type
     hats* {.importc: "hats_".}: PODVector[cint]
 
 
-proc constructJoystickState*(): JoystickState {.
+proc constructJoystickState*(): JoystickState {.constructor,
     importcpp: "Urho3D::JoystickState(@)", header: "Input.h".}
 proc initialize*(this: var JoystickState; numButtons: cuint; numAxes: cuint;
                  numHats: cuint) {.importcpp: "Initialize", header: "Input.h".}
@@ -69,7 +69,7 @@ proc getHatPosition*(this: JoystickState; index: cuint): cint {.noSideEffect,
     importcpp: "GetHatPosition", header: "Input.h".}
 
 type
-  Input* {.importc: "Urho3D::Input", header: "Input.h".} = object of UrObject
+  Input* {.importcpp: "Urho3D::Input", header: "Input.h".} = object of UrObject
     graphics* {.importc: "graphics_".}: WeakPtr[Graphics]
     keyDown* {.importc: "keyDown_".}: HashSet[cint]
     keyPress* {.importc: "keyPress_".}: HashSet[cint]
@@ -110,7 +110,7 @@ proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::Input::GetTypeStatic(@)", header: "Input.h".}
 proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::Input::GetTypeNameStatic(@)", header: "Input.h".}
-proc constructInput*(context: ptr Context): Input {.
+proc constructInput*(context: ptr Context): Input {.constructor,
     importcpp: "Urho3D::Input(@)", header: "Input.h".}
 proc destroyInput*(this: var Input) {.importcpp: "#.~Input()", header: "Input.h".}
 proc update*(this: var Input) {.importcpp: "Update", header: "Input.h".}

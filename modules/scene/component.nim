@@ -1,6 +1,6 @@
 
 
-import 
+import
   animatable, stringhash, urstr, variant, matrix4, vector3, quaternion, vector,
   ptrs, connection, vectorbuffer, xmlelement, hashset, hashmap, packagefile,
   mutex, urobject, serializer
@@ -9,10 +9,10 @@ discard "forward decl of DebugRenderer"
 discard "forward decl of Scene"
 discard "forward decl of ComponentReplicationState"
 
-type 
-  CreateMode* {.importcpp: "Urho3D::CreateMode".} = enum 
+type
+  CreateMode* {.importcpp: "Urho3D::CreateMode".} = enum
     REPLICATED = 0, LOCAL = 1
-  TransformSpace* {.importcpp: "Urho3D::TransformSpace".} = enum 
+  TransformSpace* {.importcpp: "Urho3D::TransformSpace".} = enum
     TS_LOCAL = 0, TS_PARENT, TS_WORLD
 
   Node* {.importcpp: "Urho3D::Node", header: "Node.h".} = object of Animatable
@@ -44,10 +44,10 @@ type
     networkUpdate* {.importc: "networkUpdate_".}: bool
     enabled* {.importc: "enabled_".}: bool
 
-  LoadMode* {.importcpp: "Urho3D::LoadMode".} = enum 
+  LoadMode* {.importcpp: "Urho3D::LoadMode".} = enum
     LOAD_RESOURCES_ONLY = 0, LOAD_SCENE, LOAD_SCENE_AND_RESOURCES
 
-  AsyncProgress* {.importcpp: "Urho3D::AsyncProgress", header: "Scene.h".} = object 
+  AsyncProgress* {.importcpp: "Urho3D::AsyncProgress", header: "Scene.h".} = object
     file* {.importc: "file_".}: SharedPtr[File]
     xmlFile* {.importc: "xmlFile_".}: SharedPtr[XMLFile]
     xmlElement* {.importc: "xmlElement_".}: XMLElement
@@ -61,9 +61,9 @@ type
   Scene* {.importcpp: "Urho3D::Scene", header: "Scene.h".} = object of Node
     replicatedNodes* {.importc: "replicatedNodes_".}: HashMap[cuint, ptr Node]
     localNodes* {.importc: "localNodes_".}: HashMap[cuint, ptr Node]
-    replicatedComponents* {.importc: "replicatedComponents_".}: HashMap[cuint, 
+    replicatedComponents* {.importc: "replicatedComponents_".}: HashMap[cuint,
         ptr Component]
-    localComponents* {.importc: "localComponents_".}: HashMap[cuint, 
+    localComponents* {.importc: "localComponents_".}: HashMap[cuint,
         ptr Component]
     asyncProgress* {.importc: "asyncProgress_".}: AsyncProgress
     resolver* {.importc: "resolver_".}: SceneResolver
@@ -92,15 +92,15 @@ type
     asyncLoading* {.importc: "asyncLoading_".}: bool
     threadedUpdate* {.importc: "threadedUpdate_".}: bool
 
-  SceneResolver* {.importcpp: "Urho3D::SceneResolver", header: "SceneResolver.h".} = object 
+  SceneResolver* {.importcpp: "Urho3D::SceneResolver", header: "SceneResolver.h".} = object
     nodes* {.importc: "nodes_".}: HashMap[cuint, WeakPtr[Node]]
     components* {.importc: "components_".}: HashMap[cuint, WeakPtr[Component]]
 
-proc getType*(this: Component): StringHash {.noSideEffect, 
+proc getType*(this: Component): StringHash {.noSideEffect,
     importcpp: "GetType", header: "Component.h".}
-proc getBaseType*(this: Component): StringHash {.noSideEffect, 
+proc getBaseType*(this: Component): StringHash {.noSideEffect,
     importcpp: "GetBaseType", header: "Component.h".}
-proc getTypeName*(this: Component): UrString {.noSideEffect, 
+proc getTypeName*(this: Component): UrString {.noSideEffect,
     importcpp: "GetTypeName", header: "Component.h".}
 proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::Component::GetTypeStatic(@)", header: "Component.h".}
@@ -108,44 +108,44 @@ proc getTypeNameStatic*(): UrString {.
     importcpp: "Urho3D::Component::GetTypeNameStatic(@)", header: "Component.h".}
 proc getBaseTypeStatic*(): StringHash {.
     importcpp: "Urho3D::Component::GetBaseTypeStatic(@)", header: "Component.h".}
-proc constructComponent*(context: ptr Context): Component {.
+proc constructComponent*(context: ptr Context): Component {.constructor,
     importcpp: "Urho3D::Component(@)", header: "Component.h".}
-proc destroyComponent*(this: var Component) {.importcpp: "#.~Component()", 
+proc destroyComponent*(this: var Component) {.importcpp: "#.~Component()",
     header: "Component.h".}
-proc onSetEnabled*(this: var Component) {.importcpp: "OnSetEnabled", 
+proc onSetEnabled*(this: var Component) {.importcpp: "OnSetEnabled",
     header: "Component.h".}
-proc save*(this: Component; dest: var Serializer): bool {.noSideEffect, 
+proc save*(this: Component; dest: var Serializer): bool {.noSideEffect,
     importcpp: "Save", header: "Component.h".}
-proc saveXML*(this: Component; dest: var XMLElement): bool {.noSideEffect, 
+proc saveXML*(this: Component; dest: var XMLElement): bool {.noSideEffect,
     importcpp: "SaveXML", header: "Component.h".}
-proc markNetworkUpdate*(this: var Component) {.importcpp: "MarkNetworkUpdate", 
+proc markNetworkUpdate*(this: var Component) {.importcpp: "MarkNetworkUpdate",
     header: "Component.h".}
 proc getDependencyNodes*(this: var Component; dest: var PODVector[ptr Node]) {.
     importcpp: "GetDependencyNodes", header: "Component.h".}
 
-proc setEnabled*(this: var Component; enable: bool) {.importcpp: "SetEnabled", 
+proc setEnabled*(this: var Component; enable: bool) {.importcpp: "SetEnabled",
     header: "Component.h".}
 proc remove*(this: var Component) {.importcpp: "Remove", header: "Component.h".}
-proc getID*(this: Component): cuint {.noSideEffect, importcpp: "GetID", 
+proc getID*(this: Component): cuint {.noSideEffect, importcpp: "GetID",
                                       header: "Component.h".}
-proc getNode*(this: Component): ptr Node {.noSideEffect, importcpp: "GetNode", 
+proc getNode*(this: Component): ptr Node {.noSideEffect, importcpp: "GetNode",
     header: "Component.h".}
-proc getScene*(this: Component): ptr Scene {.noSideEffect, 
+proc getScene*(this: Component): ptr Scene {.noSideEffect,
     importcpp: "GetScene", header: "Component.h".}
-proc isEnabled*(this: Component): bool {.noSideEffect, importcpp: "IsEnabled", 
+proc isEnabled*(this: Component): bool {.noSideEffect, importcpp: "IsEnabled",
     header: "Component.h".}
-proc isEnabledEffective*(this: Component): bool {.noSideEffect, 
+proc isEnabledEffective*(this: Component): bool {.noSideEffect,
     importcpp: "IsEnabledEffective", header: "Component.h".}
 proc getComponent*(this: Component; `type`: StringHash): ptr Component {.
     noSideEffect, importcpp: "GetComponent", header: "Component.h".}
-proc getComponents*(this: Component; dest: var PODVector[ptr Component]; 
-                    `type`: StringHash) {.noSideEffect, 
+proc getComponents*(this: Component; dest: var PODVector[ptr Component];
+                    `type`: StringHash) {.noSideEffect,
     importcpp: "GetComponents", header: "Component.h".}
-proc getComponentFromComponent*[T](this: Component): ptr T {.noSideEffect, 
+proc getComponentFromComponent*[T](this: Component): ptr T {.noSideEffect,
     importcpp: "#.GetComponent<'*0>(@)", header: "Component.h".}
 proc getComponents*[T](this: Component; dest: var PODVector[ptr T]) {.
     noSideEffect, importcpp: "GetComponents", header: "Component.h".}
-proc addReplicationState*(this: var Component; 
+proc addReplicationState*(this: var Component;
                           state: ptr ComponentReplicationState) {.
     importcpp: "AddReplicationState", header: "Component.h".}
 proc prepareNetworkUpdate*(this: var Component) {.

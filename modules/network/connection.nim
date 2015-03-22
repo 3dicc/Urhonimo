@@ -1,6 +1,6 @@
 
 
-import 
+import
   controls, hashSet, UrObject, timer, vectorBuffer, vector, attribute, variant,
   ptrs, animatable, stringHash, hashmap, urstr, vector3, quaternion,
   memorybuffer, packagefile
@@ -14,7 +14,7 @@ discard "forward decl of PackageFile"
 
 const MAX_NETWORK_ATTRIBUTES = 64
 
-#var MAX_NETWORK_ATTRIBUTES* {.importc: "MAX_NETWORK_ATTRIBUTES", 
+#var MAX_NETWORK_ATTRIBUTES* {.importc: "MAX_NETWORK_ATTRIBUTES",
 #                              header: "ReplicationState.h".}: cuint #= 64
 
 discard "forward decl of Component"
@@ -25,13 +25,13 @@ discard "forward decl of ReplicationState"
 discard "forward decl of ComponentReplicationState"
 discard "forward decl of NodeReplicationState"
 discard "forward decl of SceneReplicationState"
-type 
-  DirtyBits* {.importc: "Urho3D::DirtyBits", header: "ReplicationState.h".} = object 
+type
+  DirtyBits* {.importcpp: "Urho3D::DirtyBits", header: "ReplicationState.h".} = object
     data* {.importc: "data_".}: array[MAX_NETWORK_ATTRIBUTES div 8, cuchar]
     count* {.importc: "count_".}: cuchar
 
 type
-  NetworkState* {.importc: "Urho3D::NetworkState", header: "ReplicationState.h".} = object 
+  NetworkState* {.importcpp: "Urho3D::NetworkState", header: "ReplicationState.h".} = object
     attributes* {.importc: "attributes_".}: ptr Vector[AttributeInfo]
     currentValues* {.importc: "currentValues_".}: Vector[Variant]
     previousValues* {.importc: "previousValues_".}: Vector[Variant]
@@ -39,39 +39,39 @@ type
         ptr ReplicationState]
     previousVars* {.importc: "previousVars_".}: VariantMap
 
-  ReplicationState* {.importc: "Urho3D::ReplicationState", 
-                      header: "ReplicationState.h", inheritable.} = object 
+  ReplicationState* {.importcpp: "Urho3D::ReplicationState",
+                      header: "ReplicationState.h", inheritable.} = object
     connection* {.importc: "connection_".}: ptr Connection
 
-  ComponentReplicationState* {.importc: "Urho3D::ComponentReplicationState", 
+  ComponentReplicationState* {.importcpp: "Urho3D::ComponentReplicationState",
                                header: "ReplicationState.h".} = object of ReplicationState
     nodeState* {.importc: "nodeState_".}: ptr NodeReplicationState
     component* {.importc: "component_".}: WeakPtr[Animatable] # WeakPtr[Component]
     dirtyAttributes* {.importc: "dirtyAttributes_".}: DirtyBits
 
-  NodeReplicationState* {.importc: "Urho3D::NodeReplicationState", 
+  NodeReplicationState* {.importcpp: "Urho3D::NodeReplicationState",
                           header: "ReplicationState.h".} = object of ReplicationState
     sceneState* {.importc: "sceneState_".}: ptr SceneReplicationState
     node* {.importc: "node_".}: WeakPtr[Animatable] # WeakPtr[Node]
     dirtyAttributes* {.importc: "dirtyAttributes_".}: DirtyBits
     dirtyVars* {.importc: "dirtyVars_".}: HashSet[StringHash]
-    componentStates* {.importc: "componentStates_".}: HashMap[cuint, 
+    componentStates* {.importc: "componentStates_".}: HashMap[cuint,
         ComponentReplicationState]
     priorityAcc* {.importc: "priorityAcc_".}: cfloat
     markedDirty* {.importc: "markedDirty_".}: bool
 
-  SceneReplicationState* {.importc: "Urho3D::SceneReplicationState", 
+  SceneReplicationState* {.importcpp: "Urho3D::SceneReplicationState",
                            header: "ReplicationState.h".} = object of ReplicationState
     nodeStates* {.importc: "nodeStates_".}: HashMap[cuint, NodeReplicationState]
     dirtyNodes* {.importc: "dirtyNodes_".}: HashSet[cuint]
 
-  RemoteEvent* {.importc: "Urho3D::RemoteEvent", header: "Connection.h".} = object 
+  RemoteEvent* {.importcpp: "Urho3D::RemoteEvent", header: "Connection.h".} = object
     senderID* {.importc: "senderID_".}: cuint
     eventType* {.importc: "eventType_".}: StringHash
     eventData* {.importc: "eventData_".}: VariantMap
     inOrder* {.importc: "inOrder_".}: bool
 
-  PackageDownload* {.importc: "Urho3D::PackageDownload", header: "Connection.h".} = object 
+  PackageDownload* {.importcpp: "Urho3D::PackageDownload", header: "Connection.h".} = object
     file* {.importc: "file_".}: SharedPtr[File]
     receivedFragments* {.importc: "receivedFragments_".}: HashSet[cuint]
     name* {.importc: "name_".}: UrString
@@ -79,13 +79,13 @@ type
     checksum* {.importc: "checksum_".}: cuint
     initiated* {.importc: "initiated_".}: bool
 
-  ObserverPositionSendMode* {.importcpp: "Urho3D::ObserverPositionSendMode".} = enum 
+  ObserverPositionSendMode* {.importcpp: "Urho3D::ObserverPositionSendMode".} = enum
     OPSM_NONE = 0, OPSM_POSITION, OPSM_POSITION_ROTATION
-  PackageUpload* {.importc: "Urho3D::PackageUpload", header: "Connection.h".} = object 
+  PackageUpload* {.importcpp: "Urho3D::PackageUpload", header: "Connection.h".} = object
     file* {.importc: "file_".}: SharedPtr[File]
     fragment* {.importc: "fragment_".}: cuint
     totalFragments* {.importc: "totalFragments_".}: cuint
-  Connection* {.importc: "Urho3D::Connection", header: "Connection.h".} = object of UrObject
+  Connection* {.importcpp: "Urho3D::Connection", header: "Connection.h".} = object of UrObject
     controls* {.importc: "controls_".}: Controls
     identity* {.importc: "identity_".}: VariantMap
     connection* {.importc: "connection_".}: pointer #KNet.SharedPtr[KNet.MessageConnection]
@@ -93,9 +93,9 @@ type
     sceneState* {.importc: "sceneState_".}: SceneReplicationState
     downloads* {.importc: "downloads_".}: HashMap[StringHash, PackageDownload]
     uploads* {.importc: "uploads_".}: HashMap[StringHash, PackageUpload]
-    nodeLatestData* {.importc: "nodeLatestData_".}: HashMap[cuint, 
+    nodeLatestData* {.importc: "nodeLatestData_".}: HashMap[cuint,
         PODVector[cuchar]]
-    componentLatestData* {.importc: "componentLatestData_".}: HashMap[cuint, 
+    componentLatestData* {.importc: "componentLatestData_".}: HashMap[cuint,
         PODVector[cuchar]]
     nodesToProcess* {.importc: "nodesToProcess_".}: HashSet[cuint]
     msg* {.importc: "msg_".}: VectorBuffer
@@ -113,47 +113,47 @@ type
     logStatistics* {.importc: "logStatistics_".}: bool
 
 
-proc constructPackageDownload*(): PackageDownload {.
+proc constructPackageDownload*(): PackageDownload {.constructor,
     importcpp: "Urho3D::PackageDownload(@)", header: "Connection.h".}
 
-proc constructPackageUpload*(): PackageUpload {.
+proc constructPackageUpload*(): PackageUpload {.constructor,
     importcpp: "Urho3D::PackageUpload(@)", header: "Connection.h".}
 
 
-proc getType*(this: Connection): StringHash {.noSideEffect, 
+proc getType*(this: Connection): StringHash {.noSideEffect,
     importcpp: "GetType", header: "Connection.h".}
-proc getBaseType*(this: Connection): StringHash {.noSideEffect, 
+proc getBaseType*(this: Connection): StringHash {.noSideEffect,
     importcpp: "GetBaseType", header: "Connection.h".}
-proc getTypeName*(this: Connection): UrString {.noSideEffect, 
+proc getTypeName*(this: Connection): UrString {.noSideEffect,
     importcpp: "GetTypeName", header: "Connection.h".}
 proc getTypeStatic*(): StringHash {.
     importcpp: "Urho3D::Connection::GetTypeStatic(@)", header: "Connection.h".}
 proc getTypeNameStatic*(): UrString {.
-    importcpp: "Urho3D::Connection::GetTypeNameStatic(@)", 
+    importcpp: "Urho3D::Connection::GetTypeNameStatic(@)",
     header: "Connection.h".}
-proc constructConnection*(context: ptr Context; isClient: bool; 
-                          connection: pointer 
+proc constructConnection*(context: ptr Context; isClient: bool;
+                          connection: pointer
                           #KNet.SharedPtr[KNet.MessageConnection]
-                          ): Connection {.
+                          ): Connection {.constructor,
     importcpp: "Urho3D::Connection(@)", header: "Connection.h".}
-proc destroyConnection*(this: var Connection) {.importcpp: "#.~Connection()", 
+proc destroyConnection*(this: var Connection) {.importcpp: "#.~Connection()",
     header: "Connection.h".}
-proc sendMessage*(this: var Connection; msgID: cint; reliable: bool; 
+proc sendMessage*(this: var Connection; msgID: cint; reliable: bool;
                   inOrder: bool; msg: VectorBuffer; contentID: cuint = 0) {.
     importcpp: "SendMessage", header: "Connection.h".}
-proc sendMessage*(this: var Connection; msgID: cint; reliable: bool; 
-                  inOrder: bool; data: ptr cuchar; numBytes: cuint; 
-                  contentID: cuint = 0) {.importcpp: "SendMessage", 
+proc sendMessage*(this: var Connection; msgID: cint; reliable: bool;
+                  inOrder: bool; data: ptr cuchar; numBytes: cuint;
+                  contentID: cuint = 0) {.importcpp: "SendMessage",
     header: "Connection.h".}
-proc sendRemoteEvent*(this: var Connection; eventType: StringHash; 
-                      inOrder: bool; 
+proc sendRemoteEvent*(this: var Connection; eventType: StringHash;
+                      inOrder: bool;
                       eventData: VariantMap) {.
     importcpp: "SendRemoteEvent", header: "Connection.h".}
-proc sendRemoteEvent*(this: var Connection; node: ptr Animatable; # Node; 
-                      eventType: StringHash; inOrder: bool; 
+proc sendRemoteEvent*(this: var Connection; node: ptr Animatable; # Node;
+                      eventType: StringHash; inOrder: bool;
                       eventData: VariantMap) {.
     importcpp: "SendRemoteEvent", header: "Connection.h".}
-proc setScene*(this: var Connection; newScene: ptr Animatable) {. 
+proc setScene*(this: var Connection; newScene: ptr Animatable) {.
     importcpp: "SetScene", header: "Connection.h".}
 proc setIdentity*(this: var Connection; identity: VariantMap) {.
     importcpp: "SetIdentity", header: "Connection.h".}
@@ -169,13 +169,13 @@ proc setLogStatistics*(this: var Connection; enable: bool) {.
     importcpp: "SetLogStatistics", header: "Connection.h".}
 proc disconnect*(this: var Connection; waitMSec: cint = 0) {.
     importcpp: "Disconnect", header: "Connection.h".}
-proc sendServerUpdate*(this: var Connection) {.importcpp: "SendServerUpdate", 
+proc sendServerUpdate*(this: var Connection) {.importcpp: "SendServerUpdate",
     header: "Connection.h".}
-proc sendClientUpdate*(this: var Connection) {.importcpp: "SendClientUpdate", 
+proc sendClientUpdate*(this: var Connection) {.importcpp: "SendClientUpdate",
     header: "Connection.h".}
-proc sendRemoteEvents*(this: var Connection) {.importcpp: "SendRemoteEvents", 
+proc sendRemoteEvents*(this: var Connection) {.importcpp: "SendRemoteEvents",
     header: "Connection.h".}
-proc sendPackages*(this: var Connection) {.importcpp: "SendPackages", 
+proc sendPackages*(this: var Connection) {.importcpp: "SendPackages",
     header: "Connection.h".}
 proc processPendingLatestData*(this: var Connection) {.
     importcpp: "ProcessPendingLatestData", header: "Connection.h".}
@@ -185,35 +185,35 @@ proc processMessage*(this: var Connection; msgID: cint; msg: var MemoryBuffer): 
 #    noSideEffect, importcpp: "GetMessageConnection", header: "Connection.h".}
 proc getIdentity*(this: var Connection): var VariantMap {.
     importcpp: "GetIdentity", header: "Connection.h".}
-proc getScene*(this: Connection): ptr Animatable {.noSideEffect, 
+proc getScene*(this: Connection): ptr Animatable {.noSideEffect,
     importcpp: "GetScene", header: "Connection.h".}
-proc getControls*(this: Connection): Controls {.noSideEffect, 
+proc getControls*(this: Connection): Controls {.noSideEffect,
     importcpp: "GetControls", header: "Connection.h".}
-proc getPosition*(this: Connection): Vector3 {.noSideEffect, 
+proc getPosition*(this: Connection): Vector3 {.noSideEffect,
     importcpp: "GetPosition", header: "Connection.h".}
-proc getRotation*(this: Connection): Quaternion {.noSideEffect, 
+proc getRotation*(this: Connection): Quaternion {.noSideEffect,
     importcpp: "GetRotation", header: "Connection.h".}
-proc isClient*(this: Connection): bool {.noSideEffect, importcpp: "IsClient", 
+proc isClient*(this: Connection): bool {.noSideEffect, importcpp: "IsClient",
     header: "Connection.h".}
-proc isConnected*(this: Connection): bool {.noSideEffect, 
+proc isConnected*(this: Connection): bool {.noSideEffect,
     importcpp: "IsConnected", header: "Connection.h".}
-proc isConnectPending*(this: Connection): bool {.noSideEffect, 
+proc isConnectPending*(this: Connection): bool {.noSideEffect,
     importcpp: "IsConnectPending", header: "Connection.h".}
-proc isSceneLoaded*(this: Connection): bool {.noSideEffect, 
+proc isSceneLoaded*(this: Connection): bool {.noSideEffect,
     importcpp: "IsSceneLoaded", header: "Connection.h".}
-proc getLogStatistics*(this: Connection): bool {.noSideEffect, 
+proc getLogStatistics*(this: Connection): bool {.noSideEffect,
     importcpp: "GetLogStatistics", header: "Connection.h".}
-proc getAddress*(this: Connection): UrString {.noSideEffect, 
+proc getAddress*(this: Connection): UrString {.noSideEffect,
     importcpp: "GetAddress", header: "Connection.h".}
-proc getPort*(this: Connection): cushort {.noSideEffect, importcpp: "GetPort", 
+proc getPort*(this: Connection): cushort {.noSideEffect, importcpp: "GetPort",
     header: "Connection.h".}
-proc toString*(this: Connection): UrString {.noSideEffect, 
+proc toString*(this: Connection): UrString {.noSideEffect,
     importcpp: "ToString", header: "Connection.h".}
-proc getNumDownloads*(this: Connection): cuint {.noSideEffect, 
+proc getNumDownloads*(this: Connection): cuint {.noSideEffect,
     importcpp: "GetNumDownloads", header: "Connection.h".}
-proc getDownloadName*(this: Connection): UrString {.noSideEffect, 
+proc getDownloadName*(this: Connection): UrString {.noSideEffect,
     importcpp: "GetDownloadName", header: "Connection.h".}
-proc getDownloadProgress*(this: Connection): cfloat {.noSideEffect, 
+proc getDownloadProgress*(this: Connection): cfloat {.noSideEffect,
     importcpp: "GetDownloadProgress", header: "Connection.h".}
 proc sendPackageToClient*(this: var Connection; package: ptr PackageFile) {.
     importcpp: "SendPackageToClient", header: "Connection.h".}

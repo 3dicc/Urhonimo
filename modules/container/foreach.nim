@@ -1,17 +1,17 @@
 
 
-import 
+import
   vector
 
 
-type 
-  FalseWrapper* {.importc: "Urho3D::false_wrapper", header: "ForEach.h".}[T] = object 
+type
+  FalseWrapper* {.importc: "Urho3D::false_wrapper", header: "ForEach.h".}[T] = object
     value* {.importc: "value".}: T
 
 
-proc constructfalseWrapper*[T](value: T): FalseWrapper[T] {.
-    importcpp: "Urho3D::false_wrapper(@)", header: "ForEach.h".}
-proc bool*[T](this: FalseWrapper[T]): Operator {.noSideEffect, 
+proc constructFalseWrapper*[T](value: T): FalseWrapper[T] {.
+    importcpp: "Urho3D::false_wrapper(@)", header: "ForEach.h", constructor.}
+proc bool*[T](this: FalseWrapper[T]): Operator {.noSideEffect,
     importcpp: "bool", header: "ForEach.h".}
 proc makeFalseWrapper*[T](value: T): FalseWrapper[T]
 

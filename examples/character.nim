@@ -6,7 +6,7 @@ import ui, urhomain, processutils, color, urstr, stringHash, variant, text,
   memorybuffer, deserializer, rigidbody, animationcontroller, physicsworld,
   zone, boundingbox, drawable, collisionshape, animatedModel, skeleton, ptrs,
   unsigned, graphics, file, filesystem, ray, skybox, terrain, image, xmlelement,
-  engine
+  engine, renderpath, vector2, vector, octreequery
 
 import sample
 
@@ -187,6 +187,8 @@ proc handleNodeCollision(userData: pointer; eventType: StringHash;
       if level > 0.75:
         chr.onGround = true
 
+proc onMouseClick()
+
 proc handleFixedUpdate(userData: pointer; eventType: StringHash;
                        eventData: var VariantMap) {.cdecl.} =
   let this = chr
@@ -249,7 +251,7 @@ proc handleFixedUpdate(userData: pointer; eventType: StringHash;
   discard animCtrl.setSpeed("Models/Jack_Walk.ani", planeVelocity.length() * 0.3f32)
   # Reset grounded flag for next frame
   this.onGround = false
-
+  onMouseClick()
 
 proc createScene() =
   var cache = urhomain.getSubsystemResourceCache()
@@ -274,12 +276,24 @@ proc createScene() =
 
   var renderer = urhomain.getSubsystemRenderer()
   var viewport = cnew constructViewport(getContext(), sc, camera)
+  var renderPath = viewport.getRenderPath()
+  discard renderPath.append getResource[XMLFile](cache, "PostProcess/Bloom.xml")
+  discard renderPath.append getResource[XMLFile](cache, "PostProcess/FXAA2.xml")
+
+  #SharedPtr<RenderPath> effectRenderPath = ->Clone();
+  #  // Make the bloom mixing parameter more pronounced
+  #  effectRenderPath->SetShaderParameter("BloomMix", Vector2(0.9f, 0.6f));
+  #  effectRenderPath->SetEnabled("Bloom", false);
+  #  effectRenderPath->SetEnabled("FXAA2", false);
+  #  viewport->SetRenderPath(effectRenderPath);
+
   renderer[].setViewport(0, viewport)
 
   #urhomain.getSubsystemRenderer().setViewport(0,
   #  cnew(constructViewport(getContext(), sc, camera)))
 
-  # Create static scene content. First create a zone for ambient lighting and fog control
+  # Create static scene content. First create a zone for ambient
+  # lighting and fog control
   let zoneNode = sc.createChild("Zone")
   let zone = createComponent[Zone](zoneNode)
   zone.setAmbientColor(col(0.15f32, 0.15f32, 0.15f32))
@@ -491,8 +505,8 @@ proc handleUpdate(userData: pointer; eventType: StringHash;
 
       # Check for loading / saving the scene
       if input.getKeyPress(KEY_F5):
-        let saveFile = constructFile(getContext(),
-          os.getAppDir() / "MySave.xml", FILE_WRITE)
+        let filename = os.getAppDir() / "MySave.xml"
+        let saveFile = constructFile(getContext(), filename, FILE_WRITE)
         sc.saveXML(saveFile)
       if input.getKeyPress(KEY_F7):
         let loadFile = constructFile(getContext(),
@@ -546,12 +560,37 @@ proc handlePostUpdate(userData: pointer; eventType: StringHash;
     getComponentFromScene[PhysicsWorld](sc).raycastSingle(
       result, constructRay(aimPoint, rayDir), rayDistance, 2)
     if result.body != nil:
-        rayDistance = min(rayDistance, result.distance)
+      rayDistance = min(rayDistance, result.distance)
     rayDistance = clamp(rayDistance, CAMERA_MIN_DIST, CAMERA_MAX_DIST)
 
     cameraNode.setPosition(aimPoint + rayDir * rayDistance)
     cameraNode.setRotation(dir)
 
+proc primitiveGetNodeByPixelCoords(x, y: cint): ptr Node =
+  const maxDistance = 250.0f32
+  let pos = constructIntVector2(x, y)
+  # I assume the Smalltalk code ensures the cursor is visible and there
+  # is no UI element in front of the cursor
+  let graphics = getSubsystem[Graphics]()
+  let camera = getComponentFromNode[Camera](cameraNode)
+  let cameraRay: Ray = camera.getScreenRay(pos.x / graphics.getWidth(),
+                                           pos.y / graphics.getHeight())
+  # Pick only geometry objects, not eg. zones or lights, only get the
+  # first (closest) hit:
+  var results: PODVector[RayQueryResult]
+  var query = constructRayOctreeQuery(results, cameraRay, RAY_TRIANGLE,
+    maxDistance, '\1', cuint(0xffff_ffff)) # DRAWABLE_GEOMETRY)
+  getComponentFromNode[Octree](sc).raycastSingle(query)
+  if results.size > 0.cuint:
+    result = results[0].drawable.getNode()
+
+proc onMouseClick() =
+  let input = getSubsystemInput()
+  if input.getMouseButtonPress(MOUSEB_LEFT):
+    let ui = getSubsystem[UI]()
+    let pos: IntVector2 = ui.getCursorPosition()
+    let node = primitiveGetNodeByPixelCoords(pos.x, pos.y)
+    echo "node is ", node.isNil
 
 proc onConsoleCommand(userData: pointer; eventType: StringHash;
                      eventData: var VariantMap) {.cdecl.} =
