@@ -1,21 +1,22 @@
 
 
 import
-  drawable, matrix3x4, text, vertexBuffer
+  drawable, matrix3x4, text, vertexBuffer, vector, stringHash, urstr, urobject,
+  font, material, uielement, color, graphicsdefs, vector2, variant
 
-discard "forward decl of Text"
 type
   Text3D* {.importcpp: "Urho3D::Text3D", header: "Text3D.h".} = object of Drawable
-    text* {.importc: "text_".}: Text
-    geometries* {.importc: "geometries_".}: Vector[SharedPtr[Geometry]]
-    vertexBuffer* {.importc: "vertexBuffer_".}: SharedPtr[VertexBuffer]
-    material* {.importc: "material_".}: SharedPtr[Material]
-    uiBatches* {.importc: "uiBatches_".}: PODVector[UIBatch]
-    uiVertexData* {.importc: "uiVertexData_".}: PODVector[cfloat]
-    customWorldTransform* {.importc: "customWorldTransform_".}: Matrix3x4
-    faceCameraMode* {.importc: "faceCameraMode_".}: FaceCameraMode
-    textDirty* {.importc: "textDirty_".}: bool
-    geometryDirty* {.importc: "geometryDirty_".}: bool
+    when false:
+      text* {.importc: "text_".}: Text
+      geometries* {.importc: "geometries_".}: Vector[SharedPtr[Geometry]]
+      vertexBuffer* {.importc: "vertexBuffer_".}: SharedPtr[VertexBuffer]
+      material* {.importc: "material_".}: SharedPtr[Material]
+      uiBatches* {.importc: "uiBatches_".}: PODVector[UIBatch]
+      uiVertexData* {.importc: "uiVertexData_".}: PODVector[cfloat]
+      customWorldTransform* {.importc: "customWorldTransform_".}: Matrix3x4
+      faceCameraMode* {.importc: "faceCameraMode_".}: FaceCameraMode
+      textDirty* {.importc: "textDirty_".}: bool
+      geometryDirty* {.importc: "geometryDirty_".}: bool
 
 
 proc getType*(this: Text3D): StringHash {.noSideEffect,
@@ -43,10 +44,10 @@ proc updateGeometry*(this: var Text3D; frame: FrameInfo) {.
 proc getUpdateGeometryType*(this: var Text3D): UpdateGeometryType {.
     importcpp: "GetUpdateGeometryType", header: "Text3D.h".}
 proc setFont*(this: var Text3D; fontName: UrString;
-              size: cint = default_Font_Size): bool {.importcpp: "SetFont",
-    header: "Text3D.h".}
-proc setFont*(this: var Text3D; font: ptr Font; size: cint = default_Font_Size): bool {.
-    importcpp: "SetFont", header: "Text3D.h".}
+              size: cint = Default_Font_Size): bool {.importcpp: "SetFont",
+    header: "Text3D.h", discardable.}
+proc setFont*(this: var Text3D; font: ptr Font; size: cint = Default_Font_Size): bool {.
+    importcpp: "SetFont", header: "Text3D.h", discardable.}
 proc setMaterial*(this: var Text3D; material: ptr Material) {.
     importcpp: "SetMaterial", header: "Text3D.h".}
 proc setText*(this: var Text3D; text: UrString) {.importcpp: "SetText",

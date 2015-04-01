@@ -36,13 +36,13 @@ proc constructColor*(r: cfloat; g: cfloat; b: cfloat; a: cfloat): Color {.
     importcpp: "Urho3D::Color(@)", header: "Color.h", constructor.}
 proc constructColor*(data: ptr cfloat): Color {.importcpp: "Urho3D::Color(@)",
     header: "Color.h", constructor.}
-proc `==`*(this: Color; rhs: Color): bool {.noSideEffect, importcpp: "# == #",
+proc `==`*(this: Color; rhs: Color): bool {.noSideEffect, importcpp: "(# == #)",
     header: "Color.h".}
-proc `*`*(this: Color; rhs: cfloat): Color {.noSideEffect, importcpp: "# * #",
+proc `*`*(this: Color; rhs: cfloat): Color {.noSideEffect, importcpp: "(# * #)",
     header: "Color.h".}
-proc `+`*(this: Color; rhs: Color): Color {.noSideEffect, importcpp: "# + #",
+proc `+`*(this: Color; rhs: Color): Color {.noSideEffect, importcpp: "(# + #)",
     header: "Color.h".}
-proc `-`*(this: Color; rhs: Color): Color {.noSideEffect, importcpp: "# - #",
+proc `-`*(this: Color; rhs: Color): Color {.noSideEffect, importcpp: "(# - #)",
     header: "Color.h".}
 proc `+=`*(this: var Color; rhs: Color) {.importcpp: "# += #", header: "Color.h".}
 proc data*(this: Color): ptr cfloat {.noSideEffect, importcpp: "Data",
@@ -101,5 +101,5 @@ proc equals*(this: Color; rhs: Color): bool {.noSideEffect, importcpp: "Equals",
 proc toString*(this: Color): UrString {.noSideEffect, importcpp: "ToString",
                                         header: "Color.h".}
 
-proc `*`*(lhs: cfloat; rhs: Color): Color {.noSideEffect, importcpp: "# * #",
+proc `*`*(lhs: cfloat; rhs: Color): Color {.noSideEffect, importcpp: "(# * #)",
                                         header: "Color.h".}
