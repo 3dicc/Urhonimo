@@ -1,20 +1,46 @@
-import urhomain, ui, stringHash, variant, octree, renderer, component, color, text, uielement,
-  resourcecache, scene, node, boundingbox, vector, vector3, camera, view, input, inputevents,
-  context, material, staticmodelgroup, ptrs, drawable2d, graphics, zone, light, model,
-  staticmodel, quaternion, engine, unsigned
+import urhomain, ui, stringHash, variant, octree, renderer, component, color,
+  text, uielement, resourcecache, scene, node, boundingbox, vector, vector3,
+  camera, view, input, inputevents, context, material, staticmodelgroup, ptrs,
+  drawable2d, graphics, zone, light, model, staticmodel, quaternion, engine,
+  unsigned, urobject
 
+# Reuse a few base things for samples
 import sample
 
 import hashmap except Node
 
-# enable auto-deref:
+# enables auto-deref as a convenience
 {.experimental.}
 
+
+# These are extensions we should consider putting into the base packages
+# This makes creating a Scene more Nim like, cnew is a special proc we use to
+# call wrapped C++ constructors.
+proc newScene*(context: ptr Context): ptr Scene =
+  cnew constructScene(context)
+
+# So we can use newVector[Node] without SharedPtr stuff
+proc newVector*[T](): Vector[SharedPtr[T]] =
+  constructVector[SharedPtr[T]]()
+
+# So we don't need to write constructSharedPtr-yadda when pushing
+proc push*[T](vector: var Vector[SharedPtr[T]], element: ptr T) =
+  vector.push(constructSharedPtr[T](element))
+
+# Iterating over Vector made Nim style
+iterator items*[T](v: var Vector[SharedPtr[T]]): ptr T {.inline.} =
+  ## iterates over each item of `v`.
+  for i in 0.cuint .. < size(v):
+    # The T is wrapped in a SharedPtr so need to use get()
+    yield v[i].get()
+
+# For Urho3D objects we use ptr types, we rely on Urho3D's reference counting.
 var
   cameraNode: ptr Node
   cam: ptr Camera
   sc: ptr Scene
-  boxNodes = constructVector[SharedPtr[Node]]()
+  # Here we actually create a Urho3D Vector, see above
+  boxNodes = newVector[Node]()
   animate: bool
   useGroups: bool
   pitch: float32
@@ -25,8 +51,8 @@ proc createScene() =
   var cache = getSubsystemResourceCache()
 
   if sc.isNil:
-    # Create a Scene, cnew is a special proc we use to call wrapped C++ constructors.
-    sc = cnew constructScene(getContext())
+    # Create a Scene, 
+    sc = newScene(getContext())
   else:
     sc.clear()
     boxNodes.clear()
@@ -61,7 +87,7 @@ proc createScene() =
         boxNode.setScale(0.25)
         let boxObject = createComponent[StaticModel](boxNode)
         boxObject.setModel(getResource[Model](cache, "Models/Box.mdl"))
-        boxNodes.push(constructSharedPtr[Node](boxNode))
+        boxNodes.push(boxNode)
   else:
     light.setColor(col(0.6, 0.6, 0.6))
     light.setSpecularIntensity(1.5)
@@ -82,7 +108,7 @@ proc createScene() =
         let boxNode = sc.createChild("Box")
         boxNode.setPosition(vec3(x.float * 0.3, 0.0, y.float * 0.3))
         boxNode.setScale(0.25)
-        boxNodes.push(constructSharedPtr[Node](boxNode))
+        boxNodes.push(boxNode)
         lastGroup.addInstanceNode(boxNode)
 
   # Create the camera. Create it outside the scene so that we can clear the whole scene without affecting it
@@ -145,12 +171,12 @@ proc animateObjects(timeStep: float32) =
   const ROTATE_SPEED = 15.0
   # Rotate about the Z axis (roll)
   let rotateQuat = constructQuaternion(ROTATE_SPEED * timeStep, vector3.FORWARD)
-  # Unfortunately this is a Vector from Urho3D so we can not do
-  #  for box in boxNodes:
-  #    box.rotate(rotateQuat)
-  for i in 0.cuint .. < size(boxNodes):
-    # The boxNode is wrapped in a SharedPtr so need to use get()
-    boxNodes[i].get().rotate(rotateQuat)
+  # Trying to make Nim iteration work
+  for box in boxNodes:
+     box.rotate(rotateQuat)
+  # Earlier we did:
+  #    for i in 0.cuint .. < size(boxNodes):
+  #      boxNodes[i].get().rotate(rotateQuat)
 
 proc handleUpdate(userData: pointer; eventType: StringHash;
                   eventData: var VariantMap) {.cdecl.} =
