@@ -21,10 +21,10 @@ type
     readSyncNeeded* {.importc: "readSyncNeeded_".}: bool
     writeSyncNeeded* {.importc: "writeSyncNeeded_".}: bool
 
-#converter toSer*(x: ptr UrFile): ptr Serializer {.
-#  importcpp: "(@)", header: "File.h".}
-#converter toDeser*(x: ptr UrFile): ptr Deserializer {.
-#  importcpp: "(@)", header: "File.h".}
+converter toSer*(x: ptr UrFile): ptr Serializer {.
+  importcpp: "(@)", header: "File.h".}
+converter toDeser*(x: ptr UrFile): ptr Deserializer {.
+  importcpp: "(@)", header: "File.h".}
 
 proc getType*(this: UrFile): StringHash {.noSideEffect,
     importcpp: "GetType", header: "File.h".}
