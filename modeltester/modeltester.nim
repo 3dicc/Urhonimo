@@ -119,8 +119,8 @@ proc createScene() =
       let body = createComponent[RigidBody](objectNode)
       body.setCollisionLayer(1)
       let shape = createComponent[CollisionShape](objectNode)
-      #shape.setTriangleMesh(objStatic.getModel(), 0)
-      shape.setConvexHull(objStatic.getModel(), 0)
+      shape.setTriangleMesh(objStatic.getModel(), 0)
+      #shape.setConvexHull(objStatic.getModel(), 0)
       log.write(LOG_INFO, "Collision shape set")
   else:
     obj = createComponent[AnimatedModel](objectNode)
