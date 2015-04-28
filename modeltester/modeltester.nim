@@ -5,9 +5,10 @@
 import parseopt2, strutils
 
 import ui, urhomain, processutils, color, urstr, stringHash, variant, text,
-  uielement, octree, staticmodel, renderer, component, urhomain,
+  uielement, octree, staticmodel, renderer, component, urhomain, log,
   resourcecache, scene, node, vector3, quaternion, model, material, light,
-  camera, view, input, animationcontroller, animatedModel, rigidbody, collisionshape
+  camera, view, input, animationcontroller, animatedModel, rigidbody,
+  collisionshape, physicsworld, debugRenderer, drawable
 
 # For the stuff we copied from sample.nim
 import xmlelement, engine, debughud, console, inputevents, graphicsdefs
@@ -32,6 +33,7 @@ Arguments:
 
 Options:
   -s,--static                  - Use a StaticModel instead, no animation
+  -c,--collision               - Add a rigidbody and a collisionshape
   -h,--help                    - Shows this help
   
 Keys:
@@ -47,6 +49,7 @@ Keys:
 
 var
   useStaticModel: bool = false
+  addCollisionShape: bool = false
   modelFn, animationFn, materialsFn: string
   sc: ptr Scene
   cameraNode: ptr Node
@@ -70,7 +73,8 @@ proc createScene() =
   var cache = urhomain.getSubsystemResourceCache()
   sc = cnew constructScene(getContext())
   discard createComponent[Octree](sc)
-
+  discard createComponent[PhysicsWorld](sc)
+  discard createComponent[DebugRenderer](sc)
   # Create a child scene node (at world origin) and a StaticModel component
   # into it. Set the StaticModel to show a simple plane mesh with a "stone"
   # material. Note that naming the scene nodes is optional. Scale the scene
@@ -106,9 +110,18 @@ proc createScene() =
   # Create the rendering component + animation controller
   if useStaticModel:
     objStatic = createComponent[StaticModel](objectNode)
+    objStatic.setOccluder(true)
     objStatic.setModel(getResource[Model](cache, modelFn))
+    objStatic.setCastShadows(true)
     if not materialsFn.isNil:
-      obj.applyMaterialList(materialsFn)
+      objStatic.applyMaterialList(materialsFn)
+    if addCollisionShape:
+      let body = createComponent[RigidBody](objectNode)
+      body.setCollisionLayer(1)
+      let shape = createComponent[CollisionShape](objectNode)
+      #shape.setTriangleMesh(objStatic.getModel(), 0)
+      shape.setConvexHull(objStatic.getModel(), 0)
+      log.write(LOG_INFO, "Collision shape set")
   else:
     obj = createComponent[AnimatedModel](objectNode)
     obj.setModel(getResource[Model](cache, modelFn))
@@ -314,6 +327,8 @@ proc parseCommandLine() =
           quit 0
         of "static", "s":
           useStaticModel = true
+        of "collision", "c":
+          addCollisionShape = true
         else:
           stdout.write USAGE
           quit "Unexpected option: " & key, 2
