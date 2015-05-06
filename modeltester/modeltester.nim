@@ -8,7 +8,7 @@ import ui, urhomain, processutils, color, urstr, stringHash, variant, text,
   uielement, octree, staticmodel, renderer, component, urhomain, log,
   resourcecache, scene, node, vector3, quaternion, model, material, light,
   camera, view, input, animationcontroller, animatedModel, rigidbody,
-  collisionshape, physicsworld, debugRenderer, drawable
+  collisionshape, physicsworld, debugRenderer, drawable, file
 
 # For the stuff we copied from sample.nim
 import xmlelement, engine, debughud, console, inputevents, graphicsdefs
@@ -27,14 +27,15 @@ Usage:
   modeltester [options] modelfile materialsfile [animationfile]
 
 Arguments:
-  modelfile      - A Urho3D .mdl file
-  materialsfile  - A Urho3D .txt material list file
-  animationfile  - An optional Urho3D .ani file
+  modelfile           - A Urho3D .mdl (or prefab) file
+  materialsfile       - A Urho3D .txt material list file
+  animationfile       - An optional Urho3D .ani file
 
 Options:
-  -s,--static                  - Use a StaticModel instead, no animation
-  -c,--collision               - Add a rigidbody and a collisionshape
-  -h,--help                    - Shows this help
+  -p,--prefab         - Use a prefab instead of a .mdl file
+  -s,--static         - Use a StaticModel instead, no animation
+  -c,--collision      - Add a rigidbody and a collisionshape
+  -h,--help           - Shows this help
   
 Keys:
   WASD + mouse
@@ -48,6 +49,7 @@ Keys:
 
 
 var
+  usePrefab: bool = false
   useStaticModel: bool = false
   addCollisionShape: bool = false
   modelFn, animationFn, materialsFn: string
@@ -103,46 +105,41 @@ proc createScene() =
 
   # Set an initial position for the camera scene node above the plane
   cameraNode.setPosition(constructVector3(0.0f32, 5.0f32, -20.0f32))
+  var position = constructVector3(0.0f32, 5.0f32, 0.0f32)
 
-  objectNode = sc.createChild("object")
-  objectNode.setPosition(constructVector3(0.0f32, 5.0f32, 0.0f32))
-
-  # Create the rendering component + animation controller
-  if useStaticModel:
-    objStatic = createComponent[StaticModel](objectNode)
-    objStatic.setOccluder(true)
-    objStatic.setModel(getResource[Model](cache, modelFn))
-    objStatic.setCastShadows(true)
-    if not materialsFn.isNil:
-      objStatic.applyMaterialList(materialsFn)
-    if addCollisionShape:
-      let body = createComponent[RigidBody](objectNode)
-      body.setCollisionLayer(1)
-      let shape = createComponent[CollisionShape](objectNode)
-      shape.setTriangleMesh(objStatic.getModel(), 0)
-      #shape.setConvexHull(objStatic.getModel(), 0)
-      log.write(LOG_INFO, "Collision shape set")
-  else:
-    obj = createComponent[AnimatedModel](objectNode)
-    obj.setModel(getResource[Model](cache, modelFn))
-    if not materialsFn.isNil:
-      obj.applyMaterialList(materialsFn)
-    animCtrl = createComponent[AnimationController](objectNode)
-    startAnimation()
-  
-  # Create rigidbody, and set non-zero mass so that the body becomes dynamic
-  #let body = createComponent[RigidBody](objectNode)
-  #body.setCollisionLayer(1)
-  #body.setMass(1.0f32)
-
-  # Set the rigidbody to signal collision also when in rest, so that we get
-  # ground collisions properly
-  #body.setCollisionEventMode(COLLISION_ALWAYS)
-
-  # Set a capsule shape for collision
-  #let shape = createComponent[CollisionShape](objectNode)
-  #shape.setCapsule(0.7f32, 1.8f32, vec3(0.0, 0.9, 0.0))
-
+  if usePrefab:
+    # Here we are not applying collision shapes or telling the StaticModels
+    # to cast shadows or being occluders. That would need to be done
+    # after having loaded the prefab by iterating all nodes and StaticModels
+    # in it.
+    var file = constructFile(getContext(), modelFn)
+    objectNode = sc.instantiateXML(addr(file).toDeser()[], position, quaternion.Identity, REPLICATED) 
+  else:  
+    objectNode = sc.createChild("object")
+    objectNode.setPosition(position)
+    # Create the rendering component + animation controller
+    if useStaticModel:
+      objStatic = createComponent[StaticModel](objectNode)
+      objStatic.setOccluder(true)
+      var model = getResource[Model](cache, modelFn)
+      objStatic.setModel(model)
+      objStatic.setCastShadows(true)
+      if not materialsFn.isNil:
+        objStatic.applyMaterialList(materialsFn)
+      if addCollisionShape:
+        let body = createComponent[RigidBody](objectNode)
+        body.setCollisionLayer(1)
+        let shape = createComponent[CollisionShape](objectNode)
+        shape.setTriangleMesh(objStatic.getModel(), 0)
+        #shape.setConvexHull(objStatic.getModel(), 0)
+        log.write(LOG_INFO, "Collision shape set")
+    else:
+      obj = createComponent[AnimatedModel](objectNode)
+      obj.setModel(getResource[Model](cache, modelFn))
+      if not materialsFn.isNil:
+        obj.applyMaterialList(materialsFn)
+      animCtrl = createComponent[AnimationController](objectNode)
+      startAnimation()
 
 proc setupViewport() =
   var renderer = urhomain.getSubsystemRenderer()
@@ -325,6 +322,8 @@ proc parseCommandLine() =
         of "help", "h":
           stdout.write USAGE
           quit 0
+        of "prefab", "p":
+          usePrefab = true
         of "static", "s":
           useStaticModel = true
         of "collision", "c":
