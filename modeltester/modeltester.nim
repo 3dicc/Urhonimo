@@ -8,7 +8,7 @@ import ui, urhomain, processutils, color, urstr, stringHash, variant, text,
   uielement, octree, staticmodel, renderer, component, urhomain, log,
   resourcecache, scene, node, vector3, quaternion, model, material, light,
   camera, view, input, animationcontroller, animatedModel, rigidbody,
-  collisionshape, physicsworld, debugRenderer, drawable, file
+  collisionshape, physicsworld, debugRenderer, drawable, file, vector
 
 # For the stuff we copied from sample.nim
 import xmlelement, engine, debughud, console, inputevents, graphicsdefs
@@ -70,6 +70,20 @@ proc stopAnimation() =
   if not useStaticModel and not animationFn.isNil:
     discard animCtrl.stop(animationFn)
 
+iterator items*[T](v: var PODVector[T]): T {.inline.} =
+  for i in countup(0, size(v).int-1):
+    yield v[i.cuint]
+
+proc createCollisionOnNode(node: ptr Node): ptr RigidBody = 
+  let obj = getComponentFromNode[StaticModel](node)
+  if not obj.isNil:
+    result = createComponent[RigidBody](node)
+    result.setCollisionLayer(1)
+    obj.setCastShadows(true)
+    obj.setOccluder(true)
+    obj.setOccludee(true)
+    let shape = createComponent[CollisionShape](node)
+    shape.setTriangleMesh(obj.getModel(), 0)
 
 proc createScene() =
   var cache = urhomain.getSubsystemResourceCache()
@@ -113,7 +127,11 @@ proc createScene() =
     # after having loaded the prefab by iterating all nodes and StaticModels
     # in it.
     var file = constructFile(getContext(), modelFn)
-    objectNode = sc.instantiateXML(addr(file).toDeser()[], position, quaternion.Identity, REPLICATED) 
+    objectNode = sc.instantiateXML(addr(file).toDeser()[], position, quaternion.Identity, REPLICATED)
+    var vector: PODVector[ptr Node]
+    objectNode.getChildren(vector, true)
+    for node in vector:
+      discard node.createCollisionOnNode()
   else:  
     objectNode = sc.createChild("object")
     objectNode.setPosition(position)
