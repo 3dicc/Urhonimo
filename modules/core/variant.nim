@@ -239,7 +239,7 @@ proc isZero*(this: Variant): bool {.noSideEffect, importcpp: "IsZero",
                                     header: "Variant.h".}
 proc isEmpty*(this: Variant): bool {.noSideEffect, importcpp: "IsEmpty",
                                      header: "Variant.h".}
-proc get*[T](this: Variant): T {.noSideEffect, importcpp: "Get",
+proc get*[T](this: Variant): T {.noSideEffect, importcpp: "#.Get<'0>()",
                                  header: "Variant.h".}
 proc getBufferPtr*(this: var Variant): ptr PODVector[cuchar] {.
     importcpp: "GetBufferPtr", header: "Variant.h".}
