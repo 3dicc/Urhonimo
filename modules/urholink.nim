@@ -27,7 +27,7 @@ else:
     {.passL: "-lGL".}
     {.passL: "-lX11".}
   when defined(macosx):
-    {.passL: "lib/libUrho3D.a".}
+    {.passL: "../../Urho3D/build/lib/libUrho3D.a".}
     {.passL: "-framework OpenGL".}
     {.passL: "-framework CoreAudio".}
     {.passL: "-framework AudioToolbox".}

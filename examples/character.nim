@@ -56,11 +56,11 @@ public:
   /// Register object factory and attributes.
   static void RegisterObject(Context* context) {
     context->RegisterFactory<Character>();
-    ATTRIBUTE(Character, VAR_FLOAT, "Controls Yaw", controls.yaw_, 0.0f, AM_DEFAULT);
-    ATTRIBUTE(Character, VAR_FLOAT, "Controls Pitch", controls.pitch_, 0.0f, AM_DEFAULT);
-    ATTRIBUTE(Character, VAR_BOOL, "On Ground", onGround, false, AM_DEFAULT);
-    ATTRIBUTE(Character, VAR_BOOL, "OK To Jump", okToJump, true, AM_DEFAULT);
-    ATTRIBUTE(Character, VAR_FLOAT, "In Air Timer", inAirTimer, 0.0f, AM_DEFAULT);
+    ATTRIBUTE("Controls Yaw", float, controls.yaw_, 0.0f, AM_DEFAULT);
+    ATTRIBUTE("Controls Pitch", float, controls.pitch_, 0.0f, AM_DEFAULT);
+    ATTRIBUTE("On Ground", bool, onGround, false, AM_DEFAULT);
+    ATTRIBUTE("OK To Jump", bool, okToJump, true, AM_DEFAULT);
+    ATTRIBUTE("In Air Timer", float, inAirTimer, 0.0f, AM_DEFAULT);
   }
 
   //virtual void Start();
