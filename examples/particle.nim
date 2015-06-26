@@ -13,20 +13,20 @@ var
   cam: ptr Camera
   particleNode: ptr Node
   sc: ptr Scene
-  
+
 proc createScene() =
   # Get it so we can load resources
   var cache = getSubsystemResourceCache()
 
   # Create a Scene, cnew is a special proc we use to call wrapped C++ constructors.
   sc = cnew constructScene(getContext())
-  
+
   # We just need to add the Octree. At the moment we can't write this as:
   #   sc.createComponent[Octree]()
   # But Andreas is fixing that.
   discard createComponent[Octree](sc)
 
-  # Urho uses this style to instantiate specific types of Nodes 
+  # Urho uses this style to instantiate specific types of Nodes
   var cameraNode = sc.createChild("Camera")
   # vec3 is Vector3 in Urho3D
   cameraNode.setPosition(vec3(0.0f32, 0.0f32, -10.0f32))
@@ -58,7 +58,7 @@ proc createScene() =
   # Construct a viewport and set it for the renderer
   var viewport = cnew constructViewport(getContext(), sc, cam)
   getSubsystemRenderer().setViewport(0, viewport)
-  
+
   # Add some instruction text
   let text = cnew constructText(getContext())
   text.setText("Use mouse/touch to move the particle.")
