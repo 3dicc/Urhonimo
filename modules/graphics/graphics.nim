@@ -11,3 +11,5 @@ proc getHeight*(g: var Graphics): cint {.
   importcpp: "GetHeight", header: Header.}
 proc getWidth*(g: var Graphics): cint {.
   importcpp: "GetWidth", header: Header.}
+proc getRGBAFormat*(): cuint {. 
+  importcpp: "Graphics::GetRGBAFormat", header: Header.}
