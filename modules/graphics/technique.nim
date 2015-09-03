@@ -1,7 +1,7 @@
 
 
 import
-  graphicsDefs, hashTable, resource, refcounted, stringHash, urstr, vector,
+  graphicsDefs, resource, refcounted, stringHash, urstr, vector,
   ptrs, shadervariation, urobject, deserializer, serializer
 
 discard "forward decl of ShaderVariation"
@@ -100,7 +100,6 @@ type
     sm3Support* {.importc: "sm3Support_".}: bool
     isDesktop* {.importc: "isDesktop_".}: bool
     desktopSupport* {.importc: "desktopSupport_".}: bool
-    passes* {.importc: "passes_".}: HashTable[SharedPtr[Pass], range[0..15]]
     numPasses* {.importc: "numPasses_".}: cuint
 
 
