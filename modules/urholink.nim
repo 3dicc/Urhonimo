@@ -1,8 +1,8 @@
 when defined(windows):
   when defined(release):
-    {.link: r"..\..\urho3d-1.4\build\lib\Urho3D.lib".}
+    {.link: r"..\..\urho3d-1.5\build\lib\Urho3D.lib".}
   else:
-    {.link: r"..\..\urho3d-1.4\build\lib\Urho3D_d.lib".}
+    {.link: r"..\..\urho3d-1.5\build\lib\Urho3D_d.lib".}
   {.link: r"C:\Program Files (x86)\Windows Kits\8.1\Lib\winv6.3\um\x86\d3d9.lib".}
   {.link: r"C:\Program Files (x86)\Windows Kits\8.1\Lib\winv6.3\um\x86\d3dcompiler.lib".}
   {.link: r"kernel32.lib".}

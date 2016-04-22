@@ -41,7 +41,7 @@ const
 using namespace Urho3D;
 class Character : public LogicComponent
 {
-  OBJECT(Character)
+  URHO3D_OBJECT(Character, LogicComponent)
 
 public:
   /// Construct.
@@ -56,11 +56,11 @@ public:
   /// Register object factory and attributes.
   static void RegisterObject(Context* context) {
     context->RegisterFactory<Character>();
-    ATTRIBUTE("Controls Yaw", float, controls.yaw_, 0.0f, AM_DEFAULT);
-    ATTRIBUTE("Controls Pitch", float, controls.pitch_, 0.0f, AM_DEFAULT);
-    ATTRIBUTE("On Ground", bool, onGround, false, AM_DEFAULT);
-    ATTRIBUTE("OK To Jump", bool, okToJump, true, AM_DEFAULT);
-    ATTRIBUTE("In Air Timer", float, inAirTimer, 0.0f, AM_DEFAULT);
+    URHO3D_ATTRIBUTE("Controls Yaw", float, controls.yaw_, 0.0f, AM_DEFAULT);
+    URHO3D_ATTRIBUTE("Controls Pitch", float, controls.pitch_, 0.0f, AM_DEFAULT);
+    URHO3D_ATTRIBUTE("On Ground", bool, onGround, false, AM_DEFAULT);
+    URHO3D_ATTRIBUTE("OK To Jump", bool, okToJump, true, AM_DEFAULT);
+    URHO3D_ATTRIBUTE("In Air Timer", float, inAirTimer, 0.0f, AM_DEFAULT);
   }
 
   //virtual void Start();

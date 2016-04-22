@@ -48,7 +48,7 @@ private:
 };
 
 class MainApplication: public Urho3D::Application {
-  OBJECT(MainApplication);
+  URHO3D_OBJECT(MainApplication, Urho3D::Application);
 
 public:
   MainApplication(Urho3D::Context* context): Application(context){
