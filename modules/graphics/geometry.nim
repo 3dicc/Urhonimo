@@ -46,16 +46,16 @@ proc setNumVertexBuffers*(this: var Geometry; num: cuint): bool {.
 proc setVertexBuffer*(this: var Geometry; index: cuint;
                       buffer: ptr VertexBuffer;
                       elementMask: cuint = Mask_Default): bool {.
-    importcpp: "SetVertexBuffer", header: "Geometry.h".}
+    importcpp: "SetVertexBuffer", header: "Geometry.h", discardable.}
 proc setIndexBuffer*(this: var Geometry; buffer: ptr IndexBuffer) {.
     importcpp: "SetIndexBuffer", header: "Geometry.h".}
 proc setDrawRange*(this: var Geometry; `type`: PrimitiveType; indexStart: cuint;
                    indexCount: cuint; getUsedVertexRange: bool = true): bool {.
-    importcpp: "SetDrawRange", header: "Geometry.h".}
+    importcpp: "SetDrawRange", header: "Geometry.h", discardable.}
 proc setDrawRange*(this: var Geometry; `type`: PrimitiveType; indexStart: cuint;
                    indexCount: cuint; vertexStart: cuint; vertexCount: cuint;
                    checkIllegal: bool = true): bool {.importcpp: "SetDrawRange",
-    header: "Geometry.h".}
+    header: "Geometry.h", discardable.}
 proc setLodDistance*(this: var Geometry; distance: cfloat) {.
     importcpp: "SetLodDistance", header: "Geometry.h".}
 proc setRawVertexData*(this: var Geometry; data: SharedArrayPtr[cuchar];

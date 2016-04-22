@@ -109,9 +109,9 @@ proc setNumGeometryLodLevels*(this: var Model; index: cuint; num: cuint): bool {
     importcpp: "SetNumGeometryLodLevels", header: "Model.h".}
 proc setGeometry*(this: var Model; index: cuint; lodLevel: cuint;
                   geometry: ptr Geometry): bool {.importcpp: "SetGeometry",
-    header: "Model.h".}
+    header: "Model.h", discardable.}
 proc setGeometryCenter*(this: var Model; index: cuint; center: Vector3): bool {.
-    importcpp: "SetGeometryCenter", header: "Model.h".}
+    importcpp: "SetGeometryCenter", header: "Model.h", discardable.}
 proc setSkeleton*(this: var Model; skeleton: Skeleton) {.
     importcpp: "SetSkeleton", header: "Model.h".}
 proc setGeometryBoneMappings*(this: var Model;

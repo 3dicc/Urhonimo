@@ -51,7 +51,7 @@ proc createScene() =
   var cache = getSubsystemResourceCache()
 
   if sc.isNil:
-    # Create a Scene, 
+    # Create a Scene,
     sc = newScene(getContext())
   else:
     sc.clear()
@@ -69,7 +69,7 @@ proc createScene() =
   zone.setFogColor(col(0.2, 0.2, 0.2))
   zone.setFogStart(200.0)
   zone.setFogEnd(300.0)
-  
+
   # Create a directional light
   let lightNode = sc.createChild("DirectionalLight");
   lightNode.setDirection(vec3(0.6, -1.0, -0.8))
@@ -78,7 +78,7 @@ proc createScene() =
 
   if not useGroups:
     light.setColor(col(0.7, 0.35, 0.0))
-    
+
     # Create individual box StaticModels in the scene
     for y in -125 .. < 125:
       for x in -125 .. < 125:
@@ -91,7 +91,7 @@ proc createScene() =
   else:
     light.setColor(col(0.6, 0.6, 0.6))
     light.setSpecularIntensity(1.5)
-    
+
     # Create StaticModelGroups in the scene
     var lastGroup: ptr StaticModelGroup
 
@@ -104,7 +104,7 @@ proc createScene() =
           let boxGroupNode = sc.createChild("BoxGroup")
           lastGroup = createComponent[StaticModelGroup](boxGroupNode)
           lastGroup.setModel(getResource[Model](cache, "Models/Box.mdl"))
-        
+
         let boxNode = sc.createChild("Box")
         boxNode.setPosition(vec3(x.float * 0.3, 0.0, y.float * 0.3))
         boxNode.setScale(0.25)
@@ -139,24 +139,24 @@ proc moveCamera(timeStep: float32) =
   # Do not move if the UI has a focused element (the console)
   if not getSubsystemUI().getFocusElement().isNil:
     return
-  
+
   let input = getSubsystemInput()
-  
+
   # Movement speed as world units per second
   const MOVE_SPEED = 20.0
   # Mouse sensitivity as degrees per pixel
   const MOUSE_SENSITIVITY = 0.1
-  
+
   # Use this frame's mouse motion to adjust camera node yaw and pitch.
   # Clamp the pitch between -90 and 90 degrees
   # Original code was slightly different
   yaw += input.getMouseMoveX().float32 * MOUSE_SENSITIVITY
   pitch += input.getMouseMoveY().float32 * MOUSE_SENSITIVITY
   pitch = clamp(pitch, -90.0, 90.0)
-  
+
   # Construct new orientation for the camera scene node from yaw and pitch. Roll is fixed to zero
   cameraNode.setRotation(quat(pitch, yaw, 0.0))
-  
+
   # Read WASD keys and move the camera scene node to the corresponding direction if they are pressed
   if input.getKeyDown('W'):
     cameraNode.translate(vector3.FORWARD * MOVE_SPEED * timeStep)
@@ -184,7 +184,7 @@ proc handleUpdate(userData: pointer; eventType: StringHash;
 
   # Take the frame time step, which is stored as a float
   let timeStep = eventData["TimeStep"].getFloat()
-  
+
   # Toggle animation with space
   if input.getKeyPress(' '):
     animate = not animate
@@ -196,7 +196,7 @@ proc handleUpdate(userData: pointer; eventType: StringHash;
 
   # Move the camera, scale movement with time step
   moveCamera(timeStep)
-  
+
   # Animate scene if enabled
   if animate:
     animateObjects(timeStep)

@@ -39,6 +39,10 @@ public:
   EventHandlerForC(Object* receiver, HandlerFunc func, void* userData) :
     EventHandler(receiver, userData), function_(func) {}
 
+  virtual EventHandler* Clone() const {
+    return new EventHandlerForC(receiver_, function_, userData_);
+  }
+
 private:
   HandlerFunc function_;
 };
