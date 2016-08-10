@@ -11,7 +11,7 @@ import ui, urhomain, processutils, color, urstr, stringHash, variant, text,
 import sample
 
 import hashmap except Node
-from math import random
+import random
 from os import getAppDir, `/`
 
 # enable auto-deref:
