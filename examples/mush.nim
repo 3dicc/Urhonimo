@@ -8,7 +8,7 @@ import sample
 
 import hashmap except Node
 
-from math import random
+import random
 from inputevents import KEY_ESC
 
 # enable auto-deref for this module:
