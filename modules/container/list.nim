@@ -5,9 +5,9 @@ import
 
 
 type
-  List* {.importcpp: "Urho3D::List", header: "List.h".}[T] = object of ListBase
+  List* [T]{.importcpp: "Urho3D::List", header: "List.h".} = object of ListBase
 
-  Node* {.importcpp: "Urho3D::List::Node", header: "List.h".}[T] = object of ListNodeBase
+  Node* [T]{.importcpp: "Urho3D::List::Node", header: "List.h".} = object of ListNodeBase
     value* {.importc: "value_".}: T
 
 proc constructNode*[T](): Node[T] {.importcpp: "Urho3D::List::Node(@)",
@@ -20,7 +20,7 @@ proc prev*[T](this: var Node[T]): ptr Node {.importcpp: "Prev",
     header: "List.h".}
 
 type
-  ListIterator* {.importcpp: "Urho3D::List::Iterator", header: "List.h".}[T] = object of ListIteratorBase
+  ListIterator* [T]{.importcpp: "Urho3D::List::Iterator", header: "List.h".} = object of ListIteratorBase
 
 proc constructListIterator*[T](): ListIterator[T] {.importcpp: "Urho3D::List::Iterator(@)",
     header: "List.h", constructor.}
@@ -40,7 +40,7 @@ proc `*`*[T](this: ListIterator[T]): var T {.noSideEffect, importcpp: "* #",
     header: "List.h".}
 
 type
-  ConstListIterator* {.importcpp: "Urho3D::List::ConstIterator", header: "List.h".}[T] = object of ListIteratorBase
+  ConstListIterator* [T]{.importcpp: "Urho3D::List::ConstIterator", header: "List.h".} = object of ListIteratorBase
 
 proc constructConstListIterator*[T](): ConstListIterator[T] {.
     importcpp: "Urho3D::List::ConstIterator(@)", header: "List.h",
@@ -118,4 +118,4 @@ proc size*[T](this: List[T]): cuint {.noSideEffect, importcpp: "Size",
                                       header: "List.h".}
 proc empty*[T](this: List[T]): bool {.noSideEffect, importcpp: "Empty",
                                       header: "List.h".}
-                                      
+

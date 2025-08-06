@@ -5,9 +5,9 @@ import
 
 
 type
-  HashSet* {.importcpp: "Urho3D::HashSet", header: "HashSet.h".}[T] = object of HashBase
+  HashSet* [T]{.importcpp: "Urho3D::HashSet", header: "HashSet.h".} = object of HashBase
 
-  Node* {.importcpp: "Urho3D::HashSet::Node", header: "HashSet.h".}[T] = object of HashNodeBase
+  Node* [T]{.importcpp: "Urho3D::HashSet::Node", header: "HashSet.h".} = object of HashNodeBase
     key* {.importc: "key_".}: T
 
 proc constructNode*[T](): Node[T] {.importcpp: "Urho3D::HashSet::Node(@)",
@@ -22,7 +22,7 @@ proc down*[T](this: Node[T]): ptr Node[T] {.noSideEffect, importcpp: "Down",
     header: "HashSet.h".}
 
 type
-  HashSetIterator* {.importcpp: "Urho3D::HashSet::Iterator", header: "HashSet.h".}[T] = object of HashIteratorBase
+  HashSetIterator* [T]{.importcpp: "Urho3D::HashSet::Iterator", header: "HashSet.h".} = object of HashIteratorBase
 
 proc constructHashSetIterator*[T](): HashSetIterator[T] {.importcpp: "Urho3D::HashSet::Iterator(@)",
     header: "HashSet.h", constructor.}
@@ -42,7 +42,7 @@ proc `*`*[T](this: HashSetIterator[T]): T {.noSideEffect, importcpp: "* #",
                                      header: "HashSet.h".}
 
 type
-  ConstHashSetIterator* {.importcpp: "Urho3D::ConstIterator", header: "HashSet.h".}[T] = object of HashIteratorBase
+  ConstHashSetIterator* [T]{.importcpp: "Urho3D::ConstIterator", header: "HashSet.h".} = object of HashIteratorBase
 
 proc constructConstHashSetIterator*[T](): ConstHashSetIterator[T] {.
     importcpp: "Urho3D::HashSet::ConstIterator(@)", header: "HashSet.h",

@@ -5,7 +5,7 @@ import
 
 
 type
-  SharedArrayPtr* {.importcpp: "Urho3D::SharedArrayPtr", header: "ArrayPtr.h".}[T] = object
+  SharedArrayPtr* [T]{.importcpp: "Urho3D::SharedArrayPtr", header: "ArrayPtr.h".} = object
     `ptr`* {.importc: "ptr_".}: ptr T
     refCount* {.importc: "refCount_".}: ptr RefCount
 
@@ -56,7 +56,7 @@ proc reinterpretCast*[T, U](`ptr`: SharedArrayPtr[U]): SharedArrayPtr[T] {.noSid
     importcpp: "Urho3D::ReinterpretCast(@)", header: "ArrayPtr.h".}
 
 type
-  WeakArrayPtr* {.importc: "Urho3D::WeakArrayPtr", header: "ArrayPtr.h".}[T] = object
+  WeakArrayPtr* [T]{.importc: "Urho3D::WeakArrayPtr", header: "ArrayPtr.h".} = object
     `ptr`* {.importc: "ptr_".}: ptr T
     refCount* {.importc: "refCount_".}: ptr RefCount
 

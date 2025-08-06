@@ -23,7 +23,7 @@ proc allocatorFree*(allocator: ptr AllocatorBlock; `ptr`: pointer) {.
     importcpp: "Urho3D::AllocatorFree(@)", header: "Allocator.h".}
 
 type
-  Allocator* {.importc: "Urho3D::Allocator", header: "Allocator.h".}[T] = object
+  Allocator* [T]{.importc: "Urho3D::Allocator", header: "Allocator.h".} = object
     allocator* {.importc: "allocator_".}: ptr AllocatorBlock
 
 

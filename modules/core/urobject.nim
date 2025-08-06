@@ -122,9 +122,7 @@ proc getTypeName*(this: ObjectFactory): UrString {.noSideEffect,
     importcpp: "GetTypeName", header: "Object.h".}
 
 type
-  ObjectFactoryImpl* {.importc: "Urho3D::ObjectFactoryImpl", header: "Object.h".}[
-      T] = object of ObjectFactory
-
+  ObjectFactoryImpl* [T]{.importc: "Urho3D::ObjectFactoryImpl", header: "Object.h".} = object of ObjectFactory
 
 proc constructObjectFactoryImpl*[T](context: ptr Context): ObjectFactoryImpl[T] {.
     importcpp: "Urho3D::ObjectFactoryImpl(@)", header: "Object.h", constructor.}
@@ -154,8 +152,7 @@ proc getUserData*(this: EventHandler): pointer {.noSideEffect,
 when false:
   # we have our own event handler implementation that plays nicer with Nim
   type
-    EventHandlerImpl* {.importc: "Urho3D::EventHandlerImpl", header: "Object.h".}[
-        T] = object of EventHandler
+    EventHandlerImpl* [T]{.importc: "Urho3D::EventHandlerImpl", header: "Object.h".} = object of EventHandler
       function* {.importc: "function_".}: HandlerFunctionPtr
 
 

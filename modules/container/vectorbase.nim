@@ -1,8 +1,8 @@
 
 
 type
-  RandomAccessIterator* {.importcpp: "Urho3D::RandomAccessIterator",
-                          header: "VectorBase.h".}[T] = object
+  RandomAccessIterator* [T]{.importcpp: "Urho3D::RandomAccessIterator",
+                          header: "VectorBase.h".} = object
     `ptr`* {.importc: "ptr_".}: ptr T
 
 
@@ -42,8 +42,8 @@ proc `<=`*[T](this: RandomAccessIterator[T]; rhs: RandomAccessIterator): bool {.
     noSideEffect, importcpp: "# <= #", header: "VectorBase.h".}
 
 type
-  RandomAccessConstIterator* {.importcpp: "Urho3D::RandomAccessConstIterator",
-                               header: "VectorBase.h".}[T] = object
+  RandomAccessConstIterator* [T]{.importcpp: "Urho3D::RandomAccessConstIterator",
+                               header: "VectorBase.h".} = object
     `ptr`* {.importc: "ptr_".}: ptr T
 
 

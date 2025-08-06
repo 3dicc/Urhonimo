@@ -5,10 +5,10 @@ import
 
 
 type
-  Vector* {.importcpp: "Urho3D::Vector", header: "Vector.h".}[T] = object of VectorBase
+  Vector* [T]{.importcpp: "Urho3D::Vector", header: "Vector.h".} = object of VectorBase
 
-  VIterator* {.importcpp: "Urho3D::Vector::Iterator", header: "Vector.h".}[T] = RandomAccessIterator[T]
-  ConstVIterator* {.importcpp: "Urho3D::Vector::ConstIterator", header: "Vector.h".}[T] = RandomAccessConstIterator[T]
+  VIterator* [T]{.importcpp: "Urho3D::Vector::Iterator", header: "Vector.h".} = RandomAccessIterator[T]
+  ConstVIterator* [T]{.importcpp: "Urho3D::Vector::ConstIterator", header: "Vector.h".} = RandomAccessConstIterator[T]
 
 proc constructVector*[T](): Vector[T] {.importcpp: "Urho3D::Vector<'*0>(@)",
                                         header: "Vector.h", constructor.}
@@ -100,9 +100,9 @@ proc empty*[T](this: Vector[T]): bool {.noSideEffect, importcpp: "Empty",
                                         header: "Vector.h".}
 
 type
-  PODVector* {.importcpp: "Urho3D::PODVector", header: "Vector.h".}[T] = object of VectorBase
-  PodIterator* {.importcpp: "Urho3D::PODVector::Iterator", header: "Vector.h".}[T] = RandomAccessIterator[T]
-  ConstPodIterator* {.importcpp: "Urho3D::PODVector::ConstIterator", header: "Vector.h".}[T] = RandomAccessConstIterator[T]
+  PODVector* [T]{.importcpp: "Urho3D::PODVector", header: "Vector.h".} = object of VectorBase
+  PodIterator* [T]{.importcpp: "Urho3D::PODVector::Iterator", header: "Vector.h".} = RandomAccessIterator[T]
+  ConstPodIterator* [T]{.importcpp: "Urho3D::PODVector::ConstIterator", header: "Vector.h".} = RandomAccessConstIterator[T]
 
 proc constructPODVector*[T](): PODVector[T] {.importcpp: "Urho3D::PODVector<'*0>(@)",
     header: "Vector.h", constructor.}
