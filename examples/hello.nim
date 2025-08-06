@@ -18,13 +18,13 @@ proc main =
   subscribeToEvent("KeyDown", onKeyDown)
 
   let text = cnew constructText(getContext())
-  text.setText("Hello Cruel World!")
-  text.setColor(color.WHITE)
-  text.setFont(getFont("Fonts/BlueHighway.ttf"), 42)
-  text.setHorizontalAlignment(HA_CENTER)
-  text.setVerticalAlignment(VA_CENTER)
+  text[].setText("Hello Cruel World!")
+  text[].setColor(color.WHITE)
+  text[].setFont(getFont("Fonts/BlueHighway.ttf"), 42)
+  text[].setHorizontalAlignment(HA_CENTER)
+  text[].setVerticalAlignment(VA_CENTER)
 
-  getSubsystemUI().getRoot().addChild(text)
+  getSubsystemUI()[].getRoot()[].addChild(text)
   let exitCode = runMainLoop()
   quit exitCode
 

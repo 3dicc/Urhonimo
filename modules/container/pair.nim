@@ -5,7 +5,7 @@ import
 
 
 type
-  Pair* {.importcpp: "Urho3D::Pair", header: "Pair.h".}[T, U] = object
+  Pair* [T, U]{.importcpp: "Urho3D::Pair", header: "Pair.h".} = object
     first* {.importc: "first_".}: T
     second* {.importc: "second_".}: U
 

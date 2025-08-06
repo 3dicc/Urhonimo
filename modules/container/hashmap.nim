@@ -5,9 +5,9 @@ import
 
 
 type
-  HashMap* {.importcpp: "Urho3D::HashMap", header: "HashMap.h".}[T, U] = object of HashBase
+  HashMap* [T, U]{.importcpp: "Urho3D::HashMap", header: "HashMap.h".} = object of HashBase
 
-  KeyValue* {.importcpp: "Urho3D::HashMap::KeyValue", header: "HashMap.h".}[T, U] = object
+  KeyValue* [T, U]{.importcpp: "Urho3D::HashMap::KeyValue", header: "HashMap.h".} = object
     first* {.importc: "first_".}: T
     second* {.importc: "second_".}: U
 
@@ -20,7 +20,7 @@ proc constructKeyValue*[T, U](value: KeyValue): KeyValue[T, U] {.
 proc `==`*[T, U](this: KeyValue[T, U]; rhs: KeyValue): bool {.noSideEffect,
     importcpp: "# == #", header: "HashMap.h".}
 type
-  Node* {.importcpp: "Urho3D::Node", header: "HashMap.h".}[T, U] = object of HashNodeBase
+  Node* [T, U]{.importcpp: "Urho3D::Node", header: "HashMap.h".} = object of HashNodeBase
     pair* {.importc: "pair_".}: KeyValue[T, U]
 
 proc constructNode*[T, U](): Node[T, U] {.importcpp: "Urho3D::Node(@)",
@@ -35,7 +35,7 @@ proc down*[T, U](this: Node[T, U]): ptr Node {.noSideEffect,
     importcpp: "Down", header: "HashMap.h".}
 
 type
-  HashMapIterator* {.importcpp: "Urho3D::HashMap::Iterator", header: "HashMap.h".}[T, U] = object of HashIteratorBase
+  HashMapIterator* [T, U]{.importcpp: "Urho3D::HashMap::Iterator", header: "HashMap.h".} = object of HashIteratorBase
 
 proc constructIterator*[T, U](): HashMapIterator[T, U] {.
     importcpp: "Urho3D::HashMap::Iterator(@)", header: "HashMap.h",
@@ -56,8 +56,7 @@ proc `->`*[T, U](this: HashMapIterator[T, U]): ptr KeyValue {.noSideEffect,
 proc `*`*[T, U](this: HashMapIterator[T, U]): var KeyValue {.noSideEffect,
     importcpp: "* #", header: "HashMap.h".}
 type
-  ConstIterator* {.importc: "Urho3D::HashMap::ConstIterator", header: "HashMap.h".}[T,
-      U] = object of HashIteratorBase
+  ConstIterator* [T, U]{.importc: "Urho3D::HashMap::ConstIterator", header: "HashMap.h".} = object of HashIteratorBase
 
 proc constructConstIterator*[T, U](): ConstIterator[T, U] {.
     importcpp: "Urho3D::ConstIterator(@)", header: "HashMap.h", constructor.}

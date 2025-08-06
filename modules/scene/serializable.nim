@@ -97,8 +97,8 @@ when false:
       importcpp: "IsTemporary", header: "Serializable.h".}
 
   type
-    AttributeAccessorImpl* {.importcpp: "Urho3D::AttributeAccessorImpl",
-                             header: "Serializable.h".}[T, U] = object of AttributeAccessor
+    AttributeAccessorImpl* [T, U]{.importcpp: "Urho3D::AttributeAccessorImpl",
+                             header: "Serializable.h".} = object of AttributeAccessor
       getFunction* {.importc: "getFunction_".}: GetFunctionPtr
       setFunction* {.importc: "setFunction_".}: SetFunctionPtr
 
@@ -113,8 +113,8 @@ when false:
                   value: Variant) {.importcpp: "Set", header: "Serializable.h".}
 
   type
-    RefAttributeAccessorImpl* {.importcpp: "Urho3D::RefAttributeAccessorImpl",
-                                header: "Serializable.h".}[T, U] = object of AttributeAccessor
+    RefAttributeAccessorImpl* [T, U]{.importcpp: "Urho3D::RefAttributeAccessorImpl",
+                                header: "Serializable.h".} = object of AttributeAccessor
       getFunction* {.importc: "getFunction_".}: GetFunctionPtr
       setFunction* {.importc: "setFunction_".}: SetFunctionPtr
 

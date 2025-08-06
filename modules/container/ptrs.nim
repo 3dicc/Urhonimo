@@ -5,7 +5,7 @@ import
 
 
 type
-  SharedPtr* {.importcpp: "Urho3D::SharedPtr", header: "Ptr.h".}[T] = object
+  SharedPtr* [T]{.importcpp: "Urho3D::SharedPtr", header: "Ptr.h".} = object
     `ptr`* {.importc: "ptr_".}: ptr T
 
 
@@ -55,7 +55,7 @@ proc dynamicCast*[T, U](`ptr`: SharedPtr[U]): SharedPtr[T] {.noSideEffect,
   importcpp: "DynamicCast<'*0>", header: "Ptr.h".}
 
 type
-  WeakPtr* {.importcpp: "Urho3D::WeakPtr", header: "Ptr.h".}[T] = object
+  WeakPtr* [T]{.importcpp: "Urho3D::WeakPtr", header: "Ptr.h".} = object
     `ptr`* {.importc: "ptr_".}: ptr T
     refCount* {.importc: "refCount_".}: ptr RefCount
 

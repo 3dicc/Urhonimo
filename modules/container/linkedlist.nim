@@ -11,7 +11,7 @@ proc constructLinkedListNode*(): LinkedListNode {.
     constructor.}
 
 type
-  LinkedList* {.importcpp: "Urho3D::LinkedList", header: "LinkedList.h".}[T] = object
+  LinkedList* [T]{.importcpp: "Urho3D::LinkedList", header: "LinkedList.h".} = object
     head* {.importc: "head_".}: ptr T
 
 
