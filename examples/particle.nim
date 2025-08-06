@@ -24,51 +24,51 @@ proc createScene() =
   # We just need to add the Octree. At the moment we can't write this as:
   #   sc.createComponent[Octree]()
   # But Andreas is fixing that.
-  discard createComponent[Octree](sc)
+  discard createComponent[Octree](sc[])
 
   # Urho uses this style to instantiate specific types of Nodes
-  var cameraNode = sc.createChild("Camera")
+  var cameraNode = sc[].createChild("Camera")
   # vec3 is Vector3 in Urho3D
-  cameraNode.setPosition(vec3(0.0f32, 0.0f32, -10.0f32))
+  cameraNode[].setPosition(vec3(0.0f32, 0.0f32, -10.0f32))
 
   # Attaching a Camera component (behavior) to the node
-  cam = createComponent[Camera](cameraNode)
-  cam.setOrthographic(true)
+  cam = createComponent[Camera](cameraNode[])
+  cam[].setOrthographic(true)
 
   # Another style of getting a subsystem, not sure why we use generics sometimes
   var graphics = getSubsystem[Graphics]()
-  cam.setOrthoSize(graphics.getHeight().float * PIXEL_SIZE)
+  cam[].setOrthoSize(graphics[].getHeight().float * PIXEL_SIZE)
 
   # Again, since we use generics we must pass cache as first param instead
   # of writing it in OOP style
-  var particleEffect = getResource[ParticleEffect2D](cache, "Urho2D/sun.pex")
+  var particleEffect = getResource[ParticleEffect2D](cache[], "Urho2D/sun.pex")
   if particleEffect.isNil: return
 
-  particleNode = sc.createChild("ParticleEmitter2D")
-  var particleEmitter = createComponent[ParticleEmitter2D](particleNode)
-  particleEmitter.setEffect(particleEffect)
+  particleNode = sc[].createChild("ParticleEmitter2D")
+  var particleEmitter = createComponent[ParticleEmitter2D](particleNode[])
+  particleEmitter[].setEffect(particleEffect)
 
-  var greenSpiralEffect = getResource[ParticleEffect2D](cache, "Urho2D/greenspiral.pex")
+  var greenSpiralEffect = getResource[ParticleEffect2D](cache[], "Urho2D/greenspiral.pex")
   if greenSpiralEffect.isNil: return
 
-  var greenSpiralNode = sc.createChild("GreenSpiral")
-  var greenSpiralEmitter = createComponent[ParticleEmitter2D](greenSpiralNode)
-  greenSpiralEmitter.setEffect(greenSpiralEffect)
+  var greenSpiralNode = sc[].createChild("GreenSpiral")
+  var greenSpiralEmitter = createComponent[ParticleEmitter2D](greenSpiralNode[])
+  greenSpiralEmitter[].setEffect(greenSpiralEffect)
 
   # Construct a viewport and set it for the renderer
   var viewport = cnew constructViewport(getContext(), sc, cam)
-  getSubsystemRenderer().setViewport(0, viewport)
+  getSubsystemRenderer()[].setViewport(0, viewport)
 
   # Add some instruction text
   let text = cnew constructText(getContext())
-  text.setText("Use mouse/touch to move the particle.")
-  text.setColor(color.WHITE)
-  text.setFont(getFont("Fonts/Anonymous Pro.ttf"), 15)
-  text.setHorizontalAlignment(HA_CENTER)
-  text.setVerticalAlignment(VA_CENTER)
-  let root = getSubsystemUI().getRoot()
-  text.setPosition(0, (root.getHeight() / 4).cint)
-  root.addChild(text)
+  text[].setText("Use mouse/touch to move the particle.")
+  text[].setColor(color.WHITE)
+  text[].setFont(getFont("Fonts/Anonymous Pro.ttf"), 15)
+  text[].setHorizontalAlignment(HA_CENTER)
+  text[].setVerticalAlignment(VA_CENTER)
+  let root = getSubsystemUI()[].getRoot()
+  text[].setPosition(0, (root[].getHeight() / 4).cint)
+  root[].addChild(text)
 
 # A handler for MouseMove that we subscribe to
 proc handleMouseMove(userData: pointer; eventType: StringHash;
@@ -77,13 +77,13 @@ proc handleMouseMove(userData: pointer; eventType: StringHash;
     let x = eventData["x"].getInt().float
     let y = eventData["y"].getInt().float
     var graphics = getSubsystem[Graphics]()
-    particleNode.setPosition(cam.screenToWorldPoint(
-      vec3(x / graphics.getWidth().float, y / graphics.getHeight().float, 10.0f32)))
+    particleNode[].setPosition(cam[].screenToWorldPoint(
+      vec3(x / graphics[].getWidth().float, y / graphics[].getHeight().float, 10.0f32)))
 
 proc main =
   parseArguments()
   openUrho3D(false)
-  getSubsystemInput().setMouseVisible(true)
+  getSubsystemInput()[].setMouseVisible(true)
   createScene()
   createConsole()
   subscribeToEvent("KeyDown", handleConsole)

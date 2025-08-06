@@ -5,13 +5,13 @@ import ui, urhomain, processutils, color, urstr, stringHash, variant, text,
   camera, view, input, inputevents, controls, urobject, logiccomponent, context,
   memorybuffer, deserializer, rigidbody, animationcontroller, physicsworld,
   zone, boundingbox, drawable, collisionshape, animatedModel, skeleton, ptrs,
-  unsigned, graphics, file, filesystem, ray, skybox, terrain, image, xmlelement,
+  graphics, file, filesystem, ray, skybox, terrain, image, xmlelement,
   engine, renderpath, vector2, vector, octreequery
 
 import sample
 
 import hashmap except Node
-from math import random
+import std/random
 from os import getAppDir, `/`
 
 # enable auto-deref:
@@ -106,9 +106,9 @@ proc updateTouches(this: var Touch; controls: var Controls) =
   let input = getSubsystemInput()
 
   # Zoom in/out
-  if input.getNumTouches().int == 2:
-    let touch1 = input.getTouch(0)
-    let touch2 = input.getTouch(1)
+  if input[].getNumTouches().int == 2:
+    let touch1 = input[].getTouch(0)
+    let touch2 = input[].getTouch(1)
 
     # Check for zoom pattern (touches moving in opposite
     # directions and on empty space)
@@ -133,23 +133,22 @@ proc updateTouches(this: var Touch; controls: var Controls) =
                 CAMERA_MIN_DIST, CAMERA_MAX_DIST)
 
   # Gyroscope (emulated by SDL through a virtual joystick)
-  if this.useGyroscope and input.getNumJoysticks().int > 0:
+  if this.useGyroscope and input[].getNumJoysticks().int > 0:
     # numJoysticks = 1 on iOS & Android
-    let joystick = input.getJoystickByIndex(0)
-    if joystick.getNumAxes().int >= 2:
-      if joystick.getAxisPosition(0) < -GYROSCOPE_THRESHOLD:
+    let joystick = input[].getJoystickByIndex(0)
+    if joystick[].getNumAxes().int >= 2:
+      if joystick[].getAxisPosition(0) < -GYROSCOPE_THRESHOLD:
         controls.set(CTRL_LEFT.cuint, true)
-      if joystick.getAxisPosition(0) > GYROSCOPE_THRESHOLD:
+      if joystick[].getAxisPosition(0) > GYROSCOPE_THRESHOLD:
         controls.set(CTRL_RIGHT.cuint, true)
-      if joystick.getAxisPosition(1) < -GYROSCOPE_THRESHOLD:
+      if joystick[].getAxisPosition(1) < -GYROSCOPE_THRESHOLD:
         controls.set(CTRL_FORWARD.cuint, true)
-      if joystick.getAxisPosition(1) > GYROSCOPE_THRESHOLD:
+      if joystick[].getAxisPosition(1) > GYROSCOPE_THRESHOLD:
         controls.set(CTRL_BACK.cuint, true)
 
-proc offsetof(a, b: expr): int {.importcpp: "offsetof(@)".}
+proc offsetof[T, S](a: T, b: S): int {.importcpp: "offsetof(@)".}
 
-template attr(className, typ, name, variable, defaultValue, mode) {.
-             immediate,dirty.} =
+template attr(className, typ, name, variable, defaultValue, mode) {.dirty.} =
   ctx.registerAttribute[className](constructAttributeInfo(typ, name,
     offsetof(className, className.variable), defaultValue, mode))
 
@@ -182,7 +181,7 @@ proc handleNodeCollision(userData: pointer; eventType: StringHash;
 
     # If contact is below node center and mostly vertical,
     # assume it's a ground contact
-    if contactPosition.y < chr.getNode.getPosition().y + 1.0f32:
+    if contactPosition.y < chr[].getNode[].getPosition().y + 1.0f32:
       let level = abs(contactNormal.y)
       if level > 0.75:
         chr.onGround = true
@@ -208,9 +207,9 @@ proc handleFixedUpdate(userData: pointer; eventType: StringHash;
   let softGrounded = this.inAirTimer < INAIR_THRESHOLD_TIME
 
   # Update movement & animation
-  let rot = this.getNode.getRotation()
+  let rot = this[].getNode()[].getRotation()
   var moveDir = vector3.ZERO
-  let velocity = body.getLinearVelocity()
+  let velocity = body[].getLinearVelocity()
   # Velocity on the XZ plane
   let planeVelocity = vec3(velocity.x, 0.0f32, velocity.z)
 
@@ -227,28 +226,28 @@ proc handleFixedUpdate(userData: pointer; eventType: StringHash;
   if moveDir.lengthSquared() > 0.0f32: moveDir.normalize()
 
   # If in air, allow control, but slower than when on ground
-  body.applyImpulse(rot * moveDir * (if softGrounded: MOVE_FORCE else: INAIR_MOVE_FORCE))
+  body[].applyImpulse(rot * moveDir * (if softGrounded: MOVE_FORCE else: INAIR_MOVE_FORCE))
 
   if softGrounded:
     # When on ground, apply a braking force to limit maximum ground velocity
     let brakeForce: Vector3 = -planeVelocity * BRAKE_FORCE
-    body.applyImpulse(brakeForce)
+    body[].applyImpulse(brakeForce)
 
     # Jump. Must release jump control inbetween jumps
     if this.controls.isDown(CTRL_JUMP):
       if this.okToJump:
-        body.applyImpulse(vector3.UP * JUMP_FORCE)
+        body[].applyImpulse(vector3.UP * JUMP_FORCE)
         this.okToJump = false
     else:
       this.okToJump = true
 
   # Play walk animation if moving on ground, otherwise fade it out
   if softGrounded and not moveDir.equals(vector3.ZERO):
-    discard animCtrl.playExclusive("Models/Jack_Walk.ani", 0.cuchar, true, 0.2f32)
+    discard animCtrl[].playExclusive("Models/Jack_Walk.ani", 0.char, true, 0.2f32)
   else:
-    discard animCtrl.stop("Models/Jack_Walk.ani", 0.2f32)
+    discard animCtrl[].stop("Models/Jack_Walk.ani", 0.2f32)
   # Set walk animation speed proportional to velocity
-  discard animCtrl.setSpeed("Models/Jack_Walk.ani", planeVelocity.length() * 0.3f32)
+  discard animCtrl[].setSpeed("Models/Jack_Walk.ani", planeVelocity.length() * 0.3f32)
   # Reset grounded flag for next frame
   this.onGround = false
   onMouseClick()
@@ -271,14 +270,14 @@ proc createScene() =
   # so that it won't be destroyed and recreated, and we don't have to redefine
   # the viewport on load
   cameraNode = cnew constructNode(getContext())
-  let camera = createComponent[Camera](cameraNode)
-  camera.setFarClip(300.0f32)
+  let camera = createComponent[Camera](cameraNode[])
+  camera[].setFarClip(300.0f32)
 
   var renderer = urhomain.getSubsystemRenderer()
   var viewport = cnew constructViewport(getContext(), sc, camera)
-  var renderPath = viewport.getRenderPath()
-  discard renderPath.append getResource[XMLFile](cache, "PostProcess/Bloom.xml")
-  discard renderPath.append getResource[XMLFile](cache, "PostProcess/FXAA2.xml")
+  var renderPath = viewport[].getRenderPath()
+  discard renderPath[].append getResource[XMLFile](cache[], "PostProcess/Bloom.xml")
+  discard renderPath[].append getResource[XMLFile](cache[], "PostProcess/FXAA2.xml")
 
   #SharedPtr<RenderPath> effectRenderPath = ->Clone();
   #  // Make the bloom mixing parameter more pronounced
@@ -294,40 +293,40 @@ proc createScene() =
 
   # Create static scene content. First create a zone for ambient
   # lighting and fog control
-  let zoneNode = sc.createChild("Zone")
-  let zone = createComponent[Zone](zoneNode)
-  zone.setAmbientColor(col(0.15f32, 0.15f32, 0.15f32))
-  zone.setFogColor(col(0.5f32, 0.5f32, 0.7f32))
-  zone.setFogStart(100.0f32)
-  zone.setFogEnd(300.0f32)
-  zone.setBoundingBox(constructBoundingBox(-1000.0f32, 1000.0f32))
+  let zoneNode = sc[].createChild("Zone")
+  let zone = createComponent[Zone](zoneNode[])
+  zone[].setAmbientColor(col(0.15f32, 0.15f32, 0.15f32))
+  zone[].setFogColor(col(0.5f32, 0.5f32, 0.7f32))
+  zone[].setFogStart(100.0f32)
+  zone[].setFogEnd(300.0f32)
+  zone[].setBoundingBox(constructBoundingBox(-1000.0f32, 1000.0f32))
 
   # Create a directional light with cascaded shadow mapping
-  let lightNode = sc.createChild("DirectionalLight");
-  lightNode.setDirection(vec3(0.3f32, -0.5f32, 0.425f32))
-  let light = createComponent[Light](lightNode)
-  light.setLightType(LIGHT_DIRECTIONAL)
-  light.setCastShadows(true)
-  light.setShadowBias(constructBiasParameters(0.00025f32, 0.5f32))
-  light.setShadowCascade(constructCascadeParameters(
+  let lightNode = sc[].createChild("DirectionalLight");
+  lightNode[].setDirection(vec3(0.3f32, -0.5f32, 0.425f32))
+  let light = createComponent[Light](lightNode[])
+  light[].setLightType(LIGHT_DIRECTIONAL)
+  light[].setCastShadows(true)
+  light[].setShadowBias(constructBiasParameters(0.00025f32, 0.5f32))
+  light[].setShadowCascade(constructCascadeParameters(
     10.0f32, 50.0f32, 200.0f32, 0.0f32, 0.8f32))
-  light.setSpecularIntensity(0.5f32)
+  light[].setSpecularIntensity(0.5f32)
 
   when true:
     # Create heightmap terrain
-    let terrainNode = sc.createChild("Terrain")
-    terrainNode.setPosition(vec3(0.0, 0.0, 0.0))
-    let terrain = createComponent[Terrain](terrainNode)
-    terrain.setPatchSize(64)
+    let terrainNode = sc[].createChild("Terrain")
+    terrainNode[].setPosition(vec3(0.0, 0.0, 0.0))
+    let terrain = createComponent[Terrain](terrainNode[])
+    terrain[].setPatchSize(64)
     # Spacing between vertices and vertical resolution of the height map
-    terrain.setSpacing(vec3(2.0, 0.5, 2.0))
-    terrain.setSmoothing(true)
-    terrain.setHeightMap(getResource[Image](cache, "Textures/HeightMap.png"))
-    terrain.setMaterial(getResource[Material](cache, "Materials/Terrain.xml"))
+    terrain[].setSpacing(vec3(2.0, 0.5, 2.0))
+    terrain[].setSmoothing(true)
+    terrain[].setHeightMap(getResource[Image](cache[], "Textures/HeightMap.png"))
+    terrain[].setMaterial(getResource[Material](cache[], "Materials/Terrain.xml"))
     # The terrain consists of large triangles, which fits well for occlusion
     # rendering, as a hill can occlude all terrain patches and other objects
     # behind it
-    terrain.setOccluder(true)
+    terrain[].setOccluder(true)
     let floorNode = terrainNode
   else:
     # Create the floor object
@@ -339,113 +338,113 @@ proc createScene() =
     obj.setMaterial(getResource[Material](cache, "Materials/Stone.xml"))
 
   # Create a water plane object that is as large as the terrain
-  let waterNode = sc.createChild("Water")
-  waterNode.setScale(vec3(2048.0, 1.0, 2048.0))
-  waterNode.setPosition(vec3(0.0, 5.0, 0.0))
-  let water = createComponent[StaticModel](waterNode)
-  water.setModel(getResource[Model](cache, "Models/Plane.mdl"))
-  water.setMaterial(getResource[Material](cache, "Materials/Water.xml"))
+  let waterNode = sc[].createChild("Water")
+  waterNode[].setScale(vec3(2048.0, 1.0, 2048.0))
+  waterNode[].setPosition(vec3(0.0, 5.0, 0.0))
+  let water = createComponent[StaticModel](waterNode[])
+  water[].setModel(getResource[Model](cache[], "Models/Plane.mdl"))
+  water[].setMaterial(getResource[Material](cache[], "Materials/Water.xml"))
   # Set a different viewmask on the water plane to be able to hide it
   # from the reflection camera
-  water.setViewMask(cuint(0x80000000))
+  water[].setViewMask(cuint(0x80000000))
 
-  let skyNode = sc.createChild("Sky")
-  skyNode.setScale(500.0f32)
-  let skybox = createComponent[Skybox](skyNode)
-  skybox.setModel(getResource[Model](cache, "Models/Box.mdl"))
-  skybox.setMaterial(getResource[Material](cache, "Materials/Skybox.xml"))
+  let skyNode = sc[].createChild("Sky")
+  skyNode[].setScale(500.0f32)
+  let skybox = createComponent[Skybox](skyNode[])
+  skybox[].setModel(getResource[Model](cache[], "Models/Box.mdl"))
+  skybox[].setMaterial(getResource[Material](cache[], "Materials/Skybox.xml"))
 
-  let body = createComponent[RigidBody](floorNode)
+  let body = createComponent[RigidBody](floorNode[])
   # Use collision layer bit 2 to mark world scenery. This is what we will
   # raycast against to prevent camera from going inside geometry
-  body.setCollisionLayer(2)
-  let shape = createComponent[CollisionShape](floorNode)
+  body[].setCollisionLayer(2)
+  let shape = createComponent[CollisionShape](floorNode[])
   #shape.setBox(vector3.ONE)
-  shape.setTerrain()
+  shape[].setTerrain()
 
   # Create mushrooms of varying sizes
-  for i in 0 .. < 60:
-    let objectNode = sc.createChild("Mushroom")
-    var pos = vec3(random(180.0f32) - 90.0f32, 0.0f32, random(180.0f32) - 90.0f32)
-    pos.y = terrain.getHeight(pos)
+  for i in 0 ..< 60:
+    let objectNode = sc[].createChild("Mushroom")
+    var pos = vec3(random.rand(180.0f32) - 90.0f32, 0.0f32, rand(180.0f32) - 90.0f32)
+    pos.y = terrain[].getHeight(pos)
 
-    objectNode.setPosition(pos)
-    objectNode.setRotation(quat(0.0f32, random(360.0f32), 0.0f32))
-    objectNode.setScale(2.0f32 + random(5.0f32))
-    let obj = createComponent[StaticModel](objectNode)
-    obj.setModel(getResource[Model](cache, "Models/Mushroom.mdl"))
-    obj.setMaterial(getResource[Material](cache, "Materials/Mushroom.xml"))
-    obj.setCastShadows(true)
+    objectNode[].setPosition(pos)
+    objectNode[].setRotation(quat(0.0f32, random.rand(360.0f32), 0.0f32))
+    objectNode[].setScale(2.0f32 + random.rand(5.0f32))
+    let obj = createComponent[StaticModel](objectNode[])
+    obj[].setModel(getResource[Model](cache[], "Models/Mushroom.mdl"))
+    obj[].setMaterial(getResource[Material](cache[], "Materials/Mushroom.xml"))
+    obj[].setCastShadows(true)
 
-    let body = createComponent[RigidBody](objectNode)
-    body.setCollisionLayer(2)
-    let shape = createComponent[CollisionShape](objectNode)
-    shape.setTriangleMesh(obj.getModel(), 0)
+    let body = createComponent[RigidBody](objectNode[])
+    body[].setCollisionLayer(2)
+    let shape = createComponent[CollisionShape](objectNode[])
+    shape[].setTriangleMesh(obj[].getModel(), 0)
 
   # Create movable boxes. Let them fall from the sky at first
-  for i in 0.. < 100:
-    let scale = random(2.0f32) + 0.5f32
+  for i in 0 ..< 100:
+    let scale = random.rand(2.0f32) + 0.5f32
 
-    let objectNode = sc.createChild("Box")
+    let objectNode = sc[].createChild("Box")
 
-    var pos = vec3(random(180.0f32) - 90.0f32, 0.0f32, random(180.0f32) - 90.0f32)
-    pos.y = terrain.getHeight(pos) + 10.0f32
+    var pos = vec3(random.rand(180.0f32) - 90.0f32, 0.0f32, random.rand(180.0f32) - 90.0f32)
+    pos.y = terrain[].getHeight(pos) + 10.0f32
 
     #objectNode.setPosition(vec3(random(180.0f32) - 90.0f32, random(10.0f32) + 10.0f32, random(180.0f32) - 90.0f32))
-    objectNode.setPosition(pos)
-    objectNode.setRotation(quat(random(360.0f32), random(360.0f32), random(360.0f32)))
-    objectNode.setScale(scale)
-    let obj = createComponent[StaticModel](objectNode)
-    obj.setModel(getResource[Model](cache, "Models/Box.mdl"))
-    obj.setMaterial(getResource[Material](cache, "Materials/Stone.xml"))
-    obj.setCastShadows(true)
+    objectNode[].setPosition(pos)
+    objectNode[].setRotation(quat(random.rand(360.0f32), random.rand(360.0f32), random.rand(360.0f32)))
+    objectNode[].setScale(scale)
+    let obj = createComponent[StaticModel](objectNode[])
+    obj[].setModel(getResource[Model](cache[], "Models/Box.mdl"))
+    obj[].setMaterial(getResource[Material](cache[], "Materials/Stone.xml"))
+    obj[].setCastShadows(true)
 
-    let body = createComponent[RigidBody](objectNode)
-    body.setCollisionLayer(2)
+    let body = createComponent[RigidBody](objectNode[])
+    body[].setCollisionLayer(2)
     # Bigger boxes will be heavier and harder to move
-    body.setMass(scale * 2.0f32)
-    let shape = createComponent[CollisionShape](objectNode)
-    shape.setBox(vector3.ONE)
+    body[].setMass(scale * 2.0f32)
+    let shape = createComponent[CollisionShape](objectNode[])
+    shape[].setBox(vector3.ONE)
 
 proc createCharacter() =
   var cache = urhomain.getSubsystemResourceCache()
 
-  let objectNode = sc.createChild("Jack")
-  objectNode.setPosition(vec3(0.0, 1.0, 0.0))
+  let objectNode = sc[].createChild("Jack")
+  objectNode[].setPosition(vec3(0.0, 1.0, 0.0))
 
   # Create the rendering component + animation controller
-  var obj = createComponent[AnimatedModel](objectNode)
-  obj.setModel(getResource[Model](cache, "Models/Jack.mdl"))
-  obj.setMaterial(getResource[Material](cache, "Materials/Jack.xml"))
-  obj.setCastShadows(true)
-  discard createComponent[AnimationController](objectNode)
+  var obj = createComponent[AnimatedModel](objectNode[])
+  obj[].setModel(getResource[Model](cache[], "Models/Jack.mdl"))
+  obj[].setMaterial(getResource[Material](cache[], "Materials/Jack.xml"))
+  obj[].setCastShadows(true)
+  discard createComponent[AnimationController](objectNode[])
 
   # Set the head bone for manual control
-  obj.getSkeleton().getBone("Bip01_Head".cstring).animated = false
+  obj[].getSkeleton().getBone("Bip01_Head".cstring).animated = false
 
   # Create rigidbody, and set non-zero mass so that the body becomes dynamic
-  let body = createComponent[RigidBody](objectNode)
-  body.setCollisionLayer(1)
-  body.setMass(1.0f32)
+  let body = createComponent[RigidBody](objectNode[])
+  body[].setCollisionLayer(1)
+  body[].setMass(1.0f32)
 
   # Set zero angular factor so that physics doesn't turn the character
   # on its own. Instead we will control the character yaw manually
-  body.setAngularFactor(vector3.ZERO)
+  body[].setAngularFactor(vector3.ZERO)
 
   # Set the rigidbody to signal collision also when in rest, so that we get
   # ground collisions properly
-  body.setCollisionEventMode(COLLISION_ALWAYS)
+  body[].setCollisionEventMode(COLLISION_ALWAYS)
 
   # Set a capsule shape for collision
-  let shape = createComponent[CollisionShape](objectNode)
-  shape.setCapsule(0.7f32, 1.8f32, vec3(0.0, 0.9, 0.0))
+  let shape = createComponent[CollisionShape](objectNode[])
+  shape[].setCapsule(0.7f32, 1.8f32, vec3(0.0, 0.9, 0.0))
 
   # Create the character logic component, which takes care of steering the
   # rigidbody. Remember it so that we can set the controls. Use a WeakPtr
   # because the scene hierarchy already owns it
   # and keeps it alive as long as it's not removed from the hierarchy
-  chr = createComponent[Character](objectNode)
-  chr.okToJump = true
+  chr = createComponent[Character](objectNode[])
+  chr[].okToJump = true
   # invoke LogicComponent(context) constructor?
 
   # Only the physics update event is needed: unsubscribe
@@ -468,47 +467,47 @@ proc handleUpdate(userData: pointer; eventType: StringHash;
 
     # Update controls using keys
     let ui = getSubsystemUI()
-    if ui.getFocusElement() == nil:
+    if ui[].getFocusElement() == nil:
       if not touch.useGyroscope:
-        chr.controls.set(CTRL_FORWARD, input.getKeyDown('W'))
-        chr.controls.set(CTRL_BACK, input.getKeyDown('S'))
-        chr.controls.set(CTRL_LEFT, input.getKeyDown('A'))
-        chr.controls.set(CTRL_RIGHT, input.getKeyDown('D'))
-      chr.controls.set(CTRL_JUMP, input.getKeyDown(' '))
+        chr.controls.set(CTRL_FORWARD, input[].getKeyDown('W'))
+        chr.controls.set(CTRL_BACK, input[].getKeyDown('S'))
+        chr.controls.set(CTRL_LEFT, input[].getKeyDown('A'))
+        chr.controls.set(CTRL_RIGHT, input[].getKeyDown('D'))
+      chr.controls.set(CTRL_JUMP, input[].getKeyDown(' '))
 
       # Add character yaw & pitch from the mouse motion or touch input
       if touchEnabled:
-        for i in 0 .. < input.getNumTouches().int:
-          let state = input.getTouch(i)
+        for i in 0 ..< input[].getNumTouches().int:
+          let state = input[].getTouch(i)
           if state.touchedElement.isNil:    # Touch on empty space
-            let camera = getComponentFromNode[Camera](cameraNode)
+            let camera = getComponentFromNode[Camera](cameraNode[])
             if camera == nil: return
 
-            let h = getSubsystem[Graphics]().getHeight().float32
-            chr.controls.yaw += TOUCH_SENSITIVITY * camera.getFov() / h *
+            let h = getSubsystem[Graphics]()[].getHeight().float32
+            chr.controls.yaw += TOUCH_SENSITIVITY * camera[].getFov() / h *
               state.delta.x.float32
-            chr.controls.pitch += TOUCH_SENSITIVITY * camera.getFov() / h *
+            chr.controls.pitch += TOUCH_SENSITIVITY * camera[].getFov() / h *
               state.delta.y.float32
       else:
-        chr.controls.yaw += input.getMouseMoveX().float32 * YAW_SENSITIVITY
-        chr.controls.pitch += input.getMouseMoveY().float32 * YAW_SENSITIVITY
+        chr.controls.yaw += input[].getMouseMoveX().float32 * YAW_SENSITIVITY
+        chr.controls.pitch += input[].getMouseMoveY().float32 * YAW_SENSITIVITY
       # Limit pitch
       chr.controls.pitch = clamp(chr.controls.pitch, -80.0f32, 80.0f32)
 
       # Switch between 1st and 3rd person
-      if input.getKeyPress('F'):
+      if input[].getKeyPress('F'):
         firstPerson = not firstPerson
 
       # Turn on/off gyroscope on mobile platform
-      if input.getKeyPress('G'):
+      if input[].getKeyPress('G'):
         touch.useGyroscope = not touch.useGyroscope
 
       # Check for loading / saving the scene
-      if input.getKeyPress(KEY_F5):
+      if input[].getKeyPress(KEY_F5):
         let filename = os.getAppDir() / "MySave.xml"
         let saveFile = constructFile(getContext(), filename, FILE_WRITE)
         sc.saveXML(saveFile)
-      if input.getKeyPress(KEY_F7):
+      if input[].getKeyPress(KEY_F7):
         let loadFile = constructFile(getContext(),
           os.getAppDir() / "MySave.xml", FILE_READ)
         sc.loadXML(loadFile)
@@ -516,55 +515,55 @@ proc handleUpdate(userData: pointer; eventType: StringHash;
         # Character component, as it has been recreated
         # Simply find the character's scene node by name as
         # there's only one of them:
-        let chrNode = sc.getChild("Jack", true)
+        let chrNode = sc[].getChild("Jack", true)
         if chrNode != nil:
-          chr = getComponentFromNode[Character](chrNode)
+          chr = getComponentFromNode[Character](chrNode[])
     # Set rotation already here so that it's updated every
     # rendering frame instead of every physics frame
-    chr.getNode().setRotation(constructQuaternion(chr.controls.yaw, vector3.UP))
+    chr[].getNode()[].setRotation(constructQuaternion(chr.controls.yaw, vector3.UP))
 
 proc handlePostUpdate(userData: pointer; eventType: StringHash;
                       eventData: var VariantMap) {.cdecl.} =
   if chr == nil: return
 
-  let chrNode = chr.getNode()
+  let chrNode = chr[].getNode()
 
   # Get camera lookat dir from character yaw + pitch
-  let rot = chrNode.getRotation()
+  let rot = chrNode[].getRotation()
   let dir = rot * constructQuaternion(chr.controls.pitch, vector3.RIGHT)
 
   # Turn head to camera pitch, but limit to avoid unnatural animation
-  let headNode = chrNode.getChild("Bip01_Head", true)
+  let headNode = chrNode[].getChild("Bip01_Head", true)
   let limitPitch = clamp(chr.controls.pitch, -45.0f32, 45.0f32)
   let headDir = rot * constructQuaternion(limitPitch, vec3(1.0, 0.0, 0.0))
   # This could be expanded to look at an arbitrary target, now just look
   # at a point in front
-  let headWorldTarget = headNode.getWorldPosition() + headDir * vec3(0.0, 0.0, 1.0)
-  discard headNode.lookAt(headWorldTarget, vec3(0.0, 1.0, 0.0))
+  let headWorldTarget = headNode[].getWorldPosition() + headDir * vec3(0.0, 0.0, 1.0)
+  discard headNode[].lookAt(headWorldTarget, vec3(0.0, 1.0, 0.0))
   # Correct head orientation because LookAt assumes Z = forward, but
   # the bone has been authored differently (Y = forward)
-  headNode.rotate(quat(0.0, 90.0, 90.0))
+  headNode[].rotate(quat(0.0, 90.0, 90.0))
 
   if firstPerson:
-    cameraNode.setPosition(headNode.getWorldPosition() + rot * vec3(0.0, 0.15, 0.2))
-    cameraNode.setRotation(dir)
+    cameraNode[].setPosition(headNode[].getWorldPosition() + rot * vec3(0.0, 0.15, 0.2))
+    cameraNode[].setRotation(dir)
   else:
     # Third person camera: position behind the character
-    let aimPoint = chrNode.getPosition() + rot * vec3(0.0, 1.7, 0.0)
+    let aimPoint = chrNode[].getPosition() + rot * vec3(0.0, 1.7, 0.0)
 
     # Collide camera ray with static physics objects (layer bitmask 2) to
     # ensure we see the character properly
     let rayDir = dir * vector3.BACK
     var rayDistance = if touchEnabled: touch.cameraDistance else: CAMERA_INITIAL_DIST
     var result: PhysicsRaycastResult
-    getComponentFromScene[PhysicsWorld](sc).raycastSingle(
+    getComponentFromScene[PhysicsWorld](sc[])[].raycastSingle(
       result, constructRay(aimPoint, rayDir), rayDistance, 2)
     if result.body != nil:
       rayDistance = min(rayDistance, result.distance)
     rayDistance = clamp(rayDistance, CAMERA_MIN_DIST, CAMERA_MAX_DIST)
 
-    cameraNode.setPosition(aimPoint + rayDir * rayDistance)
-    cameraNode.setRotation(dir)
+    cameraNode[].setPosition(aimPoint + rayDir * rayDistance)
+    cameraNode[].setRotation(dir)
 
 proc primitiveGetNodeByPixelCoords(x, y: cint): ptr Node =
   const maxDistance = 250.0f32
@@ -572,23 +571,23 @@ proc primitiveGetNodeByPixelCoords(x, y: cint): ptr Node =
   # I assume the Smalltalk code ensures the cursor is visible and there
   # is no UI element in front of the cursor
   let graphics = getSubsystem[Graphics]()
-  let camera = getComponentFromNode[Camera](cameraNode)
-  let cameraRay: Ray = camera.getScreenRay(pos.x / graphics.getWidth(),
-                                           pos.y / graphics.getHeight())
+  let camera = getComponentFromNode[Camera](cameraNode[])
+  let cameraRay: Ray = camera[].getScreenRay(pos.x / graphics[].getWidth(),
+                                           pos.y / graphics[].getHeight())
   # Pick only geometry objects, not eg. zones or lights, only get the
   # first (closest) hit:
   var results: PODVector[RayQueryResult]
   var query = constructRayOctreeQuery(results, cameraRay, RAY_TRIANGLE,
     maxDistance, '\1', cuint(0xffff_ffff)) # DRAWABLE_GEOMETRY)
-  getComponentFromNode[Octree](sc).raycastSingle(query)
+  getComponentFromNode[Octree](sc[])[].raycastSingle(query)
   if results.size > 0.cuint:
-    result = results[0].drawable.getNode()
+    result = results[0].drawable[].getNode()
 
 proc onMouseClick() =
   let input = getSubsystemInput()
-  if input.getMouseButtonPress(MOUSEB_LEFT):
+  if input[].getMouseButtonPress(MOUSEB_LEFT):
     let ui = getSubsystem[UI]()
-    let pos: IntVector2 = ui.getCursorPosition()
+    let pos: IntVector2 = ui[].getCursorPosition()
     let node = primitiveGetNodeByPixelCoords(pos.x, pos.y)
     echo "node is ", node.isNil
 

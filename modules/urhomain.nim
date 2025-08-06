@@ -139,7 +139,7 @@ proc getEngine*(): ptr Engine {.urh.}
 proc getSubsystemResourceCache*(): ptr ResourceCache {.urh.}
 proc getSubsystemRenderer*(): ptr Renderer {.urh.}
 proc getSubsystemInput*(): ptr Input {.urh.}
-proc getSubsystem*[T](): ptr T = getSubsystem[T](getApp())
+proc getSubsystem*[T](): ptr T = getSubsystem[T](getApp()[])
 # {.importcpp: "getSubsystem<'*0>()", cdecl,
 #  nodecl.}
 
